@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.imageclasses.imageclasses"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.imageclasses.imageclasses"
