@@ -22,9 +22,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.imageclasses.imageclasses.Auth.FirebaseAuth
 import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.feature.account.auth.SignIn
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
-import com.imageclasses.imageclasses.ui.feature.account.auth.AuthScreen
+
+import com.imageclasses.imageclasses.ui.feature.account.auth.SignUp
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
 import com.treeto.treeto.ui.feature.home.HomeScreen
 
@@ -58,25 +61,28 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         val isLoggedIn = isLoggedIn()
         LaunchedEffect(isLoggedIn) {
             if (!isLoggedIn) {
-                navController.navigate(DestinationScreen.auth.route){
-                    popUpTo(DestinationScreen.auth.route) { inclusive = true }
+                navController.navigate(DestinationScreen.auth_signup.route){
+                    popUpTo(DestinationScreen.auth_signup.route) { inclusive = true }
                 }
             }
         }
         NavHost(
             navController = navController,
-            startDestination = if (isLoggedIn) DestinationScreen.mainApp.route else DestinationScreen.ots.route,
+            startDestination = DestinationScreen.ots.route,
             modifier = modifier.padding(innerPadding)
         ) {
             navigation(
                 route = DestinationScreen.ots.route,
-                startDestination = DestinationScreen.intro.route
+                startDestination = DestinationScreen.auth_signin.route
             ){
                 composable(route = DestinationScreen.intro.route) {
                     //IntroScreen()
                 }
-                composable(route = DestinationScreen.auth.route) {
-                    AuthScreen()
+                composable(route = DestinationScreen.auth_signup.route) {
+                    SignUp(navController = navController)
+                }
+                composable(route = DestinationScreen.auth_signin.route) {
+                    SignIn(navController = navController)
                 }
             }
             // nested navigation
@@ -117,6 +123,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
 fun isLoggedIn(): Boolean {
 
-    return true
+val firebaseAuth = FirebaseAuth()
+    return  firebaseAuth.isUserAlreadyLoggedIn()
 
 }
