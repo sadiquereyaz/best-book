@@ -1,45 +1,59 @@
 package com.imageclasses.imageclasses.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import android.graphics.drawable.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.navigation.DestinationScreen
 
 enum class BottomNavigationItem(
-    val icon: Int,
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector,
     val title: String,
     val destinationScreen: DestinationScreen
 ) {
     HOME(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.Home,
+        unSelectedIcon = Icons.Outlined.Home,
         title = "Home",
         destinationScreen = DestinationScreen.home
     ),
     QUIZ(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.DateRange,
+        unSelectedIcon = Icons.Outlined.DateRange,
         title = "Quiz",
         destinationScreen = DestinationScreen.userProfile
     ),
     USER_RESOURCES(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.Edit,
+        unSelectedIcon = Icons.Outlined.Edit,
         title = "Resources",
         destinationScreen = DestinationScreen.home
     ),
     PROFILE(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.Person,
+        unSelectedIcon = Icons.Outlined.Person,
         title = "Profile",
         destinationScreen = DestinationScreen.userProfile
     ),
@@ -47,31 +61,31 @@ enum class BottomNavigationItem(
 
 @Composable
 fun BottomNavigationMenu(
-    selectedItem: BottomNavigationItem,
     navController: NavController
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 4.dp)
-            .background(color = Color.White)
-    ) {
+    var selectedItem by remember { mutableStateOf(BottomNavigationItem.HOME) }
+    val items = listOf("Home", "Quiz", "Playlists")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Home)
+
+    NavigationBar {
         for (item in BottomNavigationItem.entries) {
-            Image(
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(4.dp)
-                    .weight(1f)
-                    .clickable {
-                        navController.navigate(item.destinationScreen.route){
-                            launchSingleTop = true
-                        }
-                    },
-                painter = painterResource(item.icon),
-                contentDescription = item.title,
-                colorFilter = if (item == selectedItem) ColorFilter.tint(Color.Black) else ColorFilter.tint(Color.Gray)
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        if (item == selectedItem) item.selectedIcon else item.unSelectedIcon,
+                        contentDescription = item.title
+                    )
+                },
+                label = {
+                    Text(item.title)
+                },
+                selected = selectedItem == item,
+                onClick = { selectedItem = item }
+
             )
         }
     }
 }
+
