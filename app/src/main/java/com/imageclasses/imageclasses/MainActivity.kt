@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.imageclasses.imageclasses.Composable.SignUp
+import com.imageclasses.imageclasses.ui.AppNavigation
 import com.imageclasses.imageclasses.ui.theme.ImageClassesTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
+                AppNavigation(modifier = Modifier.fillMaxSize())
                  SignUp(onSignUpSuccess = {  })
 
             }
@@ -31,3 +33,18 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    ImageClassesTheme {
+        Greeting("Android")
+    }
+}
