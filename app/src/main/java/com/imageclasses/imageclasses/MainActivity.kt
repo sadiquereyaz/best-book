@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.imageclasses.imageclasses.ui.AppNavigation
 import com.imageclasses.imageclasses.ui.theme.ImageClassesTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,24 +24,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation(modifier = Modifier.fillMaxSize())
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        fontWeight = FontWeight.ExtraBold,
-        modifier = modifier.fillMaxSize(),
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.primary
-    )
-}
