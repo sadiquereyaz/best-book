@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "80046519415",
+    "project_id": "imageclasses-960b1",
+    "storage_bucket": "imageclasses-960b1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80046519415:android:6288ce23074a02ecc6c272",
+        "android_client_info": {
+          "package_name": "com.imageclasses.imageclasses"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyjCGQsEpD_eCQ64lkP79YgJojgO_SlM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
