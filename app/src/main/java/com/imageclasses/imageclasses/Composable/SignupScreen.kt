@@ -9,6 +9,8 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.imageclasses.imageclasses.Auth.FirebaseAuth
 import com.imageclasses.imageclasses.ui.theme.tertiaryContainerDark
 import java.util.*
+import androidx.compose.material3.Button as Button1
 
 @Preview
 @Composable
@@ -34,6 +37,7 @@ private fun he() {
 fun a() {
     SignUp(onSignUpSuccess = {})
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
@@ -52,8 +56,13 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
     var selectedExam by remember { mutableStateOf(entranceExamOptions[0]) }
 
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val targetYearOptions = (currentYear..currentYear + 5).toList() // Example target years (next 5 years)
+    val targetYearOptions =
+        (currentYear..currentYear + 5).toList() // Example target years (next 5 years)
     var selectedTargetYear by remember { mutableStateOf(targetYearOptions[0]) }
+    var expandedClass by remember { mutableStateOf(false) }
+    var expandedExam by remember { mutableStateOf(false) }
+    var expandedTargetYear by remember { mutableStateOf(false) }
+
 
     if (firebaseAuth.isUserAlreadyLoggedIn()) {
         onSignUpSuccess()
@@ -62,6 +71,7 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -77,7 +87,8 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
-                focusedLabelColor = Color.Black
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
         )
 
@@ -93,7 +104,8 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
-                focusedLabelColor = Color.Black
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
         )
 
@@ -104,8 +116,17 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
             label = { Text("Phone Number") },
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Phone, contentDescription = null)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 10.dp, end = 2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Phone,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
+                    Text("|", color = Color.Gray, fontSize = 28.sp)
                     Text("+91", color = Color.Black)
                 }
             },
@@ -114,25 +135,50 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
-                focusedLabelColor = Color.Black
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
         )
 
         // Dropdown for selecting class
-        OutlinedTextField(
-            value = selectedClass,
-            onValueChange = { selectedClass = it },
-            label = { Text("Select Class") },
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = "Dropdown Icon") },
-            readOnly = true, // This makes it look like a dropdown
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color(0xFFe83337),
-                unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                focusedTextColor = Color.Black,
-                focusedLabelColor = Color.Black
+        Box {
+            OutlinedTextField(
+                value = selectedClass,
+                onValueChange = { }, // Do nothing, as it's a read-only field
+                label = { Text("Select Class") },
+                modifier = Modifier.fillMaxWidth(),
+                trailingIcon = {
+                    IconButton(onClick = { expandedClass = !expandedClass }) {
+                        Icon(
+                            Icons.Filled.ArrowDropDown,
+                            contentDescription = "Dropdown Icon"
+                        )
+                    }
+                },
+                readOnly = true,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color(0xFFe83337),
+                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    focusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
-        )
+            DropdownMenu(
+                expanded = expandedClass,
+                onDismissRequest = { expandedClass = false }
+            ) {
+                classOptions.forEach { selectionOption ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedClass = selectionOption
+                            expandedClass = false
+                        },
+                        text = { Text(selectionOption) }
+                    )
+                }
+            }
+        }
 
         // Row for entrance exam and target year dropdowns
         Row(
@@ -140,41 +186,100 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Entrance Exam Dropdown
-            OutlinedTextField(
-                value = selectedExam,
-                onValueChange = { selectedExam = it },
-                label = { Text("Select Exam") },
-                modifier = Modifier.weight(1f),
-                trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = "Dropdown Icon") },
-                readOnly = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFe83337),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    focusedTextColor = Color.Black,
-                    focusedLabelColor = Color.Black
+            Box {
+                OutlinedTextField(
+                    value = selectedExam,
+                    onValueChange = { selectedExam = it },
+                    label = { Text("Select Exam") },
+                    modifier = Modifier.fillMaxWidth(0.6f),
+                    trailingIcon = {
+                        IconButton(onClick = { expandedExam = !expandedExam }) {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = "Dropdown Icon"
+                            )
+                        }
+                    },
+                    readOnly = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xFFe83337),
+                        unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        focusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    )
                 )
-            )
+
+
+                DropdownMenu(
+                    expanded = expandedExam,
+                    onDismissRequest = { expandedExam = false }
+                ) {
+                    entranceExamOptions.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedExam = selectionOption
+                                expandedExam = false
+                            },
+                            text = { Text(selectionOption) }
+                        )
+                    }
+                }
+            }
 
             // Target Year Dropdown
-            OutlinedTextField(
-                value = selectedTargetYear.toString(),
-                onValueChange = { /* Do nothing, as it's a read-only field for now */ },
-                label = { Text("Target Year") },
-                modifier = Modifier.weight(1f),
-                trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = "Dropdown Icon") },
-                readOnly = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFe83337),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    focusedTextColor = Color.Black,
-                    focusedLabelColor = Color.Black
+            Box {
+                OutlinedTextField(
+                    value = selectedTargetYear.toString(),
+                    onValueChange = { /* Do nothing, as it's a read-only field for now */ },
+                    label = { Text("Target Year") },
+                    modifier = Modifier.fillMaxWidth(),
+                    trailingIcon = {
+                        IconButton(onClick = { expandedTargetYear = !expandedTargetYear }) {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = "Dropdown Icon"
+                            )
+                        }
+                    },
+                    readOnly = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xFFe83337),
+                        unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        focusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    )
                 )
-            )
+
+                DropdownMenu(
+                    expanded = expandedTargetYear,
+                    onDismissRequest = { expandedTargetYear = false }
+                ) {
+                    targetYearOptions.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedTargetYear = selectionOption
+                                expandedTargetYear = false
+                            },
+                            text = { Text(selectionOption.toString()) }
+                        )
+                    }
+                }
+            }
         }
 
         // Sign-Up Button
-        Button(
+        var isDisable by remember { mutableStateOf(false) }
+        if (email.isNotEmpty() && password.isNotEmpty() && phoneNumber.isNotEmpty() && selectedClass.isNotEmpty() && selectedExam.isNotEmpty() && selectedTargetYear.toString()
+                .isNotEmpty()
+        )
+            isDisable = false
+        else
+            isDisable = true
+        Button1(
             onClick = {
+                 (
                 firebaseAuth.signUp(email, password, context) { task ->
                     if (task.isSuccessful) {
                         onSignUpSuccess()
@@ -182,15 +287,24 @@ fun SignUp(modifier: Modifier = Modifier, onSignUpSuccess: () -> Unit) {
                         signUpError = task.exception?.message
                         Toast.makeText(context, signUpError, Toast.LENGTH_SHORT).show()
                     }
-                }
+                })
+
             },
+            enabled = !isDisable,
+
             modifier = Modifier
+
                 .fillMaxWidth(0.7f)
                 .padding(28.dp)
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFe83337))
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFe83337), disabledContainerColor = Color.DarkGray)
         ) {
-            Text("Sign Up", color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
+            Text(
+                "Sign Up",
+                color = Color.White,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp
+            )
         }
 
         signUpError?.let {
