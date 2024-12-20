@@ -84,16 +84,22 @@ fun BottomNavigationMenu(
                 selected = selectedItem == item.destinationScreen.route,
                 onClick = {
                     selectedItem = item.destinationScreen.route
-                    navController.navigate(route = item.destinationScreen.route) {
-                        popUpTo(DestinationScreen.home.route) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    navController.bottomNavigationLogic(item)
                 }
             )
         }
+    }
+}
+
+fun NavController.bottomNavigationLogic(
+    item: BottomNavigationItem
+) {
+    navigate(route = item.destinationScreen.route) {
+        popUpTo(DestinationScreen.home.route) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
 }
 

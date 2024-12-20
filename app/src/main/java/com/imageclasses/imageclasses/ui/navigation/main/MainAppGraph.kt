@@ -19,6 +19,7 @@ import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookSc
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
+import com.imageclasses.imageclasses.ui.util.safeNavigate
 
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation(
@@ -27,6 +28,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     ) {
         composable(DestinationScreen.home.route) {
             HomeScreen(
+
                 onAllBookSelect = { targetExam: String ->
                     navController.navigate(
                         DestinationScreen.home.createRoute(
@@ -37,6 +39,9 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId: String ->
                     navController.navigate(route = BookDetailRoute(bookId))
                 },
+                onBannerClick = {
+                    navController.safeNavigate("DUMMY_ROUTE")
+                }
             )
         }
         composable<BookListRoute> { backStackEntry ->

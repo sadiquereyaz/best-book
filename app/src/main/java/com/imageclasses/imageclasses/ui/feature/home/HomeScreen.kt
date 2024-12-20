@@ -79,7 +79,8 @@ data class CustomCard(
 fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
-    onNavigateToBook: (String) -> Unit
+    onNavigateToBook: (String) -> Unit,
+    onBannerClick: () -> Unit
 
 ) {
     // Display 4 items
@@ -233,7 +234,10 @@ fun preveiw() {
         HomeScreen(
             modifier = Modifier.padding(it),
             onAllBookSelect = {},
-            onNavigateToBook = {}
+            onNavigateToBook = {},
+            onBannerClick = {
+                navController.safeNavigate("DUMMY_ROUTE")
+            }
         )
     }
 }
