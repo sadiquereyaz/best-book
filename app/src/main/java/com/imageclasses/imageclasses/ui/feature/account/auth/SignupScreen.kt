@@ -15,11 +15,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.imageclasses.imageclasses.Auth.FirebaseAuth
+import com.imageclasses.imageclasses.auth.FirebaseAuth
+import com.imageclasses.imageclasses.controllers.RealtimeDb
 import com.imageclasses.imageclasses.navigation.DestinationScreen
 import java.util.*
 
@@ -29,6 +29,7 @@ import java.util.*
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
+        val db = RealtimeDb()
         val firebaseAuth = FirebaseAuth()
         val context = LocalContext.current
         var email by remember { mutableStateOf("") }
@@ -268,7 +269,22 @@ import java.util.*
                     (
                             firebaseAuth.signUp(email, password, context) { task ->
                                 if (task.isSuccessful) {
-                                    navController.navigate(DestinationScreen.home.route)
+                                    db.writeData(
+                                        email = email,
+                                        phoneNumber = phoneNumber,
+                                        classname = selectedClass,
+                                        targetYear = selectedTargetYear.toString(),
+                                        entranceExam = selectedExam
+                                    ){
+                                        success->
+                                        if(success){
+                                            navController.navigate(DestinationScreen.home.route)
+                                        }
+                                        else{
+                                            navController.navigate(DestinationScreen.auth_signin.route)
+                                        }
+                                    }
+
                                 } else {
                                     signUpError = task.exception?.message
                                     Toast.makeText(context, signUpError, Toast.LENGTH_SHORT).show()

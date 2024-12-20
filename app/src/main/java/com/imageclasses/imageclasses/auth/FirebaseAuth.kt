@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.Auth
+package com.imageclasses.imageclasses.auth
 
 import android.content.Context
 import android.util.Log
