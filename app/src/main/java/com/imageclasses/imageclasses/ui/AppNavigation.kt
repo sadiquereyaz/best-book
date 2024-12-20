@@ -23,12 +23,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.components.ImageClassesTitle
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
 import com.imageclasses.imageclasses.ui.feature.account.auth.AuthScreen
+import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailRoute
+import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailScreen
+import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusRoute
+import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusScreen
+import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusDialog
+import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusRoute
+import com.imageclasses.imageclasses.ui.feature.bookList.BookListRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
@@ -113,19 +122,39 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                                 )
                             )
                         },
-                        onNavigateToBook = { bookId: Int ->
-                            navController.navigate(DestinationScreen.bookList.createRoute(bookId))
+                        onNavigateToBook = { bookId: String ->
+                            navController.navigate(route = BookDetailRoute(bookId))
                         },
                     )
                 }
-                composable(DestinationScreen.bookList.route) {
-                    val targetExam = it.arguments?.getString("targetExam")
+                composable<BookListRoute>{ backStackEntry->
+                    val routeObj: BookListRoute = backStackEntry.toRoute()
                     BookListScreen(
-                        booksPreference = targetExam,
-                        onNavigateToBook = { bookId ->
-                            navController.navigate(DestinationScreen.bookList.createRoute(bookId))
+                        booksPreference = routeObj.targetExamId,
+                        onNavigateToBook = { bookId:String ->
+                            navController.navigate(route = BookDetailRoute(bookId))
                         },
                     )
+                }
+                composable<BookDetailRoute>{ backStackEntry->
+                    val routeObj: BookDetailRoute = backStackEntry.toRoute()
+                    BookDetailScreen(
+                        bookId = routeObj.bookId,
+                        purchaseHardCopy = { TODO() },
+                        purchaseEbook = { TODO() },
+                    )
+                }
+                composable<OrderStatusRoute>{ backStackEntry->
+                    val routeObj: BookDetailRoute = backStackEntry.toRoute()
+                    OrderStatusScreen(
+                        showPaymentStatus = {
+                            navController.navigate(route = PaymentStatusRoute("DUMMY_ID"))
+
+                        }
+                    )
+                }
+                dialog<PaymentStatusRoute>{
+                    PaymentStatusDialog()
                 }
                 composable(DestinationScreen.userProfile.route) {
                     ProfileScreen()

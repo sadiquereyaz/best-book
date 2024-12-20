@@ -15,10 +15,4 @@ sealed class DestinationScreen(var route: String, val title: String? = null) {
     object subscribedEbook : DestinationScreen(route = "subscribed_ebook")
 
     object userProfile : DestinationScreen("user_profile_screen")
-
-    object bookList : DestinationScreen("book_list_screen/{speciality}") {
-        fun createRoute(bookId: Int) = "book_list_screen/$bookId"
-    }
-
-
 }

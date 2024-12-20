@@ -61,7 +61,7 @@ data class CustomCard(
 fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
-    onNavigateToBook: (Int) -> Unit
+    onNavigateToBook: (String) -> Unit
 
 ) {
     // Display 4 items
