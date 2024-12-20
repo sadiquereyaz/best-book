@@ -29,7 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 
 enum class BottomNavigationItem(
     val selectedIcon: ImageVector,

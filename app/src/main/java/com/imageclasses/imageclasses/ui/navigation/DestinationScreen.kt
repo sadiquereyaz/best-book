@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.navigation
+package com.imageclasses.imageclasses.ui.navigation
 
 sealed class DestinationScreen(var route: String, val title: String? = null) {
 

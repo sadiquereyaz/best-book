@@ -27,7 +27,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.components.ImageClassesTitle
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
 import com.imageclasses.imageclasses.ui.feature.account.auth.AuthScreen
@@ -97,6 +97,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             startDestination = if (isLoggedIn) DestinationScreen.mainApp.route else DestinationScreen.ots.route,
             modifier = modifier.padding(innerPadding)
         ) {
+
+            // registration nested graph
             navigation(
                 route = DestinationScreen.ots.route,
                 startDestination = DestinationScreen.intro.route
@@ -108,7 +110,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     AuthScreen()
                 }
             }
-            // nested navigation
+
+            // main app nested graph
             navigation(
                 route = DestinationScreen.mainApp.route,
                 startDestination = DestinationScreen.home.route

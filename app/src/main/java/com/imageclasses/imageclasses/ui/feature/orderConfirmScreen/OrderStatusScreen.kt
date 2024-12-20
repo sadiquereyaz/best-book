@@ -12,7 +12,7 @@ data class PaymentStatusRoute(val orderId: String)
 @Composable
 fun OrderStatusScreen(
     modifier: Modifier = Modifier,
-    showPaymentStatus: () -> Unit
+    showPaymentStatus: (paymentId: String?) -> Unit
 ){
 
 }
