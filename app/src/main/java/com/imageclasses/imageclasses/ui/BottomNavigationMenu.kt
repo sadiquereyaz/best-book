@@ -21,9 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.navigation.DestinationScreen
 
@@ -43,13 +47,13 @@ enum class BottomNavigationItem(
         selectedIcon = Icons.Filled.DateRange,
         unSelectedIcon = Icons.Outlined.DateRange,
         title = "Quiz",
-        destinationScreen = DestinationScreen.userProfile
+        destinationScreen = DestinationScreen.subscribedQuiz
     ),
     USER_RESOURCES(
         selectedIcon = Icons.Filled.Edit,
         unSelectedIcon = Icons.Outlined.Edit,
         title = "Resources",
-        destinationScreen = DestinationScreen.home
+        destinationScreen = DestinationScreen.subscribedEbook
     ),
     PROFILE(
         selectedIcon = Icons.Filled.Person,
@@ -63,27 +67,31 @@ enum class BottomNavigationItem(
 fun BottomNavigationMenu(
     navController: NavController
 ) {
-    var selectedItem by remember { mutableStateOf(BottomNavigationItem.HOME) }
-    val items = listOf("Home", "Quiz", "Playlists")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
-    val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Home)
-
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    var selectedItem = currentBackStackEntry?.destination?.route
     NavigationBar {
         for (item in BottomNavigationItem.entries) {
             NavigationBarItem(
                 icon = {
                     Icon(
-                        if (item == selectedItem) item.selectedIcon else item.unSelectedIcon,
+                        if (item.destinationScreen.route == selectedItem) item.selectedIcon else item.unSelectedIcon,
                         contentDescription = item.title
                     )
                 },
                 label = {
                     Text(item.title)
                 },
-                selected = selectedItem == item,
-                onClick = { selectedItem = item }
-
+                selected = selectedItem == item.destinationScreen.route,
+                onClick = {
+                    selectedItem = item.destinationScreen.route
+                    navController.navigate(route = item.destinationScreen.route) {
+                        popUpTo(DestinationScreen.home.route) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
