@@ -70,7 +70,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         ) {
             navigation(
                 route = DestinationScreen.ots.route,
-                startDestination = DestinationScreen.auth_signin.route
+                startDestination = DestinationScreen.auth_signup.route
             ){
                 composable(route = DestinationScreen.intro.route) {
                     //IntroScreen()
