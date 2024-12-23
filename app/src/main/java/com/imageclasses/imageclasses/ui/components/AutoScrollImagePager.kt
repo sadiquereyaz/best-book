@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.imageclasses.imageclasses.R
 import kotlinx.coroutines.delay
@@ -35,14 +36,16 @@ import kotlinx.coroutines.yield
 
 @Composable
 fun AutoScrollingImagePager(
+    autoscroll: Boolean = true,
     imageList: List<Int> = listOf( R.drawable.banner1, R.drawable.banner1, R.drawable.banner1, R.drawable.banner3 ), // List of image resource IDs
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: Dp = 160.dp
 ) {
     val pagerState = rememberPagerState(pageCount = { imageList.size })
 
     // Auto-scroll logic
     LaunchedEffect(pagerState) {
-        while (true) {
+        while (autoscroll) {
             yield()
             delay(2000) // Change page every 3 seconds
             val nextPage = (pagerState.currentPage + 1) % imageList.size
@@ -51,20 +54,23 @@ fun AutoScrollingImagePager(
     }
 
     Box(
-        modifier = modifier.fillMaxWidth(),
-//        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     ) {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
+                //.fillMaxWidth()
+                .height(height)
         ) { page ->
                 Image(
                     painter = painterResource(id = imageList[page]),
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(8.dp)),
+                    modifier = Modifier
+                       .fillMaxSize()
+                        .clip(shape = RoundedCornerShape(8.dp))
+                        .height(height),
                 )
         }
 
@@ -72,7 +78,7 @@ fun AutoScrollingImagePager(
         Row(
             Modifier
                 .wrapContentHeight()
-                .fillMaxWidth()
+                //.fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.Center
@@ -92,10 +98,28 @@ fun AutoScrollingImagePager(
     }
 }
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewImagePager() {
-    val images = listOf(R.drawable.banner1, R.drawable.banner1, R.drawable.banner1, R.drawable.banner3
-    )
-    AutoScrollingImagePager(imageList = images)
+fun PreviewImagePager(modifier:Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxSize()
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+    ) {
+        AutoScrollingImagePager(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .background(color = Color.Red),
+            autoscroll = false,
+            imageList = listOf(
+                R.drawable.book1,
+                R.drawable.book1,
+                R.drawable.book1,
+                R.drawable.book1
+            ),
+            height = /*Dp.Unspecified*/ 460.dp
+        )
+
+    }
 }

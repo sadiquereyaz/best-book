@@ -10,3 +10,11 @@ fun NavController.safeNavigate(route: String) {
         Log.e("Navigation", "Failed to navigate to $route", e)
     }
 }
+
+fun NavController.safeNavigate1(route: Any) {
+    try {
+        navigate(route)
+    } catch (e: IllegalArgumentException) {
+        Log.e("Navigation", "Failed to navigate to $route", e)
+    }
+}

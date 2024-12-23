@@ -8,19 +8,23 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
 import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailRoute
-import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailScreen
 import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusRoute
 import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusScreen
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusRoute
-import com.imageclasses.imageclasses.ui.feature.bookList.BookListRoute
+import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
+import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
 import com.imageclasses.imageclasses.ui.util.safeNavigate
+import kotlinx.serialization.Serializable
 
+@Serializable
+object DummyRoute
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation(
         route = DestinationScreen.mainApp.route,
@@ -28,39 +32,18 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     ) {
         composable(DestinationScreen.home.route) {
             HomeScreen(
+                onAllBookSelect = { examId: String -> navController.navigate(AllBookListRoute(examId)) },
+                onNavigateToBook = { bookId: String -> navController.navigate(route = BookDetailRoute(bookId)) },
+                onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
+               // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+                navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+                onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") }
+            )
+        }
 
-                onAllBookSelect = { targetExam: String ->
-                    navController.navigate(
-                        DestinationScreen.home.createRoute(
-                            targetExam
-                        )
-                    )
-                },
-                onNavigateToBook = { bookId: String ->
-                    navController.navigate(route = BookDetailRoute(bookId))
-                },
-                onBannerClick = {
-                    navController.safeNavigate("DUMMY_ROUTE")
-                }
-            )
-        }
-        composable<BookListRoute> { backStackEntry ->
-            val routeObj: BookListRoute = backStackEntry.toRoute()
-            BookListScreen(
-                booksPreference = routeObj.targetExamId,
-                onNavigateToBook = { bookId: String ->
-                    navController.navigate(route = BookDetailRoute(bookId))
-                },
-            )
-        }
-        composable<BookDetailRoute> { backStackEntry ->
-            val routeObj: BookDetailRoute = backStackEntry.toRoute()
-            BookDetailScreen(
-                bookId = routeObj.bookId,
-                purchaseHardCopy = { TODO() },
-                purchaseEbook = { TODO() },
-            )
-        }
+        bookGraph(navController)
+        quizGraph()
+
         composable<OrderStatusRoute> { backStackEntry ->
             val routeObj: BookDetailRoute = backStackEntry.toRoute()
             OrderStatusScreen(
@@ -70,9 +53,11 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 }
             )
         }
+
         dialog<PaymentStatusRoute> {
             PaymentStatusDialog()
         }
+
         composable(DestinationScreen.userProfile.route) {
             ProfileScreen()
         }
@@ -86,3 +71,4 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         settingsGraph(navController)
     }
 }
+

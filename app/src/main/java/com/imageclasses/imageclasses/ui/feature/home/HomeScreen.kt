@@ -3,6 +3,7 @@ package com.imageclasses.imageclasses.ui.feature.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,10 +40,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.ui.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
+import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
+import kotlinx.serialization.Serializable
+
 data class CardColors(
     val backgroundColor: Color,
     val onBackgroundColor: Color,
@@ -80,7 +86,9 @@ fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
     onNavigateToBook: (String) -> Unit,
-    onBannerClick: () -> Unit
+    onBannerClick: () -> Unit,
+    navigateToQuizCategory: (String) -> Unit,
+    onAllQuizSelect: (String) -> Unit
 
 ) {
     // Display 4 items
@@ -92,7 +100,7 @@ fun HomeScreen(
             .fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {
-        AutoScrollingImagePager()
+        AutoScrollingImagePager(modifier = Modifier)
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -100,7 +108,7 @@ fun HomeScreen(
             Text(text = "Popular Books", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             TextButton(
-                onClick = {}
+                onClick = { onAllBookSelect("DUMMY_EXAM_ID") }
             ) {
                 Text(text = "View all", style = MaterialTheme.typography.labelLarge)
             }
@@ -115,12 +123,14 @@ fun HomeScreen(
                 item {
                     Box(
                         modifier = Modifier
+                            .clickable { onNavigateToBook("DUMMY") }
                             .border(
-                                width = 1.dp,
-                                shape = RectangleShape,
+                                width = 0.5.dp,
+                                shape = RoundedCornerShape(6.dp),
                                 color = Color.Black
                             )
-                            .padding(6.dp)
+                          //  .clip(shape = RoundedCornerShape(6.dp))
+                            //.padding(6.dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.book1),
@@ -137,11 +147,11 @@ fun HomeScreen(
                     Box(
                         modifier = Modifier
                             .border(
-                                width = 1.dp,
-                                shape = RectangleShape,
+                                width = 0.5.dp,
+                                shape = RoundedCornerShape(6.dp),
                                 color = Color.Black
                             )
-                            .padding(6.dp)
+                            //.padding(6.dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.book2),
@@ -165,9 +175,9 @@ fun HomeScreen(
             Text(text = "Question Bank", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             TextButton(
-                onClick = {}
+                onClick = {onAllQuizSelect("DUMMY_ID")}
             ) {
-                Text(text = "View all", style = MaterialTheme.typography.labelLarge)
+                Text(text = "View all quiz", style = MaterialTheme.typography.labelLarge)
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -212,7 +222,10 @@ fun QuizCard(card: CustomCard) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun preveiw() {
+fun Preview(
+    navController:NavController = rememberNavController()
+
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -229,15 +242,15 @@ fun preveiw() {
             )
         }
     ) { it ->
-
-
         HomeScreen(
             modifier = Modifier.padding(it),
             onAllBookSelect = {},
             onNavigateToBook = {},
             onBannerClick = {
-                navController.safeNavigate("DUMMY_ROUTE")
-            }
+                //navController.safeNavigate("DUMMY_ROUTE")
+            },
+            navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+            onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) }
         )
     }
 }
