@@ -39,7 +39,7 @@ If you need to pass data to a destination, define the route with a class that ha
 * passing the arguments to the class constructor.
 */
 @Serializable
-data class AllBookListRoute(val targetExamId: String? = null)
+data class AllBookListRoute(val targetExamId: String? = null, val title: String = "Book Store")
 
 //For optional arguments, create nullable fields with a default value.
 @Serializable

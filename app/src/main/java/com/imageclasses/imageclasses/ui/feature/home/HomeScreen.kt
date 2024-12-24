@@ -250,7 +250,7 @@ fun Preview(
                 //navController.safeNavigate("DUMMY_ROUTE")
             },
             navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-            onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) }
+            onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
         )
     }
 }

@@ -16,5 +16,6 @@ fun QuizScreen(
         quizId: String,
         categoryId: String
     ){
+
     Text(text = "Quiz Screen: $quizId , $categoryId")
 }

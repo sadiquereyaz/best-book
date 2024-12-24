@@ -19,13 +19,13 @@ fun NavGraphBuilder.quizGraph() {
     composable<AllQuizListRoute> { backStackEntry ->
         val routeObj: AllQuizListRoute = backStackEntry.toRoute()
         AllQuizListScreen(
-            examId = routeObj.examId,
+            examId = /*routeObj.examId*/ backStackEntry.destination.route.toString()+ "\n" + AllQuizListRoute("jkh").toString(),
         )
     }
     composable<QuizCategoryRoute> { backStackEntry ->
         val routeObj: QuizCategoryRoute = backStackEntry.toRoute()
         QuizCategoryScreen(
-            quizId = routeObj.quizId,
+            quizId = routeObj.quizId ,
         )
     }
     composable<QuizRoute> { backStackEntry ->

@@ -1,20 +1,24 @@
 package com.imageclasses.imageclasses.ui.feature.bookDetail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,35 +27,50 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
 import com.imageclasses.imageclasses.data.model.BookModel
+import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
 import com.imageclasses.imageclasses.ui.components.BookTitlePrice
 import com.imageclasses.imageclasses.ui.components.RatingBar
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNull.content
 
 @Serializable
 data class BookDetailRoute(val bookId: String)
 
+enum class ButtonType(val btnText: String, val iconId: Int) {
+    EBOOK("Buy Ebook", R.drawable.ebook ),
+    GO_TO_CART("Go to cart", R.drawable.go_to_cart),
+    ADD_TO_CART(btnText = "Add to cart",R.drawable.add_cart)
+}
 
 @Composable
 fun BookDetailScreen(
     modifier: Modifier = Modifier,
     bookId: String,
-    purchaseHardCopy: (String) -> Unit,
-    purchaseEbook: (String) -> Unit
+    addToCart: (String) -> Unit,
+    purchaseEbook: (String) -> Unit,
+    isEbook: Boolean = true,
+    onNavigateToCart: () -> Unit = {},
+    btnType: ButtonType = ButtonType.ADD_TO_CART,
+    goToCart: () -> Unit = {}
 ) {
     val book = BookModel()
     //val book by viewModel.bookFlow.collectAsState()
     val scrollState = rememberScrollState()
 
+    var btnState by remember { mutableStateOf(btnType) }
+
     Column(
         modifier = modifier
-            //.padding(16.dp)
+            .padding(bottom = ButtonDefaults.MinHeight + 8.dp)
             .fillMaxWidth()
             .verticalScroll(scrollState),
     ) {
@@ -73,12 +92,12 @@ fun BookDetailScreen(
             modifier = Modifier.padding(horizontal = 8.dp),
             book = book, addToFontSize = 4
         )
-        RatingBar(rating = 3.6, modifier = Modifier.padding(  8.dp))
+        RatingBar(rating = 3.6, modifier = Modifier.padding(8.dp))
         HorizontalDivider(thickness = 2.dp)
         ProductDetailList(book)
         HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
         Text(
-            text = "Product Details",
+            text = "Description",
             modifier = Modifier
                 .padding(start = 8.dp, top = 4.dp, bottom = 8.dp),
             fontWeight = FontWeight.Bold
@@ -86,17 +105,39 @@ fun BookDetailScreen(
         Text(text = book.description, modifier = Modifier.padding(horizontal = 8.dp))
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        Button(
-            // ...
-        ) {
-            // ...
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp), contentAlignment = Alignment.BottomCenter
+    ) {
+            Button(
+                modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(0.dp)),
+                onClick = {
+                    when(btnState){
+                        ButtonType.EBOOK -> purchaseEbook(book.bookId)
+                        ButtonType.ADD_TO_CART -> {
+                            //addToCart(book.bookId)
+                            btnState = ButtonType.GO_TO_CART
+                        }
+                        ButtonType.GO_TO_CART -> goToCart()
+                    }
+                }
+            ) {
+                Row(
+                    modifier = Modifier.padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(ImageVector.vectorResource(btnState.iconId), btnState.btnText)
+                    Text(text = btnState.btnText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
     }
 }
 
 @Composable
- fun ProductDetailList(book: BookModel) {
+fun ProductDetailList(book: BookModel) {
     Text(
         text = "Product Details",
         modifier = Modifier
@@ -135,8 +176,9 @@ fun BookDetailScreen(
 
 @Composable
 fun ProductDetail(modifier: Modifier, headText: String = "head", tailText: String = "tail") {
-    Row(modifier = modifier
-        .padding(horizontal = 8.dp, vertical = 4.dp)
+    Row(
+        modifier = modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(
             modifier = Modifier.weight(1f),
@@ -150,20 +192,17 @@ fun ProductDetail(modifier: Modifier, headText: String = "head", tailText: Strin
     }
 }
 
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BookDetailScreenPreview() {
-    var isPurchased by remember { mutableStateOf(false) }
-
     BookDetailScreen(
-        bookId = "sample_book_id",
-        purchaseHardCopy = { isPurchased = true },
-        purchaseEbook = { isPurchased = true }
+        modifier = Modifier,
+        bookId = "sampleBookId",
+        addToCart = { /* No-op for preview */ },
+        purchaseEbook = { /* No-op for preview */ },
+        isEbook = true,
+        onNavigateToCart = { /* No-op for preview */ },
+        btnType = ButtonType.ADD_TO_CART, // Assuming you have a ButtonType enum
+        goToCart = {}
     )
-
-    if (isPurchased) {
-        Text("Purchased!") // Display a message after purchase
-    }
 }
-

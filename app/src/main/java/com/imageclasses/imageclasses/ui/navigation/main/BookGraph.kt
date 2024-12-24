@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailRoute
 import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailScreen
+import com.imageclasses.imageclasses.ui.feature.bookDetail.ButtonType
 import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
 
@@ -23,8 +24,10 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
         val routeObj: BookDetailRoute = backStackEntry.toRoute()
         BookDetailScreen(
             bookId = routeObj.bookId,
-            purchaseHardCopy = { TODO() },
-            purchaseEbook = { TODO() },
+            addToCart = { TODO() },
+            purchaseEbook = {},
+            //btnType = ButtonType.EBOOK,
+            goToCart = {}
         )
     }
 }

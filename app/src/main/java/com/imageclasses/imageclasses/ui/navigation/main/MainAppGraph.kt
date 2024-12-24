@@ -24,7 +24,7 @@ import com.imageclasses.imageclasses.ui.util.safeNavigate
 import kotlinx.serialization.Serializable
 
 @Serializable
-object DummyRoute
+object PaymentStatusRoute
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation(
         route = DestinationScreen.mainApp.route,

@@ -52,7 +52,7 @@ enum class BottomNavigationItem(
     USER_RESOURCES(
         selectedIcon = Icons.Filled.Edit,
         unSelectedIcon = Icons.Outlined.Edit,
-        title = "Resources",
+        title = "E-book",
         destinationScreen = DestinationScreen.subscribedEbook
     ),
     PROFILE(

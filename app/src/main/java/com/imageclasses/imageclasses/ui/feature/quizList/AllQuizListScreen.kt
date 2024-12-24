@@ -5,8 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
+/*@Serializable
+data class AllQuizListRoute(val examId: String)*/
 @Serializable
-data class AllQuizListRoute(val examId: String)
+data class AllQuizListRoute(val examId: String? = null) {
+    override fun toString(): String {
+        return "all_quiz_list_route/${examId ?: ""}"
+    }
+}
 
 @Composable
 fun AllQuizListScreen(
