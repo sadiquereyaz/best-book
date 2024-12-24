@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.imageclasses.imageclasses.Auth.FirebaseAuth
-import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
+
 import java.util.*
 
 

@@ -26,7 +26,7 @@ fun AppNavHost(
     ) {
 
         // registration nested graph
-        authGraph()
+        authGraph(navController)
 
         // main app nested graph
         mainAppGraph(navController)
