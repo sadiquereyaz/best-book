@@ -21,7 +21,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) DestinationScreen.mainApp.route else DestinationScreen.ots.route,
+        startDestination = if (true) DestinationScreen.mainApp.route else DestinationScreen.ots.route,
         modifier = modifier.padding(innerPadding)
     ) {
 

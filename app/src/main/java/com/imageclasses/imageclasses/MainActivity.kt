@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.imageclasses.imageclasses.ui.AppNavigation
 import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreen
 
 import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreenFromAssets
@@ -25,10 +26,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
-//                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
+                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
 //                PdfViewerScreenFromAssets()
 //                PdfViewerScreen()
-                PdfViewerScreenFromUrlDirect()
+//                PdfViewerScreenFromUrlDirect()
             }
         }
     }

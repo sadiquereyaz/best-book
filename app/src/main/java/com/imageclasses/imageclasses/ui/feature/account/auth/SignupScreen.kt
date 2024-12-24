@@ -23,12 +23,14 @@ import androidx.navigation.NavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.auth.FirebaseAuth
 import com.imageclasses.imageclasses.controllers.RealtimeDb
-import com.imageclasses.imageclasses.navigation.DestinationScreen
-import com.imageclasses.imageclasses.Auth.FirebaseAuth
+
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
+import kotlinx.serialization.Serializable
 
 import java.util.*
 
+@Serializable
+data class SignUpRoute(val route: String = "signup_route", val title: String ="title")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
