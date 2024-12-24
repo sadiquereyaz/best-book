@@ -12,112 +12,167 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.imageclasses.imageclasses.R
+import com.imageclasses.imageclasses.auth.FirebaseAuth
+import com.imageclasses.imageclasses.controllers.RealtimeDb
+import com.imageclasses.imageclasses.navigation.DestinationScreen
 import com.imageclasses.imageclasses.Auth.FirebaseAuth
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 
 import java.util.*
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
+    val db = RealtimeDb()
+    val firebaseAuth = FirebaseAuth()
+    val context = LocalContext.current
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var signUpError by remember { mutableStateOf<String?>(null) }
+
+    // Dropdown options for class, entrance exam, and target year
+    val classOptions = listOf("Class 12", "Class 10", "Class 9") // Example classes
+    var selectedClass by remember { mutableStateOf(classOptions[0]) }
+
+    val entranceExamOptions = listOf("JEE", "NEET", "CET") // Example entrance exams
+    var selectedExam by remember { mutableStateOf(entranceExamOptions[0]) }
+
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val targetYearOptions =
+        (currentYear..currentYear + 5).toList() // Example target years (next 5 years)
+    var selectedTargetYear by remember { mutableStateOf(targetYearOptions[0]) }
+    var expandedClass by remember { mutableStateOf(false) }
+    var expandedExam by remember { mutableStateOf(false) }
+    var expandedTargetYear by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
-        val firebaseAuth = FirebaseAuth()
-        val context = LocalContext.current
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-        var phoneNumber by remember { mutableStateOf("") }
-        var signUpError by remember { mutableStateOf<String?>(null) }
-
-        // Dropdown options for class, entrance exam, and target year
-        val classOptions = listOf("Class 12", "Class 10", "Class 9") // Example classes
-        var selectedClass by remember { mutableStateOf(classOptions[0]) }
-
-        val entranceExamOptions = listOf("JEE", "NEET", "CET") // Example entrance exams
-        var selectedExam by remember { mutableStateOf(entranceExamOptions[0]) }
-
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val targetYearOptions =
-            (currentYear..currentYear + 5).toList() // Example target years (next 5 years)
-        var selectedTargetYear by remember { mutableStateOf(targetYearOptions[0]) }
-        var expandedClass by remember { mutableStateOf(false) }
-        var expandedExam by remember { mutableStateOf(false) }
-        var expandedTargetYear by remember { mutableStateOf(false) }
 
 
-
-
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding( start = 20.dp, end = 20.dp, bottom = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Email Field
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFe83337),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    focusedTextColor = Color.Black,
-                    focusedLabelColor = Color.Black,
-                    unfocusedTextColor = Color.Black
-                )
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Email Field
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFFe83337),
+                unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                focusedTextColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
+        )
 
-            // Password Field
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFe83337),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    focusedTextColor = Color.Black,
-                    focusedLabelColor = Color.Black,
-                    unfocusedTextColor = Color.Black
-                )
-            )
+        // Password Field
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            isError = password.length < 6 && password.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = (if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()),
 
-            // Phone Number Field (with country code +91)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFFe83337),
+                unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                focusedTextColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            supportingText = {
+                if (password.length < 6 && password.isNotEmpty()) {
+                    Text("password must be at least 6 characters", color = Color.DarkGray)
+                }
+            },
+            trailingIcon = {
+                val image = if (passwordVisible)
+                    R.drawable.baseline_visibility_24
+                else R.drawable.baseline_visibility_off_24
+
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(image),
+                        contentDescription = "Toggle password visibility"
+                    )
+                }
+            }
+        )
+
+        // Phone Number Field (with country code +91)
+        OutlinedTextField(
+            value = phoneNumber,
+            onValueChange = { phoneNumber = it },
+            label = { Text("Phone Number") },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 10.dp, end = 2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Phone,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
+                    Text("|", color = Color.Gray, fontSize = 28.sp)
+                    Text("+91", color = Color.Black)
+                }
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFFe83337),
+                unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                focusedTextColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            isError = phoneNumber.length < 10 && phoneNumber.length > 0,
+            supportingText = {
+                if (phoneNumber.length < 10 && phoneNumber.length > 0) {
+                    Text("Phone number must be 10 digits", color = Color.DarkGray)
+                }
+            }
+        )
+
+        // Dropdown for selecting class
+        Box {
             OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = { phoneNumber = it },
-                label = { Text("Phone Number") },
+                value = selectedClass,
+                onValueChange = { }, // Do nothing, as it's a read-only field
+                label = { Text("Select Class") },
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(start = 10.dp, end = 2.dp),
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
+                trailingIcon = {
+                    IconButton(onClick = { expandedClass = !expandedClass }) {
                         Icon(
-                            imageVector = Icons.Default.Phone,
-                            contentDescription = null,
-                            tint = Color.Black
+                            Icons.Filled.ArrowDropDown,
+                            contentDescription = "Dropdown Icon"
                         )
-                        Text("|", color = Color.Gray, fontSize = 28.sp)
-                        Text("+91", color = Color.Black)
                     }
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                readOnly = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color(0xFFe83337),
                     unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -126,16 +181,36 @@ import java.util.*
                     unfocusedTextColor = Color.Black
                 )
             )
+            DropdownMenu(
+                expanded = expandedClass,
+                onDismissRequest = { expandedClass = false }
+            ) {
+                classOptions.forEach { selectionOption ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedClass = selectionOption
+                            expandedClass = false
+                        },
+                        text = { Text(selectionOption) }
+                    )
+                }
+            }
+        }
 
-            // Dropdown for selecting class
+        // Row for entrance exam and target year dropdowns
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Entrance Exam Dropdown
             Box {
                 OutlinedTextField(
-                    value = selectedClass,
-                    onValueChange = { }, // Do nothing, as it's a read-only field
-                    label = { Text("Select Class") },
-                    modifier = Modifier.fillMaxWidth(),
+                    value = selectedExam,
+                    onValueChange = { selectedExam = it },
+                    label = { Text("Select Exam") },
+                    modifier = Modifier.fillMaxWidth(0.6f),
                     trailingIcon = {
-                        IconButton(onClick = { expandedClass = !expandedClass }) {
+                        IconButton(onClick = { expandedExam = !expandedExam }) {
                             Icon(
                                 Icons.Filled.ArrowDropDown,
                                 contentDescription = "Dropdown Icon"
@@ -151,15 +226,17 @@ import java.util.*
                         unfocusedTextColor = Color.Black
                     )
                 )
+
+
                 DropdownMenu(
-                    expanded = expandedClass,
-                    onDismissRequest = { expandedClass = false }
+                    expanded = expandedExam,
+                    onDismissRequest = { expandedExam = false }
                 ) {
-                    classOptions.forEach { selectionOption ->
+                    entranceExamOptions.forEach { selectionOption ->
                         DropdownMenuItem(
                             onClick = {
-                                selectedClass = selectionOption
-                                expandedClass = false
+                                selectedExam = selectionOption
+                                expandedExam = false
                             },
                             text = { Text(selectionOption) }
                         )
@@ -167,109 +244,79 @@ import java.util.*
                 }
             }
 
-            // Row for entrance exam and target year dropdowns
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Entrance Exam Dropdown
-                Box {
-                    OutlinedTextField(
-                        value = selectedExam,
-                        onValueChange = { selectedExam = it },
-                        label = { Text("Select Exam") },
-                        modifier = Modifier.fillMaxWidth(0.6f),
-                        trailingIcon = {
-                            IconButton(onClick = { expandedExam = !expandedExam }) {
-                                Icon(
-                                    Icons.Filled.ArrowDropDown,
-                                    contentDescription = "Dropdown Icon"
-                                )
-                            }
-                        },
-                        readOnly = true,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color(0xFFe83337),
-                            unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            focusedTextColor = Color.Black,
-                            focusedLabelColor = Color.Black,
-                            unfocusedTextColor = Color.Black
-                        )
-                    )
-
-
-                    DropdownMenu(
-                        expanded = expandedExam,
-                        onDismissRequest = { expandedExam = false }
-                    ) {
-                        entranceExamOptions.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    selectedExam = selectionOption
-                                    expandedExam = false
-                                },
-                                text = { Text(selectionOption) }
+            // Target Year Dropdown
+            Box {
+                OutlinedTextField(
+                    value = selectedTargetYear.toString(),
+                    onValueChange = { /* Do nothing, as it's a read-only field for now */ },
+                    label = { Text("Target Year") },
+                    modifier = Modifier.fillMaxWidth(),
+                    trailingIcon = {
+                        IconButton(onClick = { expandedTargetYear = !expandedTargetYear }) {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = "Dropdown Icon"
                             )
                         }
-                    }
-                }
-
-                // Target Year Dropdown
-                Box {
-                    OutlinedTextField(
-                        value = selectedTargetYear.toString(),
-                        onValueChange = { /* Do nothing, as it's a read-only field for now */ },
-                        label = { Text("Target Year") },
-                        modifier = Modifier.fillMaxWidth(),
-                        trailingIcon = {
-                            IconButton(onClick = { expandedTargetYear = !expandedTargetYear }) {
-                                Icon(
-                                    Icons.Filled.ArrowDropDown,
-                                    contentDescription = "Dropdown Icon"
-                                )
-                            }
-                        },
-                        readOnly = true,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color(0xFFe83337),
-                            unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            focusedTextColor = Color.Black,
-                            focusedLabelColor = Color.Black,
-                            unfocusedTextColor = Color.Black
-                        )
+                    },
+                    readOnly = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xFFe83337),
+                        unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        focusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
+                )
 
-                    DropdownMenu(
-                        expanded = expandedTargetYear,
-                        onDismissRequest = { expandedTargetYear = false }
-                    ) {
-                        targetYearOptions.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    selectedTargetYear = selectionOption
-                                    expandedTargetYear = false
-                                },
-                                text = { Text(selectionOption.toString()) }
-                            )
-                        }
+                DropdownMenu(
+                    expanded = expandedTargetYear,
+                    onDismissRequest = { expandedTargetYear = false }
+                ) {
+                    targetYearOptions.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedTargetYear = selectionOption
+                                expandedTargetYear = false
+                            },
+                            text = { Text(selectionOption.toString()) }
+                        )
                     }
                 }
             }
+        }
 
-            // Sign-Up Button
-            var isDisable by remember { mutableStateOf(false) }
-            if (email.isNotEmpty() && password.isNotEmpty() && phoneNumber.isNotEmpty() && selectedClass.isNotEmpty() && selectedExam.isNotEmpty() && selectedTargetYear.toString()
-                    .isNotEmpty()
-            )
-                isDisable = false
-            else
-                isDisable = true
+        // Sign-Up Button
+        var isDisable by remember { mutableStateOf(false) }
+        if (email.isNotEmpty() && password.length >= 6 && phoneNumber.length == 10 && selectedClass.isNotEmpty() && selectedExam.isNotEmpty() && selectedTargetYear.toString()
+                .isNotEmpty()
+        )
+            isDisable = false
+        else
+            isDisable = true
+        Column(
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Button(
                 onClick = {
                     (
                             firebaseAuth.signUp(email, password, context) { task ->
                                 if (task.isSuccessful) {
-                                    navController.navigate(DestinationScreen.home.route)
+                                    db.writeData(
+                                        email = email,
+                                        phoneNumber = phoneNumber,
+                                        classname = selectedClass,
+                                        targetYear = selectedTargetYear.toString(),
+                                        entranceExam = selectedExam
+                                    ) { success ->
+                                        if (success) {
+                                            navController.navigate(DestinationScreen.home.route)
+                                        } else {
+                                            navController.navigate(DestinationScreen.auth_signin.route)
+                                        }
+                                    }
+
                                 } else {
                                     signUpError = task.exception?.message
                                     Toast.makeText(context, signUpError, Toast.LENGTH_SHORT).show()
@@ -284,7 +331,10 @@ import java.util.*
                     .fillMaxWidth(0.7f)
                     .padding(28.dp)
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFe83337), disabledContainerColor = Color.DarkGray)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFe83337),
+                    disabledContainerColor = Color.DarkGray
+                )
             ) {
                 Text(
                     "Sign Up",
@@ -297,6 +347,17 @@ import java.util.*
             signUpError?.let {
                 Text("Error: $it", color = Color.Red)
             }
+
+            TextButton(
+                onClick = {
+                    navController.navigate(DestinationScreen.auth_signin.route)
+                }
+            ) {
+                Text(
+                    text = "Already have an account? Sign in"
+                )
+            }
         }
     }
+}
 

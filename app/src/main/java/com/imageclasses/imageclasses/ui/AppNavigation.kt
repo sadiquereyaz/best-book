@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -31,12 +34,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.components.ImageClassesTitle
 import com.imageclasses.imageclasses.ui.feature.bookList.ProfileRoute
 import com.imageclasses.imageclasses.ui.navigation.AppNavHost
+import androidx.navigation.navigation
+import com.imageclasses.imageclasses.auth.FirebaseAuth
+import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.feature.account.auth.SignIn
+import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
+
+import com.imageclasses.imageclasses.ui.feature.account.auth.SignUp
+import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
+import com.treeto.treeto.ui.feature.home.HomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,5 +115,8 @@ fun AppNavigation(modifier: Modifier = Modifier, navController: NavHostControlle
 }
 
 fun isLoggedIn(): Boolean {
-    return true
+
+val firebaseAuth = FirebaseAuth()
+    return  firebaseAuth.isUserAlreadyLoggedIn()
+
 }

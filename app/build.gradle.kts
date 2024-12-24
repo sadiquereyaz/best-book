@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,4 +73,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation(libs.kotlinx.serialization.json)
+//    for render pdf from a url
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation(libs.coil.compose)
 }
