@@ -81,6 +81,10 @@ data class CustomCard(
     val quizTitle: String = "Exam Name"
 )
 
+
+@Serializable
+object HomeScreenRoute
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),

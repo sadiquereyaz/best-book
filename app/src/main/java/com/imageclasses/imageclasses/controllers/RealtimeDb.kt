@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.imageclasses.imageclasses.modals.User
+import com.imageclasses.imageclasses.data.model.User
 
 class RealtimeDb {
     private lateinit var dbRef: DatabaseReference

@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.modals
+package com.imageclasses.imageclasses.data.model
 
 data class User(
     var phoneNumber: String? = null,

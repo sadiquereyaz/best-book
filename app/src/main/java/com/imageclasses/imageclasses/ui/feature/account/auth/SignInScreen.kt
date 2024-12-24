@@ -45,7 +45,7 @@ import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SignInRoute(val route: String = "signin_route", val title: String ="title")
+data class SignInRoute(val title: String ="title")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -163,7 +163,7 @@ fun SignIn(navController: NavController) {
             }
             TextButton(
                 onClick = {
-                    navController.navigate(DestinationScreen.auth_signup.route)
+                    navController.navigate(SignUpRoute())
                 }
             ) {
                 Text(

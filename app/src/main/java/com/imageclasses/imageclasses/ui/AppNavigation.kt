@@ -31,41 +31,45 @@ import com.imageclasses.imageclasses.ui.components.ImageClassesTitle
 import com.imageclasses.imageclasses.ui.feature.account.auth.SignUpRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.ProfileRoute
 import com.imageclasses.imageclasses.ui.navigation.AppNavHost
+import com.imageclasses.imageclasses.ui.navigation.auth.AuthGraphRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
+fun AppNavigation(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
+) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
+    //val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            if (/*currentDestination == ProfileRoute("DSF_DSS").toString()*/true){
-            CenterAlignedTopAppBar(
-                title = {
-                    if (false) ImageClassesTitle()
-                    else {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                            Text(
-                                text = ProfileRoute("dsf").toString()+currentDestination,
-                                /*modifier = Modifier
-                                   // .height(100.dp)
-                                   .background(color = Color.Red),*/
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 28.sp,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+            /*if (*//*currentDestination == ProfileRoute("DSF_DSS").toString()*//*true) {
+                CenterAlignedTopAppBar(
+                    title = {
+                        if (false) ImageClassesTitle()
+                        else {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text(
+                                    text = ProfileRoute("dsf").toString() *//*+ currentDestination*//*,
+                                    *//*modifier = Modifier
+                                       // .height(100.dp)
+                                       .background(color = Color.Red),*//*
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 28.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         }
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                scrollBehavior = scrollBehavior
-            )
-                }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    scrollBehavior = scrollBehavior
+                )
+            }*/
         },
         bottomBar = {
             BottomNavigationMenu(
@@ -83,20 +87,19 @@ fun AppNavigation(modifier: Modifier = Modifier, navController: NavHostControlle
         }
     ) { innerPadding ->
         val isLoggedIn = isLoggedIn()
-        LaunchedEffect(isLoggedIn) {
+        /*LaunchedEffect(isLoggedIn) {
             if (!isLoggedIn) {
-                navController.navigate(SignUpRoute().route) {
-                    popUpTo(SignUpRoute) { inclusive = true }
-                }
+               *//* navController.navigate(AuthGraphRoute) {
+                    popUpTo(SignUpRoute("Signup")) { inclusive = true }
+                }*//*
             }
-        }
+        }*/
         AppNavHost(navController, isLoggedIn, modifier, innerPadding)
     }
 }
 
 fun isLoggedIn(): Boolean {
-
-val firebaseAuth = FirebaseAuth()
-    return  firebaseAuth.isUserAlreadyLoggedIn()
-
+    val firebaseAuth = FirebaseAuth()
+    return firebaseAuth.isUserAlreadyLoggedIn()
+    //  return false
 }

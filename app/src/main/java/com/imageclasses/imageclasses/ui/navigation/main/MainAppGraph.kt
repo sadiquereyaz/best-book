@@ -13,24 +13,25 @@ import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusScreen
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
-import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
+import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
+import com.imageclasses.imageclasses.ui.feature.home.HomeScreenRoute
+import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
-import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
-import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
 import com.imageclasses.imageclasses.ui.util.safeNavigate
 import kotlinx.serialization.Serializable
 
 @Serializable
-object PaymentStatusRoute
+object MainAppGraphRoute
+
+
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
-    navigation(
-        route = DestinationScreen.mainApp.route,
-        startDestination = DestinationScreen.home.route
+    navigation<MainAppGraphRoute>(
+        startDestination = HomeScreenRoute
     ) {
-        composable(DestinationScreen.home.route) {
+        composable<HomeScreenRoute> {
             HomeScreen(
                 onAllBookSelect = { examId: String -> navController.navigate(AllBookListRoute(examId)) },
                 onNavigateToBook = { bookId: String -> navController.navigate(route = BookDetailRoute(bookId)) },

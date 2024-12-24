@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object QuizGraphRoute
+
 fun NavGraphBuilder.quizGraph() {
     composable<AllQuizListRoute> { backStackEntry ->
         val routeObj: AllQuizListRoute = backStackEntry.toRoute()

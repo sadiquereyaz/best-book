@@ -30,7 +30,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 @Serializable
-data class SignUpRoute(val route: String = "signup_route", val title: String ="title")
+data class SignUpRoute(val title: String ="title")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,5 +1,7 @@
 package com.imageclasses.imageclasses.ui.navigation
 
+import kotlinx.serialization.Serializable
+
 sealed class DestinationScreen(var route: String, val title: String? = null) {
 
     object ots : DestinationScreen("one_time_screen")
@@ -16,4 +18,6 @@ sealed class DestinationScreen(var route: String, val title: String? = null) {
     object subscribedEbook : DestinationScreen(route = "subscribed_ebook")
 
     object userProfile : DestinationScreen("user_profile_screen")
+
+    data class ProfileDetail (val userId: String) : DestinationScreen("user_profile_screen/$userId")
 }
