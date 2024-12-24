@@ -13,7 +13,7 @@ navigationCompose = "2.8.3"
 navigationRuntimeKtx = "2.8.5"
 firebaseAuthKtx = "23.1.0"
 firebaseDatabase = "21.0.0"
-
+coilCompose = "2.7.0"
 
 [libraries]
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -35,7 +35,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
-
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

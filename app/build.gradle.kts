@@ -62,12 +62,16 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-//    coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
+
 //firebase auth
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
 
     //navigation
     implementation(libs.androidx.navigation.compose)
+//    for render pdf from a url
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation(libs.coil.compose)
 }
