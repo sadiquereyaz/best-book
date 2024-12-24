@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.navigation
+package com.imageclasses.imageclasses.ui.navigation
 
 sealed class DestinationScreen(var route: String, val title: String? = null) {
 
@@ -11,11 +11,9 @@ sealed class DestinationScreen(var route: String, val title: String? = null) {
     object home : DestinationScreen(route = "home_screen", title = "Image Classes"){
         fun createRoute(targetExam: String) = "home_screen/$targetExam"
     }
+    object subscribedQuiz : DestinationScreen(route = "subscribed_quiz"){
+    }
+    object subscribedEbook : DestinationScreen(route = "subscribed_ebook")
 
     object userProfile : DestinationScreen("user_profile_screen")
-
-    object bookList : DestinationScreen("book_list_screen/{speciality}") {
-        fun createRoute(bookId: Int) = "book_list_screen/$bookId"
-    }
-
 }

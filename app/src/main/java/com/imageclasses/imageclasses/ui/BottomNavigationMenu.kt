@@ -1,45 +1,63 @@
 package com.imageclasses.imageclasses.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import android.graphics.drawable.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 
 enum class BottomNavigationItem(
-    val icon: Int,
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector,
     val title: String,
     val destinationScreen: DestinationScreen
 ) {
     HOME(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.Home,
+        unSelectedIcon = Icons.Outlined.Home,
         title = "Home",
         destinationScreen = DestinationScreen.home
     ),
     QUIZ(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.DateRange,
+        unSelectedIcon = Icons.Outlined.DateRange,
         title = "Quiz",
-        destinationScreen = DestinationScreen.userProfile
+        destinationScreen = DestinationScreen.subscribedQuiz
     ),
     USER_RESOURCES(
-        icon = R.drawable.ic_launcher_foreground,
-        title = "Resources",
-        destinationScreen = DestinationScreen.home
+        selectedIcon = Icons.Filled.Edit,
+        unSelectedIcon = Icons.Outlined.Edit,
+        title = "E-book",
+        destinationScreen = DestinationScreen.subscribedEbook
     ),
     PROFILE(
-        icon = R.drawable.ic_launcher_foreground,
+        selectedIcon = Icons.Filled.Person,
+        unSelectedIcon = Icons.Outlined.Person,
         title = "Profile",
         destinationScreen = DestinationScreen.userProfile
     ),
@@ -47,31 +65,41 @@ enum class BottomNavigationItem(
 
 @Composable
 fun BottomNavigationMenu(
-    selectedItem: BottomNavigationItem,
     navController: NavController
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 4.dp)
-            .background(color = Color.White)
-    ) {
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    var selectedItem = currentBackStackEntry?.destination?.route
+    NavigationBar {
         for (item in BottomNavigationItem.entries) {
-            Image(
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(4.dp)
-                    .weight(1f)
-                    .clickable {
-                        navController.navigate(item.destinationScreen.route){
-                            launchSingleTop = true
-                        }
-                    },
-                painter = painterResource(item.icon),
-                contentDescription = item.title,
-                colorFilter = if (item == selectedItem) ColorFilter.tint(Color.Black) else ColorFilter.tint(Color.Gray)
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        if (item.destinationScreen.route == selectedItem) item.selectedIcon else item.unSelectedIcon,
+                        contentDescription = item.title
+                    )
+                },
+                label = {
+                    Text(item.title)
+                },
+                selected = selectedItem == item.destinationScreen.route,
+                onClick = {
+                    selectedItem = item.destinationScreen.route
+                    navController.bottomNavigationLogic(item)
+                }
             )
         }
     }
 }
+
+fun NavController.bottomNavigationLogic(
+    item: BottomNavigationItem
+) {
+    navigate(route = item.destinationScreen.route) {
+        popUpTo(DestinationScreen.home.route) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
