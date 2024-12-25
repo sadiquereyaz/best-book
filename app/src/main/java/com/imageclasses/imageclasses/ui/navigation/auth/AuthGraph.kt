@@ -4,27 +4,23 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
-
 import com.imageclasses.imageclasses.ui.feature.account.auth.SignIn
-import com.imageclasses.imageclasses.ui.feature.account.auth.SignInRoute
 import com.imageclasses.imageclasses.ui.feature.account.auth.SignUp
-import com.imageclasses.imageclasses.ui.feature.account.auth.SignUpRoute
-import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object AuthGraphRoute
 
 fun NavGraphBuilder.authGraph(navController: NavController) {
-    navigation<AuthGraphRoute>(
-        startDestination = SignInRoute()
+    navigation<Route.AuthGraph>(
+        startDestination = Route.SignIn()
     ) {
-        composable<SignUpRoute> {
+        composable<Route.SignUp> {
             SignUp(navController = navController)
         }
 
-        composable<SignInRoute> {
+        composable<Route.SignIn> {
             SignIn(navController)
         }
     }

@@ -32,25 +32,10 @@ import com.imageclasses.imageclasses.data.model.BookModel
 import com.imageclasses.imageclasses.ui.components.BookTitlePrice
 import kotlinx.serialization.Serializable
 
-/*
-If you need to pass data to a destination, define the route with a class that has parameters.
-* Whenever you need to pass arguments to that destination,
-* you create an instance of your route class,
-* passing the arguments to the class constructor.
-*/
-@Serializable
-data class AllBookListRoute(val targetExamId: String? = null, val title: String = "Book Store")
-
-//For optional arguments, create nullable fields with a default value.
-@Serializable
-data class ProfileRoute(val userId: String? = null)
-
-
 @Composable
 fun BookListScreen(
     modifier: Modifier = Modifier,
-    examId: String?,
-    onNavigateToBook: (String) -> Unit
+    onNavigateToBook: (Int) -> Unit
 ) {
     val listOfBooks = listOf(
         "Book1",
@@ -118,8 +103,7 @@ fun BookListPreview() {
         },
     ) { it ->
         BookListScreen(
-            modifier = Modifier.padding(it),
-            examId = "TODO()"
+            modifier = Modifier.padding(it)
         ) { }
     }
 }

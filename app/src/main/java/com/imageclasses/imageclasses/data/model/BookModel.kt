@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import com.imageclasses.imageclasses.R
 
 data class BookModel(
-    val bookId: String = "DUMMY_ID",
+    val bookId: Int = 0,
     val title:String = "AMU Booster 11th Entrance Science Stream Chapterwise with Solution",
     val author:String = "Nawab Saquib Ibrahim, Dr. Maaz Hashmi",
     val language:String = "English",

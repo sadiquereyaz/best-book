@@ -3,14 +3,11 @@ package com.imageclasses.imageclasses.ui.feature.account.auth
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,8 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.auth.FirebaseAuth
-import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
-
+import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -130,7 +126,7 @@ fun SignIn(navController: NavController) {
                 onClick = {
                     firebaseAuth.signIn(email, password, context = context) { success ->
                         if (success) {
-                            navController.navigate(DestinationScreen.mainApp.route)
+                            navController.navigate(Route.MainGraph)
                         } else {
                             Toast.makeText(
                                 context,

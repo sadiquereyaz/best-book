@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,11 +42,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.ui.BottomNavigationMenu
+import com.imageclasses.imageclasses.ui.components.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
 import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
 import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
-import kotlinx.serialization.Serializable
 
 data class CardColors(
     val backgroundColor: Color,
@@ -82,14 +80,11 @@ data class CustomCard(
 )
 
 
-@Serializable
-object HomeScreenRoute
-
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
-    onNavigateToBook: (String) -> Unit,
+    onNavigateToBook: (Int) -> Unit,
     onBannerClick: () -> Unit,
     navigateToQuizCategory: (String) -> Unit,
     onAllQuizSelect: (String) -> Unit
@@ -127,7 +122,7 @@ fun HomeScreen(
                 item {
                     Box(
                         modifier = Modifier
-                            .clickable { onNavigateToBook("DUMMY") }
+                            .clickable { onNavigateToBook(0) }
                             .border(
                                 width = 0.5.dp,
                                 shape = RoundedCornerShape(6.dp),

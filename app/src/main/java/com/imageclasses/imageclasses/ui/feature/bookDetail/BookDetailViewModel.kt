@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.data.model.BookModel
+import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.coroutines.flow.Flow
 
 
@@ -20,7 +21,7 @@ class BookDetailViewModel(
     //private val userInfoRepository: UserInfoRepository
 ) : ViewModel() {
 
-    private val book = savedStateHandle.toRoute<BookDetailRoute>()
+    private val book = savedStateHandle.toRoute<Route.BookDetail>()
 
     // Fetch the relevant book information from the data layer,
     // ie. bookInfoRepository, based on the passed bookId argument

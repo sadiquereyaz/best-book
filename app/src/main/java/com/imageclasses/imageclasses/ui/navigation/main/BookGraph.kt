@@ -4,24 +4,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailRoute
 import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailScreen
-import com.imageclasses.imageclasses.ui.feature.bookDetail.ButtonType
-import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
+import com.imageclasses.imageclasses.ui.navigation.Route
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController) {
-    composable<AllBookListRoute> { backStackEntry ->
-        val routeObj: AllBookListRoute = backStackEntry.toRoute()
+    composable<Route.AllBook> { backStackEntry ->
+       // val routeObj: Route.AllBook = backStackEntry.toRoute()
         BookListScreen(
-            examId = routeObj.targetExamId,
-            onNavigateToBook = { bookId: String ->
-                navController.navigate(route = BookDetailRoute(bookId))
+            onNavigateToBook = { bookId: Int ->
+                navController.navigate(route = Route.BookDetail(bookId))
             },
         )
     }
-    composable<BookDetailRoute> { backStackEntry ->
-        val routeObj: BookDetailRoute = backStackEntry.toRoute()
+    composable<Route.BookDetail> { backStackEntry ->
+        val routeObj: Route.BookDetail = backStackEntry.toRoute()
         BookDetailScreen(
             bookId = routeObj.bookId,
             addToCart = { TODO() },

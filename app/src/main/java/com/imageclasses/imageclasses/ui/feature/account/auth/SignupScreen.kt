@@ -23,10 +23,8 @@ import androidx.navigation.NavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.auth.FirebaseAuth
 import com.imageclasses.imageclasses.controllers.RealtimeDb
-
-import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
-
 import java.util.*
 
 @Serializable
@@ -313,9 +311,9 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                                         entranceExam = selectedExam
                                     ) { success ->
                                         if (success) {
-                                            navController.navigate(DestinationScreen.home.route)
+                                            navController.navigate(Route.MainGraph)
                                         } else {
-                                            navController.navigate(DestinationScreen.auth_signin.route)
+                                            //navController.navigate(Route.Signin)
                                         }
                                     }
 
@@ -352,7 +350,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
 
             TextButton(
                 onClick = {
-                    navController.navigate(DestinationScreen.auth_signin.route)
+                    navController.navigate(Route.SignIn)
                 }
             ) {
                 Text(

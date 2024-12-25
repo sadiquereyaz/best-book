@@ -7,35 +7,25 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
-import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailRoute
-import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusRoute
-import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusScreen
-import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusDialog
-import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusRoute
-import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
+import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.OrderStatusScreen
+import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
-import com.imageclasses.imageclasses.ui.feature.home.HomeScreenRoute
 import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
-import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
+import com.imageclasses.imageclasses.ui.navigation.Route
 import com.imageclasses.imageclasses.ui.util.safeNavigate
-import kotlinx.serialization.Serializable
-
-@Serializable
-object MainAppGraphRoute
 
 
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
-    navigation<MainAppGraphRoute>(
-        startDestination = HomeScreenRoute
+    navigation<Route.MainGraph>(
+        startDestination = Route.Home
     ) {
-        composable<HomeScreenRoute> {
+        composable<Route.Home> {
             HomeScreen(
-                onAllBookSelect = { examId: String -> navController.navigate(AllBookListRoute(examId)) },
-                onNavigateToBook = { bookId: String -> navController.navigate(route = BookDetailRoute(bookId)) },
-                onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
+                onAllBookSelect = { navController.navigate(Route.AllBook()) },
+                onNavigateToBook = { bookId: Int -> navController.navigate(route = Route.BookDetail(bookId)) },
+                onAllQuizSelect = { examId: String -> navController.navigate(Route.AllBook(examId)) },
                // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
                 navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") }
@@ -45,30 +35,29 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         bookGraph(navController)
         quizGraph()
 
-        composable<OrderStatusRoute> { backStackEntry ->
-            val routeObj: BookDetailRoute = backStackEntry.toRoute()
+        composable<Route.OrderStatus> { backStackEntry ->
+            val routeObj: Route.OrderStatus = backStackEntry.toRoute()
             OrderStatusScreen(
                 showPaymentStatus = {
-                    navController.navigate(route = PaymentStatusRoute("DUMMY_ID"))
+                    navController.navigate(route = Route.PaymentDialog)
 
                 }
             )
         }
 
-        dialog<PaymentStatusRoute> {
+        dialog<Route.PaymentDialog> {
             PaymentStatusDialog()
         }
 
-        composable(DestinationScreen.userProfile.route) {
+        composable<Route.Profile> {
             ProfileScreen()
         }
-        composable(DestinationScreen.subscribedEbook.route) {
+        composable<Route.Ebook> {
             SubscribedBookScreen()
         }
-        composable(DestinationScreen.subscribedQuiz.route) {
+        composable<Route.Quiz> {
             SubscribedQuizScreen()
         }
-
         settingsGraph(navController)
     }
 }

@@ -11,14 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,9 +38,6 @@ import com.imageclasses.imageclasses.ui.components.BookTitlePrice
 import com.imageclasses.imageclasses.ui.components.RatingBar
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class BookDetailRoute(val bookId: String)
-
 enum class ButtonType(val btnText: String, val iconId: Int) {
     EBOOK("Buy Ebook", R.drawable.ebook ),
     GO_TO_CART("Go to cart", R.drawable.go_to_cart),
@@ -54,9 +47,9 @@ enum class ButtonType(val btnText: String, val iconId: Int) {
 @Composable
 fun BookDetailScreen(
     modifier: Modifier = Modifier,
-    bookId: String,
+    bookId: Int,
     addToCart: (String) -> Unit,
-    purchaseEbook: (String) -> Unit,
+    purchaseEbook: (Int) -> Unit,
     isEbook: Boolean = true,
     onNavigateToCart: () -> Unit = {},
     btnType: ButtonType = ButtonType.ADD_TO_CART,
@@ -197,7 +190,7 @@ fun ProductDetail(modifier: Modifier, headText: String = "head", tailText: Strin
 fun BookDetailScreenPreview() {
     BookDetailScreen(
         modifier = Modifier,
-        bookId = "sampleBookId",
+        bookId = 123,
         addToCart = { /* No-op for preview */ },
         purchaseEbook = { /* No-op for preview */ },
         isEbook = true,
