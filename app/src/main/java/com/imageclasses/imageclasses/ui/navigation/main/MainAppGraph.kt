@@ -13,13 +13,12 @@ import com.imageclasses.imageclasses.ui.feature.bookDetail.OrderStatusScreen
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.bookDetail.PaymentStatusRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.AllBookListRoute
-import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
-import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.AllQuizListRoute
 import com.imageclasses.imageclasses.ui.util.safeNavigate
 import kotlinx.serialization.Serializable
 
@@ -36,7 +35,9 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId: String -> navController.navigate(route = BookDetailRoute(bookId)) },
                 onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
                // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+                navigateToQuizCategory = { quizId: String -> navController.navigate(
+                    QuizCategoryRoute(quizId)
+                ) },
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") }
             )
         }

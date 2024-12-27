@@ -15,6 +15,7 @@ import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreen
 
 import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreenFromAssets
 import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreenFromUrlDirect
+import com.imageclasses.imageclasses.ui.feature.quiz.MCQScreen
 
 import com.imageclasses.imageclasses.ui.theme.ImageClassesTheme
 import java.io.File
@@ -26,8 +27,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
-                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
+//                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
 //                PdfViewerScreenFromAssets()
+                MCQScreen()
 //                PdfViewerScreen()
 //                PdfViewerScreenFromUrlDirect()
             }

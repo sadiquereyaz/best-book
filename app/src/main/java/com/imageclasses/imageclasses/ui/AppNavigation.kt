@@ -31,6 +31,7 @@ import com.imageclasses.imageclasses.ui.components.ImageClassesTitle
 import com.imageclasses.imageclasses.ui.feature.account.auth.SignUpRoute
 import com.imageclasses.imageclasses.ui.feature.bookList.ProfileRoute
 import com.imageclasses.imageclasses.ui.navigation.AppNavHost
+import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,8 +86,8 @@ fun AppNavigation(modifier: Modifier = Modifier, navController: NavHostControlle
         val isLoggedIn = isLoggedIn()
         LaunchedEffect(isLoggedIn) {
             if (!isLoggedIn) {
-                navController.navigate(SignUpRoute().route) {
-                    popUpTo(SignUpRoute) { inclusive = true }
+                navController.navigate(DestinationScreen.auth_signup.route) {
+                    popUpTo(DestinationScreen.auth_signup.route) { inclusive = true }
                 }
             }
         }

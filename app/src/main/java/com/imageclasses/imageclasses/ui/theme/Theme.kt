@@ -47,6 +47,7 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainer = surfaceContainerLight,
     surfaceContainerHigh = surfaceContainerHighLight,
     surfaceContainerHighest = surfaceContainerHighestLight,
+
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -85,6 +86,7 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainer = surfaceContainerDark,
     surfaceContainerHigh = surfaceContainerHighDark,
     surfaceContainerHighest = surfaceContainerHighestDark,
+
 )
 
 

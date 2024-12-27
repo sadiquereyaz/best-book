@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.ui.feature.quizList
+package com.imageclasses.imageclasses.ui.feature.quiz
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

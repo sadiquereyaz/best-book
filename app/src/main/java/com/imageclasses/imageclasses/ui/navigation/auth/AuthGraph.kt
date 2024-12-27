@@ -15,13 +15,13 @@ import com.imageclasses.imageclasses.ui.navigation.DestinationScreen
 fun NavGraphBuilder.authGraph(navController: NavController) {
     navigation(
         route = DestinationScreen.ots.route,
-        startDestination = SignUpRoute().route
+        startDestination = DestinationScreen.auth_signup.route
     ) {
 
-        composable (route=SignUpRoute().route) {
+        composable (route=DestinationScreen.auth_signup.route) {
             SignUp(navController = navController)
         }
-        composable(route=SignInRoute().route) {
+        composable(route=DestinationScreen.auth_signin.route) {
         SignIn(navController)
         }
     }

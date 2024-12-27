@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,9 +44,8 @@ import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.ui.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
-import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
-import kotlinx.serialization.Serializable
+import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.AllQuizListRoute
 
 data class CardColors(
     val backgroundColor: Color,

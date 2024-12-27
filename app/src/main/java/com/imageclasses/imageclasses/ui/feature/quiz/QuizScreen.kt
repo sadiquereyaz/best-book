@@ -13,9 +13,9 @@ data class QuizRoute(val quizId: String, val categoryId:String)
 @Composable
 fun QuizScreen(
         modifier: Modifier = Modifier,
-        quizId: String,
-        categoryId: String
+//        quizId: String,
+//        categoryId: String
     ){
 
-    Text(text = "Quiz Screen: $quizId , $categoryId")
+
 }
