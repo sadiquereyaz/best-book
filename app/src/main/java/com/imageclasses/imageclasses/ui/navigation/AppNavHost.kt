@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.imageclasses.imageclasses.auth.FirebaseAuth
 import com.imageclasses.imageclasses.ui.navigation.auth.authGraph
 import com.imageclasses.imageclasses.ui.navigation.main.mainAppGraph
 import kotlinx.serialization.Serializable

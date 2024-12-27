@@ -10,7 +10,7 @@ import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
 import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.OrderStatusScreen
 import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
-import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.Route
@@ -19,7 +19,7 @@ import com.imageclasses.imageclasses.ui.util.safeNavigate
 
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
-        startDestination = Route.Cart()   //TODO
+        startDestination = Route.Cart()  //TODO
         //Route.Home
     ) {
         composable<Route.Home> {
@@ -28,7 +28,9 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId: Int -> navController.navigate(route = Route.BookDetail(bookId)) },
                 onAllQuizSelect = { examId: String -> navController.navigate(Route.AllBook(examId)) },
                // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+                navigateToQuizCategory = { quizId: String -> navController.navigate(
+                    QuizCategoryRoute(quizId)
+                ) },
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") }
             )
         }

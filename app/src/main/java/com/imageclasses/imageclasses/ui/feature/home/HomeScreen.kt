@@ -44,8 +44,8 @@ import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.ui.components.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
-import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.AllQuizListRoute
+import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
 
 data class CardColors(
     val backgroundColor: Color,
@@ -248,7 +248,7 @@ fun Preview(
             onBannerClick = {
                 //navController.safeNavigate("DUMMY_ROUTE")
             },
-            navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
+            navigateToQuizCategory = {  },
             onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
         )
     }
