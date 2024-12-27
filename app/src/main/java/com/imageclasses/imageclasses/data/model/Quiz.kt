@@ -11,7 +11,7 @@ fun getQuestionList(): List<Quiz> {
             question = "What is the capital of India?",
             options = listOf("Delhi", "Mumbai", "Kolkata", "Chennai"),
             correctAnswerIndex = 0,
-            subject = "General Knowledge"
+            subject = "GK"
         ),
         Quiz(
             question = "What is 5 + 7?",
@@ -95,7 +95,7 @@ fun getQuestionList(): List<Quiz> {
             question = "Who is the first President of India?",
             options = listOf("Mahatma Gandhi", "Jawaharlal Nehru", "Dr. Rajendra Prasad", "Sardar Patel"),
             correctAnswerIndex = 2,
-            subject = "General Knowledge"
+            subject = "GK"
         )
     )
 }

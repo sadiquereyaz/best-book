@@ -4,6 +4,7 @@ package com.imageclasses.imageclasses.ui.feature.quiz
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.imageclasses.imageclasses.ui.theme.backgroundDark
 import kotlinx.serialization.Serializable
 
@@ -45,7 +47,8 @@ data class QuizCategoryRoute(val quizId: String)
 @Composable
 fun QuizCategoryScreen(
     modifier: Modifier = Modifier,
-//    quizId: String
+//    quizId: String,
+//    navController: NavController
 ) {
     val chapter = mutableListOf("");
     repeat(10) {
@@ -69,7 +72,8 @@ fun QuizListCard(index: Int) {
         modifier = Modifier
             .fillMaxWidth()
             .height(90.dp)
-            .padding(8.dp),
+            .padding(8.dp)
+            ,
         shape = RoundedCornerShape(20.dp),
 
         ) {
@@ -85,6 +89,9 @@ fun QuizListCard(index: Int) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
+                    .clickable {
+
+                    }
 
             ) {
 

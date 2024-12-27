@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.imageclasses.imageclasses.ui.AppNavigation
 import com.imageclasses.imageclasses.ui.feature.cart.CartScreen
+import com.imageclasses.imageclasses.ui.feature.quiz.MCQScreen
+import com.imageclasses.imageclasses.ui.feature.quiz.QuizScreen
 import com.imageclasses.imageclasses.ui.theme.ImageClassesTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,9 +18,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
-                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
+//                AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
                 //CartScreen()
+//                MCQScreen()
                 //b()
+                QuizScreen()
 //                PdfViewerScreenFromAssets()
 //                PdfViewerScreen()
 //                PdfViewerScreenFromUrlDirect()

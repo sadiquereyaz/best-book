@@ -21,7 +21,7 @@ import getQuestionList
 
 @Composable
 fun MCQScreen(modifier: Modifier = Modifier, quizList: List<Quiz> = getQuestionList()) {
-    val subjects = listOf("English", "General Knowledge", "Math", "Science")
+    val subjects = listOf("English", "GK", "Math", "Science")
     var selectedTab by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { subjects.size }
     var selectedOption by remember { mutableStateOf<Int?>(null) }

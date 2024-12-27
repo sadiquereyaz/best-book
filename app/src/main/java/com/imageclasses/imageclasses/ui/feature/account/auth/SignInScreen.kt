@@ -40,8 +40,7 @@ import com.imageclasses.imageclasses.auth.FirebaseAuth
 import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class SignInRoute(val title: String ="title")
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
