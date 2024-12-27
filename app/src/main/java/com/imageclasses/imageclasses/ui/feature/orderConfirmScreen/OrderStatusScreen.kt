@@ -2,12 +2,11 @@ package com.imageclasses.imageclasses.ui.feature.orderConfirmScreen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kotlinx.serialization.Serializable
 
 @Composable
-fun OrderStatusScreen(
+fun OrderScreen(
     modifier: Modifier = Modifier,
-    showPaymentStatus: (paymentId: String?) -> Unit
+//    showPaymentStatus: (paymentId: String?) -> Unit
 ){
 
 }

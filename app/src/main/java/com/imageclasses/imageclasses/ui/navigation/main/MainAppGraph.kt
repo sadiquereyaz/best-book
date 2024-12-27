@@ -7,9 +7,8 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
-import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.OrderStatusScreen
-import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
+import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
@@ -19,7 +18,7 @@ import com.imageclasses.imageclasses.ui.util.safeNavigate
 
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
-        startDestination = Route.Cart()  //TODO
+        startDestination = Route.Home  //TODO
         //Route.Home
     ) {
         composable<Route.Home> {
@@ -36,17 +35,8 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         }
 
         bookGraph(navController)
+
         quizGraph()
-
-        composable<Route.OrderStatus> { backStackEntry ->
-            val routeObj: Route.OrderStatus = backStackEntry.toRoute()
-            OrderStatusScreen(
-                showPaymentStatus = {
-                    navController.navigate(route = Route.PaymentDialog)
-
-                }
-            )
-        }
 
         dialog<Route.PaymentDialog> {
             PaymentStatusDialog()

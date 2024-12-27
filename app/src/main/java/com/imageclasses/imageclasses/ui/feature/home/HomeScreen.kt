@@ -21,13 +21,9 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,16 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.ui.components.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
-import com.imageclasses.imageclasses.ui.feature.quiz.AllQuizListRoute
-import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
 
 data class CardColors(
     val backgroundColor: Color,
@@ -218,38 +208,3 @@ fun QuizCard(card: CustomCard) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun Preview(
-    navController:NavController = rememberNavController()
-
-) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Image Classes") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-            )
-        },
-        bottomBar = {
-            BottomNavigationMenu(
-                navController = rememberNavController()
-            )
-        }
-    ) { it ->
-        HomeScreen(
-            modifier = Modifier.padding(it),
-            onAllBookSelect = {},
-            onNavigateToBook = {},
-            onBannerClick = {
-                //navController.safeNavigate("DUMMY_ROUTE")
-            },
-            navigateToQuizCategory = {  },
-            onAllQuizSelect = { examId: String -> navController.navigate(AllQuizListRoute(examId)) },
-        )
-    }
-}

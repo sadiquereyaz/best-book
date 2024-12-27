@@ -51,7 +51,6 @@ fun BookDetailScreen(
     addToCart: (String) -> Unit,
     purchaseEbook: (Int) -> Unit,
     isEbook: Boolean = true,
-    onNavigateToCart: () -> Unit = {},
     btnType: ButtonType = ButtonType.ADD_TO_CART,
     goToCart: () -> Unit = {}
 ) {
@@ -194,7 +193,6 @@ fun BookDetailScreenPreview() {
         addToCart = { /* No-op for preview */ },
         purchaseEbook = { /* No-op for preview */ },
         isEbook = true,
-        onNavigateToCart = { /* No-op for preview */ },
         btnType = ButtonType.ADD_TO_CART, // Assuming you have a ButtonType enum
         goToCart = {}
     )

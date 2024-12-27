@@ -1,72 +1,203 @@
 package com.imageclasses.imageclasses.ui.feature.cart
 
-import androidx.collection.mutableIntSetOf
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
 import com.imageclasses.imageclasses.data.model.BookModel
 import com.imageclasses.imageclasses.ui.components.BookTitlePrice
 import com.imageclasses.imageclasses.ui.feature.bookList.BookCoverImage
-import com.imageclasses.imageclasses.ui.theme.backgroundDark
-import com.imageclasses.imageclasses.ui.theme.scrimDark
-import com.imageclasses.imageclasses.ui.theme.surfaceDark
+import com.imageclasses.imageclasses.ui.navigation.Route
+import kotlinx.coroutines.launch
 
 @Composable
 fun CartScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goToBookDetail: (Int) -> Unit,
+    goToAddressScreen: () -> Unit
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        item { CartItem() }
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+            // .fillMaxSize()
+            // .padding(it)
+            // .padding(BottomAppBarDefaults.ContentPadding)
+        ) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 12.dp)
+            ) {
+                items(5) {
+                    CartItem(goToBookDetail = goToBookDetail)
+                }
+                item {
+                    HorizontalDivider()
+                    Text(
+                        "Price Breakup",
+                        modifier = Modifier.padding(12.dp),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    PriceRow(priceTitle = "Price (3 items)", price = 1630)
+                    PriceRow(priceTitle = "Discount (5%)", price =  -815)
+                    PriceRow(
+                        priceTitle = "Delivery Charges",
+                        price = 80,
+                        color = MaterialTheme.colorScheme.secondary,
+                        textDecoration = TextDecoration.LineThrough
+                    )
+                    PriceRow(
+                        modifier = Modifier.padding(top = 8.dp),
+                        priceTitle = "Total Amount",
+                        price = 1211,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+
+                    Spacer(Modifier.height(/*56.dp*/72.dp))
+                }
+            }
+        }
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                // .height(72.dp)
+                .padding(horizontal = 16.dp)
+                .align(Alignment.BottomCenter),
+            elevation = CardDefaults.elevatedCardElevation(),
+
+            ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+//                Spacer(Modifier.weight(1f))
+
+                Column {
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    listState.animateScrollToItem(listState.layoutInfo.totalItemsCount-4)
+                                }
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Total: ", style = MaterialTheme.typography.bodyLarge)
+                        Text("₹1211", style = MaterialTheme.typography.titleMedium)
+                        Icon(Icons.Outlined.Info, "price info", Modifier.size(14.dp))
+                    }
+                }
+                Button(
+                    onClick = {goToAddressScreen()},
+                    modifier = Modifier
+                ) {
+                    Text("Proceed")
+                }
+            }
+        }
     }
 }
 
 @Composable
+fun PriceRow(
+    modifier: Modifier = Modifier,
+    priceTitle: String,
+    price: Int,
+    color: Color = Color.Unspecified,
+    textDecoration: TextDecoration = TextDecoration.None
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(priceTitle)
+        Text(
+            "₹$price",
+            color = color,
+            textDecoration = textDecoration,
+        )
+    }
+}
+
+
+@Composable
 fun CartItem(
     modifier: Modifier = Modifier
-        .fillMaxSize()
+        .fillMaxSize(),
+    goToBookDetail: (Int)->Unit
 
 ) {
-    var count by remember { mutableStateOf(1) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             // .defaultMinSize(minHeight = 300.dp)
-            .padding(16.dp)
+            .padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
     ) {
-        Box() {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -74,10 +205,13 @@ fun CartItem(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                BookCoverImage(Modifier.height(140.dp))
+                BookCoverImage(Modifier.height(140.dp).clickable { goToBookDetail(0) })
                 Column(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxHeight(1f)
+                    //.background(Color.Cyan)
                 ) {
+
                     BookTitlePrice(
                         //modifier = modifier,
                         book = BookModel(),
@@ -85,55 +219,15 @@ fun CartItem(
                         padTop = 0.dp,
                         maxLine = 4
                     )
-                    Row(
-                        modifier = Modifier,
-                        // .height(16.dp)
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        IconButton(
-                            onClick = { count-- },
-                            modifier = Modifier
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        shape = RoundedCornerShape(50)
-                                    ),
-
-                                ) {
-                                Icon(
-                                    ImageVector.vectorResource(R.drawable.remove),
-                                    contentDescription = "remove",
-                                    tint = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
-                        }
-                        Text("$count")
-                        IconButton(
-                            onClick = { count++ },
-                            modifier = Modifier
-                                //.align(Alignment.End)
-                                //.padding(10.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier.background(
-                                    color = MaterialTheme.colorScheme.primary,
-                                    shape = RoundedCornerShape(50)
-                                ),
-
-                                ) {
-                                Icon(
-                                    Icons.Filled.Add,
-                                    "add",
-                                    tint = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
-                        }
-                    }
-
+                    Spacer(modifier = Modifier.height(8.dp))
+                    CountChanger(
+                        ///count = count,
+                        //modifier = modifier.align(Alignment.BottomEnd)
+                    )
                 }
+
             }
+
             IconButton(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
@@ -154,12 +248,53 @@ fun CartItem(
                     )
                 }
             }
-            /*Text(
-                text = "Remove",
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(10.dp)
-            )*/
+
         }
     }
 }
+
+@Composable
+fun CountChanger(
+    // count: Int,
+    modifier: Modifier = Modifier
+) {
+    var count by remember { mutableStateOf(1) }
+    Row(
+        modifier = Modifier
+            .width(64.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Icon(
+            modifier = Modifier
+                .clickable {
+                    if(count>0) count--
+                }
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(50)
+                )
+                .size(18.dp),
+            imageVector = ImageVector.vectorResource(R.drawable.remove),
+            contentDescription = "remove",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+
+        Text("$count")
+        Icon(
+            modifier = Modifier
+                .clickable { count++ }
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(50)
+                )
+                .size(18.dp),
+            imageVector = Icons.Filled.Add,
+            contentDescription = "remove",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+
+    }
+}
+
+

@@ -51,7 +51,7 @@ sealed interface Route {
     data class BookDetail(val bookId: Int, val title: String = "Book Detail") : Route
 
     @Serializable
-    data class AllReview(val bookId: Int, val title: String) : Route
+    data class AllReview(val bookId: Int, val title: String= "Review") : Route
 
     @Serializable
     data class Cart(val title: String = "Your Cart") : Route
@@ -60,7 +60,8 @@ sealed interface Route {
     data class Address(val title: String = "Delivery Address") : Route
 
     @Serializable
-    data class OrderStatus(val orderId: Int, val title: String) : Route
+    data class Order(val orderId: Int = 0, val title: String = "Your Order") : Route
+
 
     @Serializable
     data object PaymentDialog : Route
