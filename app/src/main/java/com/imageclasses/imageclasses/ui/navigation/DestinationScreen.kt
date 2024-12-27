@@ -1,19 +1,119 @@
 package com.imageclasses.imageclasses.ui.navigation
 
-sealed class DestinationScreen(var route: String, val title: String? = null) {
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import kotlinx.serialization.Serializable
 
-    object ots : DestinationScreen("one_time_screen")
-    object intro : DestinationScreen("intro_screen")
-    object auth_signup : DestinationScreen("signup_screen")
-    object auth_signin :DestinationScreen("signin_screen")
-    object mainApp : DestinationScreen("main_app")
+sealed interface Route {
 
-    object home : DestinationScreen(route = "home_screen", title = "Image Classes"){
-        fun createRoute(targetExam: String) = "home_screen/$targetExam"
+    @Serializable
+    data object AuthGraph : Route
+
+    @Serializable
+    data class SignIn(val title: String = "Sign In") : Route
+
+    @Serializable
+    data class SignUp(val title: String = "Sign Up") : Route
+
+    @Serializable
+    data object MainGraph : Route
+
+    @Serializable
+    data object Home : Route
+
+    @Serializable
+    data object Quiz : Route
+
+    @Serializable
+    data object Ebook : Route
+
+    @Serializable
+    data object Profile : Route
+
+    @Serializable
+    data object AllQuiz : Route
+
+    @Serializable
+    data class AllBook(val title: String = "Book Store") : Route
+
+    @Serializable
+    data class BookDetail(val bookId: Int, val title: String = "Book Detail") : Route
+
+    @Serializable
+    data class AllReview(val bookId: Int, val title: String) : Route
+
+    @Serializable
+    data class Cart(val title: String = "Your Cart") : Route
+
+    @Serializable
+    data class Address(val title: String = "Delivery Address") : Route
+
+    @Serializable
+    data class OrderStatus(val orderId: Int, val title: String) : Route
+
+    @Serializable
+    data object PaymentDialog : Route
+}
+
+enum class TopLevelDestination(
+    val label: String,
+    val route: Route,
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector
+) {
+
+    HOME(
+        selectedIcon = Icons.Filled.Home,
+        unSelectedIcon = Icons.Outlined.Home,
+        label = "Home",
+        route = Route.Home
+    ),
+    QUIZ(
+        selectedIcon = Icons.Filled.DateRange,
+        unSelectedIcon = Icons.Outlined.DateRange,
+        label = "Quiz",
+        route = Route.Quiz
+    ),
+    EBOOK(
+        selectedIcon = Icons.Filled.Edit,
+        unSelectedIcon = Icons.Outlined.Edit,
+        label = "E-book",
+        route = Route.Ebook
+    ),
+    PROFILE(
+        selectedIcon = Icons.Filled.Person,
+        unSelectedIcon = Icons.Outlined.Person,
+        label = "Profile",
+        route = Route.Profile
+    ),
+    ;
+
+    companion object {
+        val START_DESTINATION = HOME
+
+        fun fromNavDestination(destination: NavDestination?): TopLevelDestination {
+            return entries.find { dest ->
+                destination?.hierarchy?.any {
+                    it.hasRoute(dest.route::class)
+                } == true
+            } ?: START_DESTINATION
+        }
+
+        fun NavDestination.isTopLevel(): Boolean {
+            return entries.any {
+                hasRoute(it.route::class)
+            }
+        }
     }
-    object subscribedQuiz : DestinationScreen(route = "subscribed_quiz"){
-    }
-    object subscribedEbook : DestinationScreen(route = "subscribed_ebook")
-
-    object userProfile : DestinationScreen("user_profile_screen")
 }

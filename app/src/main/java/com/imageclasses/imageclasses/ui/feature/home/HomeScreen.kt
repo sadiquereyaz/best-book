@@ -42,10 +42,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.imageclasses.imageclasses.R
-import com.imageclasses.imageclasses.ui.BottomNavigationMenu
+import com.imageclasses.imageclasses.ui.components.BottomNavigationMenu
 import com.imageclasses.imageclasses.ui.components.AutoScrollingImagePager
-import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
-import com.imageclasses.imageclasses.ui.feature.quiz.AllQuizListRoute
+import com.imageclasses.imageclasses.ui.feature.quizCategory.QuizCategoryRoute
+import com.imageclasses.imageclasses.ui.feature.quizList.AllQuizListRoute
 
 data class CardColors(
     val backgroundColor: Color,
@@ -79,11 +79,12 @@ data class CustomCard(
     val quizTitle: String = "Exam Name"
 )
 
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
-    onNavigateToBook: (String) -> Unit,
+    onNavigateToBook: (Int) -> Unit,
     onBannerClick: () -> Unit,
     navigateToQuizCategory: (String) -> Unit,
     onAllQuizSelect: (String) -> Unit
@@ -121,7 +122,7 @@ fun HomeScreen(
                 item {
                     Box(
                         modifier = Modifier
-                            .clickable { onNavigateToBook("DUMMY") }
+                            .clickable { onNavigateToBook(0) }
                             .border(
                                 width = 0.5.dp,
                                 shape = RoundedCornerShape(6.dp),

@@ -15,13 +15,12 @@ import kotlinx.serialization.Serializable
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    isLoggedIn: Boolean,
     modifier: Modifier,
     innerPadding: PaddingValues
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) DestinationScreen.mainApp.route else DestinationScreen.ots.route,
+        startDestination = AppNavigation(firebaseAuth = FirebaseAuth()).getStartDestination(),
         modifier = modifier.padding(innerPadding)
     ) {
 
@@ -30,5 +29,14 @@ fun AppNavHost(
 
         // main app nested graph
         mainAppGraph(navController)
+    }
+}
+
+//Dependency Injection (preferred)
+class AppNavigation(private val firebaseAuth: FirebaseAuth) {
+    fun getStartDestination(): Route {
+        val isLoggedIn = firebaseAuth.isUserAlreadyLoggedIn()
+        return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
+       // return Route.BookDetail(3, "ds")
     }
 }

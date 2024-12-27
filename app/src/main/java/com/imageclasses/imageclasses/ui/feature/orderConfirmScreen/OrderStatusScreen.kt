@@ -1,13 +1,8 @@
-package com.imageclasses.imageclasses.ui.feature.bookDetail
+package com.imageclasses.imageclasses.ui.feature.orderConfirmScreen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class OrderStatusRoute(val orderId: String)
-@Serializable
-data class PaymentStatusRoute(val orderId: String)
 
 @Composable
 fun OrderStatusScreen(

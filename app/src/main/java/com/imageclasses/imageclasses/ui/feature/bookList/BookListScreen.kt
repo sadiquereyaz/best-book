@@ -32,25 +32,10 @@ import com.imageclasses.imageclasses.data.model.BookModel
 import com.imageclasses.imageclasses.ui.components.BookTitlePrice
 import kotlinx.serialization.Serializable
 
-/*
-If you need to pass data to a destination, define the route with a class that has parameters.
-* Whenever you need to pass arguments to that destination,
-* you create an instance of your route class,
-* passing the arguments to the class constructor.
-*/
-@Serializable
-data class AllBookListRoute(val targetExamId: String? = null, val title: String = "Book Store")
-
-//For optional arguments, create nullable fields with a default value.
-@Serializable
-data class ProfileRoute(val userId: String? = null)
-
-
 @Composable
 fun BookListScreen(
     modifier: Modifier = Modifier,
-    examId: String?,
-    onNavigateToBook: (String) -> Unit
+    onNavigateToBook: (Int) -> Unit
 ) {
     val listOfBooks = listOf(
         "Book1",
@@ -65,7 +50,9 @@ fun BookListScreen(
     );
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = modifier.fillMaxSize().padding(12.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -78,20 +65,7 @@ fun BookListScreen(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     Column {
-                        Image(
-                            painter = painterResource(id = R.drawable.book1),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier
-                                .aspectRatio(9 / 12f)
-                                .border(
-                                    width = 0.1.dp,
-                                    shape = RoundedCornerShape(8.dp),
-                                    color = Color.Black
-                                )
-                                .clip(shape = RoundedCornerShape(8.dp))
-                            //.padding(start = 4.dp),
-                        )
+                        BookCoverImage(/*modifier*/)
                         //book title and price
                         BookTitlePrice(book=book)
                     }
@@ -99,6 +73,28 @@ fun BookListScreen(
             }
 
         }
+    }
+}
+
+@Composable
+ fun BookCoverImage(
+     modifier: Modifier = Modifier
+ ) {
+   Box(modifier = modifier) {
+        Image(
+            painter = painterResource(id = R.drawable.book1),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = modifier
+                .aspectRatio(9 / 12f)
+                .border(
+                    width = 0.1.dp,
+                    shape = RoundedCornerShape(8.dp),
+                    color = Color.Black
+                )
+                .clip(shape = RoundedCornerShape(8.dp))
+            //.padding(start = 4.dp),
+        )
     }
 }
 
@@ -118,8 +114,7 @@ fun BookListPreview() {
         },
     ) { it ->
         BookListScreen(
-            modifier = Modifier.padding(it),
-            examId = "TODO()"
+            modifier = Modifier.padding(it)
         ) { }
     }
 }
