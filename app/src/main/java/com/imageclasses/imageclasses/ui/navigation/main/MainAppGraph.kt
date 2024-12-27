@@ -19,7 +19,8 @@ import com.imageclasses.imageclasses.ui.util.safeNavigate
 
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
-        startDestination = Route.Home
+        startDestination = Route.Cart()   //TODO
+        //Route.Home
     ) {
         composable<Route.Home> {
             HomeScreen(

@@ -50,7 +50,9 @@ fun BookListScreen(
     );
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = modifier.fillMaxSize().padding(12.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -63,20 +65,7 @@ fun BookListScreen(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     Column {
-                        Image(
-                            painter = painterResource(id = R.drawable.book1),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier
-                                .aspectRatio(9 / 12f)
-                                .border(
-                                    width = 0.1.dp,
-                                    shape = RoundedCornerShape(8.dp),
-                                    color = Color.Black
-                                )
-                                .clip(shape = RoundedCornerShape(8.dp))
-                            //.padding(start = 4.dp),
-                        )
+                        BookCoverImage(/*modifier*/)
                         //book title and price
                         BookTitlePrice(book=book)
                     }
@@ -84,6 +73,28 @@ fun BookListScreen(
             }
 
         }
+    }
+}
+
+@Composable
+ fun BookCoverImage(
+     modifier: Modifier = Modifier
+ ) {
+   Box(modifier = modifier) {
+        Image(
+            painter = painterResource(id = R.drawable.book1),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = modifier
+                .aspectRatio(9 / 12f)
+                .border(
+                    width = 0.1.dp,
+                    shape = RoundedCornerShape(8.dp),
+                    color = Color.Black
+                )
+                .clip(shape = RoundedCornerShape(8.dp))
+            //.padding(start = 4.dp),
+        )
     }
 }
 

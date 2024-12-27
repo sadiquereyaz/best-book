@@ -9,12 +9,10 @@ import com.imageclasses.imageclasses.ui.feature.account.auth.SignUp
 import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object AuthGraphRoute
-
 fun NavGraphBuilder.authGraph(navController: NavController) {
     navigation<Route.AuthGraph>(
-        startDestination = Route.SignIn()
+        startDestination =
+        Route.SignIn()
     ) {
         composable<Route.SignUp> {
             SignUp(navController = navController)

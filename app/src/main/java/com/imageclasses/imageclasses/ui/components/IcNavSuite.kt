@@ -83,10 +83,11 @@ fun IcNavSuite(
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
+                    /*.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
+                )*/,
                 scrollBehavior = scrollBehavior,
                 actions = {
                     // Add buttons dynamically

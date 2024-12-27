@@ -90,8 +90,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun ImageClassesTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    darkTheme: Boolean = /*isSystemInDarkTheme()*/false,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

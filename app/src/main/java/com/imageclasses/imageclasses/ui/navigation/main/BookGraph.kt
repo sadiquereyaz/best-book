@@ -6,9 +6,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.bookDetail.BookDetailScreen
 import com.imageclasses.imageclasses.ui.feature.bookList.BookListScreen
+import com.imageclasses.imageclasses.ui.feature.cart.CartScreen
 import com.imageclasses.imageclasses.ui.navigation.Route
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController) {
+
     composable<Route.AllBook> { backStackEntry ->
        // val routeObj: Route.AllBook = backStackEntry.toRoute()
         BookListScreen(
@@ -26,5 +28,9 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
             //btnType = ButtonType.EBOOK,
             goToCart = {}
         )
+    }
+    composable<Route.Cart> { backStackEntry ->
+        //val routeObj: Route.Cart = backStackEntry.toRoute()
+        CartScreen()
     }
 }
