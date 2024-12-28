@@ -1,9 +1,11 @@
 package com.imageclasses.imageclasses.ui.feature.bookList
 
 
+import android.app.Activity
 import android.app.appsearch.SearchResults
 import android.graphics.Bitmap
 import android.net.Uri
+import android.view.WindowManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -22,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import kotlinx.coroutines.Dispatchers
@@ -261,3 +265,24 @@ fun PdfPage(
 }
 
 
+@Composable
+fun RestrictScreenshot(content: @Composable () -> Unit) {
+    val context = LocalContext.current
+    val window = (context as? Activity)?.window
+    val view = LocalView.current
+
+    DisposableEffect(Unit) {
+        // Enable screenshot restriction
+        window?.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+
+        onDispose {
+            // Remove screenshot restriction when the composable is disposed
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        }
+    }
+
+    content()
+}
