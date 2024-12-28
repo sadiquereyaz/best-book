@@ -158,7 +158,7 @@ fun SignIn(navController: NavController) {
             }
             TextButton(
                 onClick = {
-                    navController.navigate(SignUpRoute())
+                    navController.navigate(Route.SignUp())
                 }
             ) {
                 Text(

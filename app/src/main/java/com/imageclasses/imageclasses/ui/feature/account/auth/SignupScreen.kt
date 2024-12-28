@@ -27,9 +27,6 @@ import com.imageclasses.imageclasses.ui.navigation.Route
 import kotlinx.serialization.Serializable
 import java.util.*
 
-@Serializable
-data class SignUpRoute(val title: String ="title")
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
@@ -350,7 +347,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
 
             TextButton(
                 onClick = {
-                    navController.navigate(Route.SignIn)
+                    navController.navigate(Route.SignIn())
                 }
             ) {
                 Text(

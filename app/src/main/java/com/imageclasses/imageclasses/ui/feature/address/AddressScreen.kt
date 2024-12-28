@@ -66,7 +66,7 @@ fun AddressScreen(
         modifier = modifier.fillMaxSize()
     ) {
         TextButton(
-            onClick = { addNewAddress = true }
+            onClick = { addNewAddress = !addNewAddress }
         ) {
             Row { Icon(Icons.Filled.Add, "add address") }
             Text("Add New Address")
@@ -144,12 +144,14 @@ fun AddressScreen(
                 // placeholder = { Text("Gali 21") }
             )
 
-            Button(
-                modifier = Modifier.fillMaxWidth().padding(18.dp), onClick = {}
-            ) {
-                Text("Deliver here")
-            }
 
+        }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(18.dp), onClick = {}
+        ) {
+            Text("Deliver here")
         }
 
     }

@@ -91,7 +91,7 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.DateRange,
         unSelectedIcon = Icons.Outlined.DateRange,
         label = "Quiz",
-        route = Route.AllQuiz
+        route = Route.SubscribedQuiz
     ),
     EBOOK(
         selectedIcon = Icons.Filled.Edit,
