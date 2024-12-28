@@ -115,7 +115,11 @@ fun MCQScreen(
 
             Spacer(modifier = Modifier.height(6.dp))
             OptionCard(quizList, currentQuestionIndex)
+            BottomBar(
+                onPrevClick = {if(currentQuestionIndex >=1) currentQuestionIndex-- }
+                , onNextClick = {if (currentQuestionIndex < quizList.size - 1) currentQuestionIndex++})
         }
+
     }
 
 
@@ -139,6 +143,7 @@ private fun OptionCard(
                 .fillMaxWidth()
                 .heightIn(min = 100.dp)
                 .padding(8.dp)
+
                 .border(
                     2.dp,
                     color = if (selectedOption == index) Color.Black else MaterialTheme.colorScheme.errorContainer,
@@ -187,14 +192,12 @@ private fun OptionCard(
             }
         }
     }
+
 }
 
 @Composable
 fun BottomBar(onPrevClick: () -> Unit, onNextClick: () -> Unit) {
-    BottomAppBar(
-        containerColor = Color.Transparent, // Make BottomAppBar background transparent
-        contentColor = Color.Black // Set content color (text color)
-    ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround // Distribute cards evenly
@@ -203,19 +206,19 @@ fun BottomBar(onPrevClick: () -> Unit, onNextClick: () -> Unit) {
             var isNextSelected by remember { mutableStateOf(false) }
 
             ClickableCard(text = "Prev", isSelected=isPrevSelected){
-
+                isPrevSelected=!isPrevSelected
                 onPrevClick()
                 isPrevSelected=!isPrevSelected
             }
             ClickableCard(text = "Next", isSelected = isNextSelected ) {
                 // Handle Next click
-
+                isNextSelected=!isNextSelected
                 onNextClick()
                 isNextSelected=!isNextSelected
 
             }
         }
-    }
+
 }
 
 

@@ -170,43 +170,46 @@ fun PdfViewerScreenFromUrlDirect(
     var renderedPages by remember { mutableStateOf<List<Bitmap>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-
+    var show by remember { mutableStateOf(true) }
     Column(
         modifier = modifier.fillMaxSize().padding(top = 64.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedTextField(
-            value = pdfUrl,
-            onValueChange = { pdfUrl = it },
-            label = { Text("Enter PDF URL") },
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {
-                if (pdfUrl.isNotEmpty()) {
-                    IconButton(onClick = { pdfUrl = "" }) {
-                        Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear")
-                    }
-                }
-            }
-        )
+       if(show) {
+           OutlinedTextField(
+               value = pdfUrl,
+               onValueChange = { pdfUrl = it },
+               label = { Text("Enter PDF URL") },
+               modifier = Modifier.fillMaxWidth(),
+               trailingIcon = {
+                   if (pdfUrl.isNotEmpty()) {
+                       IconButton(onClick = { pdfUrl = "" }) {
+                           Icon(imageVector = Icons.Default.Clear, contentDescription = "Clear")
+                       }
+                   }
+               }
+           )
 
-        Button(
-            onClick = {
-                scope.launch {
-                    isLoading = true
-                    try {
-                        renderedPages = fetchAndRenderPdf(pdfUrl, pdfBitmapConverter)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        isLoading = false
-                    }
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Render PDF")
-        }
 
+           Button(
+               onClick = {
+                   show = false
+                   scope.launch {
+                       isLoading = true
+                       try {
+                           renderedPages = fetchAndRenderPdf(pdfUrl, pdfBitmapConverter)
+                       } catch (e: Exception) {
+                           e.printStackTrace()
+                       } finally {
+                           isLoading = false
+                       }
+                   }
+               },
+               modifier = Modifier.fillMaxWidth()
+           ) {
+               Text("Render PDF")
+           }
+       }
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("Loading PDF...")
