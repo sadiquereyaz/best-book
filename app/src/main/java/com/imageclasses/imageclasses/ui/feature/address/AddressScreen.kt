@@ -1,11 +1,13 @@
 package com.imageclasses.imageclasses.ui.feature.address
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -25,7 +29,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -42,13 +45,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.imageclasses.imageclasses.ui.feature.cart.CartScreen
 import com.imageclasses.imageclasses.ui.navigation.Route
-import kotlin.math.min
 
 @Composable
 fun AddressScreen(
     modifier: Modifier = Modifier,
+    goToPayment: () -> Unit,
 ) {
     var addNewAddress by rememberSaveable { mutableStateOf(false) }
     var fullName by rememberSaveable { mutableStateOf("") }
@@ -56,6 +58,8 @@ fun AddressScreen(
     var address by rememberSaveable { mutableStateOf("") }
     var city by rememberSaveable { mutableStateOf("") }
     var state by rememberSaveable { mutableStateOf("") }
+    var expandedTargetYear by remember { mutableStateOf(false) }
+    val entranceExamOptions = listOf("Lucknow", "Aligarh", "Allahabad") // Example entrance exams
 
     val radioOptions = listOf(
         "Block 3, FRK Boys Hostel, Jamia Millia Islamia, 220123, New Delhi, Delhi",
@@ -143,13 +147,31 @@ fun AddressScreen(
                     .fillMaxWidth(),
                 // placeholder = { Text("Gali 21") }
             )
-
+            DropdownMenu(
+                expanded = expandedTargetYear,
+                onDismissRequest = { expandedTargetYear = false },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(120.dp)
+                    .height(40.dp)
+            ) {
+                entranceExamOptions.forEach { selectionOption ->
+                    DropdownMenuItem(
+                        onClick = {
+                            city = selectionOption
+                            expandedTargetYear = false
+                        },
+                        text = { Text(selectionOption.toString()) }
+                    )
+                }
+            }
 
         }
         Button(
+            onClick = goToPayment,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(18.dp), onClick = {}
+                .padding(18.dp)
         ) {
             Text("Deliver here")
         }
@@ -180,7 +202,9 @@ fun Preview(
              )
          }*/
     ) { it ->
-        AddressScreen(Modifier.padding(paddingValues = it))
+        AddressScreen(Modifier.padding(paddingValues = it)) {
+            navController.navigate(Route.Order())
+        }
     }
 }
 

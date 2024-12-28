@@ -59,11 +59,15 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
     composable<Route.Address> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
         AddressScreen (
-
+            goToPayment = {
+                navController.navigate(Route.Order())
+            }
         )
     }
     composable<Route.Order> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
-        OrderScreen()
+        OrderScreen(
+
+        )
     }
 }
