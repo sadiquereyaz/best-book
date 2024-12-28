@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
+import com.imageclasses.imageclasses.ui.feature.bookList.PdfViewerScreenFromUrlDirect
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
 import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
@@ -45,7 +46,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
             ProfileScreen()
         }
         composable<Route.Ebook> {
-            SubscribedBookScreen()
+            PdfViewerScreenFromUrlDirect()
         }
         composable<Route.SubscribedQuiz> {
             SubscribedQuizScreen()
