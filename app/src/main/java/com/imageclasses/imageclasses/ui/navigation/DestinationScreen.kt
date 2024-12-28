@@ -33,7 +33,7 @@ sealed interface Route {
     data object Home : Route
 
     @Serializable
-    data object Quiz : Route
+    data object SubscribedQuiz : Route
 
     @Serializable
     data object Ebook : Route
@@ -43,6 +43,13 @@ sealed interface Route {
 
     @Serializable
     data object AllQuiz : Route
+    @Serializable
+    data class QuizRoute(val title: String = "Quiz", val quizId: Int) : Route
+
+    @Serializable
+    data class QuizSubjectRoute(val title: String = "Category") : Route
+    @Serializable
+    data class MCQRoute(val title: String = "Question") : Route
 
     @Serializable
     data class AllBook(val title: String = "Book Store") : Route
@@ -84,7 +91,7 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.DateRange,
         unSelectedIcon = Icons.Outlined.DateRange,
         label = "Quiz",
-        route = Route.Quiz
+        route = Route.AllQuiz
     ),
     EBOOK(
         selectedIcon = Icons.Filled.Edit,

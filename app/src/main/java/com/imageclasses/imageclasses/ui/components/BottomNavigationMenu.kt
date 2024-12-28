@@ -19,7 +19,6 @@ fun BottomNavigationMenu(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
 
-    var selectedItem = currentBackStackEntry?.destination?.route
     val topLevelDestination = TopLevelDestination.fromNavDestination(currentDestination)
 
     NavigationBar {

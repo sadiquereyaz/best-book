@@ -76,10 +76,10 @@ fun HomeScreen(
     onAllBookSelect: (String) -> Unit,
     onNavigateToBook: (Int) -> Unit,
     onBannerClick: () -> Unit,
-    navigateToQuizCategory: (String) -> Unit,
-    onAllQuizSelect: (String) -> Unit
+    navigateToQuiz: (Int) -> Unit,
+    onAllQuizSelect: (String) -> Unit,
 
-) {
+    ) {
     // Display 4 items
     val pagerState = rememberPagerState(pageCount = { customCardList.size })
 
@@ -164,7 +164,7 @@ fun HomeScreen(
             Text(text = "Question Bank", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             TextButton(
-                onClick = {onAllQuizSelect("DUMMY_ID")}
+                onClick = {}
             ) {
                 Text(text = "View all quiz", style = MaterialTheme.typography.labelLarge)
             }
@@ -179,17 +179,18 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
             items(customCardList) { card ->
-                QuizCard(card)
+                QuizCard(card, onQuizSelect = { navigateToQuiz(0) })
             }
 
         }
     }
 }
 @Composable
-fun QuizCard(card: CustomCard) {
+fun QuizCard(card: CustomCard, onQuizSelect: ()-> Unit) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
+            .clickable { onQuizSelect() }
             .border(
                 width = 2.dp,
                 shape = RoundedCornerShape(6.dp),

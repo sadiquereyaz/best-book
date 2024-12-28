@@ -5,11 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
 import com.imageclasses.imageclasses.ui.feature.account.profile.ProfileScreen
 import com.imageclasses.imageclasses.ui.feature.home.HomeScreen
 import com.imageclasses.imageclasses.ui.feature.orderConfirmScreen.PaymentStatusDialog
-import com.imageclasses.imageclasses.ui.feature.quiz.QuizCategoryRoute
 import com.imageclasses.imageclasses.ui.feature.subscribedEbook.SubscribedBookScreen
 import com.imageclasses.imageclasses.ui.feature.subscribedQuiz.SubscribedQuizScreen
 import com.imageclasses.imageclasses.ui.navigation.Route
@@ -27,16 +25,17 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId: Int -> navController.navigate(route = Route.BookDetail(bookId)) },
                 onAllQuizSelect = { examId: String -> navController.navigate(Route.AllBook(examId)) },
                // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuizCategory = { quizId: String -> navController.navigate(
-                    QuizCategoryRoute(quizId)
+                navigateToQuiz = { quizId: Int -> navController.navigate(
+                    Route.QuizSubjectRoute()
                 ) },
-                onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") }
+                onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") },
+                //onQuizSelect = {navController.navigate(Route.QuizCategoryRoute(it))}
             )
         }
 
         bookGraph(navController)
 
-        quizGraph()
+        quizGraph(navController)
 
         dialog<Route.PaymentDialog> {
             PaymentStatusDialog()
@@ -48,7 +47,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         composable<Route.Ebook> {
             SubscribedBookScreen()
         }
-        composable<Route.Quiz> {
+        composable<Route.SubscribedQuiz> {
             SubscribedQuizScreen()
         }
         settingsGraph(navController)

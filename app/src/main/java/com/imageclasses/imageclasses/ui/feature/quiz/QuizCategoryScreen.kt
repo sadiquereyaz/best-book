@@ -41,12 +41,11 @@ import androidx.navigation.NavController
 import com.imageclasses.imageclasses.ui.theme.backgroundDark
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class QuizCategoryRoute(val quizId: String)
-
 @Composable
 fun QuizCategoryScreen(
     modifier: Modifier = Modifier,
+    moveToMCQ: () -> Unit
+
 //    quizId: String,
 //    navController: NavController
 ) {
@@ -60,16 +59,16 @@ fun QuizCategoryScreen(
     ) {
         LazyColumn(modifier.fillMaxSize()) {
             items(chapter.size) {
-                QuizListCard(it)
+                QuizListCard(it, moveToMCQ)
             }
         }
     }
 }
 
 @Composable
-fun QuizListCard(index: Int) {
+fun QuizListCard(index: Int, moveToMCQ: () -> Unit) {
     Card(
-        modifier = Modifier
+        modifier = Modifier.clickable { moveToMCQ() }
             .fillMaxWidth()
             .height(90.dp)
             .padding(8.dp)
