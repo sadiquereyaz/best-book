@@ -43,7 +43,7 @@ import com.nabssam.bestbook.ui.navigation.Route
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignIn(navController: NavController) {
-    val firebaseAuth = FirebaseAuth()
+    //val firebaseAuth = FirebaseAuth()
     val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
