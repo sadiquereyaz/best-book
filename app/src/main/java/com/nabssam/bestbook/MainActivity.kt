@@ -9,14 +9,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.ui.AppNavigation
-import com.nabssam.bestbook.ui.theme.ImageClassesTheme
+import com.nabssam.bestbook.ui.theme.BestBookTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ImageClassesTheme {
+            BestBookTheme {
                 Surface(tonalElevation = 5.dp) {
                     AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
                     //CartScreen()

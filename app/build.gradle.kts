@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
 
     // Compose and UI Testing
     testImplementation(libs.junit)

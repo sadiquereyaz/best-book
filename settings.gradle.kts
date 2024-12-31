@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Image Classes"
+rootProject.name = "Best Book"
 include(":app")
