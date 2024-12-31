@@ -4,8 +4,17 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
 
-    // Kotlin serialization plugin for type safe routes and navigation arguments
+    // Kotlin serialization plugin for type-safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
+
+    // Hilt plugin for Dependency Injection
+//    id("kotlin-kapt")
+    id("kotlin-kapt")
+  //  id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt)
+//ksp
+   // id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -44,7 +53,7 @@ android {
 }
 
 dependencies {
-
+    // AndroidX core dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,8 +63,14 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
+
+    // Firebase
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.database)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+
+    // Compose and UI Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,19 +78,29 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//    coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
-//firebase auth
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
-    implementation("com.google.firebase:firebase-analytics")
 
-    //navigation
-    implementation(libs.androidx.navigation.compose)
-    // JSON serialization library, works with the Kotlin serialization plugin
-    implementation(libs.kotlinx.serialization.json)
-//    for render pdf from a url
-    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-
-    implementation("androidx.activity:activity-compose:1.8.2")
+    // Coil for image loading
     implementation(libs.coil.compose)
+
+    // JSON Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Retrofit for network calls
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // OkHttp for rendering PDFs from a URL
+    implementation(libs.okhttp)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Hilt dependencies (uses KAPT)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Room dependencies (uses KSP)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }

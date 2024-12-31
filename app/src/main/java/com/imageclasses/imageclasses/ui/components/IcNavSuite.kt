@@ -2,6 +2,8 @@ package com.imageclasses.imageclasses.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -46,7 +48,9 @@ fun IcNavSuite(
     val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            //.safeContentPadding()
+                ,
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {

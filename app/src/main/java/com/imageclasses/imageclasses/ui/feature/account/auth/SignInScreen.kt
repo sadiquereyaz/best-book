@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
@@ -66,7 +67,7 @@ fun SignIn(navController: NavController) {
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors =  OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
@@ -84,13 +85,14 @@ fun SignIn(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = (if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors =  OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
                 focusedLabelColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
+
 
             supportingText = {
                 if (password.length < 6 && password.isNotEmpty()) {

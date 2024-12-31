@@ -6,6 +6,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import bottomNavigationLogic
@@ -21,7 +22,7 @@ fun BottomNavigationMenu(
 
     val topLevelDestination = TopLevelDestination.fromNavDestination(currentDestination)
 
-    NavigationBar {
+    NavigationBar(tonalElevation = 12.dp) {
         TopLevelDestination.entries.forEach { topLevelRoute ->
             val isSelected = topLevelRoute == topLevelDestination
             NavigationBarItem(

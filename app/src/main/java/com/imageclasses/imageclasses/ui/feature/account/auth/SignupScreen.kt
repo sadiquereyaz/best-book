@@ -72,7 +72,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors =  OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
@@ -91,7 +91,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
             visualTransformation = (if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()),
 
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
@@ -139,7 +139,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                 }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors =  OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFFe83337),
                 unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                 focusedTextColor = Color.Black,
@@ -170,7 +170,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                     }
                 },
                 readOnly = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors =  OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFFe83337),
                     unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                     focusedTextColor = Color.Black,
@@ -215,7 +215,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                         }
                     },
                     readOnly = true,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                    colors =  OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color(0xFFe83337),
                         unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                         focusedTextColor = Color.Black,
@@ -257,7 +257,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                         }
                     },
                     readOnly = true,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                    colors =  OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color(0xFFe83337),
                         unfocusedBorderColor = MaterialTheme.colorScheme.tertiaryContainer,
                         focusedTextColor = Color.Black,

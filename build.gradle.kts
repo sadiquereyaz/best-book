@@ -4,4 +4,12 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
+
+    // KSP for Room
+    //id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
+    alias(libs.plugins.ksp) apply false
+
+    // dagger-hilt
+    //id("com.google.dagger.hilt.android") version "2.51.1" apply false
+    alias(libs.plugins.hilt) apply false
 }
