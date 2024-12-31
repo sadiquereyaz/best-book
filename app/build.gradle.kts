@@ -1,12 +1,25 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    // Kotlin serialization plugin for type-safe routes and navigation arguments
+    kotlin("plugin.serialization") version "2.0.21"
+
+    // Hilt plugin for Dependency Injection
+//    id("kotlin-kapt")
+    id("kotlin-kapt")
+    //  id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt)
+//ksp
+    // id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.imageclasses.imageclasses"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.imageclasses.imageclasses"
@@ -40,7 +53,7 @@ android {
 }
 
 dependencies {
-
+    // AndroidX core dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -49,6 +62,16 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
+
+    // Firebase
+//    implementation(libs.firebase.auth.ktx)
+//    implementation(libs.firebase.database)
+//    implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.analytics)
+//    implementation(libs.firebase.auth)
+
+    // Compose and UI Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,4 +79,29 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Coil for image loading
+    implementation(libs.coil.compose)
+
+    // JSON Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Retrofit for network calls
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // OkHttp for rendering PDFs from a URL
+    implementation(libs.okhttp)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Hilt dependencies (uses KAPT)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Room dependencies (uses KSP)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }
