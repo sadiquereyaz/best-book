@@ -65,11 +65,11 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
 
     // Firebase
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.database)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.auth)
+//    implementation(libs.firebase.auth.ktx)
+//    implementation(libs.firebase.database)
+//    implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.analytics)
+//    implementation(libs.firebase.auth)
 
     // Compose and UI Testing
     testImplementation(libs.junit)
