@@ -10,19 +10,19 @@ plugins {
     // Hilt plugin for Dependency Injection
 //    id("kotlin-kapt")
     id("kotlin-kapt")
-  //  id("com.google.dagger.hilt.android")
+    //  id("com.google.dagger.hilt.android")
     alias(libs.plugins.hilt)
 //ksp
-   // id("com.google.devtools.ksp")
+    // id("com.google.devtools.ksp")
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.imageclasses.imageclasses"
+    namespace = "com.nabssam.bestbook"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.imageclasses.imageclasses"
+        applicationId = "com.nabssam.bestbook"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

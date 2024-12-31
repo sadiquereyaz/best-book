@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.imageclasses.imageclasses" />
-                  <option name="mobileSdkAppId" value="1:80046519415:android:6288ce23074a02ecc6c272" />
-                  <option name="projectId" value="imageclasses-960b1" />
-                  <option name="projectNumber" value="80046519415" />
+                  <option name="appId" value="PLACEHOLDER" />
+                  <option name="mobileSdkAppId" value="" />
+                  <option name="projectId" value="" />
+                  <option name="projectNumber" value="" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
