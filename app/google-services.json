@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "365711317440",
+    "project_id": "best-book-8e869",
+    "storage_bucket": "best-book-8e869.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365711317440:android:8dd87d390436a2c2339025",
+        "android_client_info": {
+          "package_name": "com.nabssam.bestbook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWaFb00jJkbEjhrrzLQdUiNcK4-EfzIZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
