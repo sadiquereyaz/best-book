@@ -5,13 +5,15 @@ plugins {
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
+    //firebase
+    alias(libs.plugins.google.gms.google.services)
 
-    // Hilt plugin for Dependency Injection
-//    id("kotlin-kapt")
+    // Hilt
     id("kotlin-kapt")
     //  id("com.google.dagger.hilt.android")
     alias(libs.plugins.hilt)
-//ksp
+
+    //ksp
     // id("com.google.devtools.ksp")
     alias(libs.plugins.ksp)
 }
@@ -62,14 +64,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
-
-    // Firebase
-//    implementation(libs.firebase.auth.ktx)
-//    implementation(libs.firebase.database)
-//    implementation(platform(libs.firebase.bom))
-//    implementation(libs.firebase.analytics)
-//    implementation(libs.firebase.auth)
-
+    implementation(libs.firebase.auth)
     // Compose and UI Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -103,4 +98,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }

@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.auth.FirebaseAuth
 import com.nabssam.bestbook.ui.navigation.Route
 
 
@@ -122,7 +121,7 @@ fun SignIn(navController: NavController) {
         ) {
             Button(
                 onClick = {
-                    firebaseAuth.signIn(email, password, context = context) { success ->
+                   /* firebaseAuth.signIn(email, password, context = context) { success ->
                         if (success) {
                             navController.navigate(Route.MainGraph)
                         } else {
@@ -133,7 +132,7 @@ fun SignIn(navController: NavController) {
                             ).show()
                         }
 
-                    }
+                    }*/
 
                 },
                 enabled = !isDisable,

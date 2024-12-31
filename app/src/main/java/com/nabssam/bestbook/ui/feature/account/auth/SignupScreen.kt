@@ -22,14 +22,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.auth.FirebaseAuth
-import com.nabssam.bestbook.controllers.RealtimeDb
 import com.nabssam.bestbook.ui.navigation.Route
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
-    val db = RealtimeDb()
+    //val db = RealtimeDb()
     val firebaseAuth = FirebaseAuth()
     val context = LocalContext.current
     var email by remember { mutableStateOf("") }
@@ -298,7 +297,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                 onClick = {
                     (
                             firebaseAuth.signUp(email, password, context) { task ->
-                                if (task.isSuccessful) {
+                               /* if (task.isSuccessful) {
                                     db.writeData(
                                         email = email,
                                         phoneNumber = phoneNumber,
@@ -316,7 +315,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                                 } else {
                                     signUpError = task.exception?.message
                                     Toast.makeText(context, signUpError, Toast.LENGTH_SHORT).show()
-                                }
+                                }*/
                             })
 
                 },
