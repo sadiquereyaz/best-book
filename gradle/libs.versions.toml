@@ -16,7 +16,6 @@ navigationRuntimeKtx = "2.8.5"
 coilCompose = "2.7.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
-#ksp = "2.1.0-1.0.29"
 roomCompiler = "2.6.1"
 
 [libraries]
@@ -51,6 +50,5 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 kotlin-kapt = { id = "kotlin-kapt" }

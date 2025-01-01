@@ -5,8 +5,6 @@ plugins {
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
-    //ksp
-   // alias(libs.plugins.ksp)
 
     // Hilt plugin for Dependency Injection
     alias(libs.plugins.kotlin.kapt)
@@ -95,13 +93,12 @@ dependencies {
     // Hilt dependencies (uses KAPT)
     //hilt
     implementation(libs.hilt.android)
+    // annotation processor
     kapt(libs.hilt.android.compiler)
 
-
-// Room dependencies (uses KSP)
+    // Room dependencies (uses KSP)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-  //  ksp(libs.androidx.room.compiler)
 }
 // Allow references to generated code
 kapt {
