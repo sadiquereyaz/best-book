@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.presentation.addnote
+package com.nabssam.bestbook.presentation.addnote
 
 data class StateAddNoteScreen (
     val notesTitle: String = "",

@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses
+package com.nabssam.bestbook
 
 import org.junit.Test
 

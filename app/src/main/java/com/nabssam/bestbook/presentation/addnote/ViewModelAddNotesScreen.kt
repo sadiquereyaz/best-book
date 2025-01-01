@@ -1,6 +1,5 @@
-package com.imageclasses.imageclasses.presentation.addnote
+package com.nabssam.bestbook.presentation.addnote
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 

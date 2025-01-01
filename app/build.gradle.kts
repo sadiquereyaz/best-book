@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,23 +5,20 @@ plugins {
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
+    //ksp
+   // alias(libs.plugins.ksp)
 
     // Hilt plugin for Dependency Injection
-//    id("kotlin-kapt")
-    id("kotlin-kapt")
-    //  id("com.google.dagger.hilt.android")
-    alias(libs.plugins.hilt)
-//ksp
-    // id("com.google.devtools.ksp")
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.android.hilt)
 }
 
 android {
-    namespace = "com.imageclasses.imageclasses"
+    namespace = "com.nabssam.bestbook"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.imageclasses.imageclasses"
+        applicationId = "com.nabssam.bestbook"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -81,7 +77,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Coil for image loading
-    implementation(libs.coil.compose)
+    //implementation(libs.coil.compose)
 
     // JSON Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -91,17 +87,23 @@ dependencies {
     implementation(libs.converter.gson)
 
     // OkHttp for rendering PDFs from a URL
-    implementation(libs.okhttp)
+    // implementation(libs.okhttp)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
     // Hilt dependencies (uses KAPT)
+    //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    // Room dependencies (uses KSP)
+
+// Room dependencies (uses KSP)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+  //  ksp(libs.androidx.room.compiler)
+}
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

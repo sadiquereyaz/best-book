@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses
+package com.nabssam.bestbook
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -15,19 +15,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.imageclasses.imageclasses.presentation.home.ViewModelHomeScreen
-import com.imageclasses.imageclasses.presentation.addnote.AddNoteScreen
-import com.imageclasses.imageclasses.presentation.addnote.AddNotesScreen
-import com.imageclasses.imageclasses.presentation.addnote.ViewModelAddNotesScreen
-import com.imageclasses.imageclasses.presentation.home.HomeScreen
-import com.imageclasses.imageclasses.ui.theme.ImageClassesTheme
+import com.nabssam.bestbook.presentation.addnote.AddNoteScreen
+import com.nabssam.bestbook.presentation.addnote.AddNotesScreen
+import com.nabssam.bestbook.presentation.addnote.ViewModelAddNotesScreen
+import com.nabssam.bestbook.presentation.home.HomeScreen
+import com.nabssam.bestbook.ui.theme.ImageClassesTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var  coffee: Coffee
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ImageClassesTheme {
+                coffee.makeCoffee()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val navController: NavHostController = rememberNavController()
                     NavHost(

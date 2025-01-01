@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.ui.theme
+package com.nabssam.bestbook.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.presentation.addnote
+package com.nabssam.bestbook.presentation.addnote
 
 sealed class EventAddNoteScreen{
     data class NoteTitle(val title:String) : EventAddNoteScreen()

@@ -1,4 +1,4 @@
-package com.imageclasses.imageclasses.presentation.addnote.components
+package com.nabssam.bestbook.presentation.addnote.components
 
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text

@@ -1,6 +1,5 @@
-package com.imageclasses.imageclasses.ui.theme
+package com.nabssam.bestbook.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
