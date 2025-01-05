@@ -5,17 +5,16 @@ plugins {
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
+
+    // Hilt plugin for Dependency Injection
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.android.hilt)
+
     //firebase
     alias(libs.plugins.google.gms.google.services)
 
-    // Hilt
-    id("kotlin-kapt")
-    //  id("com.google.dagger.hilt.android")
-    alias(libs.plugins.hilt)
 
-    //ksp
-    // id("com.google.devtools.ksp")
-    alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -74,8 +73,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Coil for image loading
+    // for image loading from internet
     implementation(libs.coil.compose)
+    implementation(libs.okhttp)
 
     // JSON Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -84,22 +84,25 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    // OkHttp for rendering PDFs from a URL
-    implementation(libs.okhttp)
-
     // Navigation
     implementation(libs.androidx.navigation.compose)
-
-    // Hilt dependencies (uses KAPT)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 
     // Room dependencies (uses KSP)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Hilt dependencies (uses KAPT)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    // annotation processor
+    kapt(libs.hilt.android.compiler)
+
+}
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

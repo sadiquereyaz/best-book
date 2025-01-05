@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.ui.AppNavigation
-import com.nabssam.bestbook.ui.theme.BestBookTheme
+import com.nabssam.bestbook.presentation.BestBookApp
+import com.nabssam.bestbook.presentation.theme.BestBookTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BestBookTheme {
                 Surface(tonalElevation = 5.dp) {
-                    AppNavigation(modifier = Modifier.fillMaxSize()) // Your app navigation
+                    BestBookApp(modifier = Modifier.fillMaxSize()) // Your app navigation
                     //CartScreen()
 //                MCQScreen()
                     //b()
