@@ -47,7 +47,9 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideBookApi(retrofit: Retrofit): BookApi {
-        return retrofit.create(BookApi::class.java)
+        return retrofit.create(
+            BookApi::class.java
+        )
     }
 
     @Provides
