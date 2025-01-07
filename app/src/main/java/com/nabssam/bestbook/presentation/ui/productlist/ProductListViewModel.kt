@@ -2,13 +2,14 @@ package com.nabssam.bestbook.presentation.ui.productlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.domain.model.Product
+import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductsUseCase
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +19,8 @@ class ProductListViewModel @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<ProductListState>(ProductListState())
-    val state: StateFlow<ProductListState> = _state
+    private val _state = MutableStateFlow<Resource<List<Book>>>(Resource.Loading())
+    val uiState: StateFlow<Resource<List<Book>>> = _state
 
     init {
 //        loadProducts()
@@ -28,8 +29,16 @@ class ProductListViewModel @Inject constructor(
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            getProductsUseCase().collect { resource ->
-                when (resource) {
+            getProductsUseCase()
+                .catch { e ->
+                    _state.value = Resource.Error(e.message ?: "An unexpected error occurred")
+                }
+                .collect { resource ->
+                    _state.value = resource
+                }
+            /*getProductsUseCase().collect { resource ->
+                _state.value = resource
+                *//*when (resource) {
                     is Resource.Loading -> {
                         _state.value = _state.value.copy(isLoading = true)
                     }
@@ -48,9 +57,8 @@ class ProductListViewModel @Inject constructor(
                             error = resource.message ?: "An unexpected error occurred"
                         )
                     }
-                }
-            }
-
+                }*//*
+            }*/
         }
     }
 
@@ -76,19 +84,19 @@ class ProductListViewModel @Inject constructor(
         }
     }*/
 
-    fun addToCart(productId: String, quantity: Int = 1) {
-        viewModelScope.launch {
-            try {
-                addToCartUseCase(productId, quantity)
-                // Show success message or handle UI update
-            } catch (e: Exception) {
-                // Handle error
-                _state.value = _state.value.copy(
-                    error = e.message ?: "Failed to add item to cart"
-                )
-            }
-        }
-    }
+//    fun addToCart(productId: String, quantity: Int = 1) {
+//        viewModelScope.launch {
+//            try {
+//                addToCartUseCase(productId, quantity)
+//                // Show success message or handle UI update
+//            } catch (e: Exception) {
+//                // Handle error
+//                _state.value = _state.value.copy(
+//                    error = e.message ?: "Failed to add item to cart"
+//                )
+//            }
+//        }
+//    }
 
     fun retry() {
        // loadProducts()
@@ -97,7 +105,7 @@ class ProductListViewModel @Inject constructor(
 }
 
 data class ProductListState(
-    val products: List<Product> = emptyList(),
+    val books: List<Book> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
 )

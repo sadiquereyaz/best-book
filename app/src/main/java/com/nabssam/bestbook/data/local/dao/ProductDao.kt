@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.data.local.dao
 
-import com.nabssam.bestbook.data.local.entity.ProductEntity
+import com.nabssam.bestbook.data.local.entity.BookEntity
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -11,17 +11,17 @@ import androidx.room.Query
 interface ProductDao {
 
     @Query("SELECT * FROM products WHERE id = :productId")
-    suspend fun getProductById(productId: String): ProductEntity?
+    suspend fun getProductById(productId: String): BookEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertProduct(product: ProductEntity)
+    suspend fun insertProduct(product: BookEntity)
 
     @Query("DELETE FROM products")
     suspend fun clearProducts()
 
 
     @Query("SELECT * FROM products")
-    suspend fun getAllProducts(): List<ProductEntity>
+    suspend fun getAllProducts(): List<BookEntity>
 
     @Query("SELECT EXISTS(SELECT 1 FROM products WHERE id = :productId)")
     suspend fun exists(productId: String): Boolean

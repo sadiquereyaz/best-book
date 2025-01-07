@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,7 +33,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,102 +50,124 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookCoverImage
+import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
+import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 import kotlinx.coroutines.launch
 
 @Composable
 fun CartScreen(
     modifier: Modifier = Modifier,
-    goToBookDetail: (Int) -> Unit,
-    goToAddressScreen: () -> Unit
+    goToBookDetail: (String) -> Unit,
+    goToAddressScreen: () -> Unit,
+    vm: VMCart
 ) {
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 12.dp)
-            ) {
-                items(5) {
-                    CartItem(goToBookDetail = goToBookDetail)
-                }
-                item {
-                    HorizontalDivider()
-                    Text(
-                        "Price Breakup",
-                        modifier = Modifier.padding(12.dp),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    PriceRow(priceTitle = "Price (3 items)", price = 1630)
-                    PriceRow(priceTitle = "Discount (5%)", price =  -815)
-                    PriceRow(
-                        priceTitle = "Delivery Charges",
-                        price = 80,
-                        color = MaterialTheme.colorScheme.secondary,
-                        textDecoration = TextDecoration.LineThrough
-                    )
-                    PriceRow(
-                        modifier = Modifier.padding(top = 8.dp),
-                        priceTitle = "Total Amount",
-                        price = 1211,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+    val uiState by vm.uiState.collectAsState()
 
-                    Spacer(Modifier.height(/*56.dp*/72.dp))
-                }
-            }
+    when (uiState) {
+        is CartUiState.Loading -> {
+            FullScreenProgressIndicator(modifier = modifier)
         }
-        ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                // .height(72.dp)
-                .padding(horizontal = 16.dp)
-                .align(Alignment.BottomCenter),
-            elevation = CardDefaults.elevatedCardElevation(),
 
-            ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-//                Spacer(Modifier.weight(1f))
+        is CartUiState.Error -> {
+            val error = (uiState as CartUiState.Error).message
+            ErrorScreen(
+                message = error,
+                modifier = modifier,
+                onRetry = { vm.fetchAllCartItems() }
+            )
+        }
 
-                Column {
-                    Row(
+        is CartUiState.Idle -> {
+            val cartItems = (uiState as CartUiState.Idle).cartItems
+            Box(
+                modifier = modifier.fillMaxSize()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    LazyColumn(
+                        state = listState,
                         modifier = Modifier
-                            .clickable {
-                                scope.launch {
-                                    listState.animateScrollToItem(listState.layoutInfo.totalItemsCount-4)
-                                }
-                            },
-                        verticalAlignment = Alignment.CenterVertically
+                            .fillMaxSize()
+                            .padding(top = 12.dp)
                     ) {
-                        Text("Total: ", style = MaterialTheme.typography.bodyLarge)
-                        Text("₹1211", style = MaterialTheme.typography.titleMedium)
-                        Icon(Icons.Outlined.Info, "price info", Modifier.size(14.dp))
+                        items(cartItems) {
+                            CartItem(goToBookDetail = goToBookDetail)
+                        }
+                        item {
+                            HorizontalDivider()
+                            Text(
+                                "Price Breakup",
+                                modifier = Modifier.padding(12.dp),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            PriceRow(priceTitle = "Price (3 items)", price = 1630)
+                            PriceRow(priceTitle = "Discount (5%)", price = -815)
+                            PriceRow(
+                                priceTitle = "Delivery Charges",
+                                price = 80,
+                                color = MaterialTheme.colorScheme.secondary,
+                                textDecoration = TextDecoration.LineThrough
+                            )
+                            PriceRow(
+                                modifier = Modifier.padding(top = 8.dp),
+                                priceTitle = "Total Amount",
+                                price = 1211,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+
+                            Spacer(Modifier.height(/*56.dp*/72.dp))
+                        }
                     }
                 }
-                Button(
-                    onClick = {goToAddressScreen()},
+                ElevatedCard(
                     modifier = Modifier
-                ) {
-                    Text("Proceed")
+                        .fillMaxWidth()
+                        // .height(72.dp)
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.BottomCenter),
+                    elevation = CardDefaults.elevatedCardElevation(),
+                    ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+//                Spacer(Modifier.weight(1f))
+
+                        Column {
+                            Row(
+                                modifier = Modifier
+                                    .clickable {
+                                        scope.launch {
+                                            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 4)
+                                        }
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text("Total: ", style = MaterialTheme.typography.bodyLarge)
+                                Text("₹1211", style = MaterialTheme.typography.titleMedium)
+                                Icon(Icons.Outlined.Info, "price info", Modifier.size(14.dp))
+                            }
+                        }
+                        Button(
+                            onClick = { goToAddressScreen() },
+                            modifier = Modifier
+                        ) {
+                            Text("Proceed")
+                        }
+                    }
                 }
             }
+
         }
     }
 }
@@ -175,7 +200,7 @@ fun PriceRow(
 fun CartItem(
     modifier: Modifier = Modifier
         .fillMaxSize(),
-    goToBookDetail: (Int)->Unit
+    goToBookDetail: (String) -> Unit
 
 ) {
     Card(
@@ -194,7 +219,12 @@ fun CartItem(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                BookCoverImage(modifier = Modifier.height(140.dp).clickable { goToBookDetail(0) }, "")
+                BookCoverImage(
+                    modifier = Modifier
+                        .height(140.dp)
+                        .clickable { goToBookDetail("0") },
+                    ""
+                )
                 Column(
                     modifier = Modifier
                         .fillMaxHeight(1f)
@@ -203,7 +233,6 @@ fun CartItem(
 
                     BookTitlePrice(
                         //modifier = modifier,
-                        book = Book(),
                         addToFontSize = 4,
                         padTop = 0.dp,
                         maxLine = 4
@@ -244,10 +273,9 @@ fun CartItem(
 
 @Composable
 fun CountChanger(
-    // count: Int,
     modifier: Modifier = Modifier
 ) {
-    var count by remember { mutableStateOf(1) }
+    var count by remember { mutableIntStateOf(1) }
     Row(
         modifier = Modifier
             .width(64.dp),
@@ -257,7 +285,7 @@ fun CountChanger(
         Icon(
             modifier = Modifier
                 .clickable {
-                    if(count>0) count--
+                    if (count > 0) count--
                 }
                 .background(
                     color = MaterialTheme.colorScheme.primary,

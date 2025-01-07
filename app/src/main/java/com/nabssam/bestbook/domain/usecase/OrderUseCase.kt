@@ -21,11 +21,11 @@ class PlaceOrderUseCase @Inject constructor(
             throw ValidationException("Cart is empty")
         }
 
-        val totalAmount = cartItems.sumOf { it.quantity * it.product.price }
+        val totalAmount = cartItems.sumOf { it.quantity * it.book.price }
 
         val order =
             orderRepository.placeOrder(/*cartItems*/listOf(OrderItem("sd", "hdfid", 3, 43.3)),  // TODO: convert cartItem to order item
-                totalAmount
+                totalAmount.toDouble()
             )
         cartRepository.clearCart()
 

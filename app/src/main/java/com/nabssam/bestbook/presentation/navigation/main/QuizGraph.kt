@@ -28,7 +28,8 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
         QuizSubjectScreen(
 //            quizId = routeObj.quizId,
 //            categoryId = routeObj.categoryId,
-            moveToMCQ = {navController.navigate(Route.MCQRoute())
+            moveToMCQ = {
+                navController.navigate(Route.MCQRoute())
 
             }
         )

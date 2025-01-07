@@ -7,11 +7,11 @@ import com.nabssam.bestbook.data.local.dao.CategoryDao
 import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.local.entity.CategoryEntity
-import com.nabssam.bestbook.data.local.entity.ProductEntity
+import com.nabssam.bestbook.data.local.entity.BookEntity
 
 @Database(
-    entities = [ProductEntity::class, CategoryEntity::class, CartItemEntity::class],
-    version = 1,
+    entities = [BookEntity::class, CategoryEntity::class, CartItemEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

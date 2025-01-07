@@ -2,7 +2,7 @@ package com.nabssam.bestbook.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductDto(
+data class BookDto(
     @SerializedName("id") val id: String,
     @SerializedName("title") val name: String,
     @SerializedName("description") val description: String,
@@ -10,7 +10,6 @@ data class ProductDto(
     @SerializedName("image") val image: String,
     @SerializedName("category") val category: String,
     @SerializedName("rating") val rating: Rate,
-//    @SerializedName("stock") val stock: Int
 )
 
 data class Rate(

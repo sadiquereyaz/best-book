@@ -76,7 +76,7 @@ fun HomeScreen(
     state: StateHomeScreen,
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
-    onNavigateToBook: (Int) -> Unit,
+    onNavigateToBook: (String) -> Unit,
     onBannerClick: () -> Unit,
     navigateToQuiz: (Int) -> Unit,
     onAllQuizSelect: (String) -> Unit,
@@ -116,7 +116,7 @@ fun HomeScreen(
             items(state.fetchedBooks!!) {
                 Box(
                     modifier = Modifier
-                        .clickable { onNavigateToBook(it.bookId) }
+                        .clickable { onNavigateToBook(it.id) }
                         .border(
                             width = 0.5.dp,
                             shape = RoundedCornerShape(6.dp),
@@ -127,7 +127,7 @@ fun HomeScreen(
                 ) {
                     AsyncImage(
                         //painter = painterResource(id = R.drawable.book1),
-                        model = it.image[0],
+                        model = it.imageUrls[0],
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier

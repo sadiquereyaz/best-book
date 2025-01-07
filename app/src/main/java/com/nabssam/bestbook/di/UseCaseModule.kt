@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.di
 
+import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.ProductRepository
@@ -38,9 +39,10 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideSearchProductsUseCase(
-        repository: ProductRepository
+        repository: ProductRepository,
+        mapper: BookMapper
     ): SearchProductsUseCase {
-        return SearchProductsUseCase(repository)
+        return SearchProductsUseCase(repository, mapper)
     }
 
    /* @Provides

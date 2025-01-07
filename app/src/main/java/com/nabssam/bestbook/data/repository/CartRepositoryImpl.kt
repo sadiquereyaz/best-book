@@ -3,7 +3,7 @@ package com.nabssam.bestbook.data.repository
 import com.nabssam.bestbook.data.local.dao.CartDao
 import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.data.mapper.ProductMapper
+import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao,
     private val productDao: ProductDao,
-    private val mapper: ProductMapper
+    private val mapper: BookMapper
 ) : CartRepository {
 
     override suspend fun addToCart(productId: String, quantity: Int) {
@@ -23,10 +23,12 @@ class CartRepositoryImpl @Inject constructor(
         }
 
         // Check if product exists
+/*
         val productExists = productDao.exists(productId)
         if (!productExists) {
             throw IllegalArgumentException("Product not found")
         }
+*/
 
         // Check if product is already in cart
         val existingItem = cartDao.getCartItem(productId)
@@ -61,7 +63,7 @@ class CartRepositoryImpl @Inject constructor(
                 CartItem(
                     productId = cartWithProduct.cartItem.productId,
                     quantity = cartWithProduct.cartItem.quantity,
-                    product = mapper.entityToDomain(cartWithProduct.product)
+                    book = mapper.entityToDomain(cartWithProduct.product)
                 )
             }
         }

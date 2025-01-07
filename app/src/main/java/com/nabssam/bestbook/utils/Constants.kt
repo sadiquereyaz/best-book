@@ -8,4 +8,7 @@ object Constants {
         //"http://10.57.3.61:3000" // Replace with your API base URL
         "https://fakestoreapi.com"
 
+
+    const val ECOMMERCE_LINK1 = "https://github.com/mustfaunlu/Ecommerce-Compose/blob/master/app/src/main/java/com/mustafaunlu/ecommerce_compose/ui/Error.kt"
+    const val ECOMMERCE_LINK2 = "https://github.com/devAchint/ShopKaro/tree/master"
 }

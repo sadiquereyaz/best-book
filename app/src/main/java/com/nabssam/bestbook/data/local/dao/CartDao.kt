@@ -1,9 +1,8 @@
 package com.nabssam.bestbook.data.local.dao
 
-import com.nabssam.bestbook.data.local.entity.ProductEntity
+import com.nabssam.bestbook.data.local.entity.BookEntity
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Embedded
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -20,7 +19,7 @@ data class CartWithProduct(
         parentColumn = "productId",
         entityColumn = "id"
     )
-    val product: ProductEntity
+    val product: BookEntity
 )
 
 @Dao

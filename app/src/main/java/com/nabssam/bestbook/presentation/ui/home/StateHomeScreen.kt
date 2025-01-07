@@ -1,8 +1,8 @@
 package com.nabssam.bestbook.presentation.ui.home
 
-import Quiz
 import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.domain.model.Quiz
 
 data class StateHomeScreen(
 

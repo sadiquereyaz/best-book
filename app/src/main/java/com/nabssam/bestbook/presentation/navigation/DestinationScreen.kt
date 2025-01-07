@@ -42,8 +42,6 @@ sealed interface Route {
     data object Profile : Route
 
     @Serializable
-    data object AllQuiz : Route
-    @Serializable
     data class QuizRoute(val title: String = "Quiz", val quizId: Int) : Route
 
     @Serializable
@@ -52,22 +50,22 @@ sealed interface Route {
     data class MCQRoute(val title: String = "Question") : Route
 
     @Serializable
-    data class AllBook(val title: String = "Book Store") : Route
+    data class AllBookRoute(val title: String = "Book Store") : Route
 
     @Serializable
-    data class BookDetail(val bookId: Int, val title: String = "Book Detail") : Route
+    data class ProductDetailRoute(val id: String, val title: String = "Book Detail") : Route
 
     @Serializable
-    data class AllReview(val bookId: Int, val title: String= "Review") : Route
+    data class AllReviewRoute(val bookId: Int, val title: String= "Review") : Route
 
     @Serializable
-    data class Cart(val title: String = "Your Cart") : Route
+    data class CartRoute(val title: String = "Your Cart") : Route
 
     @Serializable
-    data class Address(val title: String = "Delivery Address") : Route
+    data class AddressRoute(val title: String = "Delivery Address") : Route
 
     @Serializable
-    data class Order(val orderId: Int = 0, val title: String = "Your Order") : Route
+    data class OrderRoute(val orderId: Int = 0, val title: String = "Your Order") : Route
 
 
     @Serializable

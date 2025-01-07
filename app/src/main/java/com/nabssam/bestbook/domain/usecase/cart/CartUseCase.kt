@@ -11,10 +11,10 @@ class AddToCartUseCase @Inject constructor(
     private val cartRepository: CartRepository,
     private val productRepository: ProductRepository
 ) {
-    suspend operator fun invoke(productId: String, quantity: Int) {
+    suspend operator fun invoke(productId: String, quantity: Int = 1) {
         validateAddToCart(productId, quantity)
-        val product = productRepository.getProductById(productId) 
-            ?: throw ValidationException("Product not found")
+       /* val product = productRepository.getProductById(productId)
+            ?: throw ValidationException("Product not found")*/
         cartRepository.addToCart(productId, quantity)
     }
 

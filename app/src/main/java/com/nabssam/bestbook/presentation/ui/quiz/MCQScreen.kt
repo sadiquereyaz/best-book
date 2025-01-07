@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.quiz
 
 
-import Quiz
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import getQuestionList
+import com.nabssam.bestbook.domain.model.Quiz
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
@@ -48,7 +47,7 @@ data class QuizRoute(val quizId: String, val categoryId: String)
 fun MCQScreen(
     modifier: Modifier = Modifier
 ) {
-    val quizList = getQuestionList()
+   /* val quizList = getQuestionList()
     var currentQuestionIndex by remember { mutableStateOf(0) }
 
     var correctAnswers by remember { mutableStateOf(0) }
@@ -117,7 +116,7 @@ fun MCQScreen(
                 onPrevClick = {if(currentQuestionIndex >=1) currentQuestionIndex-- }
                 , onNextClick = {if (currentQuestionIndex < quizList.size - 1) currentQuestionIndex++})
         }
-
+*/
     }
 
 

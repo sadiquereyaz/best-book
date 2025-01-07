@@ -10,3 +10,5 @@ sealed class EventAddNoteScreen{
     data class SaveNote(val notes: Notes): EventAddNoteScreen()
 }
 */
+
+// https://www.youtube.com/watch?v=TzV0oCRDNfM&pp=ygUWc2VhbGVzIHVpIHN0YXRlYW5kcm9pZA%3D%3D

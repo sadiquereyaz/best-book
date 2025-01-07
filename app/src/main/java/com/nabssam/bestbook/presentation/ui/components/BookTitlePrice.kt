@@ -15,20 +15,23 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nabssam.bestbook.domain.model.Book
 
 @Composable
 fun BookTitlePrice(
     modifier: Modifier = Modifier,
-    book: Book, addToFontSize: Int = 0,
-    padTop: Dp = 8.dp,
-    maxLine: Int = 2
+    addToFontSize: Int = 0, padTop: Dp = 8.dp,
+    maxLine: Int = 2,
+    discPer: Int = 30,
+    originalPrice: Int = 560,
+    title: String = "AMU Booster"
 ) {
     Column  (modifier = modifier){
+
+        //title
         Text(
             modifier = modifier
                 .padding(top = padTop, bottom = 4.dp),
-            text = book.title,
+            text = title,
             fontSize = (14 + addToFontSize).sp,
             fontWeight = FontWeight.Bold,
             maxLines = maxLine,
@@ -45,7 +48,7 @@ fun BookTitlePrice(
             //discount %
             Text(
                 modifier = Modifier,
-                text = "↓${book.discount}%",
+                text = "↓${discPer}%",
                 fontSize = (16 + addToFontSize).sp,
                 fontWeight = FontWeight.ExtraBold,
                 maxLines = 2,
@@ -56,7 +59,7 @@ fun BookTitlePrice(
             // original price
             Text(
                 modifier = Modifier,
-                text = "₹${book.price}",
+                text = "₹${originalPrice}",
                 fontSize = (14 + addToFontSize).sp,
                 fontWeight = FontWeight.Normal,
                 maxLines = 2,
@@ -67,13 +70,11 @@ fun BookTitlePrice(
             // final price
             Text(
                 modifier = Modifier,
-                text = "₹${book.price - (book.discount * book.price) / 100}",
+                text = "₹${(originalPrice - (discPer * originalPrice) / 100) }",
                 fontSize = (16 + addToFontSize).sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-
-//                            textAlign = TextAlign.Center
             )
 
         }

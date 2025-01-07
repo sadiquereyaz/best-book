@@ -87,9 +87,10 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    // Room dependencies (uses KSP)
+    // Room dependencies (uses KSP/KAPT)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    kapt (libs.androidx.room.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -100,6 +101,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     // annotation processor
     kapt(libs.hilt.android.compiler)
+
+
+    implementation(libs.kotlinx.datetime)
 
 }
 // Allow references to generated code

@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.ProductDetailScreen
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
 import com.nabssam.bestbook.presentation.ui.cart.CartScreen
 import com.nabssam.bestbook.presentation.ui.address.AddressScreen
@@ -15,40 +15,39 @@ import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.ViewModelBookList
 import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.cart.VMCart
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
 
     // Shared ViewModel scoped to the book navigation graph
 //    val sharedViewModel = hiltViewModel<ViewModelBookList>()
 
-    composable<Route.AllBook> { backStackEntry ->
+    composable<Route.AllBookRoute> { backStackEntry ->
        // val routeObj: Route.AllBook = backStackEntry.toRoute()
         val viewModel = hiltViewModel<ViewModelBookList>()
         val state by viewModel.state.collectAsState()
         BookListScreen(
             state = state,
-            onNavigateToBook = { bookId: Int ->
-                navController.navigate(route = Route.BookDetail(bookId))
+            onNavigateToBook = { bookId: String ->
+                navController.navigate(route = Route.ProductDetailRoute(bookId))
             },
         )
     }
-    composable<Route.BookDetail> { backStackEntry ->
+    composable<Route.ProductDetailRoute> { backStackEntry ->
         //val routeObj: Route.BookDetail = backStackEntry.toRoute()
         val viewModel = hiltViewModel<ViewModelBookDetail>()
-        val state by viewModel.state.collectAsState()
-        BookDetailScreen(
-            state  = state,
+        ProductDetailScreen(
+            vm = viewModel,
             //bookId = routeObj.bookId,
-            addToCart = { TODO() },
             purchaseEbook = {},
-            //btnType = ButtonType.EBOOK,
             goToCart = {
-                navController.navigate(Route.Cart())
-            }
+                navController.navigate(Route.CartRoute())
+            },
+            //btnType = ButtonType.EBOOK,
         )
     }
-    composable<Route.AllReview> { backStackEntry ->
-        val routeObj: Route.BookDetail = backStackEntry.toRoute()
+    composable<Route.AllReviewRoute> { backStackEntry ->
+        val routeObj: Route.ProductDetailRoute = backStackEntry.toRoute()
         /*BookDetailScreen(
             bookId = routeObj.bookId,
             addToCart = { TODO() },
@@ -60,26 +59,28 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
             state = state
         )*/
     }
-    composable<Route.Cart> { backStackEntry ->
+    composable<Route.CartRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
+        val vm = hiltViewModel<VMCart>()
         CartScreen(
-            goToBookDetail = { bookId: Int ->
-                navController.navigate(route = Route.BookDetail(bookId))
+            vm = vm,
+            goToBookDetail = { bookId: String ->
+                navController.navigate(route = Route.ProductDetailRoute(bookId))
             },
             goToAddressScreen = {
-                navController.navigate(Route.Address())
+                navController.navigate(Route.AddressRoute())
             }
         )
     }
-    composable<Route.Address> { backStackEntry ->
+    composable<Route.AddressRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
         AddressScreen (
             goToPayment = {
-                navController.navigate(Route.Order())
+                navController.navigate(Route.OrderRoute())
             }
         )
     }
-    composable<Route.Order> { backStackEntry ->
+    composable<Route.OrderRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
         OrderScreen(
 

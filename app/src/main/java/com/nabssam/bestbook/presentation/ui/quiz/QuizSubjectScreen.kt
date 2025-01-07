@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.quiz
 
-import Quiz
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -16,12 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import getQuestionList
+import com.nabssam.bestbook.domain.model.Quiz
 
 @Composable
 fun QuizSubjectScreen(
     modifier: Modifier = Modifier,
-    quizList: List<Quiz> = getQuestionList(),
+//    quizList: List<Quiz> ,
     moveToMCQ: () -> Unit
 ) {
     val subjects = listOf("English", "GK", "Math", "Science")
@@ -172,13 +171,4 @@ fun QuestionCard(
            }
        }
    }
-}
-
-
-@Preview
-@Composable
-private fun MCQScreenPreview() {
-    QuizSubjectScreen(moveToMCQ = {
-
-    })
 }
