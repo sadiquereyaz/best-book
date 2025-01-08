@@ -105,6 +105,9 @@ dependencies {
 
     implementation(libs.kotlinx.datetime)
 
+    implementation (libs.androidx.datastore.preferences)
+
+
 }
 // Allow references to generated code
 kapt {

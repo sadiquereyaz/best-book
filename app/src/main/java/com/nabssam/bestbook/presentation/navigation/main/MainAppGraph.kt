@@ -16,8 +16,6 @@ import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
-import com.nabssam.bestbook.presentation.ui.productdetail.ProductListScreen
-import com.nabssam.bestbook.presentation.ui.productlist.ProductListViewModel
 import com.nabssam.bestbook.utils.safeNavigate
 
 
@@ -35,7 +33,13 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId ->
                     navController.navigate(Route.ProductDetailRoute(bookId))
                 },
-                onAllQuizSelect = { examId: String -> navController.navigate(Route.AllBookRoute(examId)) },
+                onAllQuizSelect = { examId: String ->
+                    navController.navigate(
+                        Route.AllBookRoute(
+                            examId
+                        )
+                    )
+                },
                 // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
                 navigateToQuiz = { quizId: Int ->
                     navController.navigate(
@@ -43,6 +47,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                     )
                 },
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") },
+                event = { event -> viewModel.onEvent(event) }
                 //onQuizSelect = {navController.navigate(Route.QuizCategoryRoute(it))}
             )
         }

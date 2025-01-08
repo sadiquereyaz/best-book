@@ -2,14 +2,14 @@ package com.nabssam.bestbook.domain.usecase.cart
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.domain.repository.CartRepository
-import com.nabssam.bestbook.domain.repository.ProductRepository
+import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AddToCartUseCase @Inject constructor(
     private val cartRepository: CartRepository,
-    private val productRepository: ProductRepository
+    private val bookRepository: BookRepository
 ) {
     suspend operator fun invoke(item: CartItemEntity) {
         //validateAddToCart(item)

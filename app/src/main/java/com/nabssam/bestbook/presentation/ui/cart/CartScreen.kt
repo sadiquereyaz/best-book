@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.cart
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,8 +54,6 @@ import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
-import com.nabssam.bestbook.utils.percentOf
-import com.nabssam.bestbook.utils.totalDiscountPercent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -72,7 +69,7 @@ fun CartScreen(
 
     when (uiState) {
         is CartUiState.Loading -> {
-            FullScreenProgressIndicator(modifier = modifier)
+            FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
         }
 
         is CartUiState.Error -> {

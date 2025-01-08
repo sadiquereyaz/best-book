@@ -1,12 +1,14 @@
 package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.mapper.BookMapper
+import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
-import com.nabssam.bestbook.domain.repository.ProductRepository
+import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
+import com.nabssam.bestbook.domain.usecase.datastore.GetTargetExamUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductsUseCase
 import com.nabssam.bestbook.domain.usecase.product.SearchProductsUseCase
@@ -23,7 +25,7 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetProductDetailsUseCase(
-        repository: ProductRepository
+        repository: BookRepository
     ): GetProductDetailsUseCase {
         return GetProductDetailsUseCase(repository)
     }
@@ -31,7 +33,7 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetProductsUseCase(
-        repository: ProductRepository
+        repository: BookRepository
     ): GetProductsUseCase {
         return GetProductsUseCase(repository)
     }
@@ -39,10 +41,18 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideSearchProductsUseCase(
-        repository: ProductRepository,
+        repository: BookRepository,
         mapper: BookMapper
     ): SearchProductsUseCase {
         return SearchProductsUseCase(repository, mapper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetUserFavoriteCategoryUseCase(
+        userPreferencesRepository: UserPreferencesRepository
+    ): GetTargetExamUseCase {
+        return GetTargetExamUseCase(userPreferencesRepository)
     }
 
    /* @Provides
@@ -65,9 +75,9 @@ object UseCaseModule {
     @Singleton
     fun provideAddToCartUseCase(
         cartRepository: CartRepository,
-        productRepository: ProductRepository
+        bookRepository: BookRepository
     ): AddToCartUseCase {
-        return AddToCartUseCase(cartRepository, productRepository)
+        return AddToCartUseCase(cartRepository, bookRepository)
     }
 
     @Provides

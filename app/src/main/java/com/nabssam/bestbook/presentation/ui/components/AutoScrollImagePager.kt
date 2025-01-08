@@ -17,6 +17,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,14 +40,15 @@ fun AutoScrollingImagePager(
     modifier: Modifier = Modifier,
     height: Dp = 160.dp
 ) {
-    val pagerState = rememberPagerState(pageCount = { imageList.size })
+    val pageCount= imageList.size
+    val pagerState = rememberPagerState(pageCount = { pageCount })
 
     // Auto-scroll logic
     LaunchedEffect(pagerState) {
-        while (autoscroll) {
+        while (autoscroll && pageCount> 1) {
             yield()
             delay(2000) // Change page every 3 seconds
-            val nextPage = (pagerState.currentPage + 1) % imageList.size
+            val nextPage = (pagerState.currentPage + 1) % pageCount
             pagerState.animateScrollToPage(nextPage)
         }
     }

@@ -3,16 +3,14 @@ package com.nabssam.bestbook.di
 import android.content.Context
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
 import com.nabssam.bestbook.data.remote.api.BookApi
-import com.nabssam.bestbook.data.remote.api.ProductApi
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
-import com.nabssam.bestbook.utils.Constants.BASE_URL
+import com.nabssam.bestbook.utils.Constants. BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okio.Timeout
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -45,16 +43,8 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideProductApi(retrofit: Retrofit): ProductApi {
-        return retrofit.create(ProductApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideBookApi(retrofit: Retrofit): BookApi {
-        return retrofit.create(
-            BookApi::class.java
-        )
+    fun provideProductApi(retrofit: Retrofit): BookApi {
+        return retrofit.create(BookApi::class.java)
     }
 
     @Provides

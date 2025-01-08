@@ -45,15 +45,6 @@ data class OrdersListItem(
 
 data class PaymentMethodModel(val icon: Int, val methodName: String)
 
-data class ProductResponse(
-    val category: String,
-    val description: String,
-    val id: Int,
-    val image: String,
-    val price: Double,
-    val rating: Rating,
-    val title: String
-)
 
 data class ShippingDetailModel(
     val name: String="",

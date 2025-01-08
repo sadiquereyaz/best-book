@@ -2,8 +2,6 @@ package com.nabssam.bestbook.presentation.ui.book.bookList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.utils.Resource
-import com.nabssam.bestbook.domain.repository.BookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelBookList @Inject constructor(
-    private val bookRepository: BookRepository
+    //private val bookRepository: BookRepository
 ) : ViewModel() {
 
     init {
@@ -33,7 +31,7 @@ class ViewModelBookList @Inject constructor(
     private fun fetchBooks() {
         viewModelScope.launch {
 
-            if (!internetConnection()) {
+           /* if (!internetConnection()) {
                 _state.value = state.value.copy(error = "No Internet connection")
                 return@launch
             } else {
@@ -60,7 +58,7 @@ class ViewModelBookList @Inject constructor(
                         }
                     }
                 }
-            }
+            }*/
         }
 
     }
