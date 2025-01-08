@@ -11,4 +11,5 @@ object Constants {
 
     const val ECOMMERCE_LINK1 = "https://github.com/mustfaunlu/Ecommerce-Compose/blob/master/app/src/main/java/com/mustafaunlu/ecommerce_compose/ui/Error.kt"
     const val ECOMMERCE_LINK2 = "https://github.com/devAchint/ShopKaro/tree/master"
+    const val cart = "https://github.com/RajuSE/CatsApp-CleanMVVM-Compose/blob/main/app/src/main/java/youtube/devxraju/catsforever/presentation/cart/CartEvent.kt"
 }

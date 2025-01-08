@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.domain.usecase.cart
 
-import com.nabssam.bestbook.domain.model.CartItem
+import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.ProductRepository
 import com.nabssam.bestbook.utils.ValidationException
@@ -11,11 +11,11 @@ class AddToCartUseCase @Inject constructor(
     private val cartRepository: CartRepository,
     private val productRepository: ProductRepository
 ) {
-    suspend operator fun invoke(productId: String, quantity: Int = 1) {
-        validateAddToCart(productId, quantity)
+    suspend operator fun invoke(item: CartItemEntity) {
+        //validateAddToCart(item)
        /* val product = productRepository.getProductById(productId)
             ?: throw ValidationException("Product not found")*/
-        cartRepository.addToCart(productId, quantity)
+        cartRepository.addToCart(item)
     }
 
     private fun validateAddToCart(productId: String, quantity: Int) {
@@ -32,9 +32,6 @@ class RemoveFromCartUseCase @Inject constructor(
     private val repository: CartRepository
 ) {
     suspend operator fun invoke(productId: String) {
-        if (productId.isBlank()) {
-            throw ValidationException("Product ID cannot be empty")
-        }
         repository.removeFromCart(productId)
     }
 }
@@ -43,7 +40,7 @@ class UpdateCartItemQuantityUseCase @Inject constructor(
     private val repository: CartRepository
 ) {
     suspend operator fun invoke(productId: String, quantity: Int) {
-        validateUpdateQuantity(productId, quantity)
+        //validateUpdateQuantity(productId, quantity)
         repository.updateQuantity(productId, quantity)
     }
 
@@ -57,11 +54,11 @@ class UpdateCartItemQuantityUseCase @Inject constructor(
     }
 }
 
-class GetCartItemsUseCase @Inject constructor(
+class GetAllCartItemsUseCase @Inject constructor(
     private val repository: CartRepository
 ) {
-    operator fun invoke(): Flow<List<CartItem>> {
-        return repository.getCartItems()
+    operator fun invoke(): Flow<List<CartItemEntity>> {
+        return repository.getAllCartItems()
     }
 }
 

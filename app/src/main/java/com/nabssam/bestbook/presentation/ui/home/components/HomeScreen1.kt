@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.home
+package com.nabssam.bestbook.presentation.ui.home.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,11 +30,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.nabssam.bestbook.presentation.ui.home.components.QuizCard
-import com.nabssam.bestbook.presentation.ui.home.components.customCardList
+import com.nabssam.bestbook.presentation.ui.home.StateHomeScreen
+
+data class CardColors(
+    val backgroundColor: Color,
+    val onBackgroundColor: Color,
+    val borderColor: Color
+)
+
+enum class CardTheme(val colors: CardColors) {
+    RED(CardColors(Color(0x6FFFB3B3), Color(0xFF000000), Color(0x31FF8080))),
+    GREEN(CardColors(Color(0x6DCCFFCC), Color(0xFF000000), Color(0x3E99FF99))),
+    BLUE(CardColors(Color(0x40CCDDFF), Color(0xFF000000), Color(0x3E6699FF))),
+    YELLOW(CardColors(Color(0x63FFD58F), Color(0xFF000000), Color(0x54FFFF99))),
+    PURPLE(CardColors(Color(0x5CFFCCFF), Color(0xFF000000), Color(0x7EFF99FF)));
+}
+
+val customCardList = listOf<CustomCard>(
+    CustomCard(CardTheme.RED.colors, quizTitle = "AMU XI"),
+    CustomCard(CardTheme.GREEN.colors, quizTitle = "BHU IX"),
+    CustomCard(CardTheme.BLUE.colors, quizTitle = "AMU XI-Com"),
+    CustomCard(CardTheme.YELLOW.colors, quizTitle = "BHU VI"),
+    CustomCard(CardTheme.PURPLE.colors, quizTitle = "JMI XI-Sc"),
+    CustomCard(CardTheme.BLUE.colors, quizTitle = "AMU XI-Dip"),
+    CustomCard(CardTheme.RED.colors, quizTitle = "AMU XI"),
+    CustomCard(CardTheme.GREEN.colors, quizTitle = "BHU IX"),
+    CustomCard(CardTheme.BLUE.colors, quizTitle = "AMU XI-Com"),
+    CustomCard(CardTheme.YELLOW.colors, quizTitle = "BHU VI"),
+    CustomCard(CardTheme.PURPLE.colors, quizTitle = "JMI XI-Sc"),
+    CustomCard(CardTheme.BLUE.colors, quizTitle = "AMU XI-Dip"),
+
+    )
+
+data class CustomCard(
+    val colors: CardColors,
+    val quizTitle: String = "Exam Name"
+)
+
 
 @Composable
-fun HomeScreen(
+fun HomeScreen1(
     state: StateHomeScreen,
     modifier: Modifier = Modifier.fillMaxSize(),
     onAllBookSelect: (String) -> Unit,
@@ -130,14 +165,3 @@ fun HomeScreen(
         }
     }
 }
-
-fun isBannerFetching(state: StateHomeScreen): Boolean {
-    return when {
-        state.gettingBanners -> false
-        state.fetchedBanners!!.isNotEmpty() -> true
-        else -> false
-    }
-}
-
-
-

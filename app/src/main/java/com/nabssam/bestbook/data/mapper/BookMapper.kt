@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.data.mapper
 
 import com.nabssam.bestbook.data.local.entity.BookEntity
+import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.data.remote.dto.Rate
 import com.nabssam.bestbook.domain.model.Book
@@ -39,14 +40,16 @@ class BookMapper {
     }
 
     // Domain to Entity
-    fun domainToEntity(domain: Book): BookEntity {
-        return BookEntity(
-            id = domain.id,
+    fun domainToEntity(domain: Book): CartItemEntity {
+        return CartItemEntity(
+            productId = domain.id,
             name = domain.name,
-            imageUrl = domain.imageUrls[0],
-            category = domain.category,
-            rating = domain.rating,
-            rateCount = domain.ratingCount
+            coverImage = domain.imageUrls[0],
+            price = domain.price,
+            disPer = domain.discount,
+            inStock = domain.stock != 0,
+
+            quantity = 1,
         )
     }
 }

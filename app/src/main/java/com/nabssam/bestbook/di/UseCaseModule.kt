@@ -6,7 +6,7 @@ import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.ProductRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.cart.GetCartItemsUseCase
+import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductsUseCase
 import com.nabssam.bestbook.domain.usecase.product.SearchProductsUseCase
@@ -74,8 +74,8 @@ object UseCaseModule {
     @Singleton
     fun provideGetCartItemsUseCase(
         repository: CartRepository
-    ): GetCartItemsUseCase {
-        return GetCartItemsUseCase(repository)
+    ): GetAllCartItemsUseCase {
+        return GetAllCartItemsUseCase(repository)
     }
 
     @Provides

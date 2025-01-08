@@ -2,6 +2,8 @@ package com.nabssam.bestbook.utils
 
 import android.util.Log
 import androidx.navigation.NavController
+import com.google.android.gms.common.config.GservicesValue.value
+import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.domain.model.CartModel
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -45,11 +47,62 @@ fun formatOrderDate(timestamp: Long): String {
     return dateFormat.format(date)
 }
 
-fun List<CartModel>.totalCartPrice(): Double {
+fun List<CartItemEntity>.totalCartPrice(): Double {
     var total = 0.0
     forEach {
-        total += it.productQuantity * it.productPrice
+        total += it.quantity * it.price
     }
-    return BigDecimal(total).setScale(2, RoundingMode.HALF_UP).toDouble()
+    return BigDecimal(total).setScale(1, RoundingMode.HALF_UP).toDouble()
 }
 
+
+fun List<CartItemEntity>.totalDiscountPercent(): Double {
+    var originalTotal = 0.0
+    var discountedTotal = 0.0
+
+    forEach {
+        val originalPriceForItem = it.quantity * it.price
+        val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
+
+        originalTotal += originalPriceForItem
+        discountedTotal += discountedPriceForItem
+    }
+
+    // Avoid division by zero, return 0% if no items
+    return if (originalTotal == 0.0) {
+        0.0
+    } else {
+        val discountPercent = ((originalTotal - discountedTotal) / originalTotal) * 100.0
+        BigDecimal(discountPercent).setScale(1, RoundingMode.HALF_UP).toDouble()
+    }
+}
+
+fun List<CartItemEntity>.totalDiscountAmount(): Double {
+    var discountAmount = 0.0
+
+    forEach {
+        val originalPriceForItem = it.quantity * it.price
+        val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
+        discountAmount += (originalPriceForItem - discountedPriceForItem)
+    }
+
+    return BigDecimal(discountAmount).setScale(1, RoundingMode.HALF_UP).toDouble()
+}
+
+fun Double.percentOf(value: Double): Double {
+    Log.d("PERC", "$this, $value")
+    return BigDecimal(value.minus((this / 100) * value))
+        .setScale(1, RoundingMode.HALF_UP)
+        .toDouble()
+}
+
+
+fun List<CartItemEntity>.totalItem(): Int {
+    var count = 0
+
+    forEach {
+        count += it.quantity
+    }
+
+    return count
+}

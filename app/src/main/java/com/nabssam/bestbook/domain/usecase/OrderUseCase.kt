@@ -15,13 +15,13 @@ class PlaceOrderUseCase @Inject constructor(
     private val cartRepository: CartRepository
 ) {
     suspend operator fun invoke(): Order {
-        val cartItems = cartRepository.getCartItems().first()
+        val cartItems = cartRepository.getAllCartItems().first()
 
         if (cartItems.isEmpty()) {
             throw ValidationException("Cart is empty")
         }
 
-        val totalAmount = cartItems.sumOf { it.quantity * it.book.price }
+        val totalAmount = /*cartItems.sumOf { it.quantity * it.book.price }*/ 0
 
         val order =
             orderRepository.placeOrder(/*cartItems*/listOf(OrderItem("sd", "hdfid", 3, 43.3)),  // TODO: convert cartItem to order item

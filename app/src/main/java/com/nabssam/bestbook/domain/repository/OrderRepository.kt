@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.domain.repository
 
-import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.model.Order
 import com.nabssam.bestbook.domain.model.OrderItem
 import com.nabssam.bestbook.domain.model.OrderStatus

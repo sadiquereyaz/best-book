@@ -130,7 +130,7 @@ fun ProductDetailScreen(
                                 ButtonType.EBOOK -> purchaseEbook(it.id)
 
                                 ButtonType.ADD_TO_CART -> {
-                                    vm.addToCart()
+                                    vm.addToCart(it)
                                     btnState = ButtonType.GO_TO_CART
                                 }
 

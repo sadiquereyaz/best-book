@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.domain.model
 
 import android.media.Rating
+import com.nabssam.bestbook.data.local.entity.CartItemEntity
 
 data class OrderModel(
     val orderId: String,
@@ -25,7 +26,7 @@ data class CartItemSK(val itemId: Int, val quantity: Int) {
 
 data class OrderResponse(
     val orderId: String,
-    val items: List<CartItem>,
+    val items: List<CartItemEntity>,
     val orderStatus: String,
     val date: String,
     val shippingDetails: ShippingDetailModel

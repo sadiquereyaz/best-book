@@ -4,10 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.utils.Resource
-import com.nabssam.bestbook.domain.repository.ProductRepository
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
@@ -22,7 +21,8 @@ import javax.inject.Inject
 class ViewModelBookDetail @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getProductByIdUseCase: GetProductDetailsUseCase,
-    private val addToCartUseCase: AddToCartUseCase
+    private val addToCartUseCase: AddToCartUseCase,
+    private val mapper: BookMapper
 ) : ViewModel() {
     private val id = savedStateHandle.toRoute<Route.ProductDetailRoute>().id
     private val _state = MutableStateFlow<Resource<Book>>(Resource.Loading())
@@ -44,9 +44,11 @@ class ViewModelBookDetail @Inject constructor(
         }
     }
 
-    fun addToCart() {
+    fun addToCart(book: Book) {
         viewModelScope.launch {
-            addToCartUseCase(productId = id)
+            addToCartUseCase(
+                mapper.domainToEntity(book)
+            )
         }
     }
 
