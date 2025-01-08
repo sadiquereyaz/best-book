@@ -37,7 +37,7 @@ fun ProductListScreen(
     when (state.value) {
         is Resource.Loading -> {
             // Show loading indicator
-            FullScreenProgressIndicator(modifier = modifier)
+            FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
         }
 
         is Resource.Success -> {

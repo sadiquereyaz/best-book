@@ -2,7 +2,7 @@ package com.nabssam.bestbook.domain.usecase.product
 
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.repository.ProductRepository
+import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 class GetProductDetailsUseCase @Inject constructor(
-    private val repository: ProductRepository
+    private val repository: BookRepository
 ) {
     operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getProductById(productId)
 }
@@ -34,7 +34,7 @@ class GetProductDetailsUseCase @Inject constructor(
 }*/
 
 class GetProductsUseCase @Inject constructor(
-    private val repository: ProductRepository
+    private val repository: BookRepository
 ) {
     operator fun invoke(): Flow<Resource<List<Book>>> = repository.getProducts()
     /*operator fun invoke(): Flow<Resource<List<Product>>> = flow {
@@ -55,7 +55,7 @@ class GetProductsUseCase @Inject constructor(
 }
 
 class SearchProductsUseCase @Inject constructor(
-    private val repository: ProductRepository,
+    private val repository: BookRepository,
     private val mapper: BookMapper
 ) {
     operator fun invoke(query: String): Flow<Resource<List<Book>>> = flow {
@@ -78,7 +78,7 @@ class SearchProductsUseCase @Inject constructor(
 }
 
 class RefreshProductsUseCase @Inject constructor(
-    private val repository: ProductRepository
+    private val repository: BookRepository
 ) {
     fun invoke(): Flow<Resource<Unit>> = flow {
         try {
@@ -96,20 +96,10 @@ class RefreshProductsUseCase @Inject constructor(
     }
 }
 
-class GetProductsByCategoryUseCase @Inject constructor(
-    private val repository: ProductRepository
+class GetBooksByCategoryUseCase @Inject constructor(
+    private val repository: BookRepository
 ) {
-    fun invoke(category: String): Flow<Resource<List<Book>>> = flow {
-        try {
-            emit(Resource.Loading()) // Emit loading state
-            val products = repository.getProductsByCategory(category)
-            emit(Resource.Success(products)) // Emit success state with product details
-        } catch (e: Exception) {
-            emit(
-                Resource.Error(
-                    e.localizedMessage ?: "An unexpected error occurred"
-                )
-            ) // Emit error state
-        }
+    suspend operator fun invoke(category: String): Flow<Resource<List<Book>>> {
+        return repository.getProductsByCategory(category)
     }
 }

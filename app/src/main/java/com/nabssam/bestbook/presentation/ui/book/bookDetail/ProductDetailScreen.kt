@@ -64,7 +64,7 @@ fun ProductDetailScreen(
     var btnState by remember { mutableStateOf(btnType) }
     when (state.value) {
         is Resource.Loading -> {
-            FullScreenProgressIndicator(modifier = modifier)
+            FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
         }
 
         is Resource.Error -> {

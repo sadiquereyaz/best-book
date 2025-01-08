@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="book_height_home">150dp</dimen>
+    <dimen name="book_width_home">120dp</dimen>
+    <dimen name="banner_height">160dp</dimen>
+</resources>

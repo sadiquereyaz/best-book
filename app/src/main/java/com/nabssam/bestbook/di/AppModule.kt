@@ -1,6 +1,10 @@
 package com.nabssam.bestbook.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.nabssam.bestbook.utils.DispatcherProvider
 import com.nabssam.bestbook.utils.NetworkMonitor
 import dagger.Module
@@ -25,6 +29,14 @@ object AppModule {
     @Singleton
     fun provideApplicationContext(@ApplicationContext context: Context): Context {
         return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("user_preferences") }
+        )
     }
 
     @Provides
