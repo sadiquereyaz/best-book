@@ -9,9 +9,10 @@ import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetTargetExamUseCase
-import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
-import com.nabssam.bestbook.domain.usecase.product.GetProductsUseCase
-import com.nabssam.bestbook.domain.usecase.product.SearchProductsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetAllCategoryUseCase
+import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,10 +33,17 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetProductsUseCase(
+    fun provideGetAllBookUseCase(
         repository: BookRepository
-    ): GetProductsUseCase {
-        return GetProductsUseCase(repository)
+    ): GetAllBookUseCase {
+        return GetAllBookUseCase(repository)
+    }
+    @Provides
+    @Singleton
+    fun provideGetAllCategoryUseCase(
+        repository: BookRepository
+    ): GetAllCategoryUseCase {
+        return GetAllCategoryUseCase(repository)
     }
 
     @Provides

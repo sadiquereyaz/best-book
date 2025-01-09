@@ -18,7 +18,9 @@ data class StateHomeScreen(
     var fetchedQuizzes: List<Quiz> = emptyList(),
     var errorQuizzes: String? = null,
 
-    val fullScreenError:String? = null
+    val fullScreenError:String? = null,
+
+    val targetExam:String = ""
 )
 
 /*

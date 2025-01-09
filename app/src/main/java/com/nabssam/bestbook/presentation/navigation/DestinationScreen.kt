@@ -50,7 +50,7 @@ sealed interface Route {
     data class MCQRoute(val title: String = "Question") : Route
 
     @Serializable
-    data class AllBookRoute(val title: String = "Book Store") : Route
+    data class AllBookRoute(val title: String = "Book Store", val targetExam: String) : Route
 
     @Serializable
     data class ProductDetailRoute(val id: String, val title: String = "Book Detail") : Route

@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.domain.usecase.product
+package com.nabssam.bestbook.domain.usecase.book
 
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
@@ -15,43 +15,17 @@ class GetProductDetailsUseCase @Inject constructor(
 ) {
     operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getProductById(productId)
 }
-/*class GetProductDetailsUseCase @Inject constructor(
-    private val repository: ProductRepository
-) {
-    operator fun invoke(productId: String): Flow<Resource<Product>> = flow {
-        try {
-            emit(Resource.Loading()) // Emit loading state
-            val product = repository.getProductById(productId)
-            emit(Resource.Success(product)) // Emit success state with product details
-        } catch (e: Exception) {
-            emit(
-                Resource.Error(
-                    e.localizedMessage ?: "An unexpected error occurred"
-                )
-            ) // Emit error state
-        }
-    }
-}*/
 
-class GetProductsUseCase @Inject constructor(
+class GetAllBookUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Book>>> = repository.getProducts()
-    /*operator fun invoke(): Flow<Resource<List<Product>>> = flow {
-        try {
-            emit(Resource.Loading()) // Emit loading state
-            val products =
-                repository.getProducts().first() // collects the first emission from the flow
-            emit(products) // Emit success state with product details
-        } catch (e: Exception) {
-            Log.d("GetProductsUseCase-exception", e.localizedMessage?: "An unexpected error occurred")
-            emit(
-                Resource.Error(
-                    e.localizedMessage ?: "An unexpected error occurred"
-                )
-            ) // Emit error state
-        }
-    }*/
+    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getProducts()
+}
+
+class GetAllCategoryUseCase @Inject constructor(
+    private val repository: BookRepository
+) {
+    suspend operator fun invoke(): Flow<Resource<List<String>>> = repository.getAllCategory()
 }
 
 class SearchProductsUseCase @Inject constructor(

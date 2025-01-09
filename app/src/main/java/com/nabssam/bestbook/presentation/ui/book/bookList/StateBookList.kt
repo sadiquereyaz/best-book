@@ -4,22 +4,16 @@ import com.nabssam.bestbook.domain.model.Book
 
 data class StateBookList(
 
-    val fetchingBooks: Boolean = false,
-    val fetchedBooks: List<Book>? = emptyList(),
-    val error: String? = null
-//    val errorBooks: BookListError? = null,
+    //val fetchingTargetExam: Boolean = true,
+    val examList: List<String> = emptyList(),
+
+    val fetchingBooks: Boolean = true,
+    val fetchedBooks: List<Book> = emptyList(),
+
+    val userTargetExam: String? = null,
+
+    val loading: Boolean = true,
+    val errorMessage: String? = null
 
 )
 
-/*sealed class BookListState {
-    object Loading : BookListState()
-    data class Success(val books: List<Book>) : BookListState()
-    data class Error(val error: BookListError) : BookListState()
-}
-
-
-
-private val _state = MutableStateFlow<BookListState>(BookListState.Loading)
-val state = _state.asStateFlow()
-
-*/

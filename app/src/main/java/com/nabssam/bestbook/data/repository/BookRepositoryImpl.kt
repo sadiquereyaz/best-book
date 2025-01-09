@@ -40,44 +40,70 @@ class BookRepositoryImpl @Inject constructor(
         emit(Resource.Error(e.message ?: "An unexpected error occurred"))
     }
 
-    override fun getProducts(): Flow<Resource<List<Book>>> = flow {
+    override suspend fun getProducts(): Flow<Resource<List<Book>>> = flow {
         emit(Resource.Loading())
         try {
-            val products = api.getBookList().body()?.map { it -> mapper.dtoToDomain(it) }
-            Log.d("ProductRepositoryImpl-getProducts()", "Fetched Products: ${products?.size}")
-            emit(Resource.Success(data = products))
+            val response = api.getBookList()
+            if (response.isSuccessful) {
+                val productResponse = response.body()
+                if (productResponse != null && productResponse.products.isNotEmpty()) {
+                    val books = productResponse.products.map { mapper.productDtoToDomain(it) }
+                    emit(Resource.Success(data = books))
+                } else {
+                    emit(Resource.Error("No book found in this category"))
+                }
+            } else {
+                emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
+            }
         } catch (e: Exception) {
-            Log.d(
-                "ProductRepositoryImpl-getProducts()-exception",
-                e.localizedMessage ?: "An unexpected error occurred"
-            )
+
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
         }
-    }.catch { e ->
-        emit(Resource.Error(e.message ?: "An unexpected error occurred"))
     }
 
 
-    override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
-        TODO("Not yet implemented")
-    }
+        override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
+            TODO("Not yet implemented")
+        }
 
 
-    override suspend fun getProductsByCategory(category: String): Flow<Resource<List<Book>>> =
-        flow {
+        override suspend fun getProductsByCategory(category: String): Flow<Resource<List<Book>>> =
+            flow {
+                emit(Resource.Loading())
+                try {
+                    val response = api.getBooksByCategory(category)
+                    //Log.d("Response", "Body: ${response.toString()}")
+
+                    if (response.isSuccessful) {
+                        val productResponse = response.body()
+                        if (productResponse != null && productResponse.products.isNotEmpty()) {
+                            val books =
+                                productResponse.products.map { mapper.productDtoToDomain(it) }
+                            emit(Resource.Success(data = books))
+                        } else {
+                            emit(Resource.Error("No book found in this category"))
+                        }
+                    } else {
+                        emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
+                    }
+                } catch (e: Exception) {
+                    emit(Resource.Error(e.message ?: "An unexpected error occurred"))
+                }
+            }
+
+        override suspend fun getAllCategory(): Flow<Resource<List<String>>> = flow {
             emit(Resource.Loading())
             try {
-                val response = api.getBooksByCategory(category)
-                //Log.d("Response", "Body: ${response.toString()}")
+                val response = api.getAllCategory()
 
                 if (response.isSuccessful) {
-                    val productResponse = response.body()
-                    if (productResponse != null && productResponse.products.isNotEmpty()) {
-                        val books = productResponse.products.map { mapper.productDtoToDomain(it) }
-                        emit(Resource.Success(data = books))
+                    val categoryResponse = response.body()
+                    if (categoryResponse != null && categoryResponse.categories.isNotEmpty()) {
+                        emit(Resource.Success(data = categoryResponse.categories))
                     } else {
-                        emit(Resource.Error("No book found in this category"))
+                        emit(Resource.Error("No category found"))
                     }
+
                 } else {
                     emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
                 }
@@ -86,57 +112,57 @@ class BookRepositoryImpl @Inject constructor(
             }
         }
 
-
-    //load all the products from server and store into room
-    override suspend fun refreshProducts() {
-        try {
-            val remoteProducts = api.getBookList()
-            //  val entities = remoteProducts.map { mapper.dtoToDomain(it) }
-            //dao.insertAll(entities)
-        } catch (e: Exception) {
-            throw e
+        //load all the products from server and store into room
+        override suspend fun refreshProducts() {
+            try {
+                val remoteProducts = api.getBookList()
+                //  val entities = remoteProducts.map { mapper.dtoToDomain(it) }
+                //dao.insertAll(entities)
+            } catch (e: Exception) {
+                throw e
+            }
         }
-    }
 
-    override suspend fun addBook(book: Book): Flow<Resource<String>> = flow {
-        emit(Resource.Loading())
-        val status: Int = api.addBook(book).code()
+        override suspend fun addBook(book: Book): Flow<Resource<String>> = flow {
+            emit(Resource.Loading())
+            val status: Int = api.addBook(book).code()
 
-        try {
-            if (status == 201)
-                emit(Resource.Success("Book added successfully"))
-            else
-                emit(Resource.Error("Unable to add book"))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message))
+            try {
+                if (status == 201)
+                    emit(Resource.Success("Book added successfully"))
+                else
+                    emit(Resource.Error("Unable to add book"))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+            }
         }
-    }
 
-    override suspend fun getAll(): Flow<Resource<List<Book>>> = flow {
-        val status = api.getAll().code()
-        try {
-            val bookList = api.getAll().body()
-            if (status == 200)
-                emit(Resource.Success(bookList))
-            else
-                emit(Resource.Error("Unable to fetch books"))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message))
+        override suspend fun getAll(): Flow<Resource<List<Book>>> = flow {
+            val status = api.getAll().code()
+            try {
+                val bookList = api.getAll().body()
+                if (status == 200)
+                    emit(Resource.Success(bookList))
+                else
+                    emit(Resource.Error("Unable to fetch books"))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+            }
         }
-    }
 
-    override suspend fun getById(id: Int): Flow<Resource<Book>> = flow {
-        val status = api.getById(id).code()
-        try {
-            val book = api.getById(id).body()
-            if (status == 200)
-                emit(Resource.Success(book))
-            else    //404
-                emit(Resource.Error("Book not found"))
-        } catch (e: Exception) {
-            //500
-            emit(Resource.Error(e.message))
+        override suspend fun getById(id: Int): Flow<Resource<Book>> = flow {
+            val status = api.getById(id).code()
+            try {
+                val book = api.getById(id).body()
+                if (status == 200)
+                    emit(Resource.Success(book))
+                else    //404
+                    emit(Resource.Error("Book not found"))
+            } catch (e: Exception) {
+                //500
+                emit(Resource.Error(e.message))
+            }
         }
-    }
+
 
 }

@@ -3,7 +3,7 @@ package com.nabssam.bestbook.presentation.ui.productdetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

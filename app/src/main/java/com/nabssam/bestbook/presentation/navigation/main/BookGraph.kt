@@ -16,8 +16,7 @@ import com.nabssam.bestbook.presentation.ui.book.bookList.ViewModelBookList
 import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.cart.VMCart
-import com.nabssam.bestbook.presentation.ui.productdetail.ProductListScreen
-import com.nabssam.bestbook.presentation.ui.productlist.ProductListViewModel
+import com.nabssam.bestbook.presentation.ui.productdetail.BookListScreen
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
 
@@ -26,21 +25,16 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
 
     composable<Route.AllBookRoute> { backStackEntry ->
        // val routeObj: Route.AllBook = backStackEntry.toRoute()
-        val viewModel = hiltViewModel<ProductListViewModel>()
-        ProductListScreen(
-            viewModel = viewModel,
+        val viewModel = hiltViewModel<ViewModelBookList>()
+        val state by viewModel.state.collectAsState()
+
+        BookListScreen(
+            state = state,
             navigateToProductDetails = { id: String, title: String ->
                 navController.navigate(route = Route.ProductDetailRoute(id = id, title = title))
             },
+            onEvent = { viewModel.onEvent(it) }
         )
-       /* val viewModel = hiltViewModel<ViewModelBookList>()
-        val state by viewModel.state.collectAsState()
-        BookListScreen(
-            state = state,
-            onNavigateToBook = { bookId: String ->
-                navController.navigate(route = Route.ProductDetailRoute(bookId))
-            },
-        )*/
 
     }
     composable<Route.ProductDetailRoute> { backStackEntry ->

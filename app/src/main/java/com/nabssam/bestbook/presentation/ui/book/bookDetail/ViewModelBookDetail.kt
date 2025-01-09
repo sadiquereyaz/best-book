@@ -8,7 +8,7 @@ import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.utils.Resource
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.product.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

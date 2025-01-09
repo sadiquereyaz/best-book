@@ -29,16 +29,12 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
             val state by viewModel.state.collectAsState()
             HomeScreen(
                 state = state,
-                onAllBookSelect = { navController.navigate(Route.AllBookRoute()) },
+                onAllBookSelect = { navController.navigate(Route.AllBookRoute(targetExam = it)) },
                 onNavigateToBook = { bookId ->
                     navController.navigate(Route.ProductDetailRoute(bookId))
                 },
                 onAllQuizSelect = { examId: String ->
-                    navController.navigate(
-                        Route.AllBookRoute(
-                            examId
-                        )
-                    )
+
                 },
                 // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
                 navigateToQuiz = { quizId: Int ->

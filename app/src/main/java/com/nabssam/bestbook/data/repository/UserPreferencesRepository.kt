@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.nabssam.bestbook.utils.Constants.DEFAULT_CATEGORY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -27,7 +28,7 @@ class UserPreferencesRepository @Inject constructor(
             }
         }
         .map { preferences ->
-            preferences[PreferencesKeys.TARGER_EXAM] ?: "appliances"   //TODO: change to "All_books"
+            preferences[PreferencesKeys.TARGER_EXAM] ?: DEFAULT_CATEGORY   //TODO: change to "All_books"
         }
 
     suspend fun saveTargetExam(category: String) {
@@ -36,3 +37,4 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 }
+
