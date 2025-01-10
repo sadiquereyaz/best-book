@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.repository.AuthRepository
@@ -23,8 +22,8 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             authRepository.signIn(email, password).fold(
-                onSuccess = { authData ->
-                    _authState.value = AuthState.Success(authData)
+                onSuccess = {
+                    _authState.value = AuthState.Success
                 },
                 onFailure = { error ->
                     _authState.value = AuthState.Error(error.message ?: "Sign in failed")
@@ -37,8 +36,8 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             authRepository.register(name, email, password, phone).fold(
-                onSuccess = { response ->
-                    //_authState.value = AuthState.Success(response.data.user)
+                onSuccess = {
+                    _authState.value = AuthState.Success
                 },
                 onFailure = { error ->
                     _authState.value = AuthState.Error(error.message ?: "Registration failed")

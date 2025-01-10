@@ -11,7 +11,7 @@ class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
     private val userPreferences: UserPreferencesRepository
 ) {
-    suspend fun signIn(email: String, password: String): Result<AuthData> {
+    suspend fun signIn(email: String, password: String): Result<Unit> {
         return try {
             val request = SignInRequest(email, password)
             val response = authApiService.signIn(request)
@@ -25,7 +25,7 @@ class AuthRepository @Inject constructor(
                             authResponse.data.refreshToken
                         )
                         userPreferences.saveUser(authResponse.data.user)
-                        Result.success(authResponse.data)
+                        Result.success(Unit/*authResponse.data*/)
                     } else {
                         Result.failure(Exception(authResponse.message))
                     }
@@ -44,18 +44,22 @@ class AuthRepository @Inject constructor(
         email: String,
         password: String,
         phone: String?
-    ): Result<RegisterResponse> {
+    ): Result<Unit> {
         return try {
             val request = RegisterRequest(name, email, password)
             val response = authApiService.register(request)
-            if (response.isSuccessful) {
-                response.body()?.let { registerResponse ->
-                    userPreferences.saveUser(registerResponse.data.user)
-                    Result.success(registerResponse)
-                } ?: Result.failure(Exception("Empty response"))
-            } else {
+            if (response.isSuccessful)
+            //{
+               // response.body()?.let { registerResponse ->
+                    //userPreferences.saveUser(registerResponse.data.user)
+                    Result.success(
+                        Unit
+//                    registerResponse
+                    )
+              //  } ?: Result.failure(Exception("Empty response"))
+           // } else {
                 Result.failure(Exception(response.errorBody()?.string() ?: "Registration failed"))
-            }
+           // }
         } catch (e: Exception) {
             Result.failure(e)
         }
