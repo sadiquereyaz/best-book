@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.ui.account.auth.SignIn
 import com.nabssam.bestbook.presentation.ui.account.auth.SignUp
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthScreen
 
 fun NavGraphBuilder.authGraph(navController: NavController) {
     navigation<Route.AuthGraph>(
@@ -18,7 +19,10 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
         }
 
         composable<Route.SignIn> {
-            SignIn(navController)
+            //SignIn(navController)
+            AuthScreen {
+                navController.navigate(Route.MainGraph)
+            }
         }
     }
 }

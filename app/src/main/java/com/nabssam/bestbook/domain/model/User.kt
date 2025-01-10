@@ -1,9 +1,13 @@
 package com.nabssam.bestbook.domain.model
 
 data class User(
-    val id: String,
-    val name: String,
+    val _id: String,
+    val avatar: Avatar,
+    val username: String,
     val email: String,
-    val phone: String?,
-    val createdAt: String
+    val role: String,
+    val loginType: String,
+    val isEmailVerified: Boolean,
+    val createdAt: String,
+    val updatedAt: String
 )

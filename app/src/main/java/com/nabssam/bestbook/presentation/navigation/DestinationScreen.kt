@@ -21,7 +21,7 @@ sealed interface Route {
     data object AuthGraph : Route
 
     @Serializable
-    data class SignIn(val title: String = "Sign In") : Route
+    data class SignIn(val title: String = "Best Book") : Route
 
     @Serializable
     data class SignUp(val title: String = "Sign Up") : Route

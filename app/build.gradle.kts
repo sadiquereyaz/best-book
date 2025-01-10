@@ -38,17 +38,28 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "baseUrl",  "\"https://api.freeapi.app/\"")
+
+        }
+
+        debug {
+            buildConfigField("String", "baseUrl",  "\"https://api.freeapi.app/\"")
+//            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
+    }
     kotlinOptions {
         jvmTarget = "11"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -83,6 +94,7 @@ dependencies {
     // Retrofit for network calls
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation (libs.logging.interceptor)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -90,7 +102,7 @@ dependencies {
     // Room dependencies (uses KSP/KAPT)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt (libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))

@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.nabssam.bestbook.presentation.navigation.AppNavHost
 import com.nabssam.bestbook.presentation.ui.components.BBNavSuite
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartScreenClaude
 
@@ -15,7 +16,6 @@ fun BestBookApp(
 ) {
     BBNavSuite(navController = navController, modifier = Modifier)
     { innerPadding ->
-        //AppNavHost(navController, modifier, innerPadding)
-        CartScreenClaude(viewModel = hiltViewModel(), userId = "TODO()", onNavigateToProduct = {})
+        AppNavHost(navController, modifier, innerPadding)
     }
 }
