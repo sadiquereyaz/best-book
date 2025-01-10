@@ -3,8 +3,11 @@ package com.nabssam.bestbook.di
 import android.content.Context
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
 import com.nabssam.bestbook.data.remote.api.BookApi
+import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
-import com.nabssam.bestbook.utils.Constants. BASE_URL
+import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
+import com.nabssam.bestbook.utils.Constants.BASE_URL
+import com.nabssam.bestbook.utils.Constants.LOCAL_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +48,18 @@ object RemoteModule {
     @Singleton
     fun provideProductApi(retrofit: Retrofit): BookApi {
         return retrofit.create(BookApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalApi(retrofit: Retrofit): CartApiService {
+        return retrofit.create(CartApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartApiClaude(retrofit: Retrofit): CartApiServiceClaude {
+        return retrofit.create(CartApiServiceClaude::class.java)
     }
 
     @Provides

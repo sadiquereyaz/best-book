@@ -1,0 +1,77 @@
+package com.nabssam.bestbook.presentation.ui.cart.claude
+
+import com.nabssam.bestbook.presentation.ui.cart.claude.composable.CartItemObj
+import javax.inject.Inject
+
+class CartRepositoryClaude @Inject constructor(
+    private val cartApiServiceClaude: CartApiServiceClaude
+) {
+    suspend fun getCartItems(userId: String): Result<List<CartItemClaude>> {
+        return try {
+            val response = cartApiServiceClaude.getCartItems(userId)
+            if (response.isSuccessful) {
+                Result.success(response.body() ?: emptyList())
+            } else {
+                Result.failure(Exception("Failed to fetch cart items"))
+            }
+
+            //Result.success(CartItemObj.cartItemClaude)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    suspend fun addToCart(userId: String, productId: Int, quantity: Int): Result<CartItemClaude> {
+        return try {
+            val request = AddToCartRequest(userId, productId, quantity)
+            val response = cartApiServiceClaude.addToCart(request)
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("Failed to add item to cart"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    suspend fun updateCartItem(cartItemId: Int, quantity: Int): Result<CartItemClaude> {
+        return try {
+            val request = UpdateCartRequest(cartItemId, quantity)
+            val response = cartApiServiceClaude.updateCartItem(cartItemId, request)
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("Failed to update cart item"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    suspend fun removeFromCart(cartItemId: Int): Result<Unit> {
+        return try {
+            val response = cartApiServiceClaude.removeFromCart(cartItemId)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to remove item from cart"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    suspend fun clearCart(userId: String): Result<Unit> {
+        return try {
+            val response = cartApiServiceClaude.clearCart(userId)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to clear cart"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+}

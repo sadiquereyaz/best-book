@@ -3,7 +3,7 @@ package com.nabssam.bestbook.domain.usecase
 import com.nabssam.bestbook.domain.model.Order
 import com.nabssam.bestbook.domain.model.OrderItem
 import com.nabssam.bestbook.domain.model.OrderStatus
-import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class PlaceOrderUseCase @Inject constructor(
     private val orderRepository: OrderRepository,
-    private val cartRepository: CartRepository
+    private val localCartRepository: LocalCartRepository
 ) {
     suspend operator fun invoke(): Order {
-        val cartItems = cartRepository.getAllCartItems().first()
+        val cartItems = localCartRepository.getAllCartItems().first()
 
         if (cartItems.isEmpty()) {
             throw ValidationException("Cart is empty")
@@ -27,7 +27,7 @@ class PlaceOrderUseCase @Inject constructor(
             orderRepository.placeOrder(/*cartItems*/listOf(OrderItem("sd", "hdfid", 3, 43.3)),  // TODO: convert cartItem to order item
                 totalAmount.toDouble()
             )
-        cartRepository.clearCart()
+        localCartRepository.clearCart()
 
         return order
     }

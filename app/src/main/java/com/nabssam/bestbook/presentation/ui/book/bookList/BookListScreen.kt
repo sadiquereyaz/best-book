@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.productdetail
+package com.nabssam.bestbook.presentation.ui.book.bookList
 
 
 import androidx.compose.foundation.clickable
@@ -15,9 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.presentation.ui.book.bookList.BookCoverImage
-import com.nabssam.bestbook.presentation.ui.book.bookList.EventBookList
-import com.nabssam.bestbook.presentation.ui.book.bookList.StateBookList
+import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.book.bookList.composable.CategoryChipList
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -27,7 +25,7 @@ import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicat
 fun BookListScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     state: StateBookList,
-    navigateToProductDetails: (String, String) -> Unit,
+    goToDetail: (String, String) -> Unit,
     onEvent: (EventBookList) -> Unit,
 ) {
     if (state.loading) {
@@ -56,7 +54,7 @@ fun BookListScreen(
                 items(state.fetchedBooks) {
                     Box(
                         modifier = Modifier
-                            .clickable { navigateToProductDetails(it.id, it.name) },
+                            .clickable { goToDetail(it.id, it.name) },
                         contentAlignment = Alignment.TopCenter
                     ) {
                         Column {
@@ -64,7 +62,9 @@ fun BookListScreen(
                             //book title and price
                             BookTitlePrice(
                                 originalPrice = it.price,
-                                title = it.name
+                                title = it.name,
+                                discPer = it.discount,
+                                maxLine = 2
                             )
                         }
                     }

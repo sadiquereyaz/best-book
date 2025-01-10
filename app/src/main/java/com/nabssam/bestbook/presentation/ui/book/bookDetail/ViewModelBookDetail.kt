@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.book.bookDetail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,10 +11,12 @@ import com.nabssam.bestbook.utils.Resource
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.book.bookList.EventBookList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,23 +27,60 @@ class ViewModelBookDetail @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase,
     private val mapper: BookMapper
 ) : ViewModel() {
-    private val id = savedStateHandle.toRoute<Route.ProductDetailRoute>().id
-    private val _state = MutableStateFlow<Resource<Book>>(Resource.Loading())
+    private val id = savedStateHandle.toRoute<Route.BookDetailRoute>().id
+    private val _state = MutableStateFlow(StateBookDetail())
     val state = _state.asStateFlow()
 
     init {
+        Log.d("id", id)
         fetchBookDetail()
     }
 
-     fun fetchBookDetail() {
+    fun onEvent(event: EventBookDetail) {
+        when (event) {
+
+            is EventBookDetail.Retry -> {
+                fetchBookDetail()
+            }
+
+            is EventBookDetail.AddToCart -> {
+                addToCart(_state.value.fetchedBook)
+            }
+        }
+    }
+
+    private fun fetchBookDetail() {
         viewModelScope.launch {
-            getProductByIdUseCase(id)
-                .catch { e ->
-                    _state.value = Resource.Error(e.message ?: "An unexpected error occurred!")
+            getProductByIdUseCase(id).collect { resource ->
+                when (resource) {
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                loading = false,
+                                errorMessage = resource.message
+                            )
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+                                loading = true
+                            )
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                loading = false,
+                                fetchedBook = resource.data!!
+                            )
+                        }
+                    }
                 }
-                .collect { resource ->
-                    _state.value = resource
-                }
+            }
+
         }
     }
 
@@ -52,40 +92,5 @@ class ViewModelBookDetail @Inject constructor(
         }
     }
 
-    /*
-    private fun fetchBookDetail1() {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
 
-            getProductByIdUseCase(id)
-                .catch { e ->
-                    _state.value = _state.value.copy(
-                        isLoading = false,
-                        errorBook = e.message ?: "An unexpected error occurred"
-                    )
-                }
-                .collect { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
-                            _state.value = _state.value.copy(
-                                isLoading = false,
-                                fetchedBook = resource.data,
-                                errorBook = null
-                            )
-                        }
-
-                        is Resource.Error -> {
-                            _state.value = _state.value.copy(
-                                isLoading = false,
-                                errorBook = resource.message // Now this matches the String? type
-                            )
-                        }
-
-                        is Resource.Loading -> {
-                            _state.value = _state.value.copy(isLoading = true)
-                        }
-                    }
-                }
-        }
-    }*/
 }

@@ -31,7 +31,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 state = state,
                 onAllBookSelect = { navController.navigate(Route.AllBookRoute(targetExam = it)) },
                 onNavigateToBook = { bookId ->
-                    navController.navigate(Route.ProductDetailRoute(bookId))
+                    navController.navigate(Route.BookDetailRoute(bookId))
                 },
                 onAllQuizSelect = { examId: String ->
 

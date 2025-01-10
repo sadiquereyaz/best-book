@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,113 +47,109 @@ enum class ButtonType(val btnText: String, val iconId: Int) {
 }
 
 @Composable
-fun ProductDetailScreen(
+fun BookDetailScreen(
     modifier: Modifier = Modifier,
-    //bookId: Int,
     purchaseEbook: (String) -> Unit,
     isEbook: Boolean = true,
     btnType: ButtonType = ButtonType.ADD_TO_CART,
     goToCart: () -> Unit = {},
-    vm: ViewModelBookDetail
+    state: StateBookDetail,
+    onEvent: (EventBookDetail) -> Unit
 ) {
-    //val book = Book()
-    val state = vm.state.collectAsState()
     val scrollState = rememberScrollState()
+    val bookObj = state.fetchedBook
 
     var btnState by remember { mutableStateOf(btnType) }
-    when (state.value) {
-        is Resource.Loading -> {
-            FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
-        }
 
-        is Resource.Error -> {
-            val error = (state.value as Resource.Error<Book>).message ?: "An Error Occurred"
-            ErrorScreen(
-                message = error,
-                modifier = modifier,
-                onRetry = { vm.fetchBookDetail() }
+    if (state.loading)
+        FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
+    else if (state.errorMessage != null)
+        ErrorScreen(
+            message = state.errorMessage!!,
+            modifier = modifier,
+            onRetry = { onEvent(EventBookDetail.Retry) }
+        )
+    else {
+        Column(
+            modifier = modifier
+                .padding(bottom = ButtonDefaults.MinHeight + 8.dp)
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
+        ) {
+
+            AutoScrollingImagePager(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                autoscroll = false,
+                imageList = (bookObj.imageUrls),
+                height = /*Dp.Unspecified*/ 460.dp
+            )
+            BookTitlePrice(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                addToFontSize = 4,
+                discPer = bookObj.discount,
+                originalPrice = bookObj.price,
+                title = bookObj.name,
+                maxLine = 3
+            )
+            RatingBar(rating = 3.6, modifier = Modifier.padding(8.dp))
+            HorizontalDivider(thickness = 2.dp)
+            ProductDetailList(bookObj)
+            HorizontalDivider(
+                thickness = 2.dp,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+            Text(
+                text = "Description",
+                modifier = Modifier
+                    .padding(start = 8.dp, top = 4.dp, bottom = 8.dp),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = bookObj.description,
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 24.dp)
             )
         }
 
-        is Resource.Success -> {
-            (state.value as Resource.Success<Book>).data?.let {
-                Column(
-                    modifier = modifier
-                        .padding(bottom = ButtonDefaults.MinHeight + 8.dp)
-                        .fillMaxWidth()
-                        .verticalScroll(scrollState),
-                ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 8.dp), contentAlignment = Alignment.BottomCenter
+        ) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(0.dp)),
+                onClick = {
+                    when (btnState) {
+                        ButtonType.EBOOK -> purchaseEbook(bookObj.id)
 
-                    AutoScrollingImagePager(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        autoscroll = false,
-                        imageList = (it.imageUrls),
-                        height = /*Dp.Unspecified*/ 460.dp
-                    )
-                    BookTitlePrice(
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        addToFontSize = 4
-                    )
-                    RatingBar(rating = 3.6, modifier = Modifier.padding(8.dp))
-                    HorizontalDivider(thickness = 2.dp)
-                    ProductDetailList(it)
-                    HorizontalDivider(
-                        thickness = 2.dp,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
+                        ButtonType.ADD_TO_CART -> {
+                            EventBookDetail.AddToCart
+                            btnState = ButtonType.GO_TO_CART
+                        }
+
+                        ButtonType.GO_TO_CART -> goToCart()
+                    }
+                }
+            ) {
+                Row(
+                    modifier = Modifier.padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(ImageVector.vectorResource(btnState.iconId), btnState.btnText)
                     Text(
-                        text = "Description",
-                        modifier = Modifier
-                            .padding(start = 8.dp, top = 4.dp, bottom = 8.dp),
+                        text = btnState.btnText,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = it.description,
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 24.dp)
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 8.dp), contentAlignment = Alignment.BottomCenter
-                ) {
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(shape = RoundedCornerShape(0.dp)),
-                        onClick = {
-                            when (btnState) {
-                                ButtonType.EBOOK -> purchaseEbook(it.id)
-
-                                ButtonType.ADD_TO_CART -> {
-                                    vm.addToCart(it)
-                                    btnState = ButtonType.GO_TO_CART
-                                }
-
-                                ButtonType.GO_TO_CART -> goToCart()
-                            }
-                        }
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(vertical = 2.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Icon(ImageVector.vectorResource(btnState.iconId), btnState.btnText)
-                            Text(
-                                text = btnState.btnText,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
                 }
             }
+
         }
+
     }
 }
 
@@ -212,18 +207,4 @@ fun ProductDetail(modifier: Modifier, headText: String = "head", tailText: Strin
             text = tailText
         )
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun BookDetailScreenPreview() {
-    ProductDetailScreen(
-        modifier = Modifier,
-        //bookId = 123,
-        purchaseEbook = { /* No-op for preview */ },
-        isEbook = true,
-        btnType = ButtonType.ADD_TO_CART, // Assuming you have a ButtonType enum
-        goToCart = {},
-        vm = TODO(),
-    )
 }

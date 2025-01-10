@@ -1,35 +1,24 @@
 package com.nabssam.bestbook.domain.usecase.cart
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AddToCartUseCase @Inject constructor(
-    private val cartRepository: CartRepository,
+    private val localCartRepository: LocalCartRepository,
     private val bookRepository: BookRepository
 ) {
     suspend operator fun invoke(item: CartItemEntity) {
-        //validateAddToCart(item)
-       /* val product = productRepository.getProductById(productId)
-            ?: throw ValidationException("Product not found")*/
-        cartRepository.addToCart(item)
-    }
-
-    private fun validateAddToCart(productId: String, quantity: Int) {
-        if (productId.isBlank()) {
-            throw ValidationException("Product ID cannot be empty")
-        }
-        if (quantity <= 0) {
-            throw ValidationException("Quantity must be greater than 0")
-        }
+       // bookRepository.
+        //cartRepository.addToCart(item)
     }
 }
 
 class RemoveFromCartUseCase @Inject constructor(
-    private val repository: CartRepository
+    private val repository: LocalCartRepository
 ) {
     suspend operator fun invoke(productId: String) {
         repository.removeFromCart(productId)
@@ -37,7 +26,7 @@ class RemoveFromCartUseCase @Inject constructor(
 }
 
 class UpdateCartItemQuantityUseCase @Inject constructor(
-    private val repository: CartRepository
+    private val repository: LocalCartRepository
 ) {
     suspend operator fun invoke(productId: String, quantity: Int) {
         //validateUpdateQuantity(productId, quantity)
@@ -55,7 +44,7 @@ class UpdateCartItemQuantityUseCase @Inject constructor(
 }
 
 class GetAllCartItemsUseCase @Inject constructor(
-    private val repository: CartRepository
+    private val repository: LocalCartRepository
 ) {
     operator fun invoke(): Flow<List<CartItemEntity>> {
         return repository.getAllCartItems()
@@ -63,7 +52,7 @@ class GetAllCartItemsUseCase @Inject constructor(
 }
 
 class ClearCartUseCase @Inject constructor(
-    private val repository: CartRepository
+    private val repository: LocalCartRepository
 ) {
     suspend operator fun invoke() {
         repository.clearCart()

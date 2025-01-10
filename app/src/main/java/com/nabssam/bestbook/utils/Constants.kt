@@ -7,9 +7,11 @@ object Constants {
     const val MAX_QUANTITY = 99
     const val MIN_SEARCH_QUERY_LENGTH = 3
     const val BASE_URL =
-    //"http://10.57.3.61:3000" // Replace with your API base URL
-        //"https://fakestoreapi.com"
-        "https://fakestoreapi.in/api/"
+        "https://api.freeapi.app/api/"
+        //"https://fakestoreapi.in/api/"
+    const val LOCAL_BASE_URL =
+    "http://10.57.3.61:3000" // Replace with your API base URL
+
 
 
     const val ECOMMERCE_LINK1 =

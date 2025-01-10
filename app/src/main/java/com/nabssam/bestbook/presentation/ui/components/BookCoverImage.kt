@@ -1,5 +1,5 @@
 
-package com.nabssam.bestbook.presentation.ui.book.bookList
+package com.nabssam.bestbook.presentation.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

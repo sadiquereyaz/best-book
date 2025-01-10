@@ -3,7 +3,7 @@ package com.nabssam.bestbook.presentation.ui.address
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.model.ShippingDetailModel
-import com.nabssam.bestbook.domain.model.User
+import com.nabssam.bestbook.domain.model.UserOld
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,8 +58,8 @@ class FirebaseRepo {
         return null
     }
 
-    fun user(): User {
-        return User()
+    fun user(): UserOld {
+        return UserOld()
     }
 
     fun signOut() {

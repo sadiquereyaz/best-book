@@ -1,15 +1,13 @@
 package com.nabssam.bestbook.domain.repository
 
-import com.nabssam.bestbook.data.local.entity.CartItemEntity
+import com.nabssam.bestbook.data.remote.dto.CartItemDto
+import com.nabssam.bestbook.domain.model.UserOld
+import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun addToCart(product: CartItemEntity)
-    suspend fun removeFromCart(id: String)
-    suspend fun updateQuantity(productId: String, quantity: Int)
-   // fun getCartItems(): Flow<List<CartItem>>
-    suspend fun clearCart()
-    fun getAllCartItems(): Flow<List<CartItemEntity>>
-    fun getTotalItems(): Flow<Int>
-    suspend fun isProductInCart(productId: String): Boolean
+    suspend fun fetchCartItems(productIds: List<String>): Flow<Resource<List<CartItemDto>>>
+    suspend fun addProductToCart(userId: String, productId: String): Flow<Resource<UserOld>>
+    suspend fun removeProductFromCart(userId: String, productId: String): Flow<Resource<UserOld>>
+    suspend fun clearCart(userId: String): Flow<Resource<UserOld>>
 }

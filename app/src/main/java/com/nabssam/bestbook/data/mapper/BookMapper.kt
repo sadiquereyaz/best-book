@@ -64,7 +64,6 @@ class BookMapper {
             price = domain.price,
             disPer = domain.discount,
             inStock = domain.stock != 0,
-
             quantity = 1,
         )
     }

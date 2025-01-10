@@ -2,7 +2,7 @@ package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
-import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
@@ -82,16 +82,16 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideAddToCartUseCase(
-        cartRepository: CartRepository,
+        localCartRepository: LocalCartRepository,
         bookRepository: BookRepository
     ): AddToCartUseCase {
-        return AddToCartUseCase(cartRepository, bookRepository)
+        return AddToCartUseCase(localCartRepository, bookRepository)
     }
 
     @Provides
     @Singleton
     fun provideGetCartItemsUseCase(
-        repository: CartRepository
+        repository: LocalCartRepository
     ): GetAllCartItemsUseCase {
         return GetAllCartItemsUseCase(repository)
     }
@@ -100,8 +100,8 @@ object UseCaseModule {
     @Singleton
     fun providePlaceOrderUseCase(
         orderRepository: OrderRepository,
-        cartRepository: CartRepository
+        localCartRepository: LocalCartRepository
     ): PlaceOrderUseCase {
-        return PlaceOrderUseCase(orderRepository, cartRepository)
+        return PlaceOrderUseCase(orderRepository, localCartRepository)
     }
 }

@@ -1,9 +1,9 @@
 package com.nabssam.bestbook.domain.model
 
 data class User(
-    var phoneNumber: String? = null,
-    var email: String? = null,
-    var exam: String? = null,
-    var targetYear: Int? = null,
-    var class_: String? = null,
+    val id: String,
+    val name: String,
+    val email: String,
+    val phone: String?,
+    val createdAt: String
 )

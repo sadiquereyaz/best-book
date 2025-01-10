@@ -97,7 +97,6 @@ class ViewModelBookList @Inject constructor(
         }
     }
 
-
     private fun fetchBooks() {
         viewModelScope.launch {
             getAllBookUseCase().collect { resource ->

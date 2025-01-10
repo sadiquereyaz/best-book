@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.domain.usecase
 
 
-import com.nabssam.bestbook.domain.model.User
+import com.nabssam.bestbook.domain.model.UserOld
 import com.nabssam.bestbook.domain.repository.AuthRepository
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val repository: AuthRepository
 ) {
-    suspend operator fun invoke(email: String, password: String): User {
+    suspend operator fun invoke(email: String, password: String): UserOld {
         validateLoginInput(email, password)
         return repository.login(email, password)
     }
@@ -31,7 +31,7 @@ class LoginUseCase @Inject constructor(
 class SignUpUseCase @Inject constructor(
     private val repository: AuthRepository
 ) {
-    suspend operator fun invoke(email: String, password: String, name: String): User {
+    suspend operator fun invoke(email: String, password: String, name: String): UserOld {
         validateSignUpInput(email, password, name)
         return repository.signUp(email, password, name)
     }
@@ -63,7 +63,7 @@ class LogoutUseCase @Inject constructor(
 class GetCurrentUserUseCase @Inject constructor(
     private val repository: AuthRepository
 ) {
-    operator fun invoke(): Flow<User?> {
+    operator fun invoke(): Flow<UserOld?> {
         return repository.getCurrentUser()
     }
 }

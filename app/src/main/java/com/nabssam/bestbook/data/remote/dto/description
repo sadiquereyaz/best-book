@@ -1,7 +1,0 @@
-DTO: data transfer object
-
-Lets suppose there is BookDto (Data Transfer Object),
-which represents the book data received from a remote API (Retrofit).
-The BookDto will later be mapped to the domain model BookModel for use in the app.
-
-@SerializedName: Maps the JSON fields from the API response to the respective properties in BookDto.

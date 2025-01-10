@@ -2,8 +2,7 @@ package com.nabssam.bestbook.presentation.ui.profile
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.nabssam.bestbook.domain.model.User
-import com.nabssam.bestbook.presentation.ui.address.FirebaseRepo
+import com.nabssam.bestbook.domain.model.UserOld
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,11 +25,11 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private fun fetchProfile() {
         try {
             //val user = firebaseRepo.user()
-            val user = User()
-            if (user != null) {
+            val userOld = UserOld()
+            if (userOld != null) {
                 _profileUiState.update { profileState ->
                     profileState.copy(
-                        name = user.email?.take(user?.email!!.indexOf("@")) ?: "Display Name", email = user.email ?: ""
+                        name = userOld.email?.take(userOld?.email!!.indexOf("@")) ?: "Display Name", email = userOld.email ?: ""
                     )
                 }
             }

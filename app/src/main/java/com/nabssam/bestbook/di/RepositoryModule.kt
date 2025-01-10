@@ -1,13 +1,17 @@
 package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.repository.BannerRepoImp
-import com.nabssam.bestbook.data.repository.CartRepositoryImpl
+import com.nabssam.bestbook.data.repository.LocalCartRepositoryImpl
 import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
 import com.nabssam.bestbook.data.repository.BookRepositoryImpl
+import com.nabssam.bestbook.data.repository.CartRepositoryImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
-import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
+import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
+import com.nabssam.bestbook.presentation.ui.cart.claude.CartRepositoryClaude
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,9 +30,22 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindLocalCartRepository(
+        localCartRepositoryImpl: LocalCartRepositoryImpl
+    ): LocalCartRepository
+
+    @Binds
+    @Singleton
     abstract fun bindCartRepository(
-        cartRepositoryImpl: CartRepositoryImpl
+        CartRepositoryImpl: CartRepositoryImpl
     ): CartRepository
+
+/*    @Binds
+    @Singleton
+    abstract fun bindCartRepositoryClaude(
+        //cartRepositoryClaude: CartRepositoryClaude
+        cartApiServiceClaude: CartApiServiceClaude
+    ): CartApiServiceClaude*/
 
 
     @Binds
@@ -50,7 +67,5 @@ abstract class RepositoryModule {
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
-
-
-    */
+   */
 }

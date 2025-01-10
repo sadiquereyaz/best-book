@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -78,7 +79,7 @@ fun BBNavSuite(
                                 //.background(color = Color.Red)
                                 ,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 28.sp,
+                                fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )

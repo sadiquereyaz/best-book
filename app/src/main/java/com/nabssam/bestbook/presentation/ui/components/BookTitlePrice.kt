@@ -19,11 +19,12 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BookTitlePrice(
     modifier: Modifier = Modifier,
-    addToFontSize: Int = 0, padTop: Dp = 8.dp,
-    maxLine: Int = 2,
-    discPer: Int = 30,
-    originalPrice: Int = 560,
-    title: String = "AMU Booster"
+    addToFontSize: Int = 0,
+    padTop: Dp = 8.dp,
+    maxLine: Int,
+    discPer: Int,
+    originalPrice: Int,
+    title: String
 ) {
     Column  (modifier = modifier){
 

@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,20 +23,15 @@ fun ImageClassesTitle(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.pngsqonlylogo), "logo",
+        //logo
+       /* Image(
+            painter = painterResource(R.drawable.logo), "logo",
             modifier = Modifier.size(42.dp)
-        )
+        )*/
         Text(
-            text = "Image Classes",
+            text = stringResource(R.string.app_name),
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp
         )
-        /*  buildAnnotatedString {
-              withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary, fontSize = 32.sp)) {
-                  append("Image")
-              }
-              append("Classes ")
-          }*/
     }
 }

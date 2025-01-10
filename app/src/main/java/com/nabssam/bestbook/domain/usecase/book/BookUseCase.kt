@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetProductDetailsUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getProductById(productId)
+    suspend operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getProductById(productId)
 }
 
 class GetAllBookUseCase @Inject constructor(

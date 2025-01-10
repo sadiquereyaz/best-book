@@ -1,5 +1,17 @@
 package com.nabssam.bestbook.data.remote.dto
 
+data class ProductDetailResponse(
+    val message: String,
+    val product: ProductDto,
+    val status: String
+)
+
+data class ProductsResponse(
+    val message: String,
+    val products: List<ProductDto>,
+    val status: String
+)
+
 data class ProductDto(
     val brand: String,
     val category: String,
@@ -12,10 +24,4 @@ data class ProductDto(
     val popular: Boolean,
     val price: Int,
     val title: String
-)
-
-data class ProductResponse(
-    val status: String,
-    val message: String,
-    val products: List<ProductDto>
 )
