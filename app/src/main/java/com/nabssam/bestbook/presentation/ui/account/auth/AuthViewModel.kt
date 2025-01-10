@@ -38,7 +38,7 @@ class AuthViewModel @Inject constructor(
             _authState.value = AuthState.Loading
             authRepository.register(name, email, password, phone).fold(
                 onSuccess = { response ->
-                    _authState.value = AuthState.Success(response.data.user)
+                    //_authState.value = AuthState.Success(response.data.user)
                 },
                 onFailure = { error ->
                     _authState.value = AuthState.Error(error.message ?: "Registration failed")

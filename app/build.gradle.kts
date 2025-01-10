@@ -102,7 +102,7 @@ dependencies {
     // Room dependencies (uses KSP/KAPT)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    kapt (libs.androidx.room.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
