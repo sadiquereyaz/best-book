@@ -10,7 +10,12 @@ data class StateHomeScreen(
     var fetchedBanners: List<String> = emptyList(),
 //    var fetchedBanners: List<Banner> = emptyList(),   //TODO: later implementation
     var errorBanners: String? = null,
-    var fetchedexams: List<Exam> = emptyList(),
+
+    var fetchedExams: List<Exam> = emptyList(),
+    var examError: String? = null,
+    var examLoading: Boolean = true,
+
+
     var fetchingBooks: Boolean = true,
     var fetchedBooks: List<Book> = emptyList(),
     var errorBooks: String? = null,

@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class ViewModelHome @Inject constructor(
@@ -45,35 +44,28 @@ class ViewModelHome @Inject constructor(
                     is Resource.Error -> {
                         _state.update {
                             it.copy(
-
-                                fetchedexams = emptyList()
-
+                             examError = resource.message
                             )
-
                         }
-
-
-                        Log.d("ExamViewModel", "fetch: ${resource.message}")
+                        Log.d("ExamViewModel", "fetch error: ${resource.message}")
                     }
 
                     is Resource.Loading -> {
                         _state.update {
                             it.copy(
-
-                                fetchedexams = emptyList()
+                                examLoading = true,
                             )
                         }
-                        Log.d("ExamViewModel", "fetch")
+                        Log.d("ExamViewModel", "fetch Loading")
                     }
 
                     is Resource.Success -> {
                         _state.update {
                             it.copy(
-
-                                fetchedexams = resource.data!!
+                                fetchedExams = resource.data ?: emptyList()
                             )
                         }
-                        Log.d("ExamViewModel", "fetch: ${resource.data}")
+                        Log.d("ExamViewModel", "fetch success: ${resource.data}")
                     }
 
                 }
