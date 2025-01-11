@@ -23,11 +23,11 @@ class ExamViewModel @Inject constructor(
 
     ) : ViewModel() {
 
+
     private val _uiState = MutableStateFlow(examUiState())
     val uiState = _uiState.asStateFlow()
     fun fetchAllExams() {
         viewModelScope.launch {
-
             examRepository.fetchAllExams().collect { resource ->
                 when (resource) {
                     is Resource.Error -> {

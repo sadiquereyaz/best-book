@@ -1,7 +1,9 @@
 package com.nabssam.bestbook.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.domain.usecase.GetBannersUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetTargetExamUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByCategoryUseCase
@@ -13,12 +15,14 @@ import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class ViewModelHome @Inject constructor(
     private val getBooksByCategoryUseCase: GetBooksByCategoryUseCase,
     getTargetExamUseCase: GetTargetExamUseCase,
     private val getBannersUseCase: GetBannersUseCase,
+    private val examRepository: ExamRepository
 
 ) : ViewModel() {
 
@@ -30,6 +34,54 @@ class ViewModelHome @Inject constructor(
 
     init {
         onEvent(EventHomeScreen.Retry)
+    }
+
+
+    private fun fetchAllExams() {
+        Log.d("ExamViewModel", "ExamViewModel insidefetch ")
+        viewModelScope.launch {
+            examRepository.fetchAllExams().collect { resource ->
+                when (resource) {
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+
+                                fetchedexams = emptyList()
+
+                            )
+
+                        }
+
+
+                        Log.d("ExamViewModel", "fetch: ${resource.message}")
+                    }
+
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+
+                                fetchedexams = emptyList()
+                            )
+                        }
+                        Log.d("ExamViewModel", "fetch")
+                    }
+
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+
+                                fetchedexams = resource.data!!
+                            )
+                        }
+                        Log.d("ExamViewModel", "fetch: ${resource.data}")
+                    }
+
+                }
+
+            }
+
+
+        }
     }
 
     private fun fetchBanners() {
@@ -113,9 +165,13 @@ class ViewModelHome @Inject constructor(
             EventHomeScreen.FetchBook -> fetchBooks()
             EventHomeScreen.FetchBanner -> fetchBanners()
             EventHomeScreen.Retry -> {
+                fetchAllExams()
                 fetchBooks()
                 fetchBanners()
+
             }
+
+            EventHomeScreen.FetchExams -> fetchAllExams()
         }
     }
 

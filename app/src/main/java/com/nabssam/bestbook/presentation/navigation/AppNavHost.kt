@@ -39,6 +39,6 @@ class AppNavigation(private val firebaseAuth: FirebaseAuth) {
     fun getStartDestination(): Route {
         val isLoggedIn = firebaseAuth.isUserAlreadyLoggedIn()
        // return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
-        return Route.AuthGraph
+        return Route.MainGraph
     }
 }

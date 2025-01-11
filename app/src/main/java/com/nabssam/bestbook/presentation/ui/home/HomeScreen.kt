@@ -43,8 +43,8 @@ fun HomeScreen(
     onAllQuizSelect: (String) -> Unit,
     event: (EventHomeScreen) -> Unit,
 ) {
-    val examViewModel = hiltViewModel<ExamViewModel>()
-    val examState = examViewModel.uiState.collectAsState()
+//    val examViewModel = hiltViewModel<ExamViewModel>()
+//    val examState = examViewModel.uiState.collectAsState()
     Column(
         modifier = modifier
             .padding(8.dp)
@@ -117,7 +117,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                itemsIndexed(examState.value.exams) { index, exam -> // Use itemsIndexed
+                itemsIndexed(state.fetchedexams!!) { index, exam -> // Use itemsIndexed
                     val color = colorList[index % colorList.size] // Get color from list
                     QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
                 }

@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.repository
 
+import android.util.Log
 import com.nabssam.bestbook.data.mapper.ExamMapper
 import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.data.remote.dto.Chapter
@@ -19,6 +20,7 @@ class ExamRepository @Inject constructor(
         emit(Resource.Loading())
         try {
             val response = examApi.getAllExams()
+            Log.d("examRepository", "fetchAllExams:${response.body()} ")
             if (response.isSuccessful) {
                 val examResponse = response.body()
                 if (examResponse != null) {
