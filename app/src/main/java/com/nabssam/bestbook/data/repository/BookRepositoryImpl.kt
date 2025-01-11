@@ -69,7 +69,7 @@ class BookRepositoryImpl @Inject constructor(
             emit(Resource.Loading())
             try {
                 val response = api.getBooksByCategory(category)
-                //Log.d("Response", "Body: ${response.toString()}")
+                //Log.d("Response", "Body: ${00response.toString()}")
 
                 if (response.isSuccessful) {
                     val productResponse = response.body()

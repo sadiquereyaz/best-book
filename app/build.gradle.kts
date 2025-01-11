@@ -38,12 +38,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl",  "\"https://api.freeapi.app/\"")
+            buildConfigField("String", "baseUrl",  "\"http://api.freeapi.app/\"")
 
         }
 
         debug {
-            buildConfigField("String", "baseUrl",  "\"https://api.freeapi.app/\"")
+            buildConfigField("String", "baseUrl",  "\"http://192.168.0.106:3000\"")
 //            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
     }

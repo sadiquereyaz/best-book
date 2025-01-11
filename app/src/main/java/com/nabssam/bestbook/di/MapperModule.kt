@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.mapper.BookMapper
+import com.nabssam.bestbook.data.mapper.ExamMapper
 import com.nabssam.bestbook.data.mapper.MiscMapper
 import dagger.Module
 import dagger.Provides
@@ -17,9 +18,16 @@ object MapperModule {
     fun provideProductMapper(): BookMapper {
         return BookMapper()
     }
- @Provides
+
+    @Provides
     @Singleton
     fun provideMiscMapper(): MiscMapper {
         return MiscMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExamMapper(): ExamMapper {
+        return ExamMapper()
     }
 }

@@ -6,6 +6,7 @@ import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
+import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.data.repository.AuthInterceptor
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
@@ -56,6 +57,7 @@ object RemoteModule {
     fun provideAuthApi(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
+
     @Provides
     @Singleton
     fun provideProductApi(retrofit: Retrofit): BookApi {
@@ -82,6 +84,13 @@ object RemoteModule {
         return NetworkConnectivityObserver(context)
     }
 
+    @Provides
+    @Singleton
+    fun provideExamApi(retrofit: Retrofit):
+            ExamApi {
+        return retrofit.create(ExamApi::class.java)
+
+    }
     /*
     @Provides
     @Singleton
