@@ -67,7 +67,7 @@ data class CustomCard(
     val quizTitle: String = "Exam Name"
 )
 
-
+val colorList = customCardList.map { it.colors }
 @Composable
 fun HomeScreen1(
     state: StateHomeScreen,
@@ -158,9 +158,9 @@ fun HomeScreen1(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(customCardList) { card ->
-                QuizCard(card, onQuizSelect = { navigateToQuiz(0) })
-            }
+//            items(customCardList) { card ->
+//                QuizCard(card, onQuizSelect = { navigateToQuiz(0) })
+//            }
 
         }
     }

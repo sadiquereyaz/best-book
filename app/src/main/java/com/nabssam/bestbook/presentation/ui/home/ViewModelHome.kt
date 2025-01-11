@@ -18,7 +18,8 @@ import javax.inject.Inject
 class ViewModelHome @Inject constructor(
     private val getBooksByCategoryUseCase: GetBooksByCategoryUseCase,
     getTargetExamUseCase: GetTargetExamUseCase,
-    private val getBannersUseCase: GetBannersUseCase
+    private val getBannersUseCase: GetBannersUseCase,
+
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(StateHomeScreen())

@@ -11,21 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 import com.nabssam.bestbook.presentation.ui.home.components.HomeBookList
 import com.nabssam.bestbook.presentation.ui.home.components.QuizCard
+import com.nabssam.bestbook.presentation.ui.home.components.colorList
 import com.nabssam.bestbook.presentation.ui.home.components.customCardList
+import com.nabssam.bestbook.presentation.ui.quiz.ExamViewModel
 
 @Composable
 fun HomeScreen(
@@ -38,6 +43,8 @@ fun HomeScreen(
     onAllQuizSelect: (String) -> Unit,
     event: (EventHomeScreen) -> Unit,
 ) {
+    val examViewModel = hiltViewModel<ExamViewModel>()
+    val examState = examViewModel.uiState.collectAsState()
     Column(
         modifier = modifier
             .padding(8.dp)
@@ -110,8 +117,9 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(customCardList) { card ->
-                    QuizCard(card, onQuizSelect = { navigateToQuiz(0) })
+                itemsIndexed(examState.value.exams) { index, exam -> // Use itemsIndexed
+                    val color = colorList[index % colorList.size] // Get color from list
+                    QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
                 }
 
             }

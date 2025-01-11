@@ -11,30 +11,33 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.domain.model.Exam
 
 @Composable
-fun QuizCard(card: CustomCard, onQuizSelect: () -> Unit) {
+fun QuizCard(exam: Exam, color:CardColors, onQuizSelect: () -> Unit) {
     Box(
+
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clickable { onQuizSelect() }
             .border(
                 width = 2.dp,
                 shape = RoundedCornerShape(6.dp),
-                color = card.colors.borderColor
+                color = color.borderColor
             )
-            .background(color = card.colors.backgroundColor, shape = RoundedCornerShape(6.dp))
+            .background(color = color.backgroundColor, shape = RoundedCornerShape(6.dp))
             .aspectRatio(2f)
     ) {
         Text(
-            text = card.quizTitle,
+            text = exam.name,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(4.dp),
-            color = card.colors.onBackgroundColor
+            color = color.onBackgroundColor
         )
     }
 }
