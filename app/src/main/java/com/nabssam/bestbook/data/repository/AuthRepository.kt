@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.repository
 
+import android.util.Log
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.domain.model.AuthData
 import com.nabssam.bestbook.domain.model.RegisterRequest
@@ -17,6 +18,7 @@ class AuthRepository @Inject constructor(
             val response = authApiService.signIn(request)
 
             if (response.isSuccessful) {
+                    Log.d("LOGIN_RESPONSE", "${response.body()}")
                 response.body()?.let { authResponse ->
                     if (authResponse.success) {
                         // Save tokens and user data

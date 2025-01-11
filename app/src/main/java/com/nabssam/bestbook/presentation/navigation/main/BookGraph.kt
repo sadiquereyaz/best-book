@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.navigation.main
 
+//import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -7,16 +8,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
-//import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
-import com.nabssam.bestbook.presentation.ui.cart.CartScreen
-import com.nabssam.bestbook.presentation.ui.address.AddressScreen
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
-import com.nabssam.bestbook.presentation.ui.book.bookList.ViewModelBookList
-import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.cart.VMCart
+import com.nabssam.bestbook.presentation.ui.address.AddressScreen
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
+import com.nabssam.bestbook.presentation.ui.book.bookList.ViewModelBookList
+import com.nabssam.bestbook.presentation.ui.cart.claude.CartScreenClaude
+import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
 
@@ -64,7 +63,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
     }
     composable<Route.CartRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
-        val vm = hiltViewModel<VMCart>()
+       /* val vm = hiltViewModel<VMCart>()
         CartScreen(
             vm = vm,
             goToBookDetail = { bookId: String ->
@@ -73,7 +72,10 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
             goToAddressScreen = {
                 navController.navigate(Route.AddressRoute())
             }
-        )
+        )*/
+        val vm = hiltViewModel<ViewModelBookList>()
+        val state by vm.state.collectAsState()
+        CartScreenClaude(){}
     }
     composable<Route.AddressRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()

@@ -32,7 +32,6 @@ import com.nabssam.bestbook.presentation.ui.cart.claude.composable.ErrorMessage
 @Composable
 fun CartScreenClaude(
     viewModel: CartViewModelClaude = hiltViewModel(),
-    userId: String,
     onNavigateToProduct: (Int) -> Unit
 ) {
     val cartState by viewModel.cartState.collectAsState()
@@ -60,7 +59,7 @@ fun CartScreenClaude(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.fetchCartItems(userId)
+        viewModel.fetchCartItems()
     }
 
     Scaffold(
@@ -69,7 +68,7 @@ fun CartScreenClaude(
             TopAppBar(
                 title = { Text("Shopping Cart") },
                 actions = {
-                    IconButton(onClick = { viewModel.clearCart(userId) }) {
+                    IconButton(onClick = { viewModel.clearCart() }) {
                         Icon(Icons.Default.Clear, "Clear cart")
                     }
                 }
@@ -94,10 +93,10 @@ fun CartScreenClaude(
                     CartItemsList(
                         cartItemClaude = currentState.cartItemClaudes,
                         onUpdateQuantity = { cartItemId, quantity ->
-                            viewModel.updateCartItem(userId, cartItemId, quantity)
+                            viewModel.updateCartItem(cartItemId, quantity)
                         },
                         onRemoveItem = { cartItemId ->
-                            viewModel.removeFromCart(userId, cartItemId)
+                            viewModel.removeFromCart( cartItemId)
                         },
                         onItemClick = onNavigateToProduct,
                         modifier = Modifier.padding(padding)
@@ -108,7 +107,7 @@ fun CartScreenClaude(
             is CartState.Error -> {
                 ErrorMessage(
                     message = currentState.message,
-                    onRetry = { viewModel.fetchCartItems(userId) },
+                    onRetry = { viewModel.fetchCartItems() },
                     modifier = Modifier.padding(padding)
                 )
             }
@@ -121,7 +120,6 @@ fun CartScreenClaude(
 @Composable
 fun CartScreenPreview() {
     CartScreenClaude(
-        userId = "TODO()",
         onNavigateToProduct = {}
     )
 }

@@ -1,14 +1,22 @@
 package com.nabssam.bestbook.presentation.ui.cart.claude
 
+import android.util.Log
+import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.composable.CartItemObj
 import javax.inject.Inject
 
 class CartRepositoryClaude @Inject constructor(
-    private val cartApiServiceClaude: CartApiServiceClaude
+    private val cartApiServiceClaude: CartApiServiceClaude,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) {
+    /*val id:String = userPreferencesRepository.user.collect{
+        it?._id ?: "NO ID FOUND!"
+    }*/
     suspend fun getCartItems(userId: String): Result<List<CartItemClaude>> {
         return try {
-            val response = cartApiServiceClaude.getCartItems(userId)
+            val response = cartApiServiceClaude.getCartItems("67816bdabced68b579b14033")
+            Log.d("CART_RESPONSE", "${response.body()}")
+
             if (response.isSuccessful) {
                 Result.success(response.body() ?: emptyList())
             } else {

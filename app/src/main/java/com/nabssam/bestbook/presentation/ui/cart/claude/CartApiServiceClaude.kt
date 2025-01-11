@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /*
 Response<T>: This class represents the HTTP response received from the server.
@@ -22,8 +23,8 @@ Access raw headers: If you need to process any specific headers returned by the 
 */
 
 interface CartApiServiceClaude {
-    @GET("ecommerce/cart")
-    suspend fun getCartItems(@Path("userId") userId: String): Response<List<CartItemClaude>>
+    @GET("api/v1/ecommerce/cart")
+    suspend fun getCartItems(@Query("_id") userId: String): Response<List<CartItemClaude>>
     
     @POST("api/cart/add")
     suspend fun addToCart(@Body request: AddToCartRequest): Response<CartItemClaude>

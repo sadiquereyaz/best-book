@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.repository
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
@@ -55,6 +56,8 @@ class UserPreferencesRepository @Inject constructor(
     }
 
     suspend fun saveUser(user: User) {
+        Log.d("USER_ID_ds", user._id)
+
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.USER_ID] = user._id
             preferences[PreferencesKeys.USERNAME] = user.username

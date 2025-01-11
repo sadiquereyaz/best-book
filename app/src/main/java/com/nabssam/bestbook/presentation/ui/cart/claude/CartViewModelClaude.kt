@@ -1,7 +1,9 @@
 package com.nabssam.bestbook.presentation.ui.cart.claude
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,18 +16,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModelClaude @Inject constructor(
-    private val cartRepositoryClaude: CartRepositoryClaude
+    private val cartRepositoryClaude: CartRepositoryClaude,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
-    
+
+    var userId: String = ""
+
+    init {
+        viewModelScope.launch {
+            userPreferencesRepository.user.collect {
+                userId = it?.username ?: "NO ID FOUND!"
+            }
+        }
+            Log.d("USER_ID", userId)
+    }
+
     private val _cartState = MutableStateFlow<CartState>(CartState.Loading)
     val cartState: StateFlow<CartState> = _cartState.asStateFlow()
-    
+
     private val _cartOperation = MutableSharedFlow<CartOperation>()
     val cartOperation: SharedFlow<CartOperation> = _cartOperation.asSharedFlow()
-    
-    fun fetchCartItems(userId: String) {
+
+    fun fetchCartItems() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading
+            /*userPreferencesRepository.user.collect {
+                userId = it?._id ?: "NO ID FOUND!"
+            }*/
             cartRepositoryClaude.getCartItems(userId).fold(
                 onSuccess = { cartItems ->
                     _cartState.value = CartState.Success(cartItems)
@@ -36,14 +53,14 @@ class CartViewModelClaude @Inject constructor(
             )
         }
     }
-    
-    fun addToCart(userId: String, productId: Int, quantity: Int) {
+
+    fun addToCart(productId: Int, quantity: Int) {
         viewModelScope.launch {
             _cartOperation.emit(CartOperation.Loading)
             cartRepositoryClaude.addToCart(userId, productId, quantity).fold(
                 onSuccess = { cartItem ->
                     _cartOperation.emit(CartOperation.Success("Item added to cart"))
-                    fetchCartItems(userId)
+                    fetchCartItems()
                 },
                 onFailure = { error ->
                     _cartOperation.emit(CartOperation.Error(error.message ?: "Failed to add item"))
@@ -51,38 +68,46 @@ class CartViewModelClaude @Inject constructor(
             )
         }
     }
-    
-    fun updateCartItem(userId: String, cartItemId: Int, quantity: Int) {
+
+    fun updateCartItem(cartItemId: Int, quantity: Int) {
         viewModelScope.launch {
             _cartOperation.emit(CartOperation.Loading)
             cartRepositoryClaude.updateCartItem(cartItemId, quantity).fold(
                 onSuccess = { cartItem ->
                     _cartOperation.emit(CartOperation.Success("Cart updated"))
-                    fetchCartItems(userId)
+                    fetchCartItems()
                 },
                 onFailure = { error ->
-                    _cartOperation.emit(CartOperation.Error(error.message ?: "Failed to update cart"))
+                    _cartOperation.emit(
+                        CartOperation.Error(
+                            error.message ?: "Failed to update cart"
+                        )
+                    )
                 }
             )
         }
     }
-    
-    fun removeFromCart(userId: String, cartItemId: Int) {
+
+    fun removeFromCart(cartItemId: Int) {
         viewModelScope.launch {
             _cartOperation.emit(CartOperation.Loading)
             cartRepositoryClaude.removeFromCart(cartItemId).fold(
                 onSuccess = {
                     _cartOperation.emit(CartOperation.Success("Item removed from cart"))
-                    fetchCartItems(userId)
+                    fetchCartItems()
                 },
                 onFailure = { error ->
-                    _cartOperation.emit(CartOperation.Error(error.message ?: "Failed to remove item"))
+                    _cartOperation.emit(
+                        CartOperation.Error(
+                            error.message ?: "Failed to remove item"
+                        )
+                    )
                 }
             )
         }
     }
-    
-    fun clearCart(userId: String) {
+
+    fun clearCart() {
         viewModelScope.launch {
             _cartOperation.emit(CartOperation.Loading)
             cartRepositoryClaude.clearCart(userId).fold(
@@ -91,7 +116,11 @@ class CartViewModelClaude @Inject constructor(
                     _cartState.value = CartState.Success(emptyList())
                 },
                 onFailure = { error ->
-                    _cartOperation.emit(CartOperation.Error(error.message ?: "Failed to clear cart"))
+                    _cartOperation.emit(
+                        CartOperation.Error(
+                            error.message ?: "Failed to clear cart"
+                        )
+                    )
                 }
             )
         }
