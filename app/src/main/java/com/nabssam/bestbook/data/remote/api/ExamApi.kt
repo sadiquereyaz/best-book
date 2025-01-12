@@ -23,4 +23,5 @@ interface ExamApi {
     suspend fun getAllQuizzesInChapter(@Path("chapterId") chapterId: String):Response<QuizResponse>
 //    678246e3ce87e9f7eabf1ed8
 
+
 }

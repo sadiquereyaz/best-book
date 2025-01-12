@@ -18,34 +18,46 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun QuizCategoryScreen(
     modifier: Modifier = Modifier,
-    moveToMCQ: () -> Unit
+    moveToMCQ: () -> Unit,
 
 //    quizId: String,
 //    navController: NavController
 ) {
+    val viewModel = hiltViewModel<ExamViewModel>()
+    val state by viewModel.uiState.collectAsState()
+
+//    LaunchedEffect(subjectId) {
+//        viewModel.fetchAllChapters(subjectId)
+//    }
     val chapter = mutableListOf("");
     repeat(10) {
         chapter.add("Chapter $it")
 
     }
-    Box(
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        LazyColumn(modifier.fillMaxSize()) {
-            items(chapter.size) {
-                QuizListCard(it, moveToMCQ)
-            }
-        }
-    }
+  if(state.chapters.isNotEmpty()){
+      Box(
+          contentAlignment = Alignment.TopCenter,
+      ) {
+          LazyColumn(modifier.fillMaxSize()) {
+              items(state.chapters.size) {
+                  QuizListCard(it, moveToMCQ)
+              }
+          }
+      }
+  }
 }
 
 @Composable

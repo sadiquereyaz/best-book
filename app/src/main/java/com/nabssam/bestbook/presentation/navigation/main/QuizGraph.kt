@@ -13,6 +13,7 @@ import com.nabssam.bestbook.presentation.ui.quiz.AllQuizListScreen
 import com.nabssam.bestbook.presentation.ui.quiz.QuizSubjectScreen
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.quiz.ExamViewModel
+import com.nabssam.bestbook.presentation.ui.quiz.MCQScreen
 import com.nabssam.bestbook.presentation.ui.quiz.QuizScreen
 
 
@@ -26,11 +27,11 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
             ).toString(),
         )
     }
-//    composable<Route.MCQRoute> { backStackEntry ->
-//        MCQScreen(
-////            quizId = routeObj.quizId ,
-//        )
-//    }
+    composable<Route.MCQRoute> { backStackEntry ->
+        MCQScreen(
+//            quizId = routeObj.quizId ,
+        )
+    }
 
     composable<Route.QuizSubjectRoute> { backStackEntry ->
         val viewModel = hiltViewModel<ExamViewModel>()
@@ -49,8 +50,10 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
 
             },
             onAction = { event->
+
                 viewModel.onQuiz(event)
-            }
+            },
+            viewModel = viewModel
         )
     }
 }

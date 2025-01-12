@@ -14,25 +14,38 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.nabssam.bestbook.R
+import com.nabssam.bestbook.data.remote.dto.Subject
 import com.nabssam.bestbook.domain.model.Quiz
+import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 
 @Composable
 fun QuizSubjectScreen(
     modifier: Modifier = Modifier,
-    examId:String,
+    examId: String,
     onAction: (QuizScreen) -> Unit,
     moveToMCQ: () -> Unit,
-    state: examUiState
+    state: examUiState,
+    viewModel: ExamViewModel
 
-    ) {
-    val subjects = listOf("English", "GK", "Math", "Science")
+) {
+    val subjects = state.subjects.ifEmpty {
+        emptyList()
+    }
+
     var selectedTab by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { subjects.size }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     var currentQuestionIndex by remember { mutableStateOf(0) }
     var correctAnswers by remember { mutableStateOf(0) }
 
+
+    LaunchedEffect(examId) { // Call onAction only when examId changes
+        onAction(QuizScreen.fetchSubjects(examId))
+    }
     LaunchedEffect(selectedTab) {
         pagerState.animateScrollToPage(selectedTab)
         currentQuestionIndex = 0
@@ -49,34 +62,45 @@ fun QuizSubjectScreen(
         }
     }
 
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
+    if (state.isLoading) {
+        FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.banner_height)))
+    } else {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
             //.padding(top = 56.dp),
-    ) {
-        onAction(QuizScreen.fetchSubjects(examId))
-        Log.d("ExamScreen", "QuizSubjectScreen: ${examId}")
-        Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${state.subjects}")
-        TabRow(selectedTabIndex = selectedTab) {
-            state.subjects.forEachIndexed { index, item ->
-                Tab(
-                    selected = index == selectedTab,
-                    onClick = { selectedTab = index },
-                    text = { Text(text = item.name, color = MaterialTheme.colorScheme.onSurface) },
-                    unselectedContentColor = MaterialTheme.colorScheme.surface
-                )
+        ) {
+//        onAction(QuizScreen.fetchSubjects(examId))
+
+            TabRow(selectedTabIndex = selectedTab) {
+                subjects.forEachIndexed { index, item ->
+
+
+                    Tab(
+                        selected = index == selectedTab,
+                        onClick = {
+                            selectedTab = index
+
+                        },
+                        text = {
+                            Text(
+                                text = item.name,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        },
+                        unselectedContentColor = MaterialTheme.colorScheme.surface
+                    )
+                }
             }
-        }
 
-        HorizontalPager(
-            userScrollEnabled = false,
-            state = pagerState,
+            HorizontalPager(
+                userScrollEnabled = false,
+                state = pagerState,
 
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) { page ->
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) { page ->
 //            val filteredQuizList = quizList.filter { it.subject == subjects[page] }
 //
 //            if (currentQuestionIndex < filteredQuizList.size) {
@@ -132,8 +156,12 @@ fun QuizSubjectScreen(
 //                    }
 //                }
 //            }
+//                if(subjects.isNotEmpty()){
+//                    Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${subjects[page]}")
+                Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${state.chapters}")
+                    QuizCategoryScreen(moveToMCQ = moveToMCQ)
 
-            QuizCategoryScreen(moveToMCQ=moveToMCQ)
+            }
         }
     }
 }
@@ -145,37 +173,37 @@ fun QuestionCard(
     selectedOption: Int?,
     onOptionSelected: (Int) -> Unit
 ) {
-   Box(contentAlignment = Alignment.TopCenter){
-       Column(
-           modifier = Modifier.fillMaxWidth(),
-           verticalArrangement = Arrangement.spacedBy(8.dp),
-           horizontalAlignment = Alignment.CenterHorizontally
-       ) {
-           // Question Text
-           val questionNumber = currentQuestionIndex + 1
-           Text(
-               text = "$questionNumber. ${quiz.question}",
-               color = Color.Black,
-               modifier = Modifier.padding(bottom = 4.dp)
-           )
+    Box(contentAlignment = Alignment.TopCenter) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Question Text
+            val questionNumber = currentQuestionIndex + 1
+            Text(
+                text = "$questionNumber. ${quiz.question}",
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
 
-           // Options
-           quiz.options.forEachIndexed { index, option ->
-               Card {
-                   Row(
-                       verticalAlignment = Alignment.CenterVertically,
-                       modifier = Modifier
-                           .fillMaxWidth()
-                           .padding(horizontal = 8.dp)
-                   ) {
-                       RadioButton(
-                           selected = selectedOption == index,
-                           onClick = { onOptionSelected(index) }
-                       )
-                       Text(text = option)
-                   }
-               }
-           }
-       }
-   }
+            // Options
+            quiz.options.forEachIndexed { index, option ->
+                Card {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        RadioButton(
+                            selected = selectedOption == index,
+                            onClick = { onOptionSelected(index) }
+                        )
+                        Text(text = option)
+                    }
+                }
+            }
+        }
+    }
 }
