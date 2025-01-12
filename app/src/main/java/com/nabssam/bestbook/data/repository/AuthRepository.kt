@@ -2,8 +2,8 @@ package com.nabssam.bestbook.data.repository
 
 import android.util.Log
 import com.nabssam.bestbook.data.remote.api.AuthApiService
-import com.nabssam.bestbook.domain.model.SignUpRequest
-import com.nabssam.bestbook.domain.model.SignInRequest
+import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
+import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(

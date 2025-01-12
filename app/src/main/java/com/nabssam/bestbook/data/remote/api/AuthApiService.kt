@@ -1,8 +1,8 @@
 package com.nabssam.bestbook.data.remote.api
 
-import com.nabssam.bestbook.domain.model.AuthResponseBody
-import com.nabssam.bestbook.domain.model.SignUpRequest
-import com.nabssam.bestbook.domain.model.SignInRequest
+import com.nabssam.bestbook.data.remote.dto.auth.AuthResponseBody
+import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
+import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.domain.model.register.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body

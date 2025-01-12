@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
-    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("plugin.serialization") version  "1.9.10"//"2.0.21"
 
     // Hilt plugin for Dependency Injection
     alias(libs.plugins.kotlin.kapt)
@@ -53,7 +53,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     kotlinOptions {
         jvmTarget = "11"

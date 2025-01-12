@@ -4,19 +4,17 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
-import com.nabssam.bestbook.domain.model.SignUpRequest
-import com.nabssam.bestbook.presentation.ui.account.auth.AuthStateOld
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep
-import javax.inject.Inject;
-
-import dagger.hilt.android.lifecycle.HiltViewModel;
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(

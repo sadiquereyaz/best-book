@@ -39,6 +39,28 @@ class ExamRepository @Inject constructor(
             emit(Resource.Error(message = e.message))
         }
     }
+     fun fetchAllCategories(): Flow<Resource<List<Exam>>> = flow {
+        /*emit(Resource.Loading())
+        try {
+            val response = examApi.getAllCategory()
+            if (response.isSuccessful) {
+                val examResponse = response.body()
+                if (examResponse != null) {
+                    val exams = examResponse..map {
+                        mapper.dtoToDomain(it)
+                    }
+
+                    emit(Resource.Success(data = exams))
+                }
+                else{
+                    emit(Resource.Error(message = "no exam found"))
+                }
+
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(message = e.message))
+        }*/
+    }
 
     fun fetchAllSubjects(examId:String): Flow<Resource<List<Subject>>> = flow {
         emit(Resource.Loading())

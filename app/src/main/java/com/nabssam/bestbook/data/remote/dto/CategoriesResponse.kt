@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.remote.dto
 
+/*
 data class CategoriesResponse(
     val statusCode: Int,
     val data: CategoriesData,
@@ -24,3 +25,11 @@ data class Category(
     val id: String,
     val name: String
 )
+
+
+data class CategoryResponse(
+    val categories: List<String>,
+    val message: String,
+    val status: String
+)
+*/
