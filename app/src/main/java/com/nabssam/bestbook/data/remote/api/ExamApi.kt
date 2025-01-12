@@ -8,6 +8,7 @@ import retrofit2.Response
 
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ExamApi {
     @GET("api/exams/getallexams")
@@ -21,6 +22,10 @@ interface ExamApi {
 
     @GET("api/quizzes/getquizbyid/{chapterId}")
     suspend fun getAllQuizzesInChapter(@Path("chapterId") chapterId: String):Response<QuizResponse>
-//    678246e3ce87e9f7eabf1ed8
 
+    @GET("api/v1/ecommerce/categories")
+    suspend fun getAllCategory(
+        @Query("page") page:Int = 1,
+        @Query("limit") limit:Int = 5
+    ):Response<>
 }

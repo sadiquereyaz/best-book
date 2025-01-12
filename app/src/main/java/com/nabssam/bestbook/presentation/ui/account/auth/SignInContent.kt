@@ -30,7 +30,7 @@ import com.nabssam.bestbook.R
 @Composable
 fun SignInContent(
     onSignIn: (String, String) -> Unit,
-    authState: AuthState
+    authStateOld: AuthStateOld
 ) {
     var email by remember { mutableStateOf("mdsadique47@gmail.com") }
     var password by remember { mutableStateOf("11111111") }
@@ -86,10 +86,10 @@ fun SignInContent(
         Button(
             onClick = { onSignIn(email, password) },
             enabled = email.isNotEmpty() && password.isNotEmpty() && 
-                     authState !is AuthState.Loading,
+                     authStateOld !is AuthStateOld.Loading,
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (authState is AuthState.Loading) {
+            if (authStateOld is AuthStateOld.Loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
                     color = MaterialTheme.colorScheme.onPrimary
@@ -99,9 +99,9 @@ fun SignInContent(
             }
         }
         
-        if (authState is AuthState.Error) {
+        if (authStateOld is AuthStateOld.Error) {
             Text(
-                text = authState.message,
+                text = authStateOld.message,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(top = 8.dp)
             )

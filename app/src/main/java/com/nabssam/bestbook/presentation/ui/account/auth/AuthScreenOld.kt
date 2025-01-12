@@ -23,16 +23,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun AuthScreen(
-    viewModel: AuthViewModel = hiltViewModel(),
-    state: AuthState,
+    viewModel: AuthViewModelOld = hiltViewModel(),
+    state: AuthStateOld,
     onEvent: (EventAuth)->Unit,
     onAuthSuccess: () -> Unit
 ) {
     var isSignIn by remember { mutableStateOf(true) }
-    val authState by viewModel.authState.collectAsState()
+    val authState by viewModel.authStateOld.collectAsState()
     
     LaunchedEffect(authState) {
-        if (authState is AuthState.Success) {
+        if (authState is AuthStateOld.Success) {
             onAuthSuccess()
         }
     }
@@ -58,14 +58,14 @@ fun AuthScreen(
                 onSignIn = { email, password ->
                     viewModel.signIn(email, password)
                 },
-                authState = authState
+                authStateOld = authState
             )
         } else {
             RegisterContent(
                 onRegister = { name, email, password, phone ->
                     viewModel.register(name, email, password, phone)
                 },
-                authState = authState
+                authStateOld = authState
             )
         }
         

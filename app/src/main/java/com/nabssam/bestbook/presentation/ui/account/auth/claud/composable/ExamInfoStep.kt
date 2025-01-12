@@ -21,11 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthEvent
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.RegistrationState
+import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthState
 
 @Composable
 fun ExamInfoStep(
-    state: RegistrationState,
+    state: AuthState,
     onEvent: (AuthEvent) -> Unit,
     validate: ()->Boolean
 ) {

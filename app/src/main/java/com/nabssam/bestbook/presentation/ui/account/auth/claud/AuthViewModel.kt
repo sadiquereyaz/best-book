@@ -4,7 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import com.nabssam.bestbook.data.repository.AuthRepository
+import com.nabssam.bestbook.data.repository.UserPreferencesRepository
+import com.nabssam.bestbook.domain.model.SignUpRequest
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthStateOld
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep
 import javax.inject.Inject;
 
@@ -14,17 +17,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import kotlin.math.sign
 
 @HiltViewModel
-class RegistrationViewModel @Inject
-constructor() : ViewModel() {
-    private val _state = MutableStateFlow(RegistrationState())
+class AuthViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val userPreferencesRepository: UserPreferencesRepository,
+//    private val
+) : ViewModel() {
+    private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
+init {
+    checkAuthState()
+    fetchAllExam()
+}
     fun onEvent(event: AuthEvent) {
         when (event) {
-            is AuthEvent.SignIn ->  sign()
+            is AuthEvent.SignIn -> signIn()
+            is AuthEvent.SignUp -> signUp()
             is AuthEvent.NavigateBack -> handleNavigateBack()
             is AuthEvent.NavigateNext -> handleNavigateNext()
             is AuthEvent.UpdateUsername -> updateState { it.copy(username = event.username) }
@@ -42,22 +52,66 @@ constructor() : ViewModel() {
         }
     }
 
-    private fun sign() {
+    private fun checkAuthState() {
         viewModelScope.launch {
-            viewModelScope.launch {
-                updateState { it.copy(
-                    isLoading = true,
-                    error = null
-                ) }
-                authRepository.signIn(email, password).fold(
-                    onSuccess = {
-                        _authState.value = AuthState.Success
-                    },
-                    onFailure = { error ->
-                        _authState.value = AuthState.Error(error.message ?: "Sign in failed")
-                    }
+            userPreferencesRepository.accessToken.collect { token ->
+                _state.value.isSignedIn = token != null
+            }
+        }
+    }
+
+    private fun fetchAllExam(){
+        viewModelScope.launch {
+
+        }
+    }
+
+    private fun signIn() {
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    isLoading = true, error = null
                 )
             }
+            authRepository.signIn(_state.value.username, _state.value.password).fold(onSuccess = {
+                updateState { it.copy(isLoading = false, error = null, isSignedIn = true) }
+            }, onFailure = { error ->
+                updateState { it.copy(isLoading = false, error = error.message) }
+            })
+        }
+    }
+
+    private fun signUp() {
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    isLoading = true, error = null
+                )
+            }
+            authRepository.signUp(
+                SignUpRequest(
+                    username = _state.value.username,
+                    email = _state.value.username,
+                    password = _state.value.password,
+                    currentClass = _state.value.currentClass,
+                    schoolName = _state.value.schoolName,
+                    targetExams = _state.value.targetExams,
+                    targetYear = _state.value.targetYear,
+                    mobileNumber = _state.value.mobileNumber
+                )
+            ).fold(
+                onSuccess = {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            error = null,
+                            currentStep = RegistrationStep.LOGIN
+                        )
+                    }
+                }, onFailure = { error ->
+                    updateState { it.copy(isLoading = false, error = error.message) }
+                }
+            )
         }
     }
 
@@ -86,13 +140,13 @@ constructor() : ViewModel() {
     }
 
     private fun addExam(exam: String) {
-        updateState { 
+        updateState {
             it.copy(targetExams = it.targetExams + exam)
         }
     }
 
     private fun removeExam(exam: String) {
-        updateState { 
+        updateState {
             it.copy(targetExams = it.targetExams - exam)
         }
     }
@@ -102,10 +156,9 @@ constructor() : ViewModel() {
             updateState { it.copy(isLoading = true) }
             // TODO: Implement OTP sending logic
             delay(1000) // Simulating API call
-            updateState { 
+            updateState {
                 it.copy(
-                    isLoading = false,
-                    isOtpSent = true
+                    isLoading = false, isOtpSent = true
                 )
             }
         }
@@ -118,9 +171,7 @@ constructor() : ViewModel() {
             delay(1000) // Simulating API call
             updateState {
                 it.copy(
-                        isLoading = false,
-                        isOtpVerified = true,
-                        error = null
+                    isLoading = false, isOtpVerified = true, error = null
                 )
             }
             // TODO: Handle successful registration
@@ -130,35 +181,38 @@ constructor() : ViewModel() {
     private fun toggleNewUser() {
         updateState {
             it.copy(
-                    currentStep = RegistrationStep.CREDENTIALS,
-                    //username = "",
-                    //password = ""
+                currentStep = RegistrationStep.CREDENTIALS,
+                //username = "",
+                //password = ""
             )
         }
     }
 
-    private fun updateState(update: (RegistrationState) -> RegistrationState) {
+    private fun updateState(update: (AuthState) -> AuthState) {
         _state.value = update(_state.value)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-     fun validateCurrentStep(): Boolean {
+    fun validateCurrentStep(): Boolean {
         return when (_state.value.currentStep) {
             RegistrationStep.LOGIN -> {
                 _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty()
             }
+
             RegistrationStep.CREDENTIALS -> {
                 _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty()
             }
+
             RegistrationStep.EDUCATION_INFO -> {
                 _state.value.currentClass.isNotEmpty() && _state.value.schoolName.isNotEmpty()
             }
+
             RegistrationStep.EXAM_INFO -> {
                 _state.value.targetExams.isNotEmpty() && (_state.value.targetYear).toInt() > LocalDate.now().year
             }
+
             RegistrationStep.MOBILE_VERIFICATION -> {
-                _state.value.mobileNumber.length == 10 &&
-                        (_state.value.isOtpVerified || (_state.value.isOtpSent && _state.value.otp.length == 6))
+                _state.value.mobileNumber.length == 10 && (_state.value.isOtpVerified || (_state.value.isOtpSent && _state.value.otp.length == 6))
             }
         }
     }

@@ -31,7 +31,7 @@ import com.nabssam.bestbook.R
 @Composable
 fun RegisterContent(
     onRegister: (String, String, String, String?) -> Unit,
-    authState: AuthState
+    authStateOld: AuthStateOld
 ) {
     var name by remember { mutableStateOf("sadique") }
     var email by remember { mutableStateOf("mdsadique47@gmail.com") }
@@ -141,10 +141,10 @@ fun RegisterContent(
             onClick = { onRegister(name, email, password, phone.takeIf { it.isNotEmpty() }) },
             enabled = name.isNotEmpty() && email.isNotEmpty() &&
                     password.isNotEmpty() && password == confirmPassword &&
-                    authState !is AuthState.Loading,
+                    authStateOld !is AuthStateOld.Loading,
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (authState is AuthState.Loading) {
+            if (authStateOld is AuthStateOld.Loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
                     color = MaterialTheme.colorScheme.onPrimary
@@ -154,9 +154,9 @@ fun RegisterContent(
             }
         }
 
-        if (authState is AuthState.Error) {
+        if (authStateOld is AuthStateOld.Error) {
             Text(
-                text = authState.message,
+                text = authStateOld.message,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(top = 8.dp)
             )

@@ -2,10 +2,8 @@ package com.nabssam.bestbook.data.repository
 
 import android.util.Log
 import com.nabssam.bestbook.data.remote.api.AuthApiService
-import com.nabssam.bestbook.domain.model.AuthData
-import com.nabssam.bestbook.domain.model.RegisterRequest
+import com.nabssam.bestbook.domain.model.SignUpRequest
 import com.nabssam.bestbook.domain.model.SignInRequest
-import com.nabssam.bestbook.domain.model.register.RegisterResponse
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
@@ -16,9 +14,12 @@ class AuthRepository @Inject constructor(
         return try {
             val request = SignInRequest(email, password)
             val response = authApiService.signIn(request)
+            //val data = authApiService.signIn(request).body()?.data
 
-            if (response.isSuccessful) {
-                    Log.d("LOGIN_RESPONSE", "${response.body()}")
+            Log.d("LOGIN_RESPONSE", "${response}")
+            Log.d("LOGIN_RESPONSE_BODY", "${response.body() ?: "Empty body"}")
+
+            if (response.isSuccessful) {    // is successful: Returns true if code() is in the range [200..300)
                 response.body()?.let { authResponse ->
                     if (authResponse.success) {
                         // Save tokens and user data
@@ -27,41 +28,46 @@ class AuthRepository @Inject constructor(
                             authResponse.data.refreshToken
                         )
                         userPreferences.saveUser(authResponse.data.user)
-                        Result.success(Unit/*authResponse.data*/)
+                        Result.success(Unit)
                     } else {
                         Result.failure(Exception(authResponse.message))
                     }
+                    Result.success(Unit)
+
                 } ?: Result.failure(Exception("Empty response"))
             } else {
-                Result.failure(Exception(response.errorBody()?.string() ?: "Sign in failed"))
+                when (response.code()) {
+                    400 -> Result.failure(Exception("400:Bad Request: Invalid input data"))
+                    401 -> Result.failure(Exception("Unauthorized: Invalid email or password"))
+                    403 -> Result.failure(Exception("Forbidden: Access denied"))
+                    404 -> Result.failure(Exception("Not Found: Endpoint not found"))
+                    500 -> Result.failure(Exception("Server Error: Please try again later"))
+                    else -> Result.failure(Exception("Unexpected Error: ${response.code()}"))
+                }
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
-
     }
 
-    suspend fun register(
-        name: String,
-        email: String,
-        password: String,
-        phone: String?
-    ): Result<Unit> {
+    suspend fun signUp(request: SignUpRequest): Result<Unit> {
         return try {
-            val request = RegisterRequest(name, email, password)
             val response = authApiService.register(request)
-            if (response.isSuccessful)
-            //{
-               // response.body()?.let { registerResponse ->
+            if (response.isSuccessful) {
+                response.body()?.let { registerResponse ->
                     //userPreferences.saveUser(registerResponse.data.user)
-                    Result.success(
-                        Unit
-//                    registerResponse
-                    )
-              //  } ?: Result.failure(Exception("Empty response"))
-           // } else {
-                Result.failure(Exception(response.errorBody()?.string() ?: "Registration failed"))
-           // }
+                    Result.success(Unit)
+                } ?: Result.failure(Exception("Empty response"))
+            } else {
+                when (response.code()) {
+                    400 -> Result.failure(Exception("400:Bad Request: Invalid input data"))
+                    401 -> Result.failure(Exception("Unauthorized: Invalid email or password"))
+                    403 -> Result.failure(Exception("Forbidden: Access denied"))
+                    404 -> Result.failure(Exception("Not Found: Endpoint not found"))
+                    500 -> Result.failure(Exception("Server Error: Please try again later"))
+                    else -> Result.failure(Exception("Unexpected Error: ${response.code()}"))
+                }
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }

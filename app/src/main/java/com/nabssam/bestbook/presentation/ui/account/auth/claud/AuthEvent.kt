@@ -2,6 +2,7 @@ package com.nabssam.bestbook.presentation.ui.account.auth.claud
 
 sealed class AuthEvent {
     data object SignIn : AuthEvent()
+    data object SignUp : AuthEvent()
     data object NavigateBack : AuthEvent()
     data object NavigateNext : AuthEvent()
     data class UpdateUsername(val username: String) : AuthEvent()

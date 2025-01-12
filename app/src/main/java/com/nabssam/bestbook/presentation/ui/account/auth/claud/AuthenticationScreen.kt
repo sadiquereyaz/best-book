@@ -10,12 +10,12 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.CredentialsStep
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.EducationInfoStep
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.ExamInfoStep
@@ -26,10 +26,17 @@ import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.Registration
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AuthenticationScreen(
-    viewModel: RegistrationViewModel = hiltViewModel(),
-    onRegistrationComplete: () -> Unit
+    viewModel: AuthViewModel,
+    onRegistrationComplete: () -> Unit,
+    onLoginSuccess: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(state.isSignedIn) {
+        if (state.isSignedIn) {
+            onLoginSuccess()
+        }
+    }
     
     BackHandler(enabled = state.currentStep != RegistrationStep.LOGIN) {
         viewModel.onEvent(AuthEvent.NavigateBack)

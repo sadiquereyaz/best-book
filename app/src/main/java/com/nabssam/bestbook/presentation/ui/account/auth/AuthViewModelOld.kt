@@ -12,35 +12,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthViewModelOld @Inject constructor(
     private val authRepository: AuthRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
-    val authState: StateFlow<AuthState> = _authState.asStateFlow()
-
-    init {
-        checkAuthState()
-    }
-
-    private fun checkAuthState() {
-        viewModelScope.launch {
-            userPreferencesRepository.accessToken.collect { token ->
-                _authState.value = if (token != null) AuthState.Success else AuthState.Initial
-            }
-        }
-    }
+    private val _authStateOld = MutableStateFlow<AuthStateOld>(AuthStateOld.Loading)
+    val authStateOld: StateFlow<AuthStateOld> = _authStateOld.asStateFlow()
 
     fun signIn(email: String, password: String) {
         viewModelScope.launch {
-            _authState.value = AuthState.Loading
+            _authStateOld.value = AuthStateOld.Loading
             authRepository.signIn(email, password).fold(
                 onSuccess = {
-                    _authState.value = AuthState.Success
+                    _authStateOld.value = AuthStateOld.Success
                 },
                 onFailure = { error ->
-                    _authState.value = AuthState.Error(error.message ?: "Sign in failed")
+                    _authStateOld.value = AuthStateOld.Error(error.message ?: "Sign in failed")
                 }
             )
         }
@@ -48,15 +36,15 @@ class AuthViewModel @Inject constructor(
 
     fun register(username: String, email: String, password: String, phone: String?) {
         viewModelScope.launch {
-            _authState.value = AuthState.Loading
-            authRepository.register(username, email, password, phone).fold(
+            _authStateOld.value = AuthStateOld.Loading
+            /*authRepository.signUp(username, email, password, phone, username).fold(
                 onSuccess = {
-                    _authState.value = AuthState.Success
+                    _authStateOld.value = AuthStateOld.Success
                 },
                 onFailure = { error ->
-                    _authState.value = AuthState.Error(error.message ?: "Registration failed")
+                    _authStateOld.value = AuthStateOld.Error(error.message ?: "Registration failed")
                 }
-            )
+            )*/
         }
     }
 

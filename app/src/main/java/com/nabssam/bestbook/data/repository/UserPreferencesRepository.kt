@@ -56,7 +56,7 @@ class UserPreferencesRepository @Inject constructor(
     }
 
     suspend fun saveUser(user: User) {
-        Log.d("USER_ID_ds", user._id)
+        Log.d("DATASTORE", "id: ${user._id}")
 
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.USER_ID] = user._id

@@ -17,11 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthEvent
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.RegistrationState
+import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthState
 
 @Composable
 fun LoginStep(
-    state: RegistrationState,
+    state: AuthState,
     onEvent: (AuthEvent) -> Unit
 ) {
     Column(
