@@ -34,7 +34,7 @@ fun HomeScreen(
     onAllBookSelect: (String) -> Unit,
     onNavigateToBook: (String) -> Unit,
     onBannerClick: () -> Unit,
-    navigateToQuiz: (Int) -> Unit,
+    navigateToQuiz: (String) -> Unit,
     onAllQuizSelect: (String) -> Unit,
     event: (EventHomeScreen) -> Unit,
 ) {
@@ -114,7 +114,7 @@ fun HomeScreen(
             ) {
                 itemsIndexed(state.fetchedExams!!) { index, exam -> // Use itemsIndexed
                     val color = colorList[index % colorList.size] // Get color from list
-                    QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
+                    QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(exam._id) }) // Pass color to QuizCard
                 }
 
             }

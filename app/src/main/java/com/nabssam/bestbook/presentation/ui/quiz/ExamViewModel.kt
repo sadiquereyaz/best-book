@@ -1,6 +1,8 @@
 package com.nabssam.bestbook.presentation.ui.quiz
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.Chapter
@@ -69,6 +71,7 @@ class ExamViewModel @Inject constructor(
     }
 
     fun fetchAllSubjects(examId: String) {
+        Log.d("ExamViewModel", "fetchAllSubjects: $examId")
         _uiState.update {
             it.copy(
                 isLoading = true,
@@ -106,6 +109,7 @@ class ExamViewModel @Inject constructor(
                                 subjects = resource.data ?: emptyList()
                             )
                         }
+
                     }
                 }
             }
@@ -198,6 +202,25 @@ class ExamViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+
+    fun onQuiz(quiz: QuizScreen) {
+        when (quiz) {
+            is QuizScreen.fetchChapters -> {
+                fetchAllChapters(quiz.subjectId!!)
+            }
+            is QuizScreen.fetchQuiz -> {
+                fetAllQuizzes(quiz.chapterId!!)
+            }
+            is QuizScreen.fetchSubjects -> {
+
+                fetchAllSubjects(quiz.examId!!)
+
+            }
+
+
         }
     }
 }

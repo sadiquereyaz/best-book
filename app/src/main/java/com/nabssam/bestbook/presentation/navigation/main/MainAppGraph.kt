@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.navigation.main
 
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,9 +39,11 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 
                 },
                 // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuiz = { quizId: Int ->
+                navigateToQuiz = { examId: String ->
+                    Log.d("mainAppGraph", "mainAppGraph: $examId")
                     navController.navigate(
-                        Route.QuizSubjectRoute()
+
+                        Route.QuizSubjectRoute(examId = examId)
                     )
                 },
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") },

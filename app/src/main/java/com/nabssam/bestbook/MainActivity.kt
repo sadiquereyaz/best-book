@@ -35,10 +35,9 @@ class MainActivity : ComponentActivity() {
                         OfflineDialog(onRetry = appState::refreshOnline)
                     } else {
                         BestBookApp(modifier = Modifier.fillMaxSize()) // Your app navigation
-
                     }
 //                        val examViewModel = hiltViewModel<ExamViewModel>()
-//                      examViewModel.fetAllQuizzes("678246e3ce87e9f7eabf1ed8")
+//                      examViewModel.fetchAllExams()
 
                     //CartScreen()
 //                MCQScreen()

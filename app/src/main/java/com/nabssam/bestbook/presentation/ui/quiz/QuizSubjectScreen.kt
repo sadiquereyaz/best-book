@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.quiz
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -13,16 +14,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.domain.model.Quiz
 
 @Composable
 fun QuizSubjectScreen(
     modifier: Modifier = Modifier,
-//    quizList: List<Quiz> ,
-    moveToMCQ: () -> Unit
-) {
+    examId:String,
+    onAction: (QuizScreen) -> Unit,
+    moveToMCQ: () -> Unit,
+    state: examUiState
+
+    ) {
     val subjects = listOf("English", "GK", "Math", "Science")
     var selectedTab by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { subjects.size }
@@ -46,17 +49,21 @@ fun QuizSubjectScreen(
         }
     }
 
+
     Column(
         modifier = modifier
             .fillMaxSize()
             //.padding(top = 56.dp),
     ) {
+        onAction(QuizScreen.fetchSubjects(examId))
+        Log.d("ExamScreen", "QuizSubjectScreen: ${examId}")
+        Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${state.subjects}")
         TabRow(selectedTabIndex = selectedTab) {
-            subjects.forEachIndexed { index, item ->
+            state.subjects.forEachIndexed { index, item ->
                 Tab(
                     selected = index == selectedTab,
                     onClick = { selectedTab = index },
-                    text = { Text(text = item, color = MaterialTheme.colorScheme.onSurface) },
+                    text = { Text(text = item.name, color = MaterialTheme.colorScheme.onSurface) },
                     unselectedContentColor = MaterialTheme.colorScheme.surface
                 )
             }
