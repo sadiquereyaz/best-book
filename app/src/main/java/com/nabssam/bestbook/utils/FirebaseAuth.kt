@@ -1,3 +1,4 @@
+/*
 package com.nabssam.bestbook.utils
 
 
@@ -58,4 +59,4 @@ class FirebaseAuth {
         auth.signOut()
     }
 
-}
+}*/

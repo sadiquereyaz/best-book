@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.android.hilt)
 
     //firebase
-    alias(libs.plugins.google.gms.google.services)
+   // alias(libs.plugins.google.gms.google.services)
 
 
 
@@ -74,7 +74,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
-    implementation(libs.firebase.auth)
+
     // Compose and UI Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -105,8 +105,9 @@ dependencies {
     kapt (libs.androidx.room.compiler)
 
     // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
+//    implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.auth)
+//    implementation(libs.firebase.auth)
 
     // Hilt dependencies (uses KAPT)
     implementation(libs.hilt.android)

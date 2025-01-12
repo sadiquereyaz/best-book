@@ -16,7 +16,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,15 +41,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.utils.FirebaseAuth
 import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
     //val db = RealtimeDb()
-    val firebaseAuth = FirebaseAuth()
-    val context = LocalContext.current
+//    val firebaseAuth = FirebaseAuth()
+//    val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -316,9 +312,9 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
         ) {
             Button(
                 onClick = {
-                    (
-                            firebaseAuth.signUp(email, password, context) { task ->
-                               /* if (task.isSuccessful) {
+
+                           /* firebaseAuth.signUp(email, password, context) { task ->
+                                if (task.isSuccessful) {
                                     db.writeData(
                                         email = email,
                                         phoneNumber = phoneNumber,
@@ -336,8 +332,9 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
                                 } else {
                                     signUpError = task.exception?.message
                                     Toast.makeText(context, signUpError, Toast.LENGTH_SHORT).show()
-                                }*/
-                            })
+                                }
+                            }*/
+
 
                 },
                 enabled = !isDisable,

@@ -4,17 +4,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
-import com.nabssam.bestbook.utils.FirebaseAuth
 import com.nabssam.bestbook.presentation.navigation.auth.authGraph
 import com.nabssam.bestbook.presentation.navigation.main.mainAppGraph
-import com.nabssam.bestbook.presentation.ui.components.NetworkSnackbar
 
 
-@Composable
+ @Composable
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier,
@@ -22,7 +18,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppNavigation(firebaseAuth = FirebaseAuth()).getStartDestination(),
+        startDestination = AppNavigation(/*firebaseAuth = FirebaseAuth()*/).getStartDestination(),
         modifier = modifier.padding(innerPadding),
     ) {
 
@@ -35,10 +31,10 @@ fun AppNavHost(
 }
 
 //Dependency Injection (preferred)
-class AppNavigation(private val firebaseAuth: FirebaseAuth) {
+class AppNavigation(/*private val firebaseAuth: FirebaseAuth*/) {
     fun getStartDestination(): Route {
-        val isLoggedIn = firebaseAuth.isUserAlreadyLoggedIn()
-       // return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
-        return Route.MainGraph
+        val isLoggedIn = true
+        // firebaseAuth.isUserAlreadyLoggedIn()
+        return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
     }
 }
