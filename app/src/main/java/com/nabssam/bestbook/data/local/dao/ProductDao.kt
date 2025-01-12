@@ -1,11 +1,10 @@
 package com.nabssam.bestbook.data.local.dao
 
-import com.nabssam.bestbook.data.local.entity.BookEntity
-
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.nabssam.bestbook.data.local.entity.BookEntity
 
 @Dao
 interface ProductDao {

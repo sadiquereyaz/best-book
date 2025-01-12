@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.domain.model
 
-import android.media.Rating
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 
 data class OrderModel(

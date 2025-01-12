@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud.util
+package com.nabssam.bestbook.presentation.ui.account.auth.util
 
 enum class RegistrationStep {
     LOGIN,

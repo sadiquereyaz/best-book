@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.domain.usecase
 
-import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow

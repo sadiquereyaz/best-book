@@ -1,8 +1,8 @@
 package com.nabssam.bestbook.domain.usecase.cart
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

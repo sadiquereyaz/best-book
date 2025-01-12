@@ -3,11 +3,11 @@ package com.nabssam.bestbook.presentation.ui.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.local.dao.CartDao
+import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.RemoveFromCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.UpdateCartItemQuantityUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

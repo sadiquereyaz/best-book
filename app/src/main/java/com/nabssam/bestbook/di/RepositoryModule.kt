@@ -1,17 +1,15 @@
 package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.repository.BannerRepoImp
-import com.nabssam.bestbook.data.repository.LocalCartRepositoryImpl
-import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
 import com.nabssam.bestbook.data.repository.BookRepositoryImpl
 import com.nabssam.bestbook.data.repository.CartRepositoryImpl
+import com.nabssam.bestbook.data.repository.LocalCartRepositoryImpl
+import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
-import com.nabssam.bestbook.domain.repository.LocalCartRepository
-import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
-import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
-import com.nabssam.bestbook.presentation.ui.cart.claude.CartRepositoryClaude
+import com.nabssam.bestbook.domain.repository.LocalCartRepository
+import com.nabssam.bestbook.domain.repository.OrderRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

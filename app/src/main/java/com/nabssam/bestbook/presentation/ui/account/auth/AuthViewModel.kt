@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud;
+package com.nabssam.bestbook.presentation.ui.account.auth;
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

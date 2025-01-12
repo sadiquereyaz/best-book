@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.utils.Constants
 import com.nabssam.bestbook.utils.EcommerceAppState
 import com.nabssam.bestbook.utils.rememberEcommerceAppState
 import kotlinx.coroutines.delay

@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud
+package com.nabssam.bestbook.presentation.ui.account.auth
 
 import android.os.Build
 import androidx.activity.compose.BackHandler
@@ -16,12 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.CredentialsStep
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.EducationInfoStep
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.ExamInfoStep
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.LoginStep
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.composable.MobileVerificationStep
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.CredentialsStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.EducationInfoStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.ExamInfoStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.LoginStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.MobileVerificationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

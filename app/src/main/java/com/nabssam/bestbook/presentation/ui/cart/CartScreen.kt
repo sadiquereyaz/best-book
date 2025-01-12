@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
+import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 import kotlinx.coroutines.launch

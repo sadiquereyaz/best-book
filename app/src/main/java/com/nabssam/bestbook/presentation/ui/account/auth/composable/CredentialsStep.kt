@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud.composable
+package com.nabssam.bestbook.presentation.ui.account.auth.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +27,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthEvent
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthState
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 
 @Composable
 fun CredentialsStep(

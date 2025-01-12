@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud
+package com.nabssam.bestbook.presentation.ui.account.auth
 
 sealed class AuthEvent {
     data object SignIn : AuthEvent()

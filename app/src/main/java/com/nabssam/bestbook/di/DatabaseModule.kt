@@ -1,7 +1,5 @@
 package com.nabssam.bestbook.di
 
-import dagger.hilt.android.qualifiers.ApplicationContext
-
 import android.content.Context
 import androidx.room.Room
 import com.nabssam.bestbook.data.local.AppDatabase
@@ -10,6 +8,7 @@ import com.nabssam.bestbook.data.local.dao.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 

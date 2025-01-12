@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud.composable
+package com.nabssam.bestbook.presentation.ui.account.auth.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,8 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthEvent
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthState
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 
 @Composable
 fun ExamInfoStep(

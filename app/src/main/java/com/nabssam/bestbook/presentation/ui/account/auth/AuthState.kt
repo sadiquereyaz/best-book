@@ -1,5 +1,5 @@
-package com.nabssam.bestbook.presentation.ui.account.auth.claud
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep
+package com.nabssam.bestbook.presentation.ui.account.auth
+import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
 
 data class AuthState(
     val username: String = "sad@gmail.com",

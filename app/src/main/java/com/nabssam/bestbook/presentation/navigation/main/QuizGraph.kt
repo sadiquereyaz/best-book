@@ -4,11 +4,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.quiz.AllQuizListRoute
 import com.nabssam.bestbook.presentation.ui.quiz.AllQuizListScreen
-import com.nabssam.bestbook.presentation.ui.quiz.QuizSubjectScreen
 import com.nabssam.bestbook.presentation.ui.quiz.MCQScreen
-import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.quiz.QuizSubjectScreen
 
 
 fun NavGraphBuilder.quizGraph(navController: NavController) {

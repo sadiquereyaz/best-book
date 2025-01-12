@@ -15,8 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.book.bookList.composable.CategoryChipList
+import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator

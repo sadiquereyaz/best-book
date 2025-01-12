@@ -1,17 +1,9 @@
 package com.nabssam.bestbook.data.local.dao
 
-import com.nabssam.bestbook.data.local.entity.BookEntity
-
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Embedded
-import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Relation
-import androidx.room.Transaction
-import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import kotlinx.coroutines.flow.Flow
 

@@ -28,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
@@ -38,7 +37,6 @@ import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 import com.nabssam.bestbook.presentation.ui.components.RatingBar
-import com.nabssam.bestbook.utils.Resource
 
 enum class ButtonType(val btnText: String, val iconId: Int) {
     EBOOK("Buy Ebook", R.drawable.ebook),

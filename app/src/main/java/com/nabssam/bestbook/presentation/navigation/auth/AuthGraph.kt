@@ -8,9 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.account.auth.SignUpScreen
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthenticationScreen
-import com.nabssam.bestbook.presentation.ui.account.auth.claud.AuthViewModel
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthViewModel
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthenticationScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.authGraph(navController: NavController) {
@@ -38,7 +37,7 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
             )
         }
         composable<Route.SignUp> {
-            SignUpScreen(navController = navController)
+            //SignUpScreen(navController = navController)
         }
     }
 }
