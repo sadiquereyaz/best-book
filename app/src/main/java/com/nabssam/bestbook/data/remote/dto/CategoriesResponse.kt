@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.data.remote.dto
 
+import com.nabssam.bestbook.domain.model.Category
+
 
 data class CategoriesResponseFreeApi(
     val statusCode: Int,
@@ -9,7 +11,7 @@ data class CategoriesResponseFreeApi(
 )
 
 data class CategoriesDataFreeApi(
-    val categories: List<CategoryFreeApi>,
+    val categories: List<Category>,
     val totalCategories: Int,
     val limit: Int,
     val page: Int,
@@ -21,12 +23,8 @@ data class CategoriesDataFreeApi(
     val nextPage: Int?
 )
 
-data class CategoryFreeApi(
-    val id: String,
-    val name: String
-)
 
-data class CategoryResponse(
+data class CategoryResponseOld(
     val categories: List<String>,
     val message: String,
     val status: String

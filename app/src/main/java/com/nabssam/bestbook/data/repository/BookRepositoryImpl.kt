@@ -1,9 +1,11 @@
 package com.nabssam.bestbook.data.repository
 
+import android.util.Log
 import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.domain.model.Category
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +25,8 @@ class BookRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 val productResponse = response.body()
                 if (productResponse != null) {
-                    val bookDetail = mapper.productDtoToDomain(productResponse.product)
-                    emit(Resource.Success(data = bookDetail))
+                   // val bookDetail = mapper.productDtoToDomain(productResponse.product)
+                   // emit(Resource.Success(data = bookDetail))
                 } else {
                     emit(Resource.Error("No book found in this category"))
                 }
@@ -37,14 +39,14 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getProducts(): Flow<Resource<List<Book>>> = flow {
+    override suspend fun getAllBook(): Flow<Resource<List<Book>>> = flow {
         emit(Resource.Loading())
         try {
             val response = api.getBookList()
             if (response.isSuccessful) {
                 val productResponse = response.body()
-                if (productResponse != null && productResponse.products.isNotEmpty()) {
-                    val books = productResponse.products.map { mapper.productDtoToDomain(it) }
+                if (productResponse != null) {
+                    val books = productResponse.data.products.map { mapper.productDtoToDomain(it) }
                     emit(Resource.Success(data = books))
                 } else {
                     emit(Resource.Error("No book found in this category"))
@@ -57,7 +59,6 @@ class BookRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
         }
     }
-
 
     override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
         TODO("Not yet implemented")
@@ -74,8 +75,7 @@ class BookRepositoryImpl @Inject constructor(
                 if (response.isSuccessful) {
                     val productResponse = response.body()
                     if (productResponse != null && productResponse.products.isNotEmpty()) {
-                        val books =
-                            productResponse.products.map { mapper.productDtoToDomain(it) }
+                        val books = productResponse.products.map { mapper.productDtoToDomain(it) }
                         emit(Resource.Success(data = books))
                     } else {
                         emit(Resource.Error("No book found in this category"))
@@ -88,15 +88,15 @@ class BookRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getAllCategory(): Flow<Resource<List<String>>> = flow {
+    override suspend fun getAllCategory(): Flow<Resource<List<Category>>> = flow {
         emit(Resource.Loading())
         try {
             val response = api.getAllCategory()
 
             if (response.isSuccessful) {
                 val categoryResponse = response.body()
-                if (categoryResponse != null && categoryResponse.categories.isNotEmpty()) {
-                    emit(Resource.Success(data = categoryResponse.categories))
+                if (categoryResponse != null && categoryResponse.data.categories.isNotEmpty()) {
+                    emit(Resource.Success(data = categoryResponse.data.categories))
                 } else {
                     emit(Resource.Error("No category found"))
                 }
@@ -104,6 +104,7 @@ class BookRepositoryImpl @Inject constructor(
             } else {
                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
             }
+
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
         }

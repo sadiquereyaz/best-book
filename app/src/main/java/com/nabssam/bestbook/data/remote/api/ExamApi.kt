@@ -22,11 +22,4 @@ interface ExamApi {
 
     @GET("api/quizzes/getquizbyid/{chapterId}")
     suspend fun getAllQuizzesInChapter(@Path("chapterId") chapterId: String):Response<QuizResponse>
-
-    //freeApi
-    @GET("api/v1/ecommerce/categories")
-    suspend fun getAllCategory(
-        @Query("page") page:Int = 1,
-        @Query("limit") limit:Int = 5
-    ):Response<CategoriesResponseFreeApi>
 }

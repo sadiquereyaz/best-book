@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.book.bookList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
@@ -55,6 +56,7 @@ class ViewModelBookList @Inject constructor(
                         }
 
                         is Resource.Success -> {
+                            Log.d("CATEGORY", resource.data.toString())
                             _state.update { currentState ->
                                 currentState.copy(
                                     examList = resource.data!!,
@@ -77,11 +79,13 @@ class ViewModelBookList @Inject constructor(
             }
 
             is EventBookList.SortBy -> {
+                Log.d("BOOK_LIST_VM", event.id ?: "category id is null")
                 _state.update { currentState ->
                     currentState.copy(
-                        fetchedBooks = currentState.fetchedBooks.sortedByDescending { book ->
-                            if (event.category != null) {
-                                book.category == event.category
+                        fetchedBooks = currentState.fetchedBooks
+                            .sortedByDescending { book ->
+                            if (event.id != null) {
+                                book.name == event.id
                             } else {
                                 book.category == _state.value.userTargetExam
                             }
@@ -103,7 +107,10 @@ class ViewModelBookList @Inject constructor(
                 when (resource) {
                     is Resource.Loading -> {
                         _state.update {
-                            it.copy(fetchingBooks = true)
+                            it.copy(
+                                fetchingBooks = true,
+                                errorMessage = null
+                            )
                         }
                     }
 
@@ -111,7 +118,8 @@ class ViewModelBookList @Inject constructor(
                         _state.update {
                             it.copy(
                                 fetchingBooks = false,
-                                fetchedBooks = resource.data ?: emptyList()
+                                fetchedBooks = resource.data ?: emptyList(),
+                                errorMessage = null
                             )
                         }
                     }
@@ -120,7 +128,7 @@ class ViewModelBookList @Inject constructor(
                         _state.update {
                             it.copy(
                                 fetchingBooks = false,
-                                errorMessage = resource.message
+                                errorMessage = resource.message,
                             )
                         }
                     }

@@ -3,9 +3,11 @@ package com.nabssam.bestbook.data.mapper
 import com.nabssam.bestbook.data.local.entity.BookEntity
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.BookDto
+import com.nabssam.bestbook.data.remote.dto.Product
 import com.nabssam.bestbook.data.remote.dto.ProductDto
 import com.nabssam.bestbook.data.remote.dto.Rate
 import com.nabssam.bestbook.domain.model.Book
+import kotlin.random.Random
 
 class BookMapper {
     fun dtoToDomain(dto: BookDto): Book {
@@ -18,18 +20,19 @@ class BookMapper {
             category = dto.category
         )
     }
-    fun productDtoToDomain(dto: ProductDto): Book {
+    fun productDtoToDomain(dto: Product): Book {
         return Book(
-            id = dto.id.toString(),
-            name = dto.title,
+            id = dto._id,
+            name = dto.name,
             price = dto.price,
             description = dto.description,
-            imageUrls = listOf(dto.image),
+            imageUrls = dto.subImages.map { it.url },
             category = dto.category,
-            author = dto.brand,
-            discount = dto.discount,
-            publisher = dto.brand,
-            rating = if (dto.popular) 4.3f else 2.0f
+            author = dto.owner,
+            discount = Random.nextInt(100),
+            publisher = dto.category,
+            rating = Random.nextFloat()*10,
+            stock = dto.stock
         )
     }
 
