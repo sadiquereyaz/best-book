@@ -39,23 +39,23 @@ import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companio
 fun BBNavSuite(
     navController: NavController,
     modifier: Modifier = Modifier,
-   // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
+    // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
     content: @Composable (PaddingValues) -> Unit
 
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-   // val snackbarHostState = remember { SnackbarHostState() }
+    // val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    if (currentDestination != null && !currentDestination.isTopLevel() && !(currentDestination.hasRoute(
-                            Route.AuthGraph::class
-                        ))
+                    if (currentDestination != null && navController.previousBackStackEntry != null && !currentDestination.isTopLevel() /*&& !(currentDestination.hasRoute(
+                            Route.SignIn::class
+                        ))*/
                     ) {
                         // Up button
                         IconButton(onClick = { navController.popBackStack() }) {
@@ -86,11 +86,11 @@ fun BBNavSuite(
                         }
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
-                    /*.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                )*/,
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+                /*.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+            )*/
                 scrollBehavior = scrollBehavior,
                 actions = {
                     // Add buttons dynamically
@@ -116,7 +116,7 @@ fun BBNavSuite(
         floatingActionButton = {
             if (currentDestination?.hasRoute(Route.Home::class) == true)
                 FloatingActionButton(
-                    onClick = { navController.navigate(Route.CartRoute())},
+                    onClick = { navController.navigate(Route.CartRoute()) },
                     containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                 ) {
@@ -124,15 +124,15 @@ fun BBNavSuite(
                 }
         },
         snackbarHost = {
-           // SnackbarHost(hostState = snackbarHostState)
+            // SnackbarHost(hostState = snackbarHostState)
         }
-    ) {innerPadding->
+    ) { innerPadding ->
         content(innerPadding)
 
         // Observe network state and show Snackbar
-       /* NetworkSnackbar(
-            networkConnectivityObserver = networkConnectivityObserver,
-            snackbarHostState = snackbarHostState
-        )*/
+        /* NetworkSnackbar(
+             networkConnectivityObserver = networkConnectivityObserver,
+             snackbarHostState = snackbarHostState
+         )*/
     }
 }

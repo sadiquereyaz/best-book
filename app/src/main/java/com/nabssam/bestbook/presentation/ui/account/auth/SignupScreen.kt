@@ -44,7 +44,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import java.util.Calendar
 
 @Composable
-fun SignUp(modifier: Modifier = Modifier, navController: NavController) {
+fun SignUpScreen(modifier: Modifier = Modifier, navController: NavController) {
     //val db = RealtimeDb()
 //    val firebaseAuth = FirebaseAuth()
 //    val context = LocalContext.current

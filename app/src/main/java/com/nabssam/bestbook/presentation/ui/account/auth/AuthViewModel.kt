@@ -19,6 +19,7 @@ class AuthViewModel @Inject constructor(
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
+
     init {
         checkAuthState()
     }
@@ -44,11 +45,11 @@ class AuthViewModel @Inject constructor(
             )
         }
     }
-    
-    fun register(name: String, email: String, password: String, phone: String?) {
+
+    fun register(username: String, email: String, password: String, phone: String?) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            authRepository.register(name, email, password, phone).fold(
+            authRepository.register(username, email, password, phone).fold(
                 onSuccess = {
                     _authState.value = AuthState.Success
                 },
@@ -56,6 +57,24 @@ class AuthViewModel @Inject constructor(
                     _authState.value = AuthState.Error(error.message ?: "Registration failed")
                 }
             )
+        }
+    }
+
+    fun onEvent(event: EventAuth) {
+
+        when (event) {
+            is EventAuth.SignIn -> {
+                signIn(event.username, event.password)
+            }
+
+            is EventAuth.Register -> {
+                //register(event.username, event.password, event.phone, )
+            }
+
+            EventAuth.FetchExams -> TODO()
+            is EventAuth.ForgetPass -> TODO()
+            EventAuth.Retry -> TODO()
+            is EventAuth.VerifyOtp -> TODO()
         }
     }
 }

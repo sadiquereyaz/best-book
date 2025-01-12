@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
+    state: AuthState,
+    onEvent: (EventAuth)->Unit,
     onAuthSuccess: () -> Unit
 ) {
     var isSignIn by remember { mutableStateOf(true) }
@@ -32,6 +35,10 @@ fun AuthScreen(
         if (authState is AuthState.Success) {
             onAuthSuccess()
         }
+    }
+
+    BackHandler(enabled = !isSignIn) { // Only handle back press when in signup screen
+        isSignIn = true // Switch back to signin
     }
     
     Column(

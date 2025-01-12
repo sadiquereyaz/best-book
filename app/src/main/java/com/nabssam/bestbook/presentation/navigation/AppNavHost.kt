@@ -33,7 +33,7 @@ fun AppNavHost(
 //Dependency Injection (preferred)
 class AppNavigation(/*private val firebaseAuth: FirebaseAuth*/) {
     fun getStartDestination(): Route {
-        val isLoggedIn = true
+        val isLoggedIn = false  // TODO: check for already logged in here to avoid displaying signin screen
         // firebaseAuth.isUserAlreadyLoggedIn()
         return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
     }
