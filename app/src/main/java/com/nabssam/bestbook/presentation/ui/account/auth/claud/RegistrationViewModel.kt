@@ -49,14 +49,14 @@ constructor() : ViewModel() {
                     isLoading = true,
                     error = null
                 ) }
-                authRepository.signIn(email, password).fold(
+               /* authRepository.signIn(email, password).fold(
                     onSuccess = {
                         _authState.value = AuthState.Success
                     },
                     onFailure = { error ->
                         _authState.value = AuthState.Error(error.message ?: "Sign in failed")
                     }
-                )
+                )*/
             }
         }
     }

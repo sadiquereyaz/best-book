@@ -49,14 +49,14 @@ class AuthViewModel @Inject constructor(
     fun register(username: String, email: String, password: String, phone: String?) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            authRepository.register(username, email, password, phone).fold(
+           /* authRepository.register(username, email, password, phone).fold(
                 onSuccess = {
                     _authState.value = AuthState.Success
                 },
                 onFailure = { error ->
                     _authState.value = AuthState.Error(error.message ?: "Registration failed")
                 }
-            )
+            )*/
         }
     }
 

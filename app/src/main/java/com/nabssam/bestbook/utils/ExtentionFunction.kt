@@ -2,9 +2,7 @@ package com.nabssam.bestbook.utils
 
 import android.util.Log
 import androidx.navigation.NavController
-import com.google.android.gms.common.config.GservicesValue.value
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.domain.model.CartModel
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
