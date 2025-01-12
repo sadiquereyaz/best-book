@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
+import com.nabssam.bestbook.data.remote.dto.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.ui.account.auth.claud.util.RegistrationStep

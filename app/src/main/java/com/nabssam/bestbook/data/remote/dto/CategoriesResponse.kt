@@ -1,15 +1,15 @@
 package com.nabssam.bestbook.data.remote.dto
 
-/*
-data class CategoriesResponse(
+
+data class CategoriesResponseFreeApi(
     val statusCode: Int,
-    val data: CategoriesData,
+    val data: CategoriesDataFreeApi,
     val message: String,
     val success: Boolean
 )
 
-data class CategoriesData(
-    val categories: List<Category>,
+data class CategoriesDataFreeApi(
+    val categories: List<CategoryFreeApi>,
     val totalCategories: Int,
     val limit: Int,
     val page: Int,
@@ -21,15 +21,13 @@ data class CategoriesData(
     val nextPage: Int?
 )
 
-data class Category(
+data class CategoryFreeApi(
     val id: String,
     val name: String
 )
-
 
 data class CategoryResponse(
     val categories: List<String>,
     val message: String,
     val status: String
 )
-*/

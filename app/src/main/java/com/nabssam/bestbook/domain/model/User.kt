@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.domain.model
 
+import com.nabssam.bestbook.data.remote.dto.Avatar
+
 data class User(
     val _id: String,
     val avatar: Avatar,

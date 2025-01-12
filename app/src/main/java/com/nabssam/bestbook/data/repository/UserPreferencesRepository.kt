@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.nabssam.bestbook.domain.model.Avatar
+import com.nabssam.bestbook.data.remote.dto.Avatar
 import com.nabssam.bestbook.domain.model.User
 import com.nabssam.bestbook.utils.Constants.DEFAULT_CATEGORY
 import kotlinx.coroutines.flow.Flow

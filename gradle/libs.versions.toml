@@ -2,7 +2,7 @@
 agp = "8.7.3"
 
 datastorePreferences = "1.1.1"
-kotlin = "1.9.10"    #2.0.0
+kotlin = "2.0.0"    #2.0.0
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -22,8 +22,8 @@ roomCompiler = "2.6.1"
 firebaseAuth = "23.1.0"
 converterGson = "2.9.0"
 firebaseBom = "33.7.0"
-hiltAndroid = "2.48"
-hiltAndroidCompiler = "2.48"
+hiltAndroid = "2.51.1"
+hiltAndroidCompiler = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 
 [libraries]
@@ -68,4 +68,3 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 kotlin-kapt = { id = "kotlin-kapt" }
-
