@@ -14,27 +14,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.nabssam.bestbook.R
-import com.nabssam.bestbook.data.remote.dto.Subject
 import com.nabssam.bestbook.domain.model.Quiz
-import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 
 @Composable
 fun QuizSubjectScreen(
     modifier: Modifier = Modifier,
     examId: String,
     onAction: (QuizScreen) -> Unit,
-    moveToMCQ: () -> Unit,
+    moveToMCQ: (chapterId: String) -> Unit,
     state: examUiState,
     viewModel: ExamViewModel
 
 ) {
-    val subjects = state.subjects.ifEmpty {
-        emptyList()
-    }
+    val subjects = state.subjects
 
     var selectedTab by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { subjects.size }
@@ -43,9 +36,18 @@ fun QuizSubjectScreen(
     var correctAnswers by remember { mutableStateOf(0) }
 
 
-    LaunchedEffect(examId) { // Call onAction only when examId changes
-        onAction(QuizScreen.fetchSubjects(examId))
-    }
+//    LaunchedEffect(examId) { // Call onAction only when examId changes
+//        onAction(QuizScreen.fetchSubjects(examId))
+//    }
+
+//    LaunchedEffect(subjects.size) {
+//
+//    }
+//    LaunchedEffect(selectedTab) {
+//        viewModel.fetchAllChapters(subjectId = subjects[selectedTab]._id)
+//    }
+
+    Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${state.chapters}")
     LaunchedEffect(selectedTab) {
         pagerState.animateScrollToPage(selectedTab)
         currentQuestionIndex = 0
@@ -63,7 +65,7 @@ fun QuizSubjectScreen(
     }
 
     if (state.isLoading) {
-        FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.banner_height)))
+//        FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.banner_height)))
     } else {
         Column(
             modifier = modifier
@@ -75,12 +77,12 @@ fun QuizSubjectScreen(
             TabRow(selectedTabIndex = selectedTab) {
                 subjects.forEachIndexed { index, item ->
 
-
                     Tab(
                         selected = index == selectedTab,
                         onClick = {
                             selectedTab = index
-
+                            onAction(QuizScreen.fetchChapters(state.subjects[0]._id))
+//                            viewModel.fetchAllChapters(subjectId = state.subjects[0]._id)
                         },
                         text = {
                             Text(
@@ -159,7 +161,7 @@ fun QuizSubjectScreen(
 //                if(subjects.isNotEmpty()){
 //                    Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${subjects[page]}")
                 Log.d("QuizSubjectScreen", "QuizSubjectScreen: ${state.chapters}")
-                    QuizCategoryScreen(moveToMCQ = moveToMCQ)
+                    QuizCategoryScreen(moveToMCQ = moveToMCQ, state=state, viewmodel = viewModel, onAction = onAction)
 
             }
         }

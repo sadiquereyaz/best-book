@@ -32,7 +32,11 @@ class ExamViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(examUiState())
     val uiState = _uiState.asStateFlow()
-//    private val id = savedStateHandle.toRoute<Route.>
+    private val id = savedStateHandle.toRoute<Route.QuizSubjectRoute>().examId
+      init {
+          fetchAllSubjects(id)
+      }
+
     fun fetchAllExams() {
         viewModelScope.launch {
             examRepository.fetchAllExams().collect { resource ->
@@ -115,6 +119,7 @@ class ExamViewModel @Inject constructor(
                             )
                         }
 
+                        fetchAllChapters(subjectId = uiState.value.subjects[0]._id)
 
 
                     }
@@ -162,6 +167,8 @@ class ExamViewModel @Inject constructor(
                                 chapters = resource.data ?: emptyList()
                             )
                         }
+
+
                     }
                 }
             }
@@ -200,13 +207,14 @@ class ExamViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        Log.d("ExamViewModel", "fetAllQuizzes: ${resource.data}")
+//                        Log.d("ExamViewModel", "fetAllQuizzes: ${resource.data}")
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
                                 quizzes = resource.data ?: emptyList()
                             )
                         }
+                        Log.d("ExamViewModel", "fetAllQuizzes: ${uiState.value.quizzes}")
                     }
                 }
             }

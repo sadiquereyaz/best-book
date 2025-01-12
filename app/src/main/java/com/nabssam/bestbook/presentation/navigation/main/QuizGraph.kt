@@ -28,7 +28,9 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
         )
     }
     composable<Route.MCQRoute> { backStackEntry ->
-        MCQScreen(
+        val viewModel = hiltViewModel<ExamViewModel>()
+        val state by viewModel.uiState.collectAsState()
+        MCQScreen(state = state
 //            quizId = routeObj.quizId ,
         )
     }
@@ -38,15 +40,16 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
         val state by viewModel.uiState.collectAsState()
 
         val routeObj: Route.QuizSubjectRoute = backStackEntry.toRoute()
-        Log.d("ExamViewModel", "quizGraph: ${routeObj.examId}")
+//        Log.d("ExamViewModel", "quizGraph: ${routeObj.examId}")
         QuizSubjectScreen(
 //            quizId = routeObj.quizId,
 //            categoryId = routeObj.categoryId,
 
             examId = routeObj.examId,
             state=state,
-            moveToMCQ = {
-                navController.navigate(Route.MCQRoute())
+            moveToMCQ = {chapterId->
+                Log.d("ExamViewModel", "quizGraph: ${chapterId}")
+                navController.navigate(Route.MCQRoute(chapterId = chapterId))
 
             },
             onAction = { event->

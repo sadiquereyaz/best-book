@@ -47,7 +47,7 @@ sealed interface Route {
     @Serializable
     data class QuizSubjectRoute(val title: String = "Category",var examId:String = "") : Route
     @Serializable
-    data class MCQRoute(val title: String = "Question") : Route
+    data class MCQRoute(val title: String = "Question",val chapterId:String = "") : Route
 
     @Serializable
     data class AllBookRoute(val title: String = "Book Store", val targetExam: String) : Route
