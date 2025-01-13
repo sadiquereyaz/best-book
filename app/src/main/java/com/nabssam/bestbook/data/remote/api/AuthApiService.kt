@@ -27,3 +27,6 @@ interface AuthApiService {
 //TargetExam
 //User
 //accecc token
+//getall exam api
+// target exam by current class
+// get all classes

@@ -53,7 +53,7 @@ fun AuthenticationScreen(
             )
             RegistrationStep.EDUCATION_INFO -> EducationInfoStep(
                 state = state,
-                onEvent = viewModel::onEvent
+                 onEvent = viewModel::onEvent
             )
             RegistrationStep.EXAM_INFO -> ExamInfoStep(
                 state = state,

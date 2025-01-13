@@ -27,8 +27,14 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
 
             val viewModel = hiltViewModel<AuthViewModel>()
             AuthenticationScreen(
-                onLoginSuccess = { navController.navigate(Route.MainGraph) },
-                viewModel =viewModel,
+                onLoginSuccess = {
+                    navController.navigate(Route.MainGraph) {
+                        popUpTo(Route.AuthGraph) {
+                            inclusive = true
+                        }
+                    }
+                },
+                viewModel = viewModel,
             )
         }
         composable<Route.SignUp> {

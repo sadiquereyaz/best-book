@@ -29,10 +29,10 @@ class AuthRepository @Inject constructor(
                 } ?: Result.failure(Exception("Empty response"))
             } else {
                 when (response.code()) {
-                    400 -> Result.failure(Exception("400:Bad Request: Invalid input data"))
+                    400 -> Result.failure(Exception("400 Bad Request: Invalid input data"))
                     401 -> Result.failure(Exception("Unauthorized: Invalid email or password"))
                     403 -> Result.failure(Exception("Forbidden: Access denied"))
-                    404 -> Result.failure(Exception("Not Found: Endpoint not found"))
+                    404 -> Result.failure(Exception("User doesn't exist"))
                     500 -> Result.failure(Exception("Server Error: Please try again later"))
                     else -> Result.failure(Exception("Unexpected Error: ${response.code()}"))
                 }

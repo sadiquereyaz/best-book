@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +36,6 @@ fun CredentialsStep(
     state: AuthState,
     onEvent: (AuthEvent) -> Unit
 ) {
-    var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -58,33 +58,17 @@ fun CredentialsStep(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        PasswordField(
             value = state.password,
-            onValueChange = { onEvent(AuthEvent.UpdatePassword(it)) },
-            label = { Text("Create Password") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = if (passwordVisible)
-                VisualTransformation.None
-            else
-                PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            trailingIcon = {
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    val image = if (passwordVisible)
-                        R.drawable.baseline_visibility_24
-                    else R.drawable.baseline_visibility_off_24
+            onEvent = { onEvent(AuthEvent.UpdatePassword(it)) }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            painter = painterResource(image),
-                            contentDescription = "Toggle password visibility"
-                        )
-                    }
-                }
-            },
+        PasswordField(
+            value = state.confirmPassword,
+            onEvent = { onEvent(AuthEvent.UpdateConfirmPassword(it)) },
+            label = "Confirm Password",
+            imeAction = ImeAction.Done
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -97,4 +81,39 @@ fun CredentialsStep(
             Text("Next")
         }
     }
+}
+
+@Composable
+fun PasswordField(
+    value: String,
+    onEvent: (String) -> Unit, // Use a lambda for onValueChange
+    label: String = "Create Password", // Add a label parameter with a default value
+    imeAction: ImeAction = ImeAction.Next // Add an imeAction parameter with a default value
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = { onEvent(it) }, // Pass onValueChange to OutlinedTextField
+        label = { Text(label) }, // Use the label parameter
+        modifier = Modifier.fillMaxWidth(),
+        visualTransformation = if (passwordVisible)
+            VisualTransformation.None
+        else
+            PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = imeAction
+        ),
+        trailingIcon = {
+            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                val image = if (passwordVisible)
+                    R.drawable.baseline_visibility_24
+                else
+                    R.drawable.baseline_visibility_off_24 // Use correct drawable name
+                Icon(painter = painterResource(image),
+                    contentDescription = "Toggle password visibility")
+            }
+        },
+    )
 }

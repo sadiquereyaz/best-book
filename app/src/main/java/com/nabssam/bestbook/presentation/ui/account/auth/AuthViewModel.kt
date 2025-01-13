@@ -1,13 +1,16 @@
 package com.nabssam.bestbook.presentation.ui.account.auth;
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
+import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
+import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,15 +22,16 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val examRepository: ExamRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
-init {
-    checkAuthState()
-    fetchAllExam()
-}
+    init {
+        AuthEvent.Retry
+    }
+
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.SignIn -> signIn()
@@ -38,29 +42,62 @@ init {
             is AuthEvent.UpdatePassword -> updateState { it.copy(password = event.password) }
             is AuthEvent.UpdateClass -> updateState { it.copy(currentClass = event.className) }
             is AuthEvent.UpdateSchool -> updateState { it.copy(schoolName = event.schoolName) }
-            is AuthEvent.AddExam -> addExam(event.exam)
-            is AuthEvent.RemoveExam -> removeExam(event.exam)
             is AuthEvent.UpdateTargetYear -> updateState { it.copy(targetYear = event.year) }
             is AuthEvent.UpdateMobile -> updateState { it.copy(mobileNumber = event.mobile) }
             is AuthEvent.UpdateOtp -> updateState { it.copy(otp = event.otp) }
             is AuthEvent.SendOtp -> sendOtp()
             is AuthEvent.VerifyOtp -> verifyOtp()
             is AuthEvent.ToggleNewUser -> toggleNewUser()
+            is AuthEvent.Retry -> fetchAllExam()
+            is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
+            is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
         }
+    }
+
+    private fun updateTargetExam(exam: String) {
+        Log.d("AUTH_VM", exam)
+        if (_state.value.userTargetExams.contains(exam))
+            _state.value =
+                _state.value.copy(userTargetExams = _state.value.userTargetExams.minus(exam))
+            else
+            _state.value =
+                _state.value.copy(userTargetExams = _state.value.userTargetExams.plus(exam))
+
     }
 
     private fun checkAuthState() {
         viewModelScope.launch {
             userPreferencesRepository.accessToken.collect { token ->
                 _state.value.isSignedIn = false
-                    //token != null
+                //token != null
             }
         }
     }
 
-    private fun fetchAllExam(){
+    private fun fetchAllExam() {
         viewModelScope.launch {
+            examRepository.fetchAllTargetExam().collect { resource ->
+                when (resource) {
+                    is Resource.Error -> updateState {
+                        it.copy(
+                            error = resource.message,
+                            isLoading = false
+                        )
+                    }
 
+                    is Resource.Loading -> {/*updateState { it.copy(isLoading = true) }*/
+                    }
+
+                    is Resource.Success -> {
+                        updateState {
+                            it.copy(
+                                targetExams = resource.data ?: emptyList(),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -125,7 +162,13 @@ init {
         val currentStep = _state.value.currentStep
         val nextStep = when (currentStep) {
             RegistrationStep.LOGIN -> RegistrationStep.CREDENTIALS
-            RegistrationStep.CREDENTIALS -> RegistrationStep.EDUCATION_INFO
+            RegistrationStep.CREDENTIALS -> {
+                if (_state.value.password == _state.value.confirmPassword) RegistrationStep.EDUCATION_INFO else {
+                    _state.value.error = "Password mismatch"
+                    RegistrationStep.EDUCATION_INFO
+                }
+            }
+
             RegistrationStep.EDUCATION_INFO -> RegistrationStep.EXAM_INFO
             RegistrationStep.EXAM_INFO -> RegistrationStep.MOBILE_VERIFICATION
             RegistrationStep.MOBILE_VERIFICATION -> null
@@ -134,14 +177,16 @@ init {
     }
 
     private fun addExam(exam: String) {
+        Log.d("Add:", exam)
         updateState {
-            it.copy(targetExams = it.targetExams + exam)
+            it.copy(userTargetExams = (it.userTargetExams).plus(exam))
         }
     }
 
     private fun removeExam(exam: String) {
         updateState {
-            it.copy(targetExams = it.targetExams - exam)
+            Log.d("Remove:", exam)
+            it.copy(targetExams = it.userTargetExams.minus(exam))
         }
     }
 
@@ -194,7 +239,7 @@ init {
             }
 
             RegistrationStep.CREDENTIALS -> {
-                _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty()
+                _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty() && _state.value.confirmPassword.isNotEmpty()
             }
 
             RegistrationStep.EDUCATION_INFO -> {
@@ -202,7 +247,7 @@ init {
             }
 
             RegistrationStep.EXAM_INFO -> {
-                _state.value.targetExams.isNotEmpty() && (_state.value.targetYear).toInt() > LocalDate.now().year
+                _state.value.userTargetExams.isNotEmpty() && (_state.value.targetYear) >= LocalDate.now().year
             }
 
             RegistrationStep.MOBILE_VERIFICATION -> {

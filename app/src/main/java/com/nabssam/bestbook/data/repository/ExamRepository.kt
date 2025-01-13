@@ -7,7 +7,9 @@ import com.nabssam.bestbook.data.remote.dto.Chapter
 import com.nabssam.bestbook.data.remote.dto.Quize
 import com.nabssam.bestbook.data.remote.dto.Subject
 import com.nabssam.bestbook.domain.model.Exam
+import com.nabssam.bestbook.utils.DummyData
 import com.nabssam.bestbook.utils.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -39,17 +41,19 @@ class ExamRepository @Inject constructor(
             emit(Resource.Error(message = e.message))
         }
     }
-     fun fetchAllCategories(): Flow<Resource<List<Exam>>> = flow {
-        /*emit(Resource.Loading())
-        try {
-            val response = examApi.getAllCategory()
+
+     fun fetchAllTargetExam(): Flow<Resource<List<String>>> = flow {
+        emit(Resource.Loading())
+         delay(3000)
+         emit(Resource.Success(data = DummyData.targetExamList))
+        /*try {
+            val response = examApi.getAllTargetExam()
             if (response.isSuccessful) {
                 val examResponse = response.body()
                 if (examResponse != null) {
-                    val exams = examResponse..map {
+                    val exams = examResponse.map {
                         mapper.dtoToDomain(it)
                     }
-
                     emit(Resource.Success(data = exams))
                 }
                 else{

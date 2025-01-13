@@ -7,21 +7,35 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nabssam.bestbook.presentation.theme.BestBookTheme
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EducationInfoStep(
     state: AuthState,
-    onEvent: (AuthEvent) -> Unit
+    onEvent: (AuthEvent) -> Unit,
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf(state.currentClass) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,12 +48,40 @@ fun EducationInfoStep(
             modifier = Modifier.padding(vertical = 32.dp)
         )
 
-        OutlinedTextField(
-            value = state.currentClass,
-            onValueChange = { onEvent(AuthEvent.UpdateClass(it)) },
-            label = { Text("Current Class") },
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded },
             modifier = Modifier.fillMaxWidth()
-        )
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                value = selectedOptionText,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Current Class") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                state.classes.forEach { selectionOption ->
+                    DropdownMenuItem(
+                        text = { Text(text = selectionOption) },
+                        onClick = {
+                            selectedOptionText = selectionOption
+                            expanded = false
+                            onEvent(AuthEvent.UpdateClass(selectionOption))
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -47,7 +89,8 @@ fun EducationInfoStep(
             value = state.schoolName,
             onValueChange = { onEvent(AuthEvent.UpdateSchool(it)) },
             label = { Text("School Name") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            minLines = 3
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -59,5 +102,18 @@ fun EducationInfoStep(
         ) {
             Text("Next")
         }
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun EducationInfoStepPreview() {
+    BestBookTheme {
+        EducationInfoStep(
+            state = AuthState(
+                classes = listOf("Class 1", "Class 2", "Class 3", "Class 4", "Class 5")
+            ),
+            onEvent = {},
+        )
     }
 }
