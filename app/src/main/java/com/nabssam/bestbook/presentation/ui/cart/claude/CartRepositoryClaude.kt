@@ -13,7 +13,7 @@ class CartRepositoryClaude @Inject constructor(
     }*/
     suspend fun getCartItems(userId: String): Result<List<CartItemClaude>> {
         return try {
-            val response = cartApiServiceClaude.getCartItems("67816bdabced68b579b14033")
+            val response = cartApiServiceClaude.getCartItems("67839da16e927a9ab6a3f107")
             Log.d("CART_RESPONSE", "${response.body()}")
 
             if (response.isSuccessful) {

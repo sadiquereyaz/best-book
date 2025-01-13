@@ -3,6 +3,7 @@ package com.nabssam.bestbook.di
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.mapper.ExamMapper
 import com.nabssam.bestbook.data.mapper.MiscMapper
+import com.nabssam.bestbook.data.mapper.UserMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +30,10 @@ object MapperModule {
     @Singleton
     fun provideExamMapper(): ExamMapper {
         return ExamMapper()
+    }
+    @Provides
+    @Singleton
+    fun provideUserMapper(): UserMapper {
+        return UserMapper()
     }
 }

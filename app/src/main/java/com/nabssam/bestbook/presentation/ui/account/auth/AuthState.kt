@@ -2,8 +2,8 @@ package com.nabssam.bestbook.presentation.ui.account.auth
 import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
 
 data class AuthState(
-    val username: String = "sad@gmail.com",
-    val password: String = "111",
+    val username: String = "sadique",
+    val password: String = "11111111",
     val currentClass: String = "XI-PCM",
     val schoolName: String = "AMU Sr. Sec. School",
     val targetExams: List<String> = listOf("JEE", "NEET"),

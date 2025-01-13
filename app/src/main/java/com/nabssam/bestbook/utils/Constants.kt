@@ -2,6 +2,8 @@ package com.nabssam.bestbook.utils
 
 object Constants {
 
+    const val DEFAULT_ACCESS_TOKEN: String = "default_access_token"
+    const val DEFAULT_REFRESH_TOKEN: String = "default_refresh_token"
     const val DEFAULT_CATEGORY_id = "67834b3ed8f12df5866e4ae8"
     const val MIN_PASSWORD_LENGTH = 6
     const val MAX_QUANTITY = 99

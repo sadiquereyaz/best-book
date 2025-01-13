@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.data.remote.dto.SignUpRequest
+import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
@@ -20,7 +20,6 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
-//    private val
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
@@ -53,7 +52,8 @@ init {
     private fun checkAuthState() {
         viewModelScope.launch {
             userPreferencesRepository.accessToken.collect { token ->
-                _state.value.isSignedIn = token != null
+                _state.value.isSignedIn = false
+                    //token != null
             }
         }
     }
@@ -81,21 +81,17 @@ init {
 
     private fun signUp() {
         viewModelScope.launch {
-            updateState {
-                it.copy(
-                    isLoading = true, error = null
-                )
-            }
+            updateState { it.copy(isLoading = true, error = null) }
+
+            val currentState = _state.value
             authRepository.signUp(
                 SignUpRequest(
-                    username = _state.value.username,
-                    email = _state.value.username,
-                    password = _state.value.password,
-                    currentClass = _state.value.currentClass,
-                    schoolName = _state.value.schoolName,
-                    targetExams = _state.value.targetExams,
-                    targetYear = _state.value.targetYear,
-                    mobileNumber = _state.value.mobileNumber
+                    currentClass = currentState.currentClass,
+                    password = currentState.password,
+                    phoneNumber = currentState.mobileNumber,
+                    targetExam = currentState.targetExams[0], // TODO: Remove ordinal access
+                    targetYear = currentState.targetYear,
+                    username = currentState.username
                 )
             ).fold(
                 onSuccess = {

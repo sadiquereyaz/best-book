@@ -1,9 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.cart.claude
 
+import com.nabssam.bestbook.data.remote.dto.CartItemDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -24,7 +26,8 @@ Access raw headers: If you need to process any specific headers returned by the 
 
 interface CartApiServiceClaude {
     @GET("api/v1/ecommerce/cart")
-    suspend fun getCartItems(@Query("_id") userId: String): Response<List<CartItemClaude>>
+    suspend fun getCartItems(@Header("Authorization") token: String="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzgzOWRhMTZlOTI3YTlhYjZhM2YxMDciLCJlbWFpbCI6InNhZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InNhZGlAZ21haWwuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MzY3NDMxODEsImV4cCI6MTczNjgyOTU4MX0.-UNeloEoUuPe0d--ISTeh65dFl2qwiyZY566s3YceVk, refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzgzOWRhMTZlOTI3YTlhYjZhM2YxMDciLCJpYXQiOjE3MzY3NDMxODEsImV4cCI6MTczNzYwNzE4MX0.hS-N5kjvHNg9YRM7sHz6JJ58XzfskMbi2P6IHX4kM10")
+    : Response<List<CartItemClaude>>
     
     @POST("api/cart/add")
     suspend fun addToCart(@Body request: AddToCartRequest): Response<CartItemClaude>

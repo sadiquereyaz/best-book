@@ -6,8 +6,10 @@ import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nabssam.bestbook.data.remote.dto.Avatar
+import com.nabssam.bestbook.domain.model.Role
 import com.nabssam.bestbook.domain.model.User
 import com.nabssam.bestbook.utils.Constants.DEFAULT_CATEGORY_id
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +24,8 @@ private object PreferencesKeys {
     val USER_ID = stringPreferencesKey("user_id")
     val USERNAME = stringPreferencesKey("username")
     val USER_EMAIL = stringPreferencesKey("user_email")
-    val USER_ROLE = stringPreferencesKey("user_role")
+    val USER_PHONE = stringPreferencesKey("user_phone")
+    val USER_ROLE = intPreferencesKey("user_role")
     val USER_AVATAR = stringPreferencesKey("user_avatar")
 }
 
@@ -56,14 +59,15 @@ class UserPreferencesRepository @Inject constructor(
     }
 
     suspend fun saveUser(user: User) {
-        Log.d("DATASTORE", "id: ${user._id}")
+        Log.d("DATASTORE", "id: ${user.id}")
 
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.USER_ID] = user._id
+            preferences[PreferencesKeys.USER_ID] = user.id
             preferences[PreferencesKeys.USERNAME] = user.username
             preferences[PreferencesKeys.USER_EMAIL] = user.email
-            preferences[PreferencesKeys.USER_ROLE] = user.role
-            preferences[PreferencesKeys.USER_AVATAR] = user.avatar.url
+            preferences[PreferencesKeys.USER_ROLE] = user.role.ordinal
+            preferences[PreferencesKeys.USER_AVATAR] = user.picUrl
+            preferences[PreferencesKeys.USER_PHONE] = user.phone
         }
     }
 
@@ -83,19 +87,15 @@ class UserPreferencesRepository @Inject constructor(
         val avatarUrl = preferences[PreferencesKeys.USER_AVATAR] ?: ""
 
         User(
-            _id = userId,
-            avatar = Avatar(
-                url = avatarUrl,
-                localPath = "",
-                _id = "" // We don't need to store avatar ID locally
-            ),
+            id = userId,
+            picUrl = avatarUrl,
             username = username,
             email = email,
-            role = role,
-            loginType = "EMAIL_PASSWORD", // Default value
-            isEmailVerified = false, // Default value
-            createdAt = "", // We don't need these timestamps locally
-            updatedAt = ""
+            role = Role.entries[role],
+            phone = TODO(),
+//            accessToken = TODO(),
+//            refreshToken = TODO(),
+//            targetExams = TODO(),
         )
     }
 
