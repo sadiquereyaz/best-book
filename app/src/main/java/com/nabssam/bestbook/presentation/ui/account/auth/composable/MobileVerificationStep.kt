@@ -22,7 +22,8 @@ import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 @Composable
 fun MobileVerificationStep(
     state: AuthState,
-    onEvent: (AuthEvent) -> Unit
+    onEvent: (AuthEvent) -> Unit,
+    validate:()->Boolean
 ) {
     Column(
         modifier = Modifier

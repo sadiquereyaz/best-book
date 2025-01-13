@@ -22,7 +22,8 @@ import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 @Composable
 fun LoginStep(
     state: AuthState,
-    onEvent: (AuthEvent) -> Unit
+    onEvent: (AuthEvent) -> Unit,
+    validate: () -> Boolean
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +58,8 @@ fun LoginStep(
 
         Button(
             onClick = { onEvent(AuthEvent.SignIn) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = validate()
         ) {
             Text("Login")
         }

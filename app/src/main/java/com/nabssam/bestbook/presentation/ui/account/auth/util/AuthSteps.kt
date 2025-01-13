@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth.util
 
-enum class RegistrationStep {
+enum class AuthSteps {
     LOGIN,
     CREDENTIALS,
     EDUCATION_INFO,

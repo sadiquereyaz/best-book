@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.account.auth.composable
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -78,9 +76,11 @@ fun ExamInfoStep(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        Text(text = it, /*modifier = Modifier.padding(16.dp)*/)
+                        Text(text = it /*modifier = Modifier.padding(16.dp)*/)
                         if (state.userTargetExams.contains(it)) {
                             Icon(
                                 Icons.Filled.CheckCircle,
@@ -96,7 +96,9 @@ fun ExamInfoStep(
 
         OutlinedTextField(
             value = state.targetYear.toString(),
-            onValueChange = { onEvent(AuthEvent.UpdateTargetYear(it.toInt())) },
+            onValueChange = {
+                onEvent(AuthEvent.UpdateTargetYear(it))
+            },
             label = { Text("Target Year") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()

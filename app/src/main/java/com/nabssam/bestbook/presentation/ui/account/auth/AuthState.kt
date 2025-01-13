@@ -1,5 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
-import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.DummyData
 
 data class AuthState(
@@ -14,7 +14,7 @@ data class AuthState(
     val targetYear: Int = 2026,     // TODO: change to 202
     val mobileNumber: String = "9506198939",
     val otp: String = "",
-    val currentStep: RegistrationStep = RegistrationStep.EXAM_INFO,
+    val currentStep: AuthSteps = AuthSteps.LOGIN,
     val isLoading: Boolean = false,
     var error: String? = null,
     val isOtpSent: Boolean = false,

@@ -32,6 +32,7 @@ import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 fun EducationInfoStep(
     state: AuthState,
     onEvent: (AuthEvent) -> Unit,
+    validate:()->Boolean
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(state.currentClass) }
@@ -114,6 +115,7 @@ fun EducationInfoStepPreview() {
                 classes = listOf("Class 1", "Class 2", "Class 3", "Class 4", "Class 5")
             ),
             onEvent = {},
+            validate = {true},
         )
     }
 }

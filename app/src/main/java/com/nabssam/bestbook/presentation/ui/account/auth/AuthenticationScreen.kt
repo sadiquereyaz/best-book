@@ -21,7 +21,7 @@ import com.nabssam.bestbook.presentation.ui.account.auth.composable.EducationInf
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.ExamInfoStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.LoginStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.MobileVerificationStep
-import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -36,33 +36,41 @@ fun AuthenticationScreen(
             onLoginSuccess()
         }
     }
-    
-    BackHandler(enabled = state.currentStep != RegistrationStep.LOGIN) {
+
+    BackHandler(enabled = state.currentStep != AuthSteps.LOGIN) {
         viewModel.onEvent(AuthEvent.NavigateBack)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         when (state.currentStep) {
-            RegistrationStep.LOGIN -> LoginStep(
-                state = state,
-                onEvent = viewModel::onEvent
-            )
-            RegistrationStep.CREDENTIALS -> CredentialsStep(
-                state = state,
-                onEvent = viewModel::onEvent
-            )
-            RegistrationStep.EDUCATION_INFO -> EducationInfoStep(
-                state = state,
-                 onEvent = viewModel::onEvent
-            )
-            RegistrationStep.EXAM_INFO -> ExamInfoStep(
+            AuthSteps.LOGIN -> LoginStep(
                 state = state,
                 onEvent = viewModel::onEvent,
                 validate = viewModel::validateCurrentStep
             )
-            RegistrationStep.MOBILE_VERIFICATION -> MobileVerificationStep(
+
+            AuthSteps.CREDENTIALS -> CredentialsStep(
                 state = state,
-                onEvent = viewModel::onEvent
+                onEvent = viewModel::onEvent,
+                validate = viewModel::validateCurrentStep
+            )
+
+            AuthSteps.EDUCATION_INFO -> EducationInfoStep(
+                state = state,
+                onEvent = viewModel::onEvent,
+                validate = viewModel::validateCurrentStep
+            )
+
+            AuthSteps.EXAM_INFO -> ExamInfoStep(
+                state = state,
+                onEvent = viewModel::onEvent,
+                validate = viewModel::validateCurrentStep
+            )
+
+            AuthSteps.MOBILE_VERIFICATION -> MobileVerificationStep(
+                state = state,
+                onEvent = viewModel::onEvent,
+                validate = viewModel::validateCurrentStep
             )
         }
 

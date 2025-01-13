@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth;
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,7 @@ import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.repository.AuthRepository
 import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.data.repository.UserPreferencesRepository
-import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
+import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -32,6 +31,7 @@ class AuthViewModel @Inject constructor(
         AuthEvent.Retry
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.SignIn -> signIn()
@@ -42,7 +42,7 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.UpdatePassword -> updateState { it.copy(password = event.password) }
             is AuthEvent.UpdateClass -> updateState { it.copy(currentClass = event.className) }
             is AuthEvent.UpdateSchool -> updateState { it.copy(schoolName = event.schoolName) }
-            is AuthEvent.UpdateTargetYear -> updateState { it.copy(targetYear = event.year) }
+            is AuthEvent.UpdateTargetYear -> updateState { it.copy(targetYear = event.year.toIntOrNull() ?: 202) }
             is AuthEvent.UpdateMobile -> updateState { it.copy(mobileNumber = event.mobile) }
             is AuthEvent.UpdateOtp -> updateState { it.copy(otp = event.otp) }
             is AuthEvent.SendOtp -> sendOtp()
@@ -55,14 +55,10 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun updateTargetExam(exam: String) {
-        Log.d("AUTH_VM", exam)
         if (_state.value.userTargetExams.contains(exam))
-            _state.value =
-                _state.value.copy(userTargetExams = _state.value.userTargetExams.minus(exam))
-            else
-            _state.value =
-                _state.value.copy(userTargetExams = _state.value.userTargetExams.plus(exam))
-
+            updateState { it.copy(userTargetExams = _state.value.userTargetExams.minus(exam)) }
+        else
+            updateState { it.copy(userTargetExams = _state.value.userTargetExams.plus(exam)) }
     }
 
     private fun checkAuthState() {
@@ -136,7 +132,7 @@ class AuthViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             error = null,
-                            currentStep = RegistrationStep.LOGIN
+                            currentStep = AuthSteps.LOGIN
                         )
                     }
                 }, onFailure = { error ->
@@ -149,11 +145,11 @@ class AuthViewModel @Inject constructor(
     private fun handleNavigateBack() {
         val currentStep = _state.value.currentStep
         val previousStep = when (currentStep) {
-            RegistrationStep.LOGIN -> RegistrationStep.LOGIN
-            RegistrationStep.CREDENTIALS -> RegistrationStep.LOGIN
-            RegistrationStep.EDUCATION_INFO -> RegistrationStep.CREDENTIALS
-            RegistrationStep.EXAM_INFO -> RegistrationStep.EDUCATION_INFO
-            RegistrationStep.MOBILE_VERIFICATION -> RegistrationStep.EXAM_INFO
+            AuthSteps.LOGIN -> AuthSteps.LOGIN
+            AuthSteps.CREDENTIALS -> AuthSteps.LOGIN
+            AuthSteps.EDUCATION_INFO -> AuthSteps.CREDENTIALS
+            AuthSteps.EXAM_INFO -> AuthSteps.EDUCATION_INFO
+            AuthSteps.MOBILE_VERIFICATION -> AuthSteps.EXAM_INFO
         }
         updateState { it.copy(currentStep = previousStep) }
     }
@@ -161,33 +157,19 @@ class AuthViewModel @Inject constructor(
     private fun handleNavigateNext() {
         val currentStep = _state.value.currentStep
         val nextStep = when (currentStep) {
-            RegistrationStep.LOGIN -> RegistrationStep.CREDENTIALS
-            RegistrationStep.CREDENTIALS -> {
-                if (_state.value.password == _state.value.confirmPassword) RegistrationStep.EDUCATION_INFO else {
+            AuthSteps.LOGIN -> AuthSteps.CREDENTIALS
+            AuthSteps.CREDENTIALS -> {
+                if (_state.value.password == _state.value.confirmPassword) AuthSteps.EDUCATION_INFO else {
                     _state.value.error = "Password mismatch"
-                    RegistrationStep.EDUCATION_INFO
+                    AuthSteps.EDUCATION_INFO
                 }
             }
 
-            RegistrationStep.EDUCATION_INFO -> RegistrationStep.EXAM_INFO
-            RegistrationStep.EXAM_INFO -> RegistrationStep.MOBILE_VERIFICATION
-            RegistrationStep.MOBILE_VERIFICATION -> null
+            AuthSteps.EDUCATION_INFO -> AuthSteps.EXAM_INFO
+            AuthSteps.EXAM_INFO -> AuthSteps.MOBILE_VERIFICATION
+            AuthSteps.MOBILE_VERIFICATION -> null
         }
         nextStep?.let { updateState { state -> state.copy(currentStep = it) } }
-    }
-
-    private fun addExam(exam: String) {
-        Log.d("Add:", exam)
-        updateState {
-            it.copy(userTargetExams = (it.userTargetExams).plus(exam))
-        }
-    }
-
-    private fun removeExam(exam: String) {
-        updateState {
-            Log.d("Remove:", exam)
-            it.copy(targetExams = it.userTargetExams.minus(exam))
-        }
     }
 
     private fun sendOtp() {
@@ -220,7 +202,7 @@ class AuthViewModel @Inject constructor(
     private fun toggleNewUser() {
         updateState {
             it.copy(
-                currentStep = RegistrationStep.CREDENTIALS,
+                currentStep = AuthSteps.CREDENTIALS,
                 //username = "",
                 //password = ""
             )
@@ -234,23 +216,23 @@ class AuthViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun validateCurrentStep(): Boolean {
         return when (_state.value.currentStep) {
-            RegistrationStep.LOGIN -> {
+            AuthSteps.LOGIN -> {
                 _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty()
             }
 
-            RegistrationStep.CREDENTIALS -> {
+            AuthSteps.CREDENTIALS -> {
                 _state.value.username.isNotEmpty() && _state.value.password.isNotEmpty() && _state.value.confirmPassword.isNotEmpty()
             }
 
-            RegistrationStep.EDUCATION_INFO -> {
+            AuthSteps.EDUCATION_INFO -> {
                 _state.value.currentClass.isNotEmpty() && _state.value.schoolName.isNotEmpty()
             }
 
-            RegistrationStep.EXAM_INFO -> {
+            AuthSteps.EXAM_INFO -> {
                 _state.value.userTargetExams.isNotEmpty() && (_state.value.targetYear) >= LocalDate.now().year
             }
 
-            RegistrationStep.MOBILE_VERIFICATION -> {
+            AuthSteps.MOBILE_VERIFICATION -> {
                 _state.value.mobileNumber.length == 10 && (_state.value.isOtpVerified || (_state.value.isOtpSent && _state.value.otp.length == 6))
             }
         }

@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
+
 sealed class AuthEvent {
     data object SignIn : AuthEvent()
     data object SignUp : AuthEvent()
@@ -11,7 +12,7 @@ sealed class AuthEvent {
     data class UpdateClass(val className: String) : AuthEvent()
     data class UpdateSchool(val schoolName: String) : AuthEvent()
     data class UpdateUserTargetExam(val exam: String) : AuthEvent()
-    data class UpdateTargetYear(val year: Int) : AuthEvent()
+    data class UpdateTargetYear(val year: String) : AuthEvent()
     data class UpdateMobile(val mobile: String) : AuthEvent()
     data class UpdateOtp(val otp: String) : AuthEvent()
     data object Retry:AuthEvent()
