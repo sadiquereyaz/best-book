@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class ProductResponseFreeApi(
     val data: Data,
     val message: String,
@@ -14,7 +16,7 @@ data class Data(
     val nextPage: Any,
     val page: Int,
     val prevPage: Any,
-    val products: List<Product>,
+    @SerializedName("products") val productFreeApis: List<ProductFreeApi>,
     val serialNumberStartFrom: Int,
     val totalPages: Int,
     val totalProducts: Int
@@ -27,7 +29,7 @@ data class MainImage(
 )
 
 
-data class Product(
+data class ProductFreeApi(
     val __v: Int,
     val _id: String,
     val category: String,

@@ -2,7 +2,7 @@ package com.nabssam.bestbook.utils
 
 object Constants {
 
-    const val DEFAULT_CATEGORY = "gaming"
+    const val DEFAULT_CATEGORY_id = "67834b3ed8f12df5866e4ae8"
     const val MIN_PASSWORD_LENGTH = 6
     const val MAX_QUANTITY = 99
     const val MIN_SEARCH_QUERY_LENGTH = 3

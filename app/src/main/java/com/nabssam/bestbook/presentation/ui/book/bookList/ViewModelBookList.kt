@@ -59,7 +59,7 @@ class ViewModelBookList @Inject constructor(
                             Log.d("CATEGORY", resource.data.toString())
                             _state.update { currentState ->
                                 currentState.copy(
-                                    examList = resource.data!!,
+                                    examList = resource.data ?: emptyList(),
                                     loading = false,
                                     userTargetExam = targetExam
                                 )

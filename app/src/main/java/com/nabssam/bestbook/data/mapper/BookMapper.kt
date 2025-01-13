@@ -3,8 +3,7 @@ package com.nabssam.bestbook.data.mapper
 import com.nabssam.bestbook.data.local.entity.BookEntity
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.BookDto
-import com.nabssam.bestbook.data.remote.dto.Product
-import com.nabssam.bestbook.data.remote.dto.ProductDto
+import com.nabssam.bestbook.data.remote.dto.ProductFreeApi
 import com.nabssam.bestbook.data.remote.dto.Rate
 import com.nabssam.bestbook.domain.model.Book
 import kotlin.random.Random
@@ -20,7 +19,7 @@ class BookMapper {
             category = dto.category
         )
     }
-    fun productDtoToDomain(dto: Product): Book {
+    fun productDtoToDomain(dto: ProductFreeApi): Book {
         return Book(
             id = dto._id,
             name = dto.name,

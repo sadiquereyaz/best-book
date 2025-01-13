@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -82,11 +83,12 @@ fun HomeScreen(
                 FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)))
             } else if (state.errorBooks != null) {
                 ErrorScreen(
-                    message = state.errorBooks!!,
+                    message = state.errorBooks ?: "Error occur while fetching books",
                     modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)),
                     onRetry = { event(EventHomeScreen.FetchBook) }
                 )
             } else {
+                Log.d("BOOK Size", state.fetchedBooks.size.toString())
                 HomeBookList(state, onNavigateToBook)
             }
 
@@ -112,7 +114,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                itemsIndexed(state.fetchedExams!!) { index, exam -> // Use itemsIndexed
+                itemsIndexed(state.fetchedExams) { index, exam -> // Use itemsIndexed
                     val color = colorList[index % colorList.size] // Get color from list
                     QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
                 }

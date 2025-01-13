@@ -63,7 +63,7 @@ fun BookDetailScreen(
         FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
     else if (state.errorMessage != null)
         ErrorScreen(
-            message = state.errorMessage!!,
+            message = state.errorMessage ?: "Error occur while fetching book detail",
             modifier = modifier,
             onRetry = { onEvent(EventBookDetail.Retry) }
         )

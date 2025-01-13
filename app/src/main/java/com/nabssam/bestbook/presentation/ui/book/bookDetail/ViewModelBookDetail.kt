@@ -72,7 +72,7 @@ class ViewModelBookDetail @Inject constructor(
                         _state.update {
                             it.copy(
                                 loading = false,
-                                fetchedBook = resource.data!!
+                                fetchedBook = resource.data ?: Book()
                             )
                         }
                     }

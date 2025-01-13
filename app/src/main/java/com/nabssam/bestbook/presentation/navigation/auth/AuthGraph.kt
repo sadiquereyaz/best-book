@@ -27,11 +27,6 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
 
             val viewModel = hiltViewModel<AuthViewModel>()
             AuthenticationScreen(
-                onRegistrationComplete = {
-                    navController.navigate("home") {
-                        popUpTo("registration") { inclusive = true }
-                    }
-                },
                 onLoginSuccess = { navController.navigate(Route.MainGraph) },
                 viewModel =viewModel,
             )

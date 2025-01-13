@@ -27,7 +27,6 @@ import com.nabssam.bestbook.presentation.ui.account.auth.util.RegistrationStep
 @Composable
 fun AuthenticationScreen(
     viewModel: AuthViewModel,
-    onRegistrationComplete: () -> Unit,
     onLoginSuccess: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()

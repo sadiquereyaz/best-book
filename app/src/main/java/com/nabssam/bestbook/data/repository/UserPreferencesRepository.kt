@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nabssam.bestbook.data.remote.dto.Avatar
 import com.nabssam.bestbook.domain.model.User
-import com.nabssam.bestbook.utils.Constants.DEFAULT_CATEGORY
+import com.nabssam.bestbook.utils.Constants.DEFAULT_CATEGORY_id
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -39,7 +39,7 @@ class UserPreferencesRepository @Inject constructor(
         }
         .map { preferences ->
             preferences[PreferencesKeys.TARGET_EXAM]
-                ?: DEFAULT_CATEGORY   //TODO: change to "All_books"
+                ?: DEFAULT_CATEGORY_id   //TODO: change to "All_books"
         }
 
     suspend fun saveTargetExam(category: String) {

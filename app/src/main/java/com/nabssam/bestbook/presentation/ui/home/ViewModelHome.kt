@@ -7,6 +7,7 @@ import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.domain.usecase.GetBannersUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByCategoryUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetTargetExamUseCase
+import com.nabssam.bestbook.utils.Constants
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +38,7 @@ class ViewModelHome @Inject constructor(
 
 
     private fun fetchAllExams() {
-        Log.d("ExamViewModel", "ExamViewModel insidefetch ")
+       /* Log.d("ExamViewModel", "ExamViewModel insidefetch ")
         viewModelScope.launch {
             examRepository.fetchAllExams().collect { resource ->
                 when (resource) {
@@ -73,7 +74,7 @@ class ViewModelHome @Inject constructor(
             }
 
 
-        }
+        }*/
     }
 
     private fun fetchBanners() {
@@ -115,8 +116,8 @@ class ViewModelHome @Inject constructor(
 
     private fun fetchBooks() {
         viewModelScope.launch {
-            targetExam.collect { targetExam ->
-                getBooksByCategoryUseCase(category = targetExam).collect { resource ->
+           // targetExam.collect { targetExam ->
+                getBooksByCategoryUseCase(category = Constants.DEFAULT_CATEGORY_id).collect { resource ->
                     when (resource) {
                         is Resource.Loading -> {
                             //Log.d("ViewModelHome", "Book Loading...")
@@ -128,6 +129,7 @@ class ViewModelHome @Inject constructor(
                         }
 
                         is Resource.Success -> {
+                            Log.d("TARGET", "TargetExam: $targetExam")
                             _state.update {
                                 it.copy(
                                     fetchedBooks = resource.data ?: emptyList(),
@@ -146,7 +148,7 @@ class ViewModelHome @Inject constructor(
                         }
                     }
                 }
-            }
+           // }
         }
 
     }
