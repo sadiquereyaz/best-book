@@ -29,14 +29,6 @@ class MainActivity : ComponentActivity() {
                     } else {
                         BestBookApp(modifier = Modifier.fillMaxSize()) // Your app navigation
                     }
-
-                    //CartScreen()
-//                MCQScreen()
-                    //b()
-                    //QuizScreen()
-//                PdfViewerScreenFromAssets()
-//                PdfViewerScreen()
-//                PdfViewerScreenFromUrlDirect()
                 }
             }
         }

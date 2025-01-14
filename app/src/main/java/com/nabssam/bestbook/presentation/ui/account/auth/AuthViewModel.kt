@@ -5,9 +5,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
-import com.nabssam.bestbook.data.repository.AuthRepository
+import com.nabssam.bestbook.data.repository.auth.AuthRepository
 import com.nabssam.bestbook.data.repository.ExamRepository
-import com.nabssam.bestbook.data.repository.UserPreferencesRepository
+import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val examRepository: ExamRepository,
-    private val userPreferencesRepository: UserPreferencesRepository,
+    private val userPrefRepoImpl: UserPrefRepoImpl,
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
@@ -73,7 +73,7 @@ class AuthViewModel @Inject constructor(
 
     private fun checkAuthState() {
         viewModelScope.launch {
-            userPreferencesRepository.accessToken.collect { token ->
+            userPrefRepoImpl.accessToken.collect { token ->
                 _state.value.isSignedIn = false
                 //token != null
             }

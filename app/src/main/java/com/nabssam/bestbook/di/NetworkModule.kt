@@ -7,7 +7,9 @@ import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
-import com.nabssam.bestbook.data.repository.AuthInterceptor
+import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.data.repository.auth.AuthInterceptor
+import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
 import dagger.Module
@@ -19,14 +21,11 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
-
-
     @Provides
     @Singleton
     fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
@@ -35,16 +34,15 @@ object RemoteModule {
                 level = HttpLoggingInterceptor.Level.BODY
             })
             .addInterceptor(authInterceptor)
-            .connectTimeout(10, TimeUnit.SECONDS)   //30
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
+//            .connectTimeout(10, TimeUnit.SECONDS)   //30
+//            .readTimeout(10, TimeUnit.SECONDS)
+//            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BuildConfig.baseUrl)
             .client(okHttpClient)
@@ -66,7 +64,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideLocalApi(retrofit: Retrofit): CartApiService {
+    fun provideLocalApi(retrofit: Retrofit): CartApiService {   //TODO: delete/rename it
         return retrofit.create(CartApiService::class.java)
     }
 
@@ -78,30 +76,24 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideNetworkConnectivityRepository(
-        @ApplicationContext context: Context
-    ): NetworkConnectivityRepository {
+    fun provideNetworkConnectivityRepository(@ApplicationContext context: Context): NetworkConnectivityRepository {
         return NetworkConnectivityObserver(context)
     }
 
     @Provides
     @Singleton
-    fun provideExamApi(retrofit: Retrofit):
-            ExamApi {
+    fun provideExamApi(retrofit: Retrofit): ExamApi {
         return retrofit.create(ExamApi::class.java)
-
     }
-    /*
+
     @Provides
-    @Singleton
-    fun provideOrderApi(retrofit: Retrofit): OrderApi {
-        return retrofit.create(OrderApi::class.java)
+    fun provideAuthInterceptor(userPreferences: UserPreferencesRepository, authManager: AuthManager): AuthInterceptor {
+        return AuthInterceptor(userPreferences, authManager)
     }
 
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi {
-        return retrofit.create(AuthApi::class.java)
+    fun provideAuthManager(userPreferences: UserPreferencesRepository, authApiService: AuthApiService): AuthManager {
+        return AuthManager(userPreferences, authApiService)
     }
-    */
 }

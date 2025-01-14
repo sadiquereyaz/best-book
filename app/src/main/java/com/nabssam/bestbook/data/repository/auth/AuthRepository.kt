@@ -1,16 +1,16 @@
-package com.nabssam.bestbook.data.repository
+package com.nabssam.bestbook.data.repository.auth
 
-import android.util.Log
 import com.nabssam.bestbook.data.mapper.UserMapper
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
+import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val userPreferences: UserPreferencesRepository,
+    private val userPreferences: UserPrefRepoImpl,
     private val userMapper: UserMapper
 ) {
     suspend fun signIn(email: String, password: String): Result<Unit> {

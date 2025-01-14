@@ -74,7 +74,7 @@ class RefreshProductsUseCase @Inject constructor(
 class GetBooksByCategoryUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(category: String): Flow<Resource<List<Book>>> {
-        return repository.getProductsByCategory(category)
+    suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
+        return repository.getProductsByCategory(targetExam)
     }
 }

@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllCategoryUseCase
-import com.nabssam.bestbook.domain.usecase.datastore.GetTargetExamUseCase
+import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,14 +17,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewModelBookList @Inject constructor(
     private val getAllBookUseCase: GetAllBookUseCase,
-    getTargetExamUseCase: GetTargetExamUseCase,
+    private val getUserTargetsUC: GetUserTargetsUC,
     private val getAllCategoryUseCase: GetAllCategoryUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(StateBookList())
     val state = _state.asStateFlow()
 
-    private val targetExam = getTargetExamUseCase().filterNot { it.isEmpty() }
+    //private val targetExam = getTargetExamUseCase()
 
     init {
         fetchCategories()
@@ -34,10 +33,8 @@ class ViewModelBookList @Inject constructor(
 
     private fun fetchCategories() {
         viewModelScope.launch {
-            targetExam.collect { targetExam ->
                 getAllCategoryUseCase().collect { resource ->
                     when (resource) {
-
                         is Resource.Loading -> {
                             _state.update {
                                 it.copy(
@@ -61,13 +58,12 @@ class ViewModelBookList @Inject constructor(
                                 currentState.copy(
                                     examList = resource.data ?: emptyList(),
                                     loading = false,
-                                    userTargetExam = targetExam
                                 )
                             }
                         }
                     }
                 }
-            }
+
 
         }
     }

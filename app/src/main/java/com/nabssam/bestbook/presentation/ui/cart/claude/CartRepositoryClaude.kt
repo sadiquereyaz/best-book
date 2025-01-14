@@ -1,12 +1,12 @@
 package com.nabssam.bestbook.presentation.ui.cart.claude
 
 import android.util.Log
-import com.nabssam.bestbook.data.repository.UserPreferencesRepository
+import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import javax.inject.Inject
 
 class CartRepositoryClaude @Inject constructor(
     private val cartApiServiceClaude: CartApiServiceClaude,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPrefRepoImpl: UserPrefRepoImpl
 ) {
     /*val id:String = userPreferencesRepository.user.collect{
         it?._id ?: "NO ID FOUND!"
