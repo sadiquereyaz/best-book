@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.CredentialsStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.EducationInfoStep
+import com.nabssam.bestbook.presentation.ui.account.auth.composable.ErrorText
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.ExamInfoStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.LoginStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.MobileVerificationStep
@@ -30,10 +31,16 @@ fun AuthenticationScreen(
     onLoginSuccess: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+    val errorState by viewModel.errState.collectAsState()
 
     LaunchedEffect(state.isSignedIn) {
         if (state.isSignedIn) {
             onLoginSuccess()
+        }
+    }
+    LaunchedEffect(state.isOtpVerified) {
+        if (state.isOtpVerified) {
+            viewModel.onEvent(AuthEvent.NavigateNext)
         }
     }
 
@@ -79,15 +86,11 @@ fun AuthenticationScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-
-        state.error?.let { error ->
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(16.dp)
-            )
-        }
+        ErrorText(
+            error=errorState,
+            modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(16.dp)
+        )
     }
 }

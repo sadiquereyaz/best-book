@@ -23,7 +23,7 @@ import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 fun MobileVerificationStep(
     state: AuthState,
     onEvent: (AuthEvent) -> Unit,
-    validate:()->Boolean
+    validate: () -> Boolean
 ) {
     Column(
         modifier = Modifier
@@ -36,18 +36,17 @@ fun MobileVerificationStep(
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 32.dp)
         )
-
-        OutlinedTextField(
-            value = state.mobileNumber,
-            onValueChange = { onEvent(AuthEvent.UpdateMobile(it)) },
-            label = { Text("Mobile Number") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         if (!state.isOtpSent) {
+            OutlinedTextField(
+                value = state.mobileNumber,
+                onValueChange = { onEvent(AuthEvent.UpdateMobile(it)) },
+                label = { Text("Mobile Number") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = { onEvent(AuthEvent.SendOtp) },
                 enabled = state.mobileNumber.length == 10,
@@ -61,14 +60,15 @@ fun MobileVerificationStep(
                 onValueChange = { onEvent(AuthEvent.UpdateOtp(it)) },
                 label = { Text("Enter OTP") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                isError = state.otp.length > 6
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
                 onClick = { onEvent(AuthEvent.VerifyOtp) },
-                enabled = state.otp.length == 6,
+                enabled = validate(),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Verify OTP")

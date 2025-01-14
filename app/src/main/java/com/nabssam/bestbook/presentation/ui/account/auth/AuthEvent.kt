@@ -18,5 +18,5 @@ sealed class AuthEvent {
     data object Retry:AuthEvent()
     data object SendOtp : AuthEvent()
     data object VerifyOtp : AuthEvent()
-    data object ToggleNewUser : AuthEvent()
+    //data object ToggleNewUser : AuthEvent()
 }

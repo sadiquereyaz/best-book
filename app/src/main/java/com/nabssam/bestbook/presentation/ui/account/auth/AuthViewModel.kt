@@ -27,6 +27,9 @@ class AuthViewModel @Inject constructor(
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
+    private val _errState = MutableStateFlow<String?>(null)
+    val errState = _errState.asStateFlow()
+
     init {
         AuthEvent.Retry
     }
@@ -37,7 +40,14 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.SignIn -> signIn()
             is AuthEvent.SignUp -> signUp()
             is AuthEvent.NavigateBack -> handleNavigateBack()
-            is AuthEvent.NavigateNext -> handleNavigateNext()
+            is AuthEvent.NavigateNext -> {
+                /*if (_state.value.passwrd == _state.value.confirmPassword)
+                    _state.value.error = null
+                else {
+                    _state.value.error = "Password mismatch"
+                }
+                if (_state.value.error == null)*/ handleNavigateNext()
+            }
             is AuthEvent.UpdateUsername -> updateState { it.copy(username = event.username) }
             is AuthEvent.UpdatePassword -> updateState { it.copy(password = event.password) }
             is AuthEvent.UpdateClass -> updateState { it.copy(currentClass = event.className) }
@@ -47,7 +57,7 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.UpdateOtp -> updateState { it.copy(otp = event.otp) }
             is AuthEvent.SendOtp -> sendOtp()
             is AuthEvent.VerifyOtp -> verifyOtp()
-            is AuthEvent.ToggleNewUser -> toggleNewUser()
+           // is AuthEvent.ToggleNewUser -> toggleNewUser()
             is AuthEvent.Retry -> fetchAllExam()
             is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
             is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
@@ -73,24 +83,19 @@ class AuthViewModel @Inject constructor(
     private fun fetchAllExam() {
         viewModelScope.launch {
             examRepository.fetchAllTargetExam().collect { resource ->
+                _errState.value = null
                 when (resource) {
-                    is Resource.Error -> updateState {
-                        it.copy(
-                            error = resource.message,
-                            isLoading = false
-                        )
+                    is Resource.Error -> {
+                        updateState { it.copy(isLoading = false) }
+                        _errState.value = resource.message
                     }
 
-                    is Resource.Loading -> {/*updateState { it.copy(isLoading = true) }*/
+                    is Resource.Loading -> {
+                        updateState { it.copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
-                        updateState {
-                            it.copy(
-                                targetExams = resource.data ?: emptyList(),
-                                isLoading = false
-                            )
-                        }
+                        updateState { it.copy(targetExams = resource.data ?: emptyList(), isLoading = false) }
                     }
                 }
             }
@@ -99,22 +104,21 @@ class AuthViewModel @Inject constructor(
 
     private fun signIn() {
         viewModelScope.launch {
-            updateState {
-                it.copy(
-                    isLoading = true, error = null
-                )
-            }
+            _errState.value = null
+            updateState { it.copy(isLoading = true) }
             authRepository.signIn(_state.value.username, _state.value.password).fold(onSuccess = {
-                updateState { it.copy(isLoading = false, error = null, isSignedIn = true) }
+                updateState { it.copy(isLoading = false, isSignedIn = true) }
             }, onFailure = { error ->
-                updateState { it.copy(isLoading = false, error = error.message) }
+                _errState.value = error.message
+                updateState { it.copy(isLoading = false) }
             })
         }
     }
 
     private fun signUp() {
         viewModelScope.launch {
-            updateState { it.copy(isLoading = true, error = null) }
+            _errState.value = null
+            updateState { it.copy(isLoading = true) }
 
             val currentState = _state.value
             authRepository.signUp(
@@ -131,12 +135,12 @@ class AuthViewModel @Inject constructor(
                     updateState {
                         it.copy(
                             isLoading = false,
-                            error = null,
                             currentStep = AuthSteps.LOGIN
                         )
                     }
                 }, onFailure = { error ->
-                    updateState { it.copy(isLoading = false, error = error.message) }
+                    _errState.value = error.message
+                    updateState { it.copy(isLoading = false) }
                 }
             )
         }
@@ -155,25 +159,37 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun handleNavigateNext() {
+        _errState.value = null
         val currentStep = _state.value.currentStep
         val nextStep = when (currentStep) {
             AuthSteps.LOGIN -> AuthSteps.CREDENTIALS
             AuthSteps.CREDENTIALS -> {
-                if (_state.value.password == _state.value.confirmPassword) AuthSteps.EDUCATION_INFO else {
-                    _state.value.error = "Password mismatch"
+                if (_state.value.password == _state.value.confirmPassword) {
                     AuthSteps.EDUCATION_INFO
                 }
+                else {
+                    _errState.value = "Password mismatch"
+                    null
+                }
             }
-
             AuthSteps.EDUCATION_INFO -> AuthSteps.EXAM_INFO
             AuthSteps.EXAM_INFO -> AuthSteps.MOBILE_VERIFICATION
-            AuthSteps.MOBILE_VERIFICATION -> null
+            AuthSteps.MOBILE_VERIFICATION -> {
+                if (_state.value.isOtpVerified)
+                    AuthSteps.LOGIN
+                else {
+                    _errState.value = "Incorrect OTP!"
+                    null
+                }
+            }
         }
+       // if (_state.value.error == null)
         nextStep?.let { updateState { state -> state.copy(currentStep = it) } }
     }
 
     private fun sendOtp() {
         viewModelScope.launch {
+//            authRepository.
             updateState { it.copy(isLoading = true) }
             // TODO: Implement OTP sending logic
             delay(1000) // Simulating API call
@@ -192,20 +208,10 @@ class AuthViewModel @Inject constructor(
             delay(1000) // Simulating API call
             updateState {
                 it.copy(
-                    isLoading = false, isOtpVerified = true, error = null
+                    isLoading = false, isOtpVerified = true
                 )
             }
             // TODO: Handle successful registration
-        }
-    }
-
-    private fun toggleNewUser() {
-        updateState {
-            it.copy(
-                currentStep = AuthSteps.CREDENTIALS,
-                //username = "",
-                //password = ""
-            )
         }
     }
 

@@ -17,8 +17,6 @@ class AuthRepository @Inject constructor(
         return try {
             val request = SignInRequest(email, password)
             val response = authApiService.signIn(request)
-            Log.d("LOGIN_RESPONSE", "${response}")
-            Log.d("LOGIN_RESPONSE_BODY", "${response.body() ?: "Empty body"}")
 
             if (response.isSuccessful) {    // is successful: Returns true if code() is in the range [200..300)
                 response.body()?.let { authResponse ->

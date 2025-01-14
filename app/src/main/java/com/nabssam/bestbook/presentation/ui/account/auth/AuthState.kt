@@ -3,8 +3,8 @@ import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.DummyData
 
 data class AuthState(
-    val username: String = "sadique",
-    val password: String = "11111111",
+    val username: String = "ayaz",
+    val password: String = "ayaz",
     val confirmPassword: String = "11111111",
     val currentClass: String = "XI-PCM",
     val schoolName: String = "AMU Sr. Sec. School",
@@ -16,7 +16,6 @@ data class AuthState(
     val otp: String = "",
     val currentStep: AuthSteps = AuthSteps.LOGIN,
     val isLoading: Boolean = false,
-    var error: String? = null,
     val isOtpSent: Boolean = false,
     val isOtpVerified: Boolean = false,
     var isSignedIn: Boolean = false,

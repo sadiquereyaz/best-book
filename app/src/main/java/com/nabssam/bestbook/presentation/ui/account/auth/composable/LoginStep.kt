@@ -65,7 +65,8 @@ fun LoginStep(
         }
 
         TextButton(
-            onClick = { onEvent(AuthEvent.ToggleNewUser) }
+//            onClick = { onEvent(AuthEvent.ToggleNewUser) }
+            onClick = { onEvent(AuthEvent.NavigateNext) }
         ) {
             Text("New User? Register Here")
         }
