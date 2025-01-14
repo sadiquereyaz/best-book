@@ -10,6 +10,7 @@ import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import com.nabssam.bestbook.data.repository.auth.AuthInterceptor
 import com.nabssam.bestbook.data.repository.auth.AuthManager
+import com.nabssam.bestbook.data.repository.auth.AuthTokenProvider
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
 import dagger.Module
@@ -87,13 +88,20 @@ object RemoteModule {
     }
 
     @Provides
-    fun provideAuthInterceptor(userPreferences: UserPreferencesRepository, authManager: AuthManager): AuthInterceptor {
-        return AuthInterceptor(userPreferences, authManager)
-    }
-
-    @Provides
     @Singleton
     fun provideAuthManager(userPreferences: UserPreferencesRepository, authApiService: AuthApiService): AuthManager {
         return AuthManager(userPreferences, authApiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideAuthTokenProvider(authManager: AuthManager): AuthTokenProvider {
+        return authManager
+    }
+
+    @Provides
+    fun provideAuthInterceptor(authTokenProvider: AuthTokenProvider): AuthInterceptor {
+        return AuthInterceptor(authTokenProvider)
+    }
+
 }

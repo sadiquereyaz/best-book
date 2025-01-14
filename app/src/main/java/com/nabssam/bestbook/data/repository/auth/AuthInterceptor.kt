@@ -16,12 +16,11 @@ an access token (e.g., Bearer token) for authentication.
 The AuthInterceptor retrieves the token (stored in a repository or preference manager)
 and appends it to the request header.*/
 class AuthInterceptor @Inject constructor(
-    private val userPreferences: UserPreferencesRepository,
-    private val authManager: AuthManager // New dependency for handling auth state
+    private val authTokenProvider: AuthTokenProvider
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val accessToken = runBlocking { userPreferences.accessToken.firstOrNull() }
+        val accessToken = runBlocking { authTokenProvider.getAccessToken() }
         Log.d("AUTH_INTERCEPTOR", "accessToken: $accessToken")
         /*If an accessToken is available, it is added to the request header
         as Authorization: Bearer <accessToken>.
@@ -50,7 +49,7 @@ class AuthInterceptor @Inject constructor(
             403 -> {
                 // Handle forbidden - possibly another device logged in
                 runBlocking {
-                    authManager.handleDeviceConflict()
+                    authTokenProvider.handleDeviceConflict()
                 }
                 return response
             }
@@ -62,10 +61,10 @@ class AuthInterceptor @Inject constructor(
         // Try to refresh token
         val newToken = runBlocking {
             try {
-                authManager.refreshToken()
+                authTokenProvider.refreshToken()
             } catch (e: Exception) {
                 // If refresh fails, force logout
-                authManager.logout()
+                authTokenProvider.logout()
                 null
             }
         }

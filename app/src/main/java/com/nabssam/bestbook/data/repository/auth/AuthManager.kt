@@ -7,24 +7,37 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 // Auth manager to handle authentication state
+interface AuthTokenProvider {
+    suspend fun getAccessToken(): String?
+    suspend fun refreshToken(): String?
+    suspend fun handleDeviceConflict()
+    suspend fun logout()
+}
+
+// 2. Modify AuthManager to implement the interface
 class AuthManager @Inject constructor(
     private val userPreferences: UserPreferencesRepository,
     private val authApiService: AuthApiService
-) {
+) : AuthTokenProvider {
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
     val authState = _authState.asStateFlow()
 
     private val _authEvents = MutableSharedFlow<AuthEvent>()
     val authEvents = _authEvents.asSharedFlow()
 
-    suspend fun refreshToken(): String? {
+    override suspend fun getAccessToken(): String? {
+        return userPreferences.accessToken.firstOrNull()
+    }
+
+    override suspend fun refreshToken(): String? {
         val refreshToken = userPreferences.refreshToken.firstOrNull()
         return try {
             val response = authApiService.refreshToken(refreshToken ?: "default_datastore_token")
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 response.body()?.let {
                     userPreferences.saveTokens(
                         accessToken = it.accessToken,
@@ -39,15 +52,15 @@ class AuthManager @Inject constructor(
         }
     }
 
-    suspend fun handleDeviceConflict() {
-        // Clear tokens and notify UI about forced logout
+    override suspend fun handleDeviceConflict() {
         logout()
         // You can use a shared flow or event bus to notify the UI
         _authEvents.emit(AuthEvent.DeviceConflict)
     }
 
-    suspend fun logout() {
+    override suspend fun logout() {
         userPreferences.clearAll()
-        // Additional cleanup as needed
     }
 }
+
+// 3. Modify AuthInterceptor to use the interface instead
