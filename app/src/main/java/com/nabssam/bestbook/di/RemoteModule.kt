@@ -8,9 +8,9 @@ import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
-import com.nabssam.bestbook.data.repository.auth.AuthInterceptor
-import com.nabssam.bestbook.data.repository.auth.AuthManager
-import com.nabssam.bestbook.data.repository.auth.AuthTokenProvider
+import com.nabssam.bestbook.data.repository.auth.AuthenticatedOkHttpClient
+import com.nabssam.bestbook.data.repository.auth.TokenStorage
+import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
 import dagger.Module
@@ -22,28 +22,44 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
+
+    // Unauthenticated client for auth API
     @Provides
     @Singleton
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
+    @UnAuth
+    fun provideUnAuthOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-            .addInterceptor(authInterceptor)
-//            .connectTimeout(10, TimeUnit.SECONDS)   //30
-//            .readTimeout(10, TimeUnit.SECONDS)
-//            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
+    }
+
+    // Authenticated client for other APIs
+    @Provides
+    @Singleton
+    fun provideAuthOkHttpClient(tokenStorage: TokenStorage): AuthenticatedOkHttpClient {
+        return AuthenticatedOkHttpClient(tokenStorage)
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Auth
+    fun provideAuthOkHttpClient(authenticatedClient: AuthenticatedOkHttpClient): OkHttpClient {
+        return authenticatedClient.create()
+    }
+
+    // Base retrofit for auth API
+    @Provides
+    @Singleton
+    @UnAuth
+    fun provideBaseRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.baseUrl)
             .client(okHttpClient)
@@ -51,27 +67,42 @@ object RemoteModule {
             .build()
     }
 
+    // Authenticated retrofit for other APIs
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApiService {
+    @Auth
+    fun provideAuthenticatedRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    // Auth API using unauthenticated client
+    @Provides
+    @Singleton
+    fun provideAuthApi(@Auth retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
 
+
+    // Other APIs using authenticated client
     @Provides
     @Singleton
-    fun provideProductApi(retrofit: Retrofit): BookApi {
+    fun provideBookApi(@UnAuth retrofit: Retrofit): BookApi {
         return retrofit.create(BookApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideLocalApi(retrofit: Retrofit): CartApiService {   //TODO: delete/rename it
+    fun provideCartApi(@UnAuth retrofit: Retrofit): CartApiService {
         return retrofit.create(CartApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideCartApiClaude(retrofit: Retrofit): CartApiServiceClaude {
+    fun provideCartApiClaude(@UnAuth retrofit: Retrofit): CartApiServiceClaude {
         return retrofit.create(CartApiServiceClaude::class.java)
     }
 
@@ -83,25 +114,23 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideExamApi(retrofit: Retrofit): ExamApi {
+    fun provideExamApi(@UnAuth retrofit: Retrofit): ExamApi {
         return retrofit.create(ExamApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideAuthManager(userPreferences: UserPreferencesRepository, authApiService: AuthApiService): AuthManager {
-        return AuthManager(userPreferences, authApiService)
+    fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
+        return UserPreferencesTokenStorage(userPreferences)
     }
-
-    @Provides
-    @Singleton
-    fun provideAuthTokenProvider(authManager: AuthManager): AuthTokenProvider {
-        return authManager
-    }
-
-    @Provides
-    fun provideAuthInterceptor(authTokenProvider: AuthTokenProvider): AuthInterceptor {
-        return AuthInterceptor(authTokenProvider)
-    }
-
 }
+
+
+//qualifiers for different instances of same class
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Auth
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class UnAuth

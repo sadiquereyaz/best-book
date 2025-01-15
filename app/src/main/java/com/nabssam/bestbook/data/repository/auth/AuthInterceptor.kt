@@ -1,3 +1,4 @@
+/*
 package com.nabssam.bestbook.data.repository.auth
 
 import android.util.Log
@@ -9,12 +10,14 @@ import okhttp3.Response
 import javax.inject.Inject
 
 // Network Interceptor to add Authorization header to all request sent
+*/
 /*The AuthInterceptor class is an OkHttp Interceptor designed to
 automatically add an Authorization header to all outgoing HTTP requests.
 This is commonly used in applications where requests to APIs require
 an access token (e.g., Bearer token) for authentication.
 The AuthInterceptor retrieves the token (stored in a repository or preference manager)
-and appends it to the request header.*/
+and appends it to the request header.*//*
+
 class AuthInterceptor @Inject constructor(
     private val authTokenProvider: AuthTokenProvider
 ) : Interceptor {
@@ -22,9 +25,11 @@ class AuthInterceptor @Inject constructor(
         val request = chain.request()
         val accessToken = runBlocking { authTokenProvider.getAccessToken() }
         Log.d("AUTH_INTERCEPTOR", "accessToken: $accessToken")
-        /*If an accessToken is available, it is added to the request header
+        */
+/*If an accessToken is available, it is added to the request header
         as Authorization: Bearer <accessToken>.
-        If the token is not available, the request proceeds without modification.*/
+        If the token is not available, the request proceeds without modification.*//*
+
         val response =  if (accessToken != null) {
             val authenticatedRequest = request.newBuilder()
                 .header("Authorization", "Bearer $accessToken")
@@ -81,7 +86,7 @@ class AuthInterceptor @Inject constructor(
         }
     }
 }
-
+*/
 // Auth events for UI notification
 sealed class AuthEvent {
     object DeviceConflict : AuthEvent()

@@ -26,7 +26,7 @@ class ViewModelHome @Inject constructor(
 
     private val _state = MutableStateFlow(StateHomeScreen())
     val state = _state.asStateFlow()
-    var randomTargetExam: String? = null
+    private var randomTargetExam: String? = null
 
     init {
         onEvent(EventHomeScreen.Retry)
@@ -50,7 +50,9 @@ class ViewModelHome @Inject constructor(
     private fun fetchBanners() {
         viewModelScope.launch {
             val targetExamList = getTargetExamsUseCase()
-            randomTargetExam = targetExamList[Random.nextInt(targetExamList.size)]
+            randomTargetExam = if (targetExamList.isNotEmpty())
+                targetExamList[Random.nextInt(targetExamList.size)]
+            else ""
             _state.update { it.copy(targetExams = targetExamList) }
             getBannersUseCase(randomTargetExam ?: "").collect { resource ->
                 when (resource) {
