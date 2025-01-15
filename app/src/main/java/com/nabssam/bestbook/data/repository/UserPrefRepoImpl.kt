@@ -75,11 +75,14 @@ class UserPrefRepoImpl @Inject constructor(
     override suspend fun getUserTargetExams(): List<String> {
         val mutablePreferences = dataStore.data.first()
         val targetExams = mutablePreferences[PreferencesKeys.TARGET_EXAMS] ?: return emptyList()
+
+        Log.d("DATA_S_LIST", "fetched all exams: ${targetExams.split(",").map { it.trim() }}")
+
         return targetExams.split(",").map { it.trim() }
     }
 
     suspend fun saveUser(user: User) {
-        Log.d("DATASTORE", "Saved user: ${user}")
+        Log.d("DATASTORE", "Saving user target exams: ${user.targetExams}")
 
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.USER_ID] = user.id
@@ -91,11 +94,14 @@ class UserPrefRepoImpl @Inject constructor(
             preferences[PreferencesKeys.ACCESS_TOKEN] = user.accessToken
             preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
             preferences[PreferencesKeys.CURRENT_CLASS] = user.currentClass
-            preferences[PreferencesKeys.SCHOOL] = user.currentClass
+            preferences[PreferencesKeys.SCHOOL] = user.schoolName
             preferences[PreferencesKeys.EBOOK] = user.subscribedEbooks.joinToString(",")
-            preferences[PreferencesKeys.TARGET_EXAMS] = user.targetExams.joinToString{","}
+            preferences[PreferencesKeys.TARGET_EXAMS] = user.targetExams.joinToString(",")
         }
+
+        Log.d("DATASTORE", "Saved user target exams for datastore: ${user.targetExams.joinToString(",")}")
     }
+
 
     override suspend fun saveTokens(accessToken: String, refreshToken: String) {
         dataStore.edit { preferences ->

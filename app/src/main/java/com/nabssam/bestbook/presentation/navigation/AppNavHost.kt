@@ -43,7 +43,7 @@ fun AppNavHost(
 //Dependency Injection (preferred)
 class AppNavigation( ) {
     fun getStartDestination(): Route {
-        val isLoggedIn = false  // TODO: check for already logged in here to avoid displaying signin screen
+        val isLoggedIn = true  // TODO: check for already logged in here to avoid displaying signin screen
         return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
     }
 }

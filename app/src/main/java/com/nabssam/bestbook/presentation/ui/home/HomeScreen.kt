@@ -51,7 +51,7 @@ fun HomeScreen(
             ErrorScreen(
                 modifier = modifier,
                 message = state.fullScreenError,
-                onRetry = { event(EventHomeScreen.Retry) }
+                onRetry = { event(EventHomeScreen.Initialize) }
             )
         }
         else {
