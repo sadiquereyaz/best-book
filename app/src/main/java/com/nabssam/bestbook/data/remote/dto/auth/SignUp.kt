@@ -4,8 +4,8 @@ data class SignUpRequest(
     val currentClass: String,
     val password: String,
     val phoneNumber: String,
-    val targetExam: String,
-    val targetYear: Int,
+    val targetExam: List<String>,
+    val targetYear: String,
     val username: String
 )
 

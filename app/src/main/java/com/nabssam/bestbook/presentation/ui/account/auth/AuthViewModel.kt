@@ -1,17 +1,18 @@
 package com.nabssam.bestbook.presentation.ui.account.auth;
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
+import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.auth.AuthRepository
 import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,14 +32,13 @@ class AuthViewModel @Inject constructor(
     val errState = _errState.asStateFlow()
 
     init {
-        AuthEvent.Retry
+        onEvent(AuthEvent.Initialize)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+//    @RequiresApi(Build.VERSION_CODES.O)
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.SignIn -> signIn()
-            is AuthEvent.SignUp -> signUp()
             is AuthEvent.NavigateBack -> handleNavigateBack()
             is AuthEvent.NavigateNext -> {
                 /*if (_state.value.passwrd == _state.value.confirmPassword)
@@ -50,15 +50,15 @@ class AuthViewModel @Inject constructor(
             }
             is AuthEvent.UpdateUsername -> updateState { it.copy(username = event.username) }
             is AuthEvent.UpdatePassword -> updateState { it.copy(password = event.password) }
-            is AuthEvent.UpdateClass -> updateState { it.copy(currentClass = event.className) }
+            is AuthEvent.OnClassSelect -> updateState { it.copy(currentClass = event.selectedClass, allTargetExam = event.classExams) }
             is AuthEvent.UpdateSchool -> updateState { it.copy(schoolName = event.schoolName) }
             is AuthEvent.UpdateTargetYear -> updateState { it.copy(targetYear = event.year.toIntOrNull() ?: 202) }
             is AuthEvent.UpdateMobile -> updateState { it.copy(mobileNumber = event.mobile) }
             is AuthEvent.UpdateOtp -> updateState { it.copy(otp = event.otp) }
-            is AuthEvent.SendOtp -> sendOtp()
+            is AuthEvent.RegisterAndSendOtp -> registerAndSendOtp()
             is AuthEvent.VerifyOtp -> verifyOtp()
            // is AuthEvent.ToggleNewUser -> toggleNewUser()
-            is AuthEvent.Retry -> fetchAllExam()
+            is AuthEvent.Initialize -> {fetchAllExam()}
             is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
             is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
         }
@@ -82,8 +82,8 @@ class AuthViewModel @Inject constructor(
 
     private fun fetchAllExam() {
         viewModelScope.launch {
-            examRepository.fetchAllTargetExam().collect { resource ->
                 _errState.value = null
+            examRepository.fetchAllStandard().collect { resource ->
                 when (resource) {
                     is Resource.Error -> {
                         updateState { it.copy(isLoading = false) }
@@ -95,7 +95,8 @@ class AuthViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        updateState { it.copy(targetExams = resource.data ?: emptyList(), isLoading = false) }
+                        updateState { it.copy(standardList = resource.data ?: emptyList(), isLoading = false) }
+                        Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
                     }
                 }
             }
@@ -115,35 +116,63 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun signUp() {
+    private fun registerAndSendOtp() {
+
         viewModelScope.launch {
             _errState.value = null
             updateState { it.copy(isLoading = true) }
-
             val currentState = _state.value
             authRepository.signUp(
                 SignUpRequest(
                     currentClass = currentState.currentClass,
                     password = currentState.password,
                     phoneNumber = currentState.mobileNumber,
-                    targetExam = currentState.targetExams[0], // TODO: Remove ordinal access
-                    targetYear = currentState.targetYear,
-                    username = currentState.username
+                    targetExam = currentState.userTargetExams,
+                    targetYear = currentState.targetYear.toString(),
+                    username = currentState.username,
+//                    school = currentState.schoolName
                 )
             ).fold(
                 onSuccess = {
                     updateState {
                         it.copy(
                             isLoading = false,
-                            currentStep = AuthSteps.LOGIN
+                            isOtpSent = true
+                            //currentStep = AuthSteps.LOGIN
                         )
                     }
-                }, onFailure = { error ->
+                },
+                onFailure = { error ->
                     _errState.value = error.message
                     updateState { it.copy(isLoading = false) }
                 }
             )
         }
+    }
+
+    private fun verifyOtp() {
+        viewModelScope.launch {
+            _errState.value = null
+            updateState { it.copy(isLoading = true) }
+            authRepository.verifyOtp(
+                VerifyOtpRequest(otp = _state.value.otp.toInt(), phone = _state.value.mobileNumber)
+            ).fold(
+                onSuccess = {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+//                            isOtpVerified = true,
+                            currentStep = AuthSteps.LOGIN
+                        )
+                    }
+                },
+                onFailure = { error ->
+                    _errState.value = error.message
+                    updateState { it.copy(isLoading = false) }
+                }
+            )
+        }
+
     }
 
     private fun handleNavigateBack() {
@@ -175,44 +204,16 @@ class AuthViewModel @Inject constructor(
             AuthSteps.EDUCATION_INFO -> AuthSteps.EXAM_INFO
             AuthSteps.EXAM_INFO -> AuthSteps.MOBILE_VERIFICATION
             AuthSteps.MOBILE_VERIFICATION -> {
-                if (_state.value.isOtpVerified)
+//                if (_state.value.isOtpVerified)
                     AuthSteps.LOGIN
-                else {
-                    _errState.value = "Incorrect OTP!"
-                    null
-                }
+//                else {
+//                    _errState.value = "Incorrect OTP!"
+//                    null
+//                }
             }
         }
        // if (_state.value.error == null)
         nextStep?.let { updateState { state -> state.copy(currentStep = it) } }
-    }
-
-    private fun sendOtp() {
-        viewModelScope.launch {
-//            authRepository.
-            updateState { it.copy(isLoading = true) }
-            // TODO: Implement OTP sending logic
-            delay(1000) // Simulating API call
-            updateState {
-                it.copy(
-                    isLoading = false, isOtpSent = true
-                )
-            }
-        }
-    }
-
-    private fun verifyOtp() {
-        viewModelScope.launch {
-            updateState { it.copy(isLoading = true) }
-            // TODO: Implement OTP verification logic
-            delay(1000) // Simulating API call
-            updateState {
-                it.copy(
-                    isLoading = false, isOtpVerified = true
-                )
-            }
-            // TODO: Handle successful registration
-        }
     }
 
     private fun updateState(update: (AuthState) -> AuthState) {
@@ -239,7 +240,7 @@ class AuthViewModel @Inject constructor(
             }
 
             AuthSteps.MOBILE_VERIFICATION -> {
-                _state.value.mobileNumber.length == 10 && (_state.value.isOtpVerified || (_state.value.isOtpSent && _state.value.otp.length == 6))
+                _state.value.mobileNumber.length == 10 && (/*_state.value.isOtpVerified ||*/ (_state.value.isOtpSent && _state.value.otp.length == 4))
             }
         }
     }

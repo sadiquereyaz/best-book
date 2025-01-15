@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
-import com.nabssam.bestbook.utils.DummyData
 
 @Composable
 fun ExamInfoStep(
@@ -49,11 +48,10 @@ fun ExamInfoStep(
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 32.dp)
         )
-        val exam = DummyData.targetExamList
         LazyColumn(
             modifier = Modifier.weight(1f)
         ) {
-            items(exam) { it ->
+            items(state.allTargetExam) { it ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()

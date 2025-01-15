@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.theme.BestBookTheme
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import com.nabssam.bestbook.utils.DummyData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,13 +71,13 @@ fun EducationInfoStep(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                state.classes.forEach { selectionOption ->
+                state.standardList.forEach { selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(text = selectionOption) },
+                        text = { Text(text = selectionOption.name) },
                         onClick = {
-                            selectedOptionText = selectionOption
+                            selectedOptionText = selectionOption.name
                             expanded = false
-                            onEvent(AuthEvent.UpdateClass(selectionOption))
+                            onEvent(AuthEvent.OnClassSelect(selectionOption.name, selectionOption.exams))
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
@@ -112,7 +113,7 @@ fun EducationInfoStepPreview() {
     BestBookTheme {
         EducationInfoStep(
             state = AuthState(
-                classes = listOf("Class 1", "Class 2", "Class 3", "Class 4", "Class 5")
+                standardList = DummyData.standards,
             ),
             onEvent = {},
             validate = {true},

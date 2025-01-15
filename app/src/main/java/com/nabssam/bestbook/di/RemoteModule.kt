@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -39,6 +40,9 @@ object RemoteModule {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+//            .connectTimeout(40, TimeUnit.SECONDS)   //30
+//            .readTimeout(40, TimeUnit.SECONDS)
+//            .writeTimeout(40, TimeUnit.SECONDS)
             .build()
     }
 

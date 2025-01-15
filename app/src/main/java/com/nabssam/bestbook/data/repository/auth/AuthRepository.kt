@@ -13,6 +13,7 @@ class AuthRepository @Inject constructor(
     private val userPreferences: UserPrefRepoImpl,
     private val userMapper: UserMapper
 ) {
+
     suspend fun signIn(email: String, password: String): Result<Unit> {
         return try {
             val request = SignInRequest(email, password)
@@ -23,12 +24,11 @@ class AuthRepository @Inject constructor(
                     // TODO Save users information into room as well
                     userPreferences.saveUser(userMapper.dtoToDomain(authResponse))
                     Result.success(Unit)
-
                 } ?: Result.failure(Exception("Empty response"))
             } else {
                 when (response.code()) {
-                    400 -> Result.failure(Exception("400 Bad Request: Invalid input data"))
-                    401 -> Result.failure(Exception("Unauthorized: Invalid email or password"))
+                    400 -> Result.failure(Exception("Invalid input data"))
+                    401 -> Result.failure(Exception("Unauthorized: Invalid username or password"))
                     403 -> Result.failure(Exception("Forbidden: Access denied"))
                     404 -> Result.failure(Exception("User doesn't exist"))
                     500 -> Result.failure(Exception("Server Error: Please try again later"))
@@ -81,6 +81,15 @@ class AuthRepository @Inject constructor(
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    suspend fun logout(): Result<String?> {
+        return try {
+            userPreferences.clearAll()
+            Result.success(null)
+        } catch (e: Exception) {
+            Result.failure(e.cause ?: Exception("Unexpected Error"))
         }
     }
 }

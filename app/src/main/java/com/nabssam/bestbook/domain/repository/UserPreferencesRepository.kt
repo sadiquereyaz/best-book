@@ -9,6 +9,6 @@ interface UserPreferencesRepository {
     val user: Flow<User?>
     suspend fun saveTokens(accessToken: String, refreshToken: String)
     suspend fun clearAll()
-    suspend fun saveTargetExams(exams: List<String>)
+//    suspend fun saveTargetExams(exams: List<String>)
     suspend fun getUserTargetExams(): List<String>
 }

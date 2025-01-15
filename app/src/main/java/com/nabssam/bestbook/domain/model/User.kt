@@ -9,13 +9,14 @@ data class User(
     val picUrl: String = "",
     val username: String,
     val email: String = "",
-    val role: Role = Role.USER,
+    val isAdmin: Boolean = false,
     val phone: String,
     val currentClass :String = "",
     val schoolName: String = "",
     val accessToken: String = Constants.DEFAULT_ACCESS_TOKEN,
     val refreshToken: String = Constants.DEFAULT_REFRESH_TOKEN,
-    val targetExams: List<String> = DummyData.targetExamList,
+    val targetExams: List<String>,
+    val subscribedEbooks: List<String>
 )
 
 enum class Role { ADMIN, MANAGER, USER }

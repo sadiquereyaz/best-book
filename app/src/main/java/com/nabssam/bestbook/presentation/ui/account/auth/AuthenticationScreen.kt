@@ -38,11 +38,11 @@ fun AuthenticationScreen(
             onLoginSuccess()
         }
     }
-    LaunchedEffect(state.isOtpVerified) {
+   /* LaunchedEffect(state.isOtpVerified) {
         if (state.isOtpVerified) {
             viewModel.onEvent(AuthEvent.NavigateNext)
         }
-    }
+    }*/
 
     BackHandler(enabled = state.currentStep != AuthSteps.LOGIN) {
         viewModel.onEvent(AuthEvent.NavigateBack)

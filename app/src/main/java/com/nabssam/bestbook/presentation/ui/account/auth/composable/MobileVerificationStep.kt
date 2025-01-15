@@ -48,7 +48,7 @@ fun MobileVerificationStep(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { onEvent(AuthEvent.SendOtp) },
+                onClick = { onEvent(AuthEvent.RegisterAndSendOtp) },
                 enabled = state.mobileNumber.length == 10,
                 modifier = Modifier.fillMaxWidth()
             ) {

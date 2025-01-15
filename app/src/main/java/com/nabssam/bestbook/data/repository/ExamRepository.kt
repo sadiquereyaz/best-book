@@ -9,6 +9,7 @@ import com.nabssam.bestbook.data.remote.dto.Subject
 import com.nabssam.bestbook.domain.model.Exam
 import com.nabssam.bestbook.utils.DummyData
 import com.nabssam.bestbook.utils.Resource
+import com.nabssam.bestbook.utils.Standard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,10 +43,11 @@ class ExamRepository @Inject constructor(
         }
     }
 
-     fun fetchAllTargetExam(): Flow<Resource<List<String>>> = flow {
+     fun fetchAllStandard(): Flow<Resource<List<Standard>>> = flow {
         emit(Resource.Loading())
+         Log.d("EXAM REPO", " fetchAllExam:")
          delay(3000)
-         emit(Resource.Success(data = DummyData.targetExamList))
+         emit(Resource.Success(data = DummyData.standards))
         /*try {
             val response = examApi.getAllTargetExam()
             if (response.isSuccessful) {

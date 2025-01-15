@@ -6,6 +6,7 @@ import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.data.remote.dto.ProductFreeApi
 import com.nabssam.bestbook.data.remote.dto.Rate
 import com.nabssam.bestbook.data.remote.dto.auth.SignInResponse
+import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.model.Role
 import com.nabssam.bestbook.domain.model.User
@@ -16,41 +17,29 @@ class UserMapper {
         return User(
             id = dto._id,
             username = dto.username,
-            role = if (dto.isAdmin) Role.ADMIN else Role.USER,
-            picUrl  = dto.profilePicture,
+            isAdmin = dto.isAdmin,
+            picUrl = dto.profilePicture,
             phone = dto.phoneNumber,
-//            accessToken = dto.ac,
-//            refreshToken = TODO(),
-//            targetExams = TODO(),
-        )
-    }
-    fun productDtoToDomain(dto: ProductFreeApi): Book {
-        return Book(
-            id = dto._id,
-            name = dto.name,
-            price = dto.price,
-            description = dto.description,
-            imageUrls = dto.subImages.map { it.url },
-            category = dto.category,
-            author = dto.owner,
-            discount = Random.nextInt(100),
-            publisher = dto.category,
-            rating = Random.nextFloat()*10,
-            stock = dto.stock
+            accessToken = dto.currentToken,
+            refreshToken = dto.sessionToken,
+            targetExams = dto.targetExam,
+            email = "dto.email",
+            currentClass = dto.currentClass,
+            schoolName = "dto.schoolName",
+            subscribedEbooks = dto.subscribedEbook,
         )
     }
 
-    fun domainToDto(domain: Book): BookDto {
-        return BookDto(
-            id = domain.id,
-            name = domain.name,
-            description = domain.description,
-            price = domain.price.toDouble(),
-            image = domain.imageUrls[0],
-            category = domain.category,
-            rating = Rate(domain.rating.toDouble(), 5)
+/*    fun domainToDto(domain: User): SignUpRequest {
+        return SignUpRequest(
+            currentClass = TODO(),
+            password = TODO(),
+            phoneNumber = TODO(),
+            targetExam = TODO(),
+            targetYear = TODO(),
+            username = TODO()
         )
-    }
+    }*/
 
     // Entity to Domain
     fun entityToDomain(entity: BookEntity): Book {
