@@ -88,12 +88,3 @@ class AuthInterceptor @Inject constructor(
 }
 */
 // Auth events for UI notification
-sealed class AuthEvent {
-    object DeviceConflict : AuthEvent()
-    object TokenExpired : AuthEvent()
-    object LoggedOut : AuthEvent()
-}
-sealed class AuthState {
-    object Authenticated : AuthState()
-    object Unauthenticated : AuthState()
-}

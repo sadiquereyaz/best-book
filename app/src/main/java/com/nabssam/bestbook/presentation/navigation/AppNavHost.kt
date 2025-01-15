@@ -6,6 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
+import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.navigation.auth.authGraph
 import com.nabssam.bestbook.presentation.navigation.main.mainAppGraph
 
@@ -18,7 +21,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppNavigation(/*firebaseAuth = FirebaseAuth()*/).getStartDestination(),
+        startDestination = AppNavigation().getStartDestination(),
         modifier = modifier.padding(innerPadding),
     ) {
 
@@ -31,10 +34,9 @@ fun AppNavHost(
 }
 
 //Dependency Injection (preferred)
-class AppNavigation(/*private val firebaseAuth: FirebaseAuth*/) {
+class AppNavigation( ) {
     fun getStartDestination(): Route {
         val isLoggedIn = false  // TODO: check for already logged in here to avoid displaying signin screen
-        // firebaseAuth.isUserAlreadyLoggedIn()
         return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
     }
 }

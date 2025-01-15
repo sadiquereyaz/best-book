@@ -7,6 +7,7 @@ import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
+import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import com.nabssam.bestbook.data.repository.auth.AuthenticatedOkHttpClient
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
@@ -32,7 +33,7 @@ object RemoteModule {
     // Unauthenticated client for auth API
     @Provides
     @Singleton
-    @UnAuth
+    @UnAuth //optional
     fun provideUnAuthOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -41,24 +42,16 @@ object RemoteModule {
             .build()
     }
 
-    // Authenticated client for other APIs
-    @Provides
-    @Singleton
-    fun provideAuthOkHttpClient(tokenStorage: TokenStorage): AuthenticatedOkHttpClient {
-        return AuthenticatedOkHttpClient(tokenStorage)
-    }
-
     @Provides
     @Singleton
     @Auth
-    fun provideAuthOkHttpClient(authenticatedClient: AuthenticatedOkHttpClient): OkHttpClient {
-        return authenticatedClient.create()
+    // Authenticated client for other APIs
+    fun provideAuthOkHttpClient(tokenStorage: TokenStorage, authManager: AuthManager): OkHttpClient {    // return okhttp having tokens from local storage
+        return AuthenticatedOkHttpClient(tokenStorage, authManager).create()
     }
 
-    // Base retrofit for auth API
     @Provides
     @Singleton
-    @UnAuth
     fun provideBaseRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.baseUrl)
@@ -67,43 +60,15 @@ object RemoteModule {
             .build()
     }
 
-    // Authenticated retrofit for other APIs
     @Provides
     @Singleton
-    @Auth
-    fun provideAuthenticatedRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
+    @Track
+    fun provideTrackingRetrofit(@Auth /*optional*/ okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.baseUrl)
+            .baseUrl(BuildConfig.baseUrl)   // TODO: replace by tracking base url
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
-
-    // Auth API using unauthenticated client
-    @Provides
-    @Singleton
-    fun provideAuthApi(@Auth retrofit: Retrofit): AuthApiService {
-        return retrofit.create(AuthApiService::class.java)
-    }
-
-
-    // Other APIs using authenticated client
-    @Provides
-    @Singleton
-    fun provideBookApi(@UnAuth retrofit: Retrofit): BookApi {
-        return retrofit.create(BookApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCartApi(@UnAuth retrofit: Retrofit): CartApiService {
-        return retrofit.create(CartApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCartApiClaude(@UnAuth retrofit: Retrofit): CartApiServiceClaude {
-        return retrofit.create(CartApiServiceClaude::class.java)
     }
 
     @Provides
@@ -114,14 +79,38 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideExamApi(@UnAuth retrofit: Retrofit): ExamApi {
-        return retrofit.create(ExamApi::class.java)
+    fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
+        return UserPreferencesTokenStorage(userPreferences)
     }
 
     @Provides
     @Singleton
-    fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
-        return UserPreferencesTokenStorage(userPreferences)
+    fun provideAuthApi( retrofit: Retrofit): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookApi( retrofit: Retrofit): BookApi {
+        return retrofit.create(BookApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartApi( retrofit: Retrofit): CartApiService {
+        return retrofit.create(CartApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartApiClaude( retrofit: Retrofit): CartApiServiceClaude {
+        return retrofit.create(CartApiServiceClaude::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExamApi( retrofit: Retrofit): ExamApi {
+        return retrofit.create(ExamApi::class.java)
     }
 }
 
@@ -134,3 +123,8 @@ annotation class Auth
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class UnAuth
+
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Track

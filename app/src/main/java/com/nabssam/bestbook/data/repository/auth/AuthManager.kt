@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.data.repository.auth
 
-import AuthEvent
 import com.nabssam.bestbook.data.remote.api.AuthApiService
+import com.nabssam.bestbook.domain.model.AppState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
@@ -17,16 +17,16 @@ class AuthManager @Inject constructor(
     private val tokenStorage: TokenStorage,
     private val authApiService: AuthApiService
 ) {
-//    private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
-//    val authState = _authState.asStateFlow()
 
-    private val _authEvents = MutableSharedFlow<AuthEvent>()
+    private val _authEvents = MutableSharedFlow<AppState>()
     val authEvents = _authEvents.asSharedFlow()
 
-    suspend fun refreshToken(): String? {
+    suspend fun refreshAllToken(): String? {
         val refreshToken = tokenStorage.getRefreshToken()
+        if (refreshToken.isNullOrBlank()) return null
+
         return try {
-            val response = authApiService.refreshToken(refreshToken ?: "default_datastore_token")
+            val response = authApiService.getNewTokens(refreshToken)
             if (response.isSuccessful) {
                 response.body()?.let {
                     tokenStorage.saveTokens(
@@ -44,11 +44,12 @@ class AuthManager @Inject constructor(
 
     suspend fun handleDeviceConflict() {
         logout()
-        // _authEvents.emit(AuthEvent.DeviceConflict)
+        _authEvents.emit(AppState.DeviceConflict) // Notify the UI about device conflict
     }
 
-    suspend fun logout() {
+    private suspend fun logout() {
         tokenStorage.clearTokens()
+        _authEvents.emit(AppState.LoggedOut) // Emit logout event
     }
 }
 
