@@ -24,7 +24,7 @@ fun Error(
     appState: EcommerceAppState = rememberEcommerceAppState(),
 ) {
     if (!appState.isOnline) {
-        OfflineDialog(onRetry = appState::refreshOnline)
+       // OfflineDialog(onRetry = appState::refreshOnline, visible = isConnected)
     } else {
         var showSnackbar by remember {
             mutableStateOf(true)
