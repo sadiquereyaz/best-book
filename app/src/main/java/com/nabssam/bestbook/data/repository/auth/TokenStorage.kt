@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.data.repository.auth
 
-import android.util.Log
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
