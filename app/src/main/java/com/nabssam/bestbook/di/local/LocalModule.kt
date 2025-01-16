@@ -1,10 +1,17 @@
-package com.nabssam.bestbook.di
+package com.nabssam.bestbook.di.local
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.nabssam.bestbook.data.local.AppDatabase
 import com.nabssam.bestbook.data.local.dao.CartDao
 import com.nabssam.bestbook.data.local.dao.ProductDao
+import com.nabssam.bestbook.data.repository.auth.TokenStorage
+import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
+import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +21,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+object LocalModule {
 
     private const val DATABASE_NAME = "bestbook_db"
 
@@ -32,25 +39,15 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideProductDao(database: AppDatabase): ProductDao {
-        return database.productDao()
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("user_preferences") }
+        )
     }
 
     @Provides
     @Singleton
-    fun provideCartDao(appDatabase: AppDatabase): CartDao {
-        return appDatabase.cartDao()
+    fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
+        return UserPreferencesTokenStorage(userPreferences)
     }
-
-   /* @Provides
-    @Singleton
-    fun provideUserDao(appDatabase: AppDatabase): UserDao {
-        return appDatabase.userDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideOrderDao(appDatabase: AppDatabase): OrderDao {
-        return appDatabase.orderDao()
-    }*/
 }

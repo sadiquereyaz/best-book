@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.data.remote
+package com.nabssam.bestbook.data.remote.client
 
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
