@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.nabssam.bestbook.data.remote.interceptors.MockInterceptor
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
@@ -16,6 +17,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
+import okhttp3.Interceptor
 import javax.inject.Singleton
 
 @Module
@@ -43,5 +45,11 @@ object AppModule {
             override val default = Dispatchers.Default
             override val unconfined = Dispatchers.Unconfined
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideMockInterceptor(@ApplicationContext context: Context): MockInterceptor {
+        return MockInterceptor(context)
     }
 }

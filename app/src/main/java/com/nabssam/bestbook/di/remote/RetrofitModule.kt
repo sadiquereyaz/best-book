@@ -1,6 +1,10 @@
 package com.nabssam.bestbook.di.remote
 
 import com.nabssam.bestbook.BuildConfig
+import com.nabssam.bestbook.di.Auth
+import com.nabssam.bestbook.di.Mock
+import com.nabssam.bestbook.di.Track
+import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +21,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+//    @UnAuth
     fun provideBaseRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.baseUrl)
@@ -36,7 +41,15 @@ object RetrofitModule {
             .build()
     }
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class Track
+    @Provides
+    @Singleton
+    @Mock
+    fun provideMockRetrofit(@Mock mockOkHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://mock.com/") // Base URL is not relevant for mock responses
+            .client(mockOkHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
 }

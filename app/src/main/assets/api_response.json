@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Mock Book 1",
+      "author": "Author 1",
+      "price": 29.99
+    },
+    {
+      "id": 2,
+      "title": "Mock Book 2",
+      "author": "Author 2",
+      "price": 19.99
+    }
+  ],
+  "status": "success",
+  "message": "Books retrieved successfully"
+}
