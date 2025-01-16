@@ -19,6 +19,8 @@ interface BookApi {
     suspend fun getBookById(@Path("id") bookId: String): Response<ProductByIdResponse>
     //@Path annotation in Retrofit is used to define placeholders for dynamic parts of the API endpoint URL.
 
+    @GET("api/book/getbookbyexam/{exam}")
+    suspend fun getBooks(@Path("exam") targetExam: String): Response<BookResponse>
 
     @GET("api/v1/ecommerce/products/category/{categoryId}")
     suspend fun getBooksByCategory(

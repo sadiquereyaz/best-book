@@ -2,7 +2,6 @@ package com.nabssam.bestbook.domain.usecase.book
 
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.model.Category
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +9,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+class GetBooksByCategoryUseCase @Inject constructor(    // ToDO: rename: get all book
+    private val repository: BookRepository
+) {
+    suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
+        return repository.getBooks(targetExam)
+    }
+}
 
 class GetProductDetailsUseCase @Inject constructor(
     private val repository: BookRepository
@@ -20,7 +26,7 @@ class GetProductDetailsUseCase @Inject constructor(
 class GetAllBookUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getAllBook()
+    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getBooks("all")
 }
 
 class GetAllCategoryUseCase @Inject constructor(
@@ -37,7 +43,7 @@ class SearchProductsUseCase @Inject constructor(
         try {
             emit(Resource.Loading()) // Emit loading state
             val products = if (query.isBlank()) {
-                repository.getAllBook()
+                repository.getBooks("all")
             } else {
                 repository.searchProducts(query)
             }.first()
@@ -71,10 +77,4 @@ class RefreshProductsUseCase @Inject constructor(
     }
 }
 
-class GetBooksByCategoryUseCase @Inject constructor(
-    private val repository: BookRepository
-) {
-    suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
-        return repository.getProductsByCategory(targetExam)
-    }
-}
+

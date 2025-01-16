@@ -1,0 +1,14 @@
+{
+  "message": "Target exams fetched successfully.",
+  "success": true,
+  "targetExams": [
+    "UPSC",
+    "Bank PO",
+    "CAT",
+    "SSC",
+    "GRE",
+    "JEE Main",
+    "NEET",
+    "Civil Services"
+  ]
+}

@@ -9,7 +9,8 @@ data class BookResponse(
 )
 
 data class BookDto(
-    val ISBN: String,
+
+    val isbn: String= "111-222-222-444",
     val __v: Int,
     val _id: String,
     val author: String,
@@ -26,9 +27,7 @@ data class BookDto(
     val price: Int,
     val publicationDate: String,
     val publisher: String,
-    val rating: Int,
-    val reviews: List<Any>,
-    val reviewsId: List<Any>,
+    val rate: Rate,
     val stock: Int,
     val targetExam: String,
     @SerializedName("title")
@@ -37,3 +36,16 @@ data class BookDto(
     val createdAt: String,
 )
 
+data class Rate(
+    val rate: Double = 3.5,
+    val count: Int = 122,
+    val reviews: List<Review> = listOf(Review(), Review(), Review())
+)
+
+data class Review(
+    val id: String = "1",
+    val userId: String = "1",
+    val rating: Int = 4,
+    val comment: String = "This is a good book",
+    val createdAt: String = "14/04/2022"
+)

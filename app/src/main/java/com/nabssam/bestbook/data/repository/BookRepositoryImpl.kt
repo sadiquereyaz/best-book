@@ -19,6 +19,27 @@ class BookRepositoryImpl @Inject constructor(
     private val mapper: BookMapper
 ) : BookRepository {
 
+    override suspend fun getBooks(exam: String): Flow<Resource<List<Book>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = api.getBooks(exam)
+            Log.d("BOOK_REPO_IMPL", "Book RESPONSE FROM API: $response")
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Resource.Success(data = it.books.map { bookDto ->
+                        mapper.dtoToDomain(
+                            bookDto
+                        )
+                    }))
+                } ?: emit(Resource.Error(message = "Empty response"))
+            } else {
+                emit(Resource.Error(response.message()))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "An unexpected error occurred"))
+        }
+    }
+
     override suspend fun getProductById(id: String): Flow<Resource<Book>> = flow {
         emit(Resource.Loading())
         Log.d("BOOK_REPO", "getProductById: $id")
@@ -27,8 +48,8 @@ class BookRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 val productResponse = response.body()
                 if (productResponse != null) {
-                    val bookDetail = mapper.productDtoToDomain(productResponse.data)
-                    emit(Resource.Success(data = bookDetail))
+//                    val bookDetail = mapper.productDtoToDomain(productResponse.data)
+//                    emit(Resource.Success(data = bookDetail))
                 } else {
                     emit(Resource.Error("No book found in this category"))
                 }
@@ -36,49 +57,10 @@ class BookRepositoryImpl @Inject constructor(
                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
             }
         } catch (e: Exception) {
-
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
         }
     }
 
-    override suspend fun getAllBook(): Flow<Resource<List<Book>>> = flow {
-        emit(Resource.Loading())
-        /*try {
-            val response = api.getBookList()
-            if (response.isSuccessful) {
-                *//*val bookResponse = response.body()
-                if (bookResponse != null) {
-                    val books =
-                        bookResponse.books.map { mapper.productDtoToDomain(it) }
-                    emit(Resource.Success(data = books))
-                } else {
-                    emit(Resource.Error("No book found"))
-                }*//*
-                    response.body()?.let {
-                        Result.success(it.books.map {bookDto-> mapper.productDtoToDomain(bookDto) })
-                    } ?: Result.failure(Exception("Empty response"))
-                } else {
-                    when (response.code()) {
-                        400 -> Result.failure(Exception("Invalid input data"))
-                        401 -> Result.failure(Exception("Unauthorized: Invalid username or password"))
-                        403 -> Result.failure(Exception("Forbidden: Access denied"))
-                        404 -> Result.failure(Exception("User doesn't exist"))
-                        500 -> Result.failure(Exception("Server Error: Please try again later"))
-                        else -> Result.failure(Exception("Unexpected Error: ${response.code()}"))
-                    }
-                }
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
-        }
-            } else {
-                emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
-            }
-        } catch (e: Exception) {
-
-            emit(Resource.Error(e.message ?: "An unexpected error occurred"))
-        }*/
-    }
 
     override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
         TODO("Not yet implemented")
@@ -95,9 +77,9 @@ class BookRepositoryImpl @Inject constructor(
                 if (response.isSuccessful) {
                     val productResponse = response.body()
                     if (productResponse != null) {
-                        val books =
-                            productResponse.data.productFreeApis.map { mapper.productDtoToDomain(it) }
-                        emit(Resource.Success(data = books))
+//                        val books =
+//                            productResponse.data.productFreeApis.map { mapper.productDtoToDomain(it) }
+//                        emit(Resource.Success(data = books))
                     } else {
                         emit(Resource.Error("No book found in this category"))
                     }

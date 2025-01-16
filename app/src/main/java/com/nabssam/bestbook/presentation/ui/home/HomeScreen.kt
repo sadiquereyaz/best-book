@@ -61,7 +61,8 @@ fun HomeScreen(
                 AutoScrollingImagePager(
                     modifier = Modifier,
                     imageList = state.fetchedBanners,
-                    height = dimensionResource(R.dimen.banner_height)
+                    height = dimensionResource(R.dimen.banner_height),
+                    autoscroll = false
                 )
             }
 
@@ -73,7 +74,7 @@ fun HomeScreen(
                 Text(text = "Recommended for you", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(
-                    onClick = { onAllBookSelect(state.randomTarget!!) }
+                    onClick = { onAllBookSelect(state.randomTarget ?: "default") }
                 ) {
                     Text(text = "View all", style = MaterialTheme.typography.labelLarge)
                 }

@@ -43,7 +43,7 @@ import com.nabssam.bestbook.presentation.ui.home.StateHomeScreen
             ) {
                 AsyncImage(
                     //painter = painterResource(id = R.drawable.book1),
-                    model = it.imageUrls[0],
+                    model = it.coverUrl,
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier

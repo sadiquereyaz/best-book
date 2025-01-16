@@ -23,38 +23,4 @@ class UserMapper {
             subscribedEbooks = dto.subscribedEbook,
         )
     }
-
-/*    fun domainToDto(domain: User): SignUpRequest {
-        return SignUpRequest(
-            currentClass = TODO(),
-            password = TODO(),
-            phoneNumber = TODO(),
-            targetExam = TODO(),
-            targetYear = TODO(),
-            username = TODO()
-        )
-    }*/
-
-    // Entity to Domain
-    fun entityToDomain(entity: BookEntity): Book {
-        return Book(
-            id = entity.id,
-            name = entity.name,
-            imageUrls = listOf(entity.imageUrl),
-            exam = entity.category,
-        )
-    }
-
-    // Domain to Entity
-    fun domainToEntity(domain: Book): CartItemEntity {
-        return CartItemEntity(
-            productId = domain.id,
-            name = domain.name,
-            coverImage = domain.imageUrls[0],
-            price = domain.price,
-            disPer = domain.hardCopyDis,
-            inStock = domain.stock != 0,
-            quantity = 1,
-        )
-    }
 }
