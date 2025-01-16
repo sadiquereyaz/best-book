@@ -1,7 +1,8 @@
 {
+  "statusCode": 200,
   "message": "Target exams fetched successfully.",
   "success": true,
-  "targetExams": [
+  "data": [
     "UPSC",
     "Bank PO",
     "CAT",

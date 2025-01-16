@@ -6,9 +6,7 @@ import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.repository.BookRepository
-import com.nabssam.bestbook.utils.DummyData
 import com.nabssam.bestbook.utils.Resource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -40,19 +38,34 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getProductById(id: String): Flow<Resource<Book>> = flow {
+    override suspend fun getAllTargetExam(): Flow<Resource<List<String>>> = flow {
+        Log.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: called")
         emit(Resource.Loading())
-        Log.d("BOOK_REPO", "getProductById: $id")
+        try {
+            val response = api.getAllTarget()
+            Log.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: ${response.body()}")
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Resource.Success(data = it.data))
+                } ?: emit(Resource.Error(message = "Empty response"))
+            } else {
+                emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "An unexpected error occurred"))
+        }
+    }
+
+    override suspend fun getBookById(id: String): Flow<Resource<Book>> = flow {
+        emit(Resource.Loading())
+        Log.d("BOOK_REPO", "getProductById called with book ID: $id")
         try {
             val response = api.getBookById(id)
+            Log.d("BOOK_REPO", "getBookById: ${response.body()}")
             if (response.isSuccessful) {
-                val productResponse = response.body()
-                if (productResponse != null) {
-//                    val bookDetail = mapper.productDtoToDomain(productResponse.data)
-//                    emit(Resource.Success(data = bookDetail))
-                } else {
-                    emit(Resource.Error("No book found in this category"))
-                }
+                response.body()?.let {
+                    emit(Resource.Success(data = mapper.dtoToDomain(it.data)))
+                } ?: emit(Resource.Error("No book found"))
             } else {
                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
             }
@@ -62,10 +75,11 @@ class BookRepositoryImpl @Inject constructor(
     }
 
 
+
+
     override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
         TODO("Not yet implemented")
     }
-
 
     override suspend fun getProductsByCategory(category: String): Flow<Resource<List<Book>>> =
         flow {
@@ -90,30 +104,6 @@ class BookRepositoryImpl @Inject constructor(
                 emit(Resource.Error(e.message ?: "An unexpected error occurred"))
             }
         }
-
-    override suspend fun getAllCategory(): Flow<Resource<List<String>>> = flow {
-        emit(Resource.Loading())
-        delay(1000)
-        emit(Resource.Success(DummyData.categories))
-        /*try {
-            val response = api.getAllCategory()
-
-            if (response.isSuccessful) {
-                val categoryResponse = response.body()
-                if (categoryResponse != null && categoryResponse.data.categories.isNotEmpty()) {
-                    emit(Resource.Success(data = categoryResponse.data.categories))
-                } else {
-                    emit(Resource.Error("No category found"))
-                }
-
-            } else {
-                emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
-            }
-
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message ?: "An unexpected error occurred"))
-        }*/
-    }
 
     //load all the products from server and store into room
     override suspend fun refreshProducts() {

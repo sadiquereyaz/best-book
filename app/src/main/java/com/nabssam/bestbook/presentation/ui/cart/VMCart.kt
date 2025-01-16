@@ -3,7 +3,7 @@ package com.nabssam.bestbook.presentation.ui.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.local.dao.CartDao
-import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.RemoveFromCartUseCase
@@ -20,7 +20,7 @@ class VMCart @Inject constructor(
     private val removeFromCartUseCase: RemoveFromCartUseCase,
     private val getAllCartItemsUseCase: GetAllCartItemsUseCase,
     private val updateQuantityUseCase: UpdateCartItemQuantityUseCase,
-    private val getProductDetailsUseCase: GetProductDetailsUseCase,
+    private val getBookByIdUC: GetBookByIdUC,
     private val cartDao:CartDao
 
 ) : ViewModel() {

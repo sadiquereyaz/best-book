@@ -8,6 +8,7 @@ data class SignInResponseBody(
     val message: String,
     val success: Boolean
 )
+
 data class Avatar(
     val url: String,
     val localPath: String,

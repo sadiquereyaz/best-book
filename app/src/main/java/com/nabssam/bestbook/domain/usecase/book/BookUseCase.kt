@@ -9,18 +9,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetBooksByCategoryUseCase @Inject constructor(    // ToDO: rename: get all book
-    private val repository: BookRepository
-) {
-    suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
-        return repository.getBooks(targetExam)
-    }
-}
 
-class GetProductDetailsUseCase @Inject constructor(
+class GetBookByIdUC @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getProductById(productId)
+    suspend operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getBookById(productId)
 }
 
 class GetAllBookUseCase @Inject constructor(
@@ -29,11 +22,23 @@ class GetAllBookUseCase @Inject constructor(
     suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getBooks("all")
 }
 
-class GetAllCategoryUseCase @Inject constructor(
+class GetAllTargetUC @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<String>>> = repository.getAllCategory()
+    suspend operator fun invoke(): Flow<Resource<List<String>>> = repository.getAllTargetExam()
 }
+
+
+
+
+class GetBooksByCategoryUseCase @Inject constructor(    // ToDO: rename: get all book
+    private val repository: BookRepository
+) {
+    suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
+        return repository.getBooks(targetExam)
+    }
+}
+
 
 class SearchProductsUseCase @Inject constructor(
     private val repository: BookRepository,

@@ -1,0 +1,51 @@
+{
+  "data": {
+    "isbn": "111-222-333-444",
+    "__v": 1,
+    "_id": "book1",
+    "author": "Author One",
+    "category": "JEE Main",
+    "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+    "description": "This is a comprehensive guide for JEE Main preparation.",
+    "eBook": "https://example.com/ebook1",
+    "ebookDiscount": 10,
+    "hardcopyDiscount": 15,
+    "images": [
+      "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
+      "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+    ],
+    "isEbookAvailable": true,
+    "language": "English",
+    "pages": 450,
+    "price": 499,
+    "publicationDate": "2024-01-01",
+    "publisher": "Publisher One",
+    "rate": {
+      "rate": 4.5,
+      "count": 200,
+      "reviews": [
+        {
+          "id": "1",
+          "userId": "1",
+          "rating": 5,
+          "comment": "Excellent book for JEE Main preparation.",
+          "createdAt": "2024-04-14"
+        },
+        {
+          "id": "2",
+          "userId": "2",
+          "rating": 4,
+          "comment": "Very helpful and detailed.",
+          "createdAt": "2024-05-10"
+        }
+      ]
+    },
+    "stock": 100,
+    "targetExam": "JEE Main",
+    "title": "JEE Main Solved Papers",
+    "updatedAt": "2025-01-16",
+    "createdAt": "2024-01-01"
+  },
+  "message": "Books fetched successfully.",
+  "success": true
+}

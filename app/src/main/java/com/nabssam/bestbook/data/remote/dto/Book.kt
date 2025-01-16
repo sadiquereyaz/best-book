@@ -2,10 +2,17 @@ package com.nabssam.bestbook.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class BookResponse(
+data class BookListResponse(
     val books: List<BookDto>,
     val message: String,
     val success: Boolean
+)
+
+data class BookResponse(
+    val data: BookDto,
+    val message: String,
+    val success: Boolean,
+    val statusCoe:Int
 )
 
 data class BookDto(

@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
     suspend fun getBooks(exam: String): Flow<Resource<List<Book>>>
-    suspend fun getProductById(id: String): Flow<Resource<Book>>
+    suspend fun getAllTargetExam(): Flow<Resource<List<String>>>
+    suspend fun getBookById(id: String): Flow<Resource<Book>>
+
+
     suspend fun searchProducts(query: String): Flow<Resource<List<Book>>>
     suspend fun refreshProducts()
     suspend fun getProductsByCategory(category: String): Flow<Resource<List<Book>>>
@@ -17,6 +20,5 @@ interface BookRepository {
     suspend fun getAll(): Flow<Resource<List<Book>>>
     suspend fun getById(id:Int): Flow<Resource<Book>>
 
-    suspend fun getAllCategory(): Flow<Resource<List<String>>>
 }
 

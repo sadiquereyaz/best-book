@@ -52,7 +52,7 @@ object OkHttpModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
         return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
+            //.addInterceptor(loggingInterceptor)
             .addInterceptor(mockInterceptor) // Add the MockInterceptor here
             .build()
     }

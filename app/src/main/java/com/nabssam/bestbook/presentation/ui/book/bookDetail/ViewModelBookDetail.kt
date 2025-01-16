@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.utils.Resource
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewModelBookDetail @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getProductByIdUseCase: GetProductDetailsUseCase,
+    private val getBookByIdUC: GetBookByIdUC,
     private val addToCartUseCase: AddToCartUseCase,
     private val mapper: BookMapper
 ) : ViewModel() {
@@ -30,7 +30,6 @@ class ViewModelBookDetail @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        Log.d("id", id)
         fetchBookDetail()
     }
 
@@ -49,7 +48,7 @@ class ViewModelBookDetail @Inject constructor(
 
     private fun fetchBookDetail() {
         viewModelScope.launch {
-            getProductByIdUseCase(id).collect { resource ->
+            getBookByIdUC(productId = /*id*/  "book1").collect { resource ->        //todo: remove default arg
                 when (resource) {
                     is Resource.Error -> {
                         _state.update {

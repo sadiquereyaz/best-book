@@ -7,8 +7,8 @@ import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetAllCategoryUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetProductDetailsUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
+import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
@@ -27,8 +27,8 @@ object UseCaseModule {
     @Singleton
     fun provideGetProductDetailsUseCase(
         repository: BookRepository
-    ): GetProductDetailsUseCase {
-        return GetProductDetailsUseCase(repository)
+    ): GetBookByIdUC {
+        return GetBookByIdUC(repository)
     }
 
     @Provides
@@ -42,8 +42,8 @@ object UseCaseModule {
     @Singleton
     fun provideGetAllCategoryUseCase(
         repository: BookRepository
-    ): GetAllCategoryUseCase {
-        return GetAllCategoryUseCase(repository)
+    ): GetAllTargetUC {
+        return GetAllTargetUC(repository)
     }
 
     @Provides

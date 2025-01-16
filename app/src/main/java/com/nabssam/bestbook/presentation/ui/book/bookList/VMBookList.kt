@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetAllCategoryUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,10 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelBookList @Inject constructor(
+class VMBookList @Inject constructor(
     private val getAllBookUseCase: GetAllBookUseCase,
     private val getUserTargetsUC: GetUserTargetsUC,
-    private val getAllCategoryUseCase: GetAllCategoryUseCase
+    private val getAllTargetUC: GetAllTargetUC
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(StateBookList())
@@ -33,7 +33,7 @@ class ViewModelBookList @Inject constructor(
 
     private fun fetchCategories() {
         viewModelScope.launch {
-                getAllCategoryUseCase().collect { resource ->
+                getAllTargetUC().collect { resource ->
                     when (resource) {
                         is Resource.Loading -> _state.update { it.copy(loading = true) }
                         is Resource.Error -> _state.update { it.copy(loading = false, errorMessage = resource.message) }
@@ -43,8 +43,6 @@ class ViewModelBookList @Inject constructor(
                         }
                     }
                 }
-
-
         }
     }
 

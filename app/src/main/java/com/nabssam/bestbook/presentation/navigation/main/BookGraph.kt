@@ -13,7 +13,7 @@ import com.nabssam.bestbook.presentation.ui.address.AddressScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
-import com.nabssam.bestbook.presentation.ui.book.bookList.ViewModelBookList
+import com.nabssam.bestbook.presentation.ui.book.bookList.VMBookList
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartScreenClaude
 import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 
@@ -24,7 +24,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
 
     composable<Route.AllBookRoute> { backStackEntry ->
        // val routeObj: Route.AllBook = backStackEntry.toRoute()
-        val viewModel = hiltViewModel<ViewModelBookList>()
+        val viewModel = hiltViewModel<VMBookList>()
         val state by viewModel.state.collectAsState()
 
         BookListScreen(
@@ -73,7 +73,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
                 navController.navigate(Route.AddressRoute())
             }
         )*/
-        val vm = hiltViewModel<ViewModelBookList>()
+        val vm = hiltViewModel<VMBookList>()
         val state by vm.state.collectAsState()
         CartScreenClaude(){}
     }
