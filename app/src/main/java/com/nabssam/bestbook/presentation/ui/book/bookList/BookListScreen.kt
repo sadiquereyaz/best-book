@@ -63,7 +63,7 @@ fun BookListScreen(
                             BookTitlePrice(
                                 originalPrice = it.price,
                                 title = it.name,
-                                discPer = it.discount,
+                                discPer = it.hardCopyDis,
                                 maxLine = 2
                             )
                         }

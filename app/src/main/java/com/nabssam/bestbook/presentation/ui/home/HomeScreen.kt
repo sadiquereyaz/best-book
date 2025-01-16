@@ -73,7 +73,7 @@ fun HomeScreen(
                 Text(text = "Recommended for you", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(
-                    onClick = { onAllBookSelect("DUMMY_EXAM_ID") }
+                    onClick = { onAllBookSelect(state.randomTarget!!) }
                 ) {
                     Text(text = "View all", style = MaterialTheme.typography.labelLarge)
                 }
@@ -88,7 +88,6 @@ fun HomeScreen(
                     onRetry = { event(EventHomeScreen.FetchBook) }
                 )
             } else {
-                Log.d("BOOK Size", state.fetchedBooks.size.toString())
                 HomeBookList(state, onNavigateToBook)
             }
 

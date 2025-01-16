@@ -1,8 +1,8 @@
-package com.nabssam.bestbook.data.remote.dto
+package com.nabssam.bestbook.data.remote.dto.product
 
 import com.google.gson.annotations.SerializedName
 
-data class BookDto(
+data class BookDtoFreeApi(
     @SerializedName("id") val id: String,
     @SerializedName("title") val name: String,
     @SerializedName("description") val description: String,

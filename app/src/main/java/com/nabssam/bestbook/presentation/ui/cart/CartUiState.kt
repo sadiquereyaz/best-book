@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.cart
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.data.remote.dto.BookDto
+import com.nabssam.bestbook.data.remote.dto.product.BookDtoFreeApi
 import com.nabssam.bestbook.utils.percentOf
 import com.nabssam.bestbook.utils.totalCartPrice
 import com.nabssam.bestbook.utils.totalDiscountPercent
@@ -16,7 +16,7 @@ sealed interface CartUiState {
 
     data class Idle(
         val cartItemEntities: List<CartItemEntity> = emptyList(),
-        val books: List<BookDto> = emptyList(),
+        val books: List<BookDtoFreeApi> = emptyList(),
 
         ) : CartUiState {
         fun isEmpty(): Boolean = cartItemEntities.isEmpty() && books.isEmpty()

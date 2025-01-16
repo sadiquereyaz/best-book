@@ -35,31 +35,11 @@ class ViewModelBookList @Inject constructor(
         viewModelScope.launch {
                 getAllCategoryUseCase().collect { resource ->
                     when (resource) {
-                        is Resource.Loading -> {
-                            _state.update {
-                                it.copy(
-                                    loading = true
-                                )
-                            }
-                        }
-
-                        is Resource.Error -> {
-                            _state.update {
-                                it.copy(
-                                    loading = false,
-                                    errorMessage = resource.message
-                                )
-                            }
-                        }
-
+                        is Resource.Loading -> _state.update { it.copy(loading = true) }
+                        is Resource.Error -> _state.update { it.copy(loading = false, errorMessage = resource.message) }
                         is Resource.Success -> {
-                            Log.d("CATEGORY", resource.data.toString())
-                            _state.update { currentState ->
-                                currentState.copy(
-                                    examList = resource.data ?: emptyList(),
-                                    loading = false,
-                                )
-                            }
+                            Log.d("CATEGORY", resource.data.toString());
+                            _state.update { currentState -> currentState.copy(examList = resource.data ?: emptyList(), loading = false) }
                         }
                     }
                 }
@@ -70,10 +50,7 @@ class ViewModelBookList @Inject constructor(
 
     fun onEvent(event: EventBookList) {
         when (event) {
-            is EventBookList.FetchBook -> {
-                fetchBooks()
-            }
-
+            is EventBookList.FetchBook -> fetchBooks()
             is EventBookList.SortBy -> {
                 Log.d("BOOK_LIST_VM", event.id ?: "category id is null")
                 _state.update { currentState ->
@@ -83,7 +60,7 @@ class ViewModelBookList @Inject constructor(
                             if (event.id != null) {
                                 book.name == event.id
                             } else {
-                                book.category == _state.value.userTargetExam
+                                book.exam == _state.value.userTargetExam
                             }
                         }
                     )

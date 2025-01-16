@@ -6,12 +6,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
-interface TokenStorage {
-    suspend fun getAccessToken(): String?
-    suspend fun getRefreshToken(): String?
-    suspend fun saveTokens(accessToken: String, refreshToken: String)
-    suspend fun clearTokens()
-}
 
 class AuthManager @Inject constructor(
     private val tokenStorage: TokenStorage,

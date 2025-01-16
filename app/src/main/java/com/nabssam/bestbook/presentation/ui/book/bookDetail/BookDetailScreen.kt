@@ -86,7 +86,7 @@ fun BookDetailScreen(
             BookTitlePrice(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 addToFontSize = 4,
-                discPer = bookObj.discount,
+                discPer = bookObj.hardCopyDis,
                 originalPrice = bookObj.price,
                 title = bookObj.name,
                 maxLine = 3

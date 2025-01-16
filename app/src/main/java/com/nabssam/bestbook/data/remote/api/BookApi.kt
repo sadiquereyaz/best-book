@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.remote.api
 
+import com.nabssam.bestbook.data.remote.dto.BookResponse
 import com.nabssam.bestbook.data.remote.dto.CategoriesResponseFreeApi
 import com.nabssam.bestbook.data.remote.dto.ProductFreeApi
 import com.nabssam.bestbook.data.remote.dto.ProductResponseFreeApi
@@ -45,10 +46,6 @@ interface BookApi {
         @Query("limit") limit: Int = 5
     ): Response<CategoriesResponseFreeApi>
 
-    @GET("api/v1/ecommerce/products")
-    suspend fun getBookList(
-        @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 10
-    ): Response<ProductResponseFreeApi>
-
+    @GET("api/book/admin/getbook")
+    suspend fun getBookList(): Response<BookResponse>
 }

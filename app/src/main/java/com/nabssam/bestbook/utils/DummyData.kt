@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.utils
 
 object DummyData {
+    val categories: List<String> = listOf("CBSE Board Exams", "ISC Board Exams", "State Board Exams", "JEE Main", "NEET")
     val standards: List<Standard> = listOf(standard1, standard2, standard3, standard4)
 }
 

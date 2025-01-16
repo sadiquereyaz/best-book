@@ -9,7 +9,13 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-// 2. Implement token storage using UserPreferences
+interface TokenStorage {
+    suspend fun getAccessToken(): String?
+    suspend fun getRefreshToken(): String?
+    suspend fun saveTokens(accessToken: String, refreshToken: String)
+    suspend fun clearTokens()
+}
+
 class UserPreferencesTokenStorage @Inject constructor(
     private val userPreferences: UserPreferencesRepository
 ) : TokenStorage {
@@ -20,56 +26,6 @@ class UserPreferencesTokenStorage @Inject constructor(
     }
     override suspend fun clearTokens() {
         userPreferences.clearAll()
-    }
-}
-
-class AuthenticatedOkHttpClient @Inject constructor(
-    private val tokenStorage: TokenStorage,
-    private val authManager: AuthManager
-) {
-    fun create(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val request = chain.request()
-                val accessToken = runBlocking { tokenStorage.getAccessToken() }
-                val authenticatedRequest = if (accessToken != null) {
-                    request.newBuilder()
-                        .header("Authorization", "Bearer $accessToken")
-                        .build()
-                } else {
-                    request
-                }
-
-                // Make the request
-                val response = chain.proceed(authenticatedRequest)
-
-                // Handle unauthorized response (401)
-                if (response.code == 401) {
-                    response.close() // Close the previous response
-
-                    // Attempt to refresh the token
-                    val newAccessToken = runBlocking { authManager.refreshAllToken() }
-                    if (newAccessToken != null) {
-                        // Retry the request with the new token
-                        val newRequest = request.newBuilder()
-                            .header("Authorization", "Bearer $newAccessToken")
-                            .build()
-                        return@addInterceptor chain.proceed(newRequest)
-                    } else {
-                        // Logout the user if the refresh fails
-                        runBlocking { authManager.handleDeviceConflict() }
-                    }
-                }
-
-                response
-            }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-//            .connectTimeout(10, TimeUnit.SECONDS)   //30
-//            .readTimeout(10, TimeUnit.SECONDS)
-//            .writeTimeout(10, TimeUnit.SECONDS)
-            .build()
     }
 }
 

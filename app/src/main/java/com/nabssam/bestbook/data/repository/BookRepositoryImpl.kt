@@ -5,9 +5,10 @@ import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.domain.model.Book
-import com.nabssam.bestbook.domain.model.Category
 import com.nabssam.bestbook.domain.repository.BookRepository
+import com.nabssam.bestbook.utils.DummyData
 import com.nabssam.bestbook.utils.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -42,27 +43,41 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getAllBook(): Flow<Resource<List<Book>>> = flow {
         emit(Resource.Loading())
-        try {
+        /*try {
             val response = api.getBookList()
-            Log.d("RESPONSE1", "${response.body()?.data ?: "no daya"}")
             if (response.isSuccessful) {
-                val productResponse = response.body()
-                Log.d("RESPONSE2", "${response.body()}")
-                Log.d("RESPONSE3", "${productResponse ?: "No productresponse"}")
-                if (productResponse?.data?.productFreeApis != null) {
+                *//*val bookResponse = response.body()
+                if (bookResponse != null) {
                     val books =
-                        productResponse.data.productFreeApis.map { mapper.productDtoToDomain(it) }
+                        bookResponse.books.map { mapper.productDtoToDomain(it) }
                     emit(Resource.Success(data = books))
                 } else {
                     emit(Resource.Error("No book found"))
+                }*//*
+                    response.body()?.let {
+                        Result.success(it.books.map {bookDto-> mapper.productDtoToDomain(bookDto) })
+                    } ?: Result.failure(Exception("Empty response"))
+                } else {
+                    when (response.code()) {
+                        400 -> Result.failure(Exception("Invalid input data"))
+                        401 -> Result.failure(Exception("Unauthorized: Invalid username or password"))
+                        403 -> Result.failure(Exception("Forbidden: Access denied"))
+                        404 -> Result.failure(Exception("User doesn't exist"))
+                        500 -> Result.failure(Exception("Server Error: Please try again later"))
+                        else -> Result.failure(Exception("Unexpected Error: ${response.code()}"))
+                    }
                 }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
             } else {
                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
             }
         } catch (e: Exception) {
 
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
-        }
+        }*/
     }
 
     override suspend fun searchProducts(query: String): Flow<Resource<List<Book>>> {
@@ -94,9 +109,11 @@ class BookRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getAllCategory(): Flow<Resource<List<Category>>> = flow {
+    override suspend fun getAllCategory(): Flow<Resource<List<String>>> = flow {
         emit(Resource.Loading())
-        try {
+        delay(1000)
+        emit(Resource.Success(DummyData.categories))
+        /*try {
             val response = api.getAllCategory()
 
             if (response.isSuccessful) {
@@ -113,7 +130,7 @@ class BookRepositoryImpl @Inject constructor(
 
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
-        }
+        }*/
     }
 
     //load all the products from server and store into room

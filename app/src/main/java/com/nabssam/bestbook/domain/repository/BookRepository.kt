@@ -18,6 +18,6 @@ interface BookRepository {
     suspend fun getAll(): Flow<Resource<List<Book>>>
     suspend fun getById(id:Int): Flow<Resource<Book>>
 
-    suspend fun getAllCategory(): Flow<Resource<List<Category>>>
+    suspend fun getAllCategory(): Flow<Resource<List<String>>>
 }
 

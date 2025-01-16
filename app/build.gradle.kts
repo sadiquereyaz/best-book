@@ -121,6 +121,7 @@ dependencies {
 
     implementation (libs.androidx.datastore.preferences)
 
+    testImplementation (libs.mockwebserver)
 
 }
 // Allow references to generated code

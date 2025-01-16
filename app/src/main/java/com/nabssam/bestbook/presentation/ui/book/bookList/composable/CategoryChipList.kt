@@ -18,7 +18,7 @@ import com.nabssam.bestbook.domain.model.Category
 
 @Composable
 fun CategoryChipList(
-    examList: List<Category>,
+    examList: List<String>,
     onClick: (String?) -> Unit,
 ) {
     var selectedTargetExam by rememberSaveable { mutableIntStateOf(-1) }
@@ -31,14 +31,14 @@ fun CategoryChipList(
         itemsIndexed(examList) { index, item ->
             FilterChip(
                 selected = selectedTargetExam == index,
-                label = { Text(item.name) },
+                label = { Text(item) },
                 onClick = {
                     if (selectedTargetExam == index) {
                         selectedTargetExam = -1
                         onClick(null)
                     } else {
                         selectedTargetExam = index
-                        onClick(item.id)
+                        onClick(item)
                     }
                 }
             )

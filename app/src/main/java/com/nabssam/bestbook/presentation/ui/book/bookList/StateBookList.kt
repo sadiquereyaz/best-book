@@ -6,7 +6,7 @@ import com.nabssam.bestbook.domain.model.Category
 data class StateBookList(
 
     //val fetchingTargetExam: Boolean = true,
-    val examList: List<Category> = emptyList(),
+    val examList: List<String> = emptyList(),
 
     val fetchingBooks: Boolean = true,
     val fetchedBooks: List<Book> = emptyList(),

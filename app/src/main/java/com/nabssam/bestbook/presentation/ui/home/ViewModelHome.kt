@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.repository.ExamRepository
@@ -27,7 +26,7 @@ class ViewModelHome @Inject constructor(
 
     private val _state = MutableStateFlow(StateHomeScreen())
     val state = _state.asStateFlow()
-    private var randomTargetExam: String? = null
+//    private var randomTargetExam: String? = null
 
     init {
         onEvent(EventHomeScreen.Initialize)
@@ -49,17 +48,17 @@ class ViewModelHome @Inject constructor(
 
     private suspend fun getUserTargets() {
         val targetExamList = getTargetExamsUseCase()
-        randomTargetExam = if (targetExamList.isNotEmpty())
+        val randomTargetExam: String? =  if (targetExamList.isNotEmpty())
             targetExamList[Random.nextInt(targetExamList.size)]
         else null
 
-        _state.update { it.copy(targetExams = targetExamList) }
+        _state.update { it.copy(randomTarget = randomTargetExam) }
     }
 
     private fun fetchBooks() {
         viewModelScope.launch {
-            if (randomTargetExam == null) return@launch;    // Prevent fetching if randomTargetExam is null. @launch helps in returning from the coroutine block not just from the function
-            getBooksByExamUseCase(targetExam = randomTargetExam ?: "").collect { resource ->
+            if (state.value.randomTarget == null) return@launch;    // Prevent fetching if randomTargetExam is null. @launch helps in returning from the coroutine block not just from the function
+            getBooksByExamUseCase(targetExam = state.value.randomTarget ?: "").collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         _state.update { it.copy(fetchingBooks = true) }
@@ -82,8 +81,8 @@ class ViewModelHome @Inject constructor(
 
     private fun fetchBanners() {
         viewModelScope.launch {
-            if (randomTargetExam == null) return@launch
-            getBannersUseCase(randomTargetExam ?: "").collect { resource ->
+            if (state.value.randomTarget == null) return@launch
+            getBannersUseCase(state.value.randomTarget ?: "").collect { resource ->
                 when (resource) {
                     is Resource.Loading -> _state.update { it.copy(fetchingBanners = true) }
                     is Resource.Success -> _state.update {

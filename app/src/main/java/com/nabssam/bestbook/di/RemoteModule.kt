@@ -3,16 +3,16 @@ package com.nabssam.bestbook.di
 import android.content.Context
 import com.nabssam.bestbook.BuildConfig
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
+import com.nabssam.bestbook.data.remote.AuthenticatedOkHttpClient
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.data.repository.auth.AuthManager
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
-import com.nabssam.bestbook.data.repository.auth.AuthenticatedOkHttpClient
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.NetworkConnectivityRepository
+import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -36,13 +35,17 @@ object RemoteModule {
     @Singleton
     @UnAuth //optional
     fun provideUnAuthOkHttpClient(): OkHttpClient {
+
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+//            level = HttpLoggingInterceptor.Level.HEADERS
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-//            .connectTimeout(40, TimeUnit.SECONDS)   //30
-//            .readTimeout(40, TimeUnit.SECONDS)
-//            .writeTimeout(40, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+/*            .connectTimeout(40, TimeUnit.SECONDS)   //30
+            .readTimeout(40, TimeUnit.SECONDS)
+            .writeTimeout(40, TimeUnit.SECONDS)*/
             .build()
     }
 

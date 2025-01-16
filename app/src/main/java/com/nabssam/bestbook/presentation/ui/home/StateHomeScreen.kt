@@ -26,7 +26,7 @@ data class StateHomeScreen(
 
     val fullScreenError:String? = null,
 
-    val targetExams:List<String> = emptyList()
+    val randomTarget: String? = null,
 )
 
 /*
