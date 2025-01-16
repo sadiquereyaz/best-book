@@ -44,7 +44,7 @@ data class BookDto(
 )
 
 data class Rate(
-    val rate: Double = 3.5,
+    val points: Double = 3.5,
     val count: Int = 122,
     val reviews: List<Review> = listOf(Review(), Review(), Review())
 )

@@ -28,10 +28,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.presentation.theme.BestBookTheme
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -93,7 +95,7 @@ fun BookDetailScreen(
             )
             RatingBar(rating = 3.6, modifier = Modifier.padding(8.dp))
             HorizontalDivider(thickness = 2.dp)
-            ProductDetailList(bookObj)
+            BookDetailList(bookObj)
             HorizontalDivider(
                 thickness = 2.dp,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -152,7 +154,7 @@ fun BookDetailScreen(
 }
 
 @Composable
-fun ProductDetailList(book: Book) {
+fun BookDetailList(book: Book) {
     Text(
         text = "Product Details",
         modifier = Modifier
@@ -203,6 +205,33 @@ fun ProductDetail(modifier: Modifier, headText: String = "head", tailText: Strin
         Text(
             modifier = Modifier.weight(1f),
             text = tailText
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BookDetailScreenPreview() {
+    BestBookTheme {
+        BookDetailScreen(
+            state = StateBookDetail(
+                fetchedBook = Book(
+                    id = "1",
+                    name = "Sample Book",
+                    author = "Sample Author",
+                    description = "This is a sample book description.",
+                    price = 10,
+                    imageUrls = listOf(
+                        "https://example.com/image1.jpg",
+                        "https://example.com/image2.jpg"
+                    )
+                )
+            ),
+            onEvent = {},
+            purchaseEbook ={},
+            isEbook = true,
+            btnType = ButtonType.ADD_TO_CART,
+            goToCart = {}
         )
     }
 }

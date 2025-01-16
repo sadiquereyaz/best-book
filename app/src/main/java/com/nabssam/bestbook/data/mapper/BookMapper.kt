@@ -24,7 +24,7 @@ class BookMapper {
             publishDate = dto.publicationDate,
             ebookDis = dto.ebookDiscount,
             noOfPages = dto.pages,
-            ebook = dto.eBook
+            ebookUrl = dto.eBook
         )
     }
 

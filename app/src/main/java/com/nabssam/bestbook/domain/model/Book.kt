@@ -20,7 +20,7 @@ data class Book(
     val description: String = "",
     val exam: String = "",
     val stock: Int = 0,
-    val ebook: String = "",
+    val ebookUrl: String = "",
 ){
-    val isEbookAvailable: Boolean = ebook.isNotEmpty() || ebook != ""
+    val isEbookAvailable: Boolean = ebookUrl.isNotEmpty() || ebookUrl != ""
 }
