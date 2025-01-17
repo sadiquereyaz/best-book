@@ -36,15 +36,36 @@ class ViewModelBookDetail @Inject constructor(
         fetchRelatedBooks()
     }
 
+    private fun purchaseNow() {
+        TODO("Not yet implemented")
+    }
+
     fun onEvent(event: EventBookDetail) {
         when (event) {
-
             is EventBookDetail.Retry -> {
                 fetchBookDetail()
+                fetchRelatedBooks()
             }
 
             is EventBookDetail.AddToCart -> {
-                addToCart(_state.value.fetchedBook)
+                addToCart(id)
+            }
+
+            is EventBookDetail.BookTypeSelect -> {
+                _state.update {
+                    it.copy(buttonState = event.btnState)
+                }
+            }
+
+            is EventBookDetail.ButtonClick -> {
+                when (state.value.buttonState) {
+                    ButtonType.ADD_TO_CART -> {
+                        _state.update { it.copy(buttonState = ButtonType.GO_TO_CART) }
+                        addToCart(id)
+                    }
+//                    ButtonType.GO_TO_CART -> TODO()
+                    else -> {}
+                }
             }
         }
     }
@@ -83,6 +104,7 @@ class ViewModelBookDetail @Inject constructor(
 
         }
     }
+
     private fun fetchRelatedBooks() {
         viewModelScope.launch {
             getBooksByExamUseCase(/*targetExam = state.value.fetchedBook.exam*/"JEE Main").collect { resource ->   // todo: uncomment
@@ -90,12 +112,17 @@ class ViewModelBookDetail @Inject constructor(
                     is Resource.Loading -> {
                         _state.update { it.copy(isListFetching = true) }
                     }
+
                     is Resource.Success -> {
                         Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
                         _state.update {
-                            it.copy(fetchedList = resource.data ?: emptyList(), isListFetching = false)
+                            it.copy(
+                                fetchedList = resource.data ?: emptyList(),
+                                isListFetching = false
+                            )
                         }
                     }
+
                     is Resource.Error -> {
                         _state.update {
                             it.copy(isListFetching = false, listError = resource.message)
@@ -105,11 +132,12 @@ class ViewModelBookDetail @Inject constructor(
             }
         }
     }
-    fun addToCart(book: Book) {
+
+    fun addToCart(bookId: String) {
         viewModelScope.launch {
-            addToCartUseCase(
-                mapper.domainToEntity(book)
-            )
+            /*  addToCartUseCase(
+                  mapper.domainToEntity(book)
+              )*/
         }
     }
 

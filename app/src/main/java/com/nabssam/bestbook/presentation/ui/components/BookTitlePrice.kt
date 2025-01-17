@@ -25,23 +25,24 @@ fun BookTitlePrice(
     maxLine: Int,
     discPer: Int,
     originalPrice: Int,
-    title: String,
+    title: String? = null,
     rating: Double? = null
 ) {
     Column(modifier = modifier) {
-
         //title
-        Text(
-            modifier = modifier
-                .padding(top = padTop, bottom = 4.dp),
-            text = title,
-            fontSize = (14 + addToFontSize).sp,
-            fontWeight = FontWeight.Bold,
-            maxLines = maxLine,
-            overflow = TextOverflow.Ellipsis,
+       title?.let {
+           Text(
+               modifier = modifier
+                   .padding(top = padTop, bottom = 4.dp),
+               text = title,
+               fontSize = (14 + addToFontSize).sp,
+               fontWeight = FontWeight.Bold,
+               maxLines = maxLine,
+               overflow = TextOverflow.Ellipsis,
 //                            textAlign = TextAlign.Center,
-            lineHeight = 17.sp
-        )
+               lineHeight = 17.sp
+           )
+       }
         //price row
         Row(
             modifier = modifier,
