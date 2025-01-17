@@ -34,7 +34,7 @@ data class BookDto(
     val price: Int,
     val publicationDate: String,
     val publisher: String,
-    val rate: Rate,
+    val rate: Rate? = null,
     val stock: Int,
     val targetExam: String,
     @SerializedName("title")
@@ -46,7 +46,7 @@ data class BookDto(
 data class Rate(
     val points: Double = 3.5,
     val count: Int = 122,
-    val reviews: List<Review> = listOf(Review(), Review(), Review())
+    val reviews: List<Review>? = null
 )
 
 data class Review(

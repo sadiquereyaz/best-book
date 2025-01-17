@@ -87,11 +87,18 @@ fun List<CartItemEntity>.totalDiscountAmount(): Double {
     return BigDecimal(discountAmount).setScale(1, RoundingMode.HALF_UP).toDouble()
 }
 
+// percent value calculator ex: (1.0% of 10.0) use: (1.0).percentOf(10.0) = 0.1
+// Calculate percentage for Double values
 fun Double.percentOf(value: Double): Double {
-    Log.d("PERC", "$this, $value")
-    return BigDecimal(value.minus((this / 100) * value))
-        .setScale(1, RoundingMode.HALF_UP)
-        .toDouble()
+    return (this / 100) * value // Compute the percentage directly
+}
+
+
+fun Int.percentOf(value: Int): Int {
+    return  (this / 100.0).times(value) // Convert `this` to a percentage and multiply
+        .toBigDecimal()             // Convert result to BigDecimal
+        .setScale(0, RoundingMode.HALF_UP) // Round to the nearest integer
+        .toInt()                    // Convert back to Int
 }
 
 

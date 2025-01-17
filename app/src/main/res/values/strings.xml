@@ -100,5 +100,6 @@
     <string name="retry">Retry</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="quiz_benefits">Unlike traditional reading, online quizzes transform the material into an engaging format that helps reinforce key concepts and improve retention. These quizzes often provide instant feedback, allowing you to identify knowledge gaps and focus on areas that need improvement. They can also track your progress over time, offering a personalized approach to mastering the content. Additionally, the convenience of accessing quizzes online means you can learn at your own pace, anytime and anywhere, making it a flexible and effective tool for education.</string>
 
 </resources>

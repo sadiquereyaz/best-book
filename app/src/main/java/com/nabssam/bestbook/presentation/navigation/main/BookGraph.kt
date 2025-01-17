@@ -41,13 +41,21 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
         val viewModel = hiltViewModel<ViewModelBookDetail>()
         val state by viewModel.state.collectAsState()
         BookDetailScreen(
-            purchaseEbook = {},
             goToCart = { navController.navigate(Route.CartRoute()) },
             state = state,
-            onEvent = {viewModel.onEvent(it)},
+            onEvent = { viewModel.onEvent(it) },
             onSeeAllReviewClick = {
-//                navController.navigate(Route.AllReviewRoute(bookId = state.fetchedBook.id))
-            }
+                state.fetchedBook.let  {
+                    navController.navigate(
+                        Route.AllReviewRoute(
+                            title = it.name,
+                            bookId = it.id
+                        )
+                    )
+                }
+            },
+            showBooksByExam = { navController.navigate(Route.AllBookRoute(targetExam = state.fetchedBook.exam)) },
+            navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) }
             //btnType = ButtonType.EBOOK,
         )
     }

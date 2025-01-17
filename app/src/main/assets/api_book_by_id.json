@@ -8,9 +8,10 @@
     "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
     "description": "This is a comprehensive guide for JEE Main preparation.",
     "eBook": "https://example.com/ebook1",
-    "ebookDiscount": 10,
+    "ebookDiscount": 50,
     "hardcopyDiscount": 15,
     "images": [
+      "https://m.media-amazon.com/images/I/61UgZKkbx+L._SY522_.jpg",
       "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
       "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
     ],
@@ -58,7 +59,7 @@
           "createdAt": "2024-07-20"
         },
         {
-          "username": "Aqsa Akbar",
+          "username": "Mubeen Akbar",
           "id": "5",
           "userId": "5",
           "rating": 4,
@@ -69,7 +70,7 @@
     },
     "stock": 100,
     "targetExam": "JEE Main",
-    "title": "JEE Main Solved Papers",
+    "title": "Oswaal 164 JEE Main Solved Papers",
     "updatedAt": "2025-01-16",
     "createdAt": "2024-01-01"
   },
