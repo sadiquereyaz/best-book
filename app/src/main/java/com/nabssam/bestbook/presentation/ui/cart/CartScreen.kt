@@ -243,12 +243,13 @@ fun CartItem(
 
                     BookTitlePrice(
                         //modifier = modifier,
-                        title = cartItem.name,
-                        originalPrice = cartItem.price,
-                        discPer = cartItem.disPer,
                         addToFontSize = 4,
                         padTop = 0.dp,
-                        maxLine = 4
+                        maxLine = 4,
+                        discPer = cartItem.disPer,
+                        originalPrice = cartItem.price,
+                        title = cartItem.name,
+//                        rating = bookObj.rate.points
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     CountChanger(

@@ -25,18 +25,45 @@
       "count": 200,
       "reviews": [
         {
-          "id": "1",
+          "username": "Hammad Qadir",
+          "id":
+          "1",
           "userId": "1",
           "rating": 5,
-          "comment": "Excellent book for JEE Main preparation.",
+          "comment": "Excellent book for JEE Main preparation. The explanations are clear and concise, making it easy to understand complex topics. Highly recommended for all aspirants.",
           "createdAt": "2024-04-14"
         },
         {
+          "username": "Ayaz Nazir",
           "id": "2",
           "userId": "2",
           "rating": 4,
-          "comment": "Very helpful and detailed.",
+          "comment": "Very helpful and detailed. The practice questions are well-structured and cover all important topics. However, some sections could use more examples.",
           "createdAt": "2024-05-10"
+        },
+        {
+          "username": "Ankita Gupta",
+          "id": "3",
+          "userId": "3",
+          "rating": 3,
+          "comment": "Good book with clear explanations. It provides a solid foundation for the exam, but I found a few errors in the practice questions. Overall, it's a useful resource.",
+          "createdAt": "2024-06-14"
+        },
+        {
+          "username": "Roshan",
+          "id": "4",
+          "userId": "4",
+          "rating": 5,
+          "comment": "This book is a must-have for JEE Main aspirants. The detailed solutions and step-by-step approach make it easy to follow. It helped me improve my problem-solving skills significantly.",
+          "createdAt": "2024-07-20"
+        },
+        {
+          "username": "Aqsa Akbar",
+          "id": "5",
+          "userId": "5",
+          "rating": 4,
+          "comment": "Very detailed and helpful. The book covers all the necessary topics and provides ample practice questions. Some chapters are a bit lengthy, but overall, it's a great resource.",
+          "createdAt": "2024-08-14"
         }
       ]
     },

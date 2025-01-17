@@ -23,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -90,9 +89,9 @@ fun BookDetailScreen(
                 .verticalScroll(scrollState),
         ) {
             // Scroll to the bottom initially
-            LaunchedEffect(scrollState) {
+            /*LaunchedEffect(scrollState) {
                 scrollState.animateScrollTo(scrollState.maxValue)
-            }
+            }*/
 
             AutoScrollingImagePager(
                 modifier = Modifier
@@ -102,15 +101,18 @@ fun BookDetailScreen(
                 imageList = (bookObj.imageUrls),
                 height = /*Dp.Unspecified*/ 460.dp
             )
-            BookTitlePrice(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                addToFontSize = 4,
-                discPer = bookObj.hardCopyDis,
-                originalPrice = bookObj.price,
-                title = bookObj.name,
-                maxLine = 3
-            )
-            RatingBar(modifier = Modifier.padding(8.dp), rating = bookObj.rate.points)
+           Row {
+                BookTitlePrice(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    addToFontSize = 4,
+                    discPer = bookObj.hardCopyDis,
+                    originalPrice = bookObj.price,
+                    title = bookObj.name,
+                    maxLine = 3,
+                            rating = bookObj.rate.points
+                )
+
+            }
             HorizontalDivider(thickness = 2.dp)
             BookDetailList(bookObj)
             BookDescription(bookObj.description, modifier = Modifier.padding(bottom = 8.dp))

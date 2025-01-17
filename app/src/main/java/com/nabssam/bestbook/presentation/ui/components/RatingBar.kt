@@ -39,6 +39,6 @@ fun RatingBar(
             )
         }
         if (showRate)
-        Text(text = "($rating)", modifier = Modifier.padding(horizontal = 4.dp))
+        Text(text = "($rating)", /*modifier = Modifier.padding(horizontal = 4.dp)*/)
     }
 }

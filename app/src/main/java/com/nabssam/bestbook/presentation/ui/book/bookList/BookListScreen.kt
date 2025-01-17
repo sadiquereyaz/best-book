@@ -61,10 +61,11 @@ fun BookListScreen(
                             BookCoverImage(coverImage = it.imageUrls[0])
                             //book title and price
                             BookTitlePrice(
+                                maxLine = 2,
+                                discPer = it.hardCopyDis,
                                 originalPrice = it.price,
                                 title = it.name,
-                                discPer = it.hardCopyDis,
-                                maxLine = 2
+//                                rating = it.rate.points
                             )
                         }
                     }

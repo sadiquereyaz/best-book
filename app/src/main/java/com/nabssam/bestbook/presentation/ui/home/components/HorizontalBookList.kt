@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,27 +54,25 @@ import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicat
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(bookList) {
-                    Box(
-                        modifier = Modifier
-                            .clickable { onNavigateToBook(it.id) }
-                            .border(
-                                width = 0.5.dp,
-                                shape = RoundedCornerShape(6.dp),
-                                color = Color.Black
-                            )
-                        //  .clip(shape = RoundedCornerShape(6.dp))
-                        //.padding(6.dp)
-                    ) {
-                        AsyncImage(
-                            model = it.coverUrl,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
+
+                        Card(
                             modifier = Modifier
-                                .width(dimensionResource(R.dimen.book_width_home))
-                                .height(dimensionResource(R.dimen.book_height_home))
-                                .clip(shape = RoundedCornerShape(6.dp)),
-                        )
-                    }
+                                .clickable { onNavigateToBook(it.id) }
+//                                .clip(shape = RoundedCornerShape(12.dp))
+                                ,
+                            elevation = CardDefaults.elevatedCardElevation(4.dp)
+                        ) {
+                            AsyncImage(
+                                model = it.coverUrl,
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier
+                                    .width(dimensionResource(R.dimen.book_width_home))
+                                    .height(dimensionResource(R.dimen.book_height_home))
+                                    .clip(shape = RoundedCornerShape(4.dp)),
+                            )
+                        }
+
                 }
             }
         }

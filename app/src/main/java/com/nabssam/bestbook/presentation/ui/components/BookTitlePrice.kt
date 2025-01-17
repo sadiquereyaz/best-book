@@ -3,6 +3,7 @@ package com.nabssam.bestbook.presentation.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,9 +25,10 @@ fun BookTitlePrice(
     maxLine: Int,
     discPer: Int,
     originalPrice: Int,
-    title: String
+    title: String,
+    rating: Double? = null
 ) {
-    Column  (modifier = modifier){
+    Column(modifier = modifier) {
 
         //title
         Text(
@@ -71,13 +73,14 @@ fun BookTitlePrice(
             // final price
             Text(
                 modifier = Modifier,
-                text = "₹${(originalPrice - (discPer * originalPrice) / 100) }",
+                text = "₹${(originalPrice - (discPer * originalPrice) / 100)}",
                 fontSize = (16 + addToFontSize).sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
-
+            Spacer(modifier = Modifier.weight(1f))
+            rating?.let { RatingBar(modifier = Modifier.padding(8.dp), rating) }
         }
     }
 }

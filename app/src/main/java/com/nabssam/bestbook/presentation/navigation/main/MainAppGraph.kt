@@ -22,8 +22,8 @@ import com.nabssam.bestbook.utils.safeNavigate
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-//        Route.Home  //TODO
-        Route.BookDetailRoute(title = "book detail", id = "book1")
+        Route.Home  //TODO
+//        Route.BookDetailRoute(title = "book detail", id = "book1")
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()
