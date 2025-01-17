@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,7 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
-import com.nabssam.bestbook.presentation.ui.home.components.HomeBookList
+import com.nabssam.bestbook.presentation.ui.home.components.HorizontalBookList
 import com.nabssam.bestbook.presentation.ui.home.components.QuizCard
 import com.nabssam.bestbook.presentation.ui.home.components.colorList
 
@@ -53,8 +52,7 @@ fun HomeScreen(
                 message = state.fullScreenError,
                 onRetry = { event(EventHomeScreen.Initialize) }
             )
-        }
-        else {
+        } else {
             if (state.fetchingBanners) {
                 FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.banner_height)))
             } else {
@@ -65,33 +63,22 @@ fun HomeScreen(
                     autoscroll = false
                 )
             }
-
             Spacer(modifier = Modifier.height(8.dp))
-
+            // book list
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Recommended for you", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(
-                    onClick = { onAllBookSelect(state.randomTarget ?: "default") }
+                    onClick = { onAllBookSelect(state.randomTarget ?: "all") }
                 ) {
                     Text(text = "View all", style = MaterialTheme.typography.labelLarge)
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
-            if (state.fetchingBooks) {
-                FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)))
-            } else if (state.errorBooks != null) {
-                ErrorScreen(
-                    message = state.errorBooks ?: "Error occur while fetching books",
-                    modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)),
-                    onRetry = { event(EventHomeScreen.FetchBook) }
-                )
-            } else {
-                HomeBookList(state, onNavigateToBook)
-            }
-
+            HorizontalBookList(Modifier, state.fetchingBooks, state.fetchedBooks, state.fullScreenError, onNavigateToBook,
+                { event(EventHomeScreen.Initialize) })
             // quiz
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -116,7 +103,10 @@ fun HomeScreen(
             ) {
                 itemsIndexed(state.fetchedExams) { index, exam -> // Use itemsIndexed
                     val color = colorList[index % colorList.size] // Get color from list
-                    QuizCard(exam, color = color, onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
+                    QuizCard(
+                        exam,
+                        color = color,
+                        onQuizSelect = { navigateToQuiz(0) }) // Pass color to QuizCard
                 }
 
             }

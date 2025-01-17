@@ -44,7 +44,10 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
             purchaseEbook = {},
             goToCart = { navController.navigate(Route.CartRoute()) },
             state = state,
-            onEvent = {viewModel.onEvent(it)}
+            onEvent = {viewModel.onEvent(it)},
+            onSeeAllReviewClick = {
+//                navController.navigate(Route.AllReviewRoute(bookId = state.fetchedBook.id))
+            }
             //btnType = ButtonType.EBOOK,
         )
     }

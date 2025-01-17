@@ -31,7 +31,7 @@ class GetAllTargetUC @Inject constructor(
 
 
 
-class GetBooksByCategoryUseCase @Inject constructor(    // ToDO: rename: get all book
+class GetBooksByExamUC @Inject constructor(    // ToDO: rename: get all book
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {

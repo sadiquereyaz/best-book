@@ -20,16 +20,16 @@ class MockInterceptor(@ApplicationContext private val context: Context) : Interc
 
         // Dummy JSON responses for different endpoints
         var responseString = when {
-            url.contains("api/book/getbookbyexam/all") -> getJsonFromAssets("api_response_all_book.json")
+//            url.contains("api/book/getbookbyexam/all") -> getJsonFromAssets("api_response_all_book.json")
             url.contains("api/book/getbookbyexam/JEE%20Main") -> getJsonFromAssets("api_response_book_jee_main.json")
-            url.contains("api/book/getbookbyexam/NEET") -> getJsonFromAssets("api_response_book_neet.json")
-            url.contains("api/book/getbookbyexam/State%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
-            url.contains("api/book/getbookbyexam/ISC%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
-            url.contains("api/book/getbookbyexam/CBSE%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
-            url.contains("api/exams/getalltarget") -> getJsonFromAssets("api_all_targets.json")
+//            url.contains("api/book/getbookbyexam/NEET") -> getJsonFromAssets("api_response_book_neet.json")
+//            url.contains("api/book/getbookbyexam/State%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
+//            url.contains("api/book/getbookbyexam/ISC%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
+//            url.contains("api/book/getbookbyexam/CBSE%20Board%20Exams") -> getJsonFromAssets("api_response_all_book.json")
+//            url.contains("api/exams/getalltarget") -> getJsonFromAssets("api_all_targets.json")
             url.contains("api/book/getbookbyid/book1") -> getJsonFromAssets("api_book_by_id.json")
-//            url.contains("wrong") -> getJsonFromAssets("api_response_all_book.json")
-            else ->  getJsonFromAssets("api_response_all_book_not_found.json")
+//            url.contains("wrong") -> getJsonFromAssets("api_book_by_id.json")
+            else ->  getJsonFromAssets("api_response_book_jee_main.json")
 //            else ->  getJsonFromAssets("dummy.json")
 
         }

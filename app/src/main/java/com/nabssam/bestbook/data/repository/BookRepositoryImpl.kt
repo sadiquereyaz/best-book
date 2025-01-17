@@ -21,10 +21,10 @@ class BookRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
         try {
             val response = api.getBooks(exam)
-            Log.d("BOOK_REPO_IMPL", "Book RESPONSE FROM API: $response")
+            Log.d("BOOK_REPO_IMPL", "Book RESPONSE FROM API: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(Resource.Success(data = it.books.map { bookDto ->
+                    emit(Resource.Success(data = it.data.map { bookDto ->
                         mapper.dtoToDomain(
                             bookDto
                         )

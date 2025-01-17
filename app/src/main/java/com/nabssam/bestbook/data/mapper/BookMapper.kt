@@ -2,6 +2,7 @@ package com.nabssam.bestbook.data.mapper
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.BookDto
+import com.nabssam.bestbook.data.remote.dto.Rate
 import com.nabssam.bestbook.domain.model.Book
 
 class BookMapper {
@@ -17,7 +18,7 @@ class BookMapper {
             author = dto.author,
             hardCopyDis = dto.hardcopyDiscount,
             publisher = dto.publisher,
-            // rate = Rate(dto.rating.toDouble(), dto.reviews.size),
+            rate = dto.rate,
             stock = dto.stock,
             isbn = dto.isbn,
             language = dto.language,

@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
+import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.utils.Resource
@@ -23,6 +24,7 @@ class ViewModelBookDetail @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getBookByIdUC: GetBookByIdUC,
     private val addToCartUseCase: AddToCartUseCase,
+    private val getBooksByExamUseCase: GetBooksByExamUC,
     private val mapper: BookMapper
 ) : ViewModel() {
     private val id = savedStateHandle.toRoute<Route.BookDetailRoute>().id
@@ -31,6 +33,7 @@ class ViewModelBookDetail @Inject constructor(
 
     init {
         fetchBookDetail()
+        fetchRelatedBooks()
     }
 
     fun onEvent(event: EventBookDetail) {
@@ -80,7 +83,28 @@ class ViewModelBookDetail @Inject constructor(
 
         }
     }
-
+    private fun fetchRelatedBooks() {
+        viewModelScope.launch {
+            getBooksByExamUseCase(/*targetExam = state.value.fetchedBook.exam*/"JEE Main").collect { resource ->   // todo: uncomment
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.update { it.copy(isListFetching = true) }
+                    }
+                    is Resource.Success -> {
+                        Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
+                        _state.update {
+                            it.copy(fetchedList = resource.data ?: emptyList(), isListFetching = false)
+                        }
+                    }
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(isListFetching = false, listError = resource.message)
+                        }
+                    }
+                }
+            }
+        }
+    }
     fun addToCart(book: Book) {
         viewModelScope.launch {
             addToCartUseCase(

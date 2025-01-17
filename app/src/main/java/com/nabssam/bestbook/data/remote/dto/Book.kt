@@ -3,7 +3,7 @@ package com.nabssam.bestbook.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 data class BookListResponse(
-    val books: List<BookDto>,
+    @SerializedName("books") val data: List<BookDto>,
     val message: String,
     val success: Boolean
 )
@@ -51,8 +51,9 @@ data class Rate(
 
 data class Review(
     val id: String = "1",
-    val userId: String = "1",
-    val rating: Int = 4,
+    val username: String = "Rafique",
+    val reviewDp: String? = null,
+    val rating: Double = 4.2,
     val comment: String = "This is a good book",
     val createdAt: String = "14/04/2022"
 )

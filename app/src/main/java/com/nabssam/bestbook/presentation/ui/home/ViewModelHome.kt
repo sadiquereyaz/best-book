@@ -1,10 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.domain.usecase.GetBannersUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetBooksByCategoryUseCase
+import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import kotlin.random.Random
 
 @HiltViewModel
 class ViewModelHome @Inject constructor(
-    private val getBooksByExamUseCase: GetBooksByCategoryUseCase,
+    private val getBooksByExamUseCase: GetBooksByExamUC,
     private val getTargetExamsUseCase: GetUserTargetsUC,
     private val getBannersUseCase: GetBannersUseCase,
     private val examRepository: ExamRepository
@@ -58,12 +59,13 @@ class ViewModelHome @Inject constructor(
     private fun fetchBooks() {
         viewModelScope.launch {
             if (state.value.randomTarget == null) return@launch;    // Prevent fetching if randomTargetExam is null. @launch helps in returning from the coroutine block not just from the function
-            getBooksByExamUseCase(targetExam = state.value.randomTarget ?: "").collect { resource ->
+            getBooksByExamUseCase(targetExam = state.value.randomTarget ?: "all").collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         _state.update { it.copy(fetchingBooks = true) }
                     }
                     is Resource.Success -> {
+                        Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
                         _state.update {
                             it.copy(fetchedBooks = resource.data ?: emptyList(), fetchingBooks = false)
                         }
