@@ -23,7 +23,8 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
 //        Route.Home  //TODO
-        Route.BookDetailRoute(title = "book detail", id = "book1")
+//        Route.BookDetailRoute(title = "Book Detail", id = "book1")
+        Route.CartRoute()
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()

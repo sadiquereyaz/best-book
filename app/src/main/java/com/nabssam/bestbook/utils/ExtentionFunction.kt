@@ -3,6 +3,7 @@ package com.nabssam.bestbook.utils
 import android.util.Log
 import androidx.navigation.NavController
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
+import com.nabssam.bestbook.domain.model.CartItem
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -45,21 +46,21 @@ fun formatOrderDate(timestamp: Long): String {
     return dateFormat.format(date)
 }
 
-fun List<CartItemEntity>.totalCartPrice(): Double {
+fun List<CartItem>.totalCartPrice(): Double {
     var total = 0.0
     forEach {
-        total += it.quantity * it.price
+        total += (it.quantity ?: 0) * it.price
     }
     return BigDecimal(total).setScale(1, RoundingMode.HALF_UP).toDouble()
 }
 
 
-fun List<CartItemEntity>.totalDiscountPercent(): Double {
+fun List<CartItem>.totalDiscountPercent(): Double {
     var originalTotal = 0.0
     var discountedTotal = 0.0
 
     forEach {
-        val originalPriceForItem = it.quantity * it.price
+        val originalPriceForItem = (it.quantity ?: 0) * it.price
         val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
 
         originalTotal += originalPriceForItem
@@ -75,24 +76,28 @@ fun List<CartItemEntity>.totalDiscountPercent(): Double {
     }
 }
 
-fun List<CartItemEntity>.totalDiscountAmount(): Double {
+fun List<CartItem>.totalDiscountAmount(): Double {
     var discountAmount = 0.0
 
     forEach {
-        val originalPriceForItem = it.quantity * it.price
+        val originalPriceForItem = (it.quantity?:0).times(it.price)
         val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
         discountAmount += (originalPriceForItem - discountedPriceForItem)
     }
 
     return BigDecimal(discountAmount).setScale(1, RoundingMode.HALF_UP).toDouble()
 }
+fun List<CartItem>.totalItem(): Int {
+    var count = 0
+    forEach {
+        count += it.quantity ?: 0
+    }
+    return count
+}
 
 // percent value calculator ex: (1.0% of 10.0) use: (1.0).percentOf(10.0) = 0.1
 // Calculate percentage for Double values
-fun Double.percentOf(value: Double): Double {
-    return (this / 100) * value // Compute the percentage directly
-}
-
+fun Double.percentOf(value: Double) = BigDecimal((this / 100) * value).setScale(1, RoundingMode.HALF_DOWN).toDouble() // Compute the percentage directly
 
 fun Int.percentOf(value: Int): Int {
     return  (this / 100.0).times(value) // Convert `this` to a percentage and multiply
@@ -101,13 +106,3 @@ fun Int.percentOf(value: Int): Int {
         .toInt()                    // Convert back to Int
 }
 
-
-fun List<CartItemEntity>.totalItem(): Int {
-    var count = 0
-
-    forEach {
-        count += it.quantity
-    }
-
-    return count
-}

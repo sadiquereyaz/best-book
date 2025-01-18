@@ -5,7 +5,8 @@ data class SignInRequest(
     val password: String
 )
 
-data class SignInResponse(
+// SignIn Response
+data class UserDto(
     val __v: Int,
     val _id: String,
     val createdAt: String,
@@ -14,6 +15,7 @@ data class SignInResponse(
     val phoneNumber: String,
     val profilePicture: String,
     val currentToken: String,
+    val password: String? = null,   // todo: this should not be returned
     val sessionToken: String,
     val subscribedEbook: List<String>,
     val targetExam: List<String>,

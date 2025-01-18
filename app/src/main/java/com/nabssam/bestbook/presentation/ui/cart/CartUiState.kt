@@ -2,6 +2,7 @@ package com.nabssam.bestbook.presentation.ui.cart
 
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.product.BookDtoFreeApi
+import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.utils.percentOf
 import com.nabssam.bestbook.utils.totalCartPrice
 import com.nabssam.bestbook.utils.totalDiscountPercent
@@ -17,12 +18,11 @@ sealed interface CartUiState {
     data class Idle(
         val cartItemEntities: List<CartItemEntity> = emptyList(),
         val books: List<BookDtoFreeApi> = emptyList(),
-
+        val allCartItem: List<CartItem> = emptyList()
         ) : CartUiState {
-        fun isEmpty(): Boolean = cartItemEntities.isEmpty() && books.isEmpty()
-        val totalLabelAmount: Double = cartItemEntities.totalCartPrice()
-        val totalItems: Int = cartItemEntities.totalItem()
-        val totalDiscountPer: Double = cartItemEntities.totalDiscountPercent()
+        val totalLabelAmount: Double = allCartItem.totalCartPrice()
+        val totalItems: Int = allCartItem.totalItem()
+        val totalDiscountPer: Double = allCartItem.totalDiscountPercent()
         val totalAmount: Double = (totalDiscountPer).percentOf(totalLabelAmount)
         val totalDiscountAmount: Double =
             BigDecimal(totalLabelAmount.minus(totalAmount))

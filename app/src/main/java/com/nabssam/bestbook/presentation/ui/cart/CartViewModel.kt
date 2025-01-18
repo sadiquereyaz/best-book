@@ -1,8 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.cart
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.data.remote.dto.CartItemDto
+import com.nabssam.bestbook.data.remote.dto.CartItemU
+import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,15 +16,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val userPrefRepoImpl: UserPrefRepoImpl
 ) : ViewModel() {
 
-    private val _cartState = MutableStateFlow<Resource<List<CartItemDto>>>(Resource.Loading())
+    private val _cartState = MutableStateFlow<Resource<List<CartItem>>>(Resource.Loading())
     val cartState = _cartState.asStateFlow()
+    var userId: String = ""
 
-    fun fetchCartItems(productIds: List<String>) {
+    init {
+        Log.d("CART_VM", "user id: $userId")
         viewModelScope.launch {
-            cartRepository.fetchCartItems(productIds).collect { resource ->
+            userPrefRepoImpl.user.collect {
+                userId = it?.id ?: "NO ID FOUND!"
+            }
+        }
+        Log.d("CART_VM", "user id: $userId")
+        //fetchCartItems()
+    }
+
+    private fun fetchCartItems() {
+        viewModelScope.launch {
+            cartRepository.fetchCartItems(userId).collect { resource ->
                 _cartState.value = resource
             }
         }

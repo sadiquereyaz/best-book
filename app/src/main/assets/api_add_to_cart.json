@@ -1,0 +1,105 @@
+{
+  "_id": "678a8bc79651d834570287b7",
+  "belongTo": {
+    "_id": "6788015c1b3a2b4bae67d603",
+    "username": "ayaz",
+    "phoneNumber": "8745971753",
+    "password": "$2a$10$uIS9vy7NQ/ShGtQq9RMAuuSIiINlOVuuK0toEYeK2VZsrKomizI82",
+    "currentClass": "Class 12",
+    "targetExam": [
+      "CBSE Board Exams",
+      "ISC Board Exams",
+      "State Board Exams",
+      "JEE Main",
+      "NEET"
+    ],
+    "targetYear": [
+      "2026"
+    ],
+    "profilePicture": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    "subscribedEbook": [],
+    "isAdmin": false,
+    "currentToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODgwMTVjMWIzYTJiNGJhZTY3ZDYwMyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3MzY5NjY0OTksImV4cCI6MTczNjk3MDA5OX0.bpulyJx7N-BMaxOVsbKkH0Lg43Fpvg58c7vPNP32xCs",
+    "sessionToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODgwMTVjMWIzYTJiNGJhZTY3ZDYwMyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3MzY5NjY0OTksImV4cCI6MTczNzA1Mjg5OX0.Kwo4CU1lCevh-x3eDZDd3GwwPO6kkR-QPHwkDRTUw-E",
+    "createdAt": "2025-01-15T18:41:32.866Z",
+    "updatedAt": "2025-01-15T18:41:39.554Z",
+    "__v": 0
+  },
+  "items": [
+    {
+      "productId": {
+        "rating": 0,
+        "reviews": [],
+        "_id": "67836b1383e251142df7fb5b",
+        "stock": 5,
+        "ebookDiscount": 35,
+        "isEbookAvailable": true,
+        "price": 200,
+        "hardcopyDiscount": 12,
+        "description": "You can help me",
+        "title": "Cracking UPSC Civil Services",
+        "images": [],
+        "eBook": "http://res.cloudinary.com/dniu1zxdq/image/upload/v1736665873/pd46lp0hla8m0g2hvxup.pdf",
+        "coverImage": "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false",
+        "targetExam": "2029",
+        "reviewsId": [],
+        "__v": 0
+      },
+      "productType": "Book",
+      "quantity": 2,
+      "_id": "678a8bc79651d834570287b8"
+    },
+    {
+      "productId": {
+        "rating": 0,
+        "reviews": [],
+        "_id": "546y6b1383e25fgh42df7fb6d",
+        "stock": 5,
+        "ebookDiscount": 20,
+        "isEbookAvailable": true,
+        "price": 200,
+        "hardcopyDiscount": 60,
+        "description": "You can help me",
+        "title": "The Man of Word in Heaven of Animal",
+        "images": [],
+        "eBook": "http://res.cloudinary.com/dniu1zxdq/image/upload/v1736665873/pd46lp0hla8m0g2hvxup.pdf",
+        "coverImage":  "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false",
+        "targetExam": "2029",
+        "reviewsId": [],
+        "__v": 0
+      },
+      "productType": "Book",
+      "quantity": 3,
+      "_id": "678a8bc79651d834570287b8"
+    },
+    {
+      "productId": {
+        "rating": 0,
+        "reviews": [],
+        "_id": "126y6b1383675fgh42df7fb3a",
+        "stock": 5,
+        "ebookDiscount": 55,
+        "isEbookAvailable": true,
+        "price": 200,
+        "hardcopyDiscount": 22,
+        "description": "You can help me",
+        "title": "CAT Comprehensive Guide",
+        "images": [],
+        "eBook": "http://res.cloudinary.com/dniu1zxdq/image/upload/v1736665873/pd46lp0hla8m0g2hvxup.pdf",
+        "coverImage":  "https://rukminim2.flixcart.com/image/612/612/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+        "targetExam": "2029",
+        "reviewsId": [],
+        "__v": 0
+      },
+      "productType": "Book",
+      "quantity": 4,
+      "_id": "678a8bc79651d834570287b8"
+    }
+  ],
+  "coupon": null,
+  "subtotal": 0,
+  "total": 0,
+  "createdAt": "2025-01-17T16:56:39.495Z",
+  "updatedAt": "2025-01-17T16:56:39.495Z",
+  "__v": 0
+}

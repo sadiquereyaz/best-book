@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.mapper.BookMapper
+import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.mapper.ExamMapper
 import com.nabssam.bestbook.data.mapper.MiscMapper
 import com.nabssam.bestbook.data.mapper.UserMapper
@@ -35,5 +36,10 @@ object MapperModule {
     @Singleton
     fun provideUserMapper(): UserMapper {
         return UserMapper()
+    }
+    @Provides
+    @Singleton
+    fun provideCartMapper(): CartMapper {
+        return CartMapper()
     }
 }

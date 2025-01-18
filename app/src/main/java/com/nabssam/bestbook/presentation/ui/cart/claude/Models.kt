@@ -8,7 +8,8 @@ data class CartItemClaude(
     val quantity: Int,
     val price: Double,
     val productName: String,
-    val productImage: String
+    val productImage: String,
+    val discount: Int? = null
 )
 
 data class AddToCartRequest(

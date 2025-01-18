@@ -1,9 +1,9 @@
 package com.nabssam.bestbook.data.mapper
 
-import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.BookDto
-import com.nabssam.bestbook.data.remote.dto.Rate
+import com.nabssam.bestbook.data.remote.dto.CartItemDTO
 import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.domain.model.CartItem
 
 class BookMapper {
     fun dtoToDomain(dto: BookDto): Book {
@@ -26,19 +26,6 @@ class BookMapper {
             ebookDis = dto.ebookDiscount,
             noOfPages = dto.pages,
             ebookUrl = dto.eBook
-        )
-    }
-
-    // Domain to Entity
-    fun domainToEntity(domain: Book): CartItemEntity {
-        return CartItemEntity(
-            productId = domain.id,
-            name = domain.name,
-            coverImage = domain.imageUrls[0],
-            price = domain.price,
-            disPer = domain.hardCopyDis,
-            inStock = domain.stock != 0,
-            quantity = 1,
         )
     }
 }

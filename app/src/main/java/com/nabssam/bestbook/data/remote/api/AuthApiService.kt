@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
-import com.nabssam.bestbook.data.remote.dto.auth.SignInResponse
+import com.nabssam.bestbook.data.remote.dto.auth.UserDto
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpResponse
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
@@ -13,7 +13,7 @@ import retrofit2.http.Path
 
 interface AuthApiService {
     @POST("api/auth/signin")
-    suspend fun signIn(@Body request: SignInRequest): Response<SignInResponse>
+    suspend fun signIn(@Body request: SignInRequest): Response<UserDto>
 
     @POST("api/auth/sendopt/{phone}")
     suspend fun sendOtp(@Path("phone") phone: String): Response<VerifyOtpResponse>
