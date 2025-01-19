@@ -31,7 +31,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindCartRepository(CartRepositoryImpl: CartRepositoryImpl): CartRepository
+    abstract fun bindCartRepository(cartRepositoryImpl: CartRepositoryImpl): CartRepository
 
     @Binds
     @Singleton
@@ -44,6 +44,5 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserPref(userPrefRepoImpl: UserPrefRepoImpl): UserPreferencesRepository
-
 
 }

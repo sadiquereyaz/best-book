@@ -13,6 +13,7 @@ import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
+import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module
 import dagger.Provides
@@ -111,5 +112,10 @@ object ViewModelProviderModule {
     @Singleton
     fun provideOrderRepository(): OrderRepositoryMain {
         return OrderRepositoryMain()
+    }
+    @Provides
+    @Singleton
+    fun provideChatRepository(): ChatRepositoryImpl {
+        return ChatRepositoryImpl( )
     }
 }
