@@ -72,7 +72,7 @@ class VMCart @Inject constructor(
                 } else {
                     cartItem
                 }
-            }.filter { it.quantity> 0 } // Remove items with quantity 0
+            }
             _uiState.value = currentState.copy(allCartItem = updatedItems)
         }
     }

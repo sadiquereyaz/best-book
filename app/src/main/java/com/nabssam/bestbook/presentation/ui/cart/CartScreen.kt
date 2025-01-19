@@ -89,26 +89,27 @@ fun CartScreen(
             Box(
                 modifier = modifier.fillMaxSize()
             ) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 12.dp)
-                    ) {
-                        items(cartItems) {
-                            CartItem(
-                                goToBookDetail = goToBookDetail,
-                                cartItem = it,
-                                updateQuantity = { quantity ->
-                                    vm.updateQuantity(
-                                        productId = it.productId,
-                                        quantity = quantity
-                                    )
-                                },
-                            )
-                        }
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 12.dp)
+                ) {
+                    items(cartItems) {
+                        if (it.quantity > 0) (CartItem(
+                            goToBookDetail = goToBookDetail,
+                            cartItem = it,
+                            updateQuantity = { quantity ->
+                                vm.updateQuantity(
+                                    productId = it.productId,
+                                    quantity = quantity
+                                )
+                            },
+                        ))
+                    }
 
-                        // price receipt
+                    // price receipt
+                    if (idleState.totalItems > 0)
                         item {
                             HorizontalDivider()
                             Text(
@@ -117,25 +118,31 @@ fun CartScreen(
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
-                            PriceRow(priceTitle = "Price (${idleState.totalItems} items)", price = idleState.totalLabelAmount)
-
-                            PriceRow(priceTitle = "Discount (${idleState.totalDiscountPer}%)", price = idleState.totalDiscountAmount)
                             PriceRow(
+                                priceTitle = "Price (${idleState.totalItems} items)",
+                                price = "₹${idleState.totalLabelAmount}"
+                            )
+
+                            PriceRow(
+                                priceTitle = "Discount (${idleState.totalDiscountPer}%)",
+                                price = "-₹${idleState.totalDiscountAmount}"
+                            )
+                           /* PriceRow(
                                 priceTitle = "Delivery Charges",
-                                price = 40.0,
+                                price = "₹${idleState.totalAmount}",
                                 color = MaterialTheme.colorScheme.secondary,
                                 textDecoration = TextDecoration.LineThrough
-                            )
+                            )*/
                             PriceRow(
                                 modifier = Modifier.padding(top = 8.dp),
                                 priceTitle = "Total Amount",
-                                price = idleState.totalAmount,
+                                price = "₹${idleState.totalAmount}",
                                 color = MaterialTheme.colorScheme.primary,
                             )
 
                             Spacer(Modifier.height(/*56.dp*/72.dp))
                         }
-                    }
+                }
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -164,7 +171,10 @@ fun CartScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text("Total: ", style = MaterialTheme.typography.bodyLarge)
-                                Text("₹${idleState.totalAmount}", style = MaterialTheme.typography.titleMedium)
+                                Text(
+                                    "₹${idleState.totalAmount}",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
                                 Icon(Icons.Outlined.Info, "price info", Modifier.size(14.dp))
                             }
                         }
@@ -186,7 +196,7 @@ fun CartScreen(
 fun PriceRow(
     modifier: Modifier = Modifier,
     priceTitle: String,
-    price: Double,
+    price: String,
     color: Color = Color.Unspecified,
     textDecoration: TextDecoration = TextDecoration.None
 ) {
@@ -198,7 +208,7 @@ fun PriceRow(
     ) {
         Text(priceTitle)
         Text(
-            "₹$price",
+            text = price,
             color = color,
             textDecoration = textDecoration,
         )
