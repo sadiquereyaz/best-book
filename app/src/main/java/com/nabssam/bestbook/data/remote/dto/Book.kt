@@ -53,7 +53,7 @@ data class Review(
     val id: String = "1",
     val username: String = "Rafique",
     val reviewDp: String? = null,
-    val rating: Double = 4.2,
-    val comment: String = "This is a good book",
+    val rating: Int = 4,
+    val comment: String? = null,
     val createdAt: String = "14/04/2022"
 )

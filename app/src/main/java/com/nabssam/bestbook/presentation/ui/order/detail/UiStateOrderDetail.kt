@@ -12,7 +12,6 @@ sealed class UiStateOrderDetail {
     data object Error : UiStateOrderDetail()
 }
 
-
 data class OrderDetail(
     val orderId: String,
     val productId: String,

@@ -31,7 +31,7 @@ import com.nabssam.bestbook.data.remote.dto.Review
 import com.nabssam.bestbook.presentation.ui.components.RatingBar
 
 @Composable
- fun Review(
+fun Review(
     onSeeAllReviewClick: () -> Unit,
     reviewList: List<Review>,
     modifier: Modifier
@@ -60,46 +60,49 @@ import com.nabssam.bestbook.presentation.ui.components.RatingBar
             )
         }
 // reviews
-        reviewList.forEach {
-            Row(modifier = Modifier.padding(0.dp, 4.dp)) {
-                Box(
-                    modifier = Modifier
-                        .padding(start = 8.dp, top = 2.dp)
-                        .clip(shape = CircleShape)
-                ) {
-                    AsyncImage(
-                        model = it.reviewDp ?: R.drawable.profile_placeholder,
-                        contentDescription = "profile pic",
-                        placeholder = painterResource(id = R.drawable.profile_placeholder),
+        reviewList.forEach {review->
+            review.comment?.let {
+                Row(modifier = Modifier.padding(0.dp, 4.dp)) {
+                    Box(
                         modifier = Modifier
+                            .padding(start = 8.dp, top = 2.dp)
                             .clip(shape = CircleShape)
-                            .border(width = 1.dp, color = Color.LightGray, shape = CircleShape)
-                            .height(40.dp)
-                    )
-                }
-                Column(
-                    modifier = Modifier.padding(start = 8.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = it.username,
-                            //                                modifier = Modifier.padding(horizontal = 4.dp),
-                            fontWeight = FontWeight.Bold,
-                            fontStyle = FontStyle.Italic
-                        )
-                        Spacer(Modifier.weight(1f))
-                        RatingBar(
-                            modifier = Modifier.height(18.dp).padding(end = 8.dp),
-                            rating = it.rating,
+                    ) {
+                        AsyncImage(
+                            model = review.reviewDp ?: R.drawable.profile_placeholder,
+                            contentDescription = "profile pic",
+                            placeholder = painterResource(id = R.drawable.profile_placeholder),
+                            modifier = Modifier
+                                .clip(shape = CircleShape)
+                                .border(width = 1.dp, color = Color.LightGray, shape = CircleShape)
+                                .height(40.dp)
                         )
                     }
-                    Text(
-                        text = it.comment,
-                        modifier = Modifier.padding(top = 0.dp),
-                        fontStyle = FontStyle.Italic
-                    )
+                    Column(
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = review.username,
+                                //                                modifier = Modifier.padding(horizontal = 4.dp),
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Italic
+                            )
+                            Spacer(Modifier.weight(1f))
+                            RatingBar(
+                                modifier = Modifier
+                                    .height(18.dp)
+                                    .padding(end = 8.dp),
+                                rating = review.rating.toDouble(),
+                            )
+                        }
+                        Text(
+                            text = review.comment,
+                            modifier = Modifier.padding(top = 0.dp),
+                            fontStyle = FontStyle.Italic
+                        )
+                    }
                 }
-
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
@@ -25,7 +26,10 @@ fun RatingBar(
     val filledStars = floor(rating).toInt()
     val unfilledStars = (totalStars - ceil(rating)).toInt()
     val halfStar = !(rating.rem(1).equals(0.0))
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center
+    ) {
         repeat(filledStars) { Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = starsColor) }
         if (halfStar) Icon(imageVector = ImageVector.vectorResource(id = R.drawable.star_halfs), contentDescription = null, tint = starsColor)
 

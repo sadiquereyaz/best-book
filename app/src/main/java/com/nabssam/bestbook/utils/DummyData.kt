@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.utils
 
+import com.nabssam.bestbook.data.remote.dto.Review
 import com.nabssam.bestbook.domain.model.OrdersListItem
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderDetail
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderStatusMain
@@ -61,7 +62,8 @@ object DummyData {
         orderDate = Date(),
         returnBefore = Date(),
         productName = "XI-Entrance preparation guide for AMU by Nawab Saquib Ibrahim",
-       seller = "Penguin publication"
+       seller = "Penguin publication",
+       // userReview = Review(comment = "Nice book", rating = 3)
     )
 }
 
