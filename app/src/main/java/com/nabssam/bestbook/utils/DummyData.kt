@@ -1,8 +1,68 @@
 package com.nabssam.bestbook.utils
 
+import com.nabssam.bestbook.domain.model.OrdersListItem
+import com.nabssam.bestbook.presentation.ui.order.detail.OrderDetail
+import com.nabssam.bestbook.presentation.ui.order.detail.OrderStatusMain
+import java.util.Date
+
 object DummyData {
+    val dummyOrdersList = listOf(
+        OrdersListItem(
+            id = "1",
+            status = "Pending",
+            date = "2024-12-18",
+            productImage = "https://example.com/image1.jpg",
+            productName = "Product A",
+            productDescription = "Description for Product A"
+        ),
+        OrdersListItem(
+            id = "2",
+            status = "Shipped",
+            date = "2024-12-15",
+            productImage = "https://example.com/image2.jpg",
+            productName = "Product B",
+            productDescription = "Description for Product B"
+        ),
+        OrdersListItem(
+            id = "3",
+            status = "Delivered",
+            date = "2024-12-12",
+            productImage = "https://example.com/image3.jpg",
+            productName = "Product C",
+            productDescription = "Description for Product C"
+        ),
+        OrdersListItem(
+            id = "4",
+            status = "Cancelled",
+            date = "2024-12-10",
+            productImage = "https://example.com/image4.jpg",
+            productName = "Product D",
+            productDescription = "Description for Product D"
+        ),
+        OrdersListItem(
+            id = "5",
+            status = "Processing",
+            date = "2024-12-08",
+            productImage = "https://example.com/image5.jpg",
+            productName = "Product E",
+            productDescription = "Description for Product E"
+        )
+    )
     val categories: List<String> = listOf("CBSE Board Exams", "ISC Board Exams", "State Board Exams", "JEE Main", "NEET")
     val standards: List<Standard> = listOf(standard1, standard2, standard3, standard4)
+    fun dummyOrderDetail() = OrderDetail(
+        orderId = "37q98djfkad=idjfa93",
+        productId = "1",
+        quantity = 2,
+        price = 1000,
+        items = "XI-Entrance preparation guide for AMU by Nawab Saquib Ibrahim",
+        image = "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
+        status = OrderStatusMain.PLACED,
+        orderDate = Date(),
+        returnBefore = Date(),
+        productName = "XI-Entrance preparation guide for AMU by Nawab Saquib Ibrahim",
+       seller = "Penguin publication"
+    )
 }
 
 data class Standard(

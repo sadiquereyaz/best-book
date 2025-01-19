@@ -13,6 +13,7 @@ import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
+import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCaseModule {
+object ViewModelProviderModule {
 
     @Provides
     @Singleton
@@ -38,6 +39,7 @@ object UseCaseModule {
     ): GetAllBookUseCase {
         return GetAllBookUseCase(repository)
     }
+
     @Provides
     @Singleton
     fun provideGetAllCategoryUseCase(
@@ -103,5 +105,11 @@ object UseCaseModule {
         localCartRepository: LocalCartRepository
     ): PlaceOrderUseCase {
         return PlaceOrderUseCase(orderRepository, localCartRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderRepository(): OrderRepositoryMain {
+        return OrderRepositoryMain()
     }
 }

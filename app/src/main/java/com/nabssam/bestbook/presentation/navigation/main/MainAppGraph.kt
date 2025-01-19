@@ -6,7 +6,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
@@ -14,7 +13,6 @@ import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
-import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.PaymentStatusDialog
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
 import com.nabssam.bestbook.utils.safeNavigate
 
@@ -24,7 +22,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         startDestination =
 //        Route.Home  //TODO
 //        Route.BookDetailRoute(title = "Book Detail", id = "book1")
-        Route.CartRoute()
+        Route.OrderGraph
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()
@@ -51,12 +49,8 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         }
 
         bookGraph(navController)
-
+        orderGraph(navController)
         quizGraph(navController)
-
-        dialog<Route.PaymentDialog> {
-            PaymentStatusDialog()
-        }
 
         composable<Route.Profile> {
             ProfileScreen()

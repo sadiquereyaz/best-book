@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.address
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,13 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.components.DropDownComposable
 
 @Composable
-fun AddressScreen(
+fun AddAddressScreen(
     modifier: Modifier = Modifier,
     goToPayment: () -> Unit,
 ) {
-    var addNewAddress by rememberSaveable { mutableStateOf(false) }
+    var addNewAddress by rememberSaveable { mutableStateOf(true) }
     var fullName by rememberSaveable { mutableStateOf("") }
     var mobileNum by rememberSaveable { mutableStateOf("") }
     var address by rememberSaveable { mutableStateOf("") }
@@ -66,7 +68,8 @@ fun AddressScreen(
     )
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        //verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TextButton(
             onClick = { addNewAddress = !addNewAddress }
@@ -146,25 +149,16 @@ fun AddressScreen(
                     .fillMaxWidth(),
                 // placeholder = { Text("Gali 21") }
             )
-            DropdownMenu(
-                expanded = expandedTargetYear,
-                onDismissRequest = { expandedTargetYear = false },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .width(120.dp)
-                    .height(40.dp)
-            ) {
-                entranceExamOptions.forEach { selectionOption ->
-                    DropdownMenuItem(
-                        onClick = {
-                            city = selectionOption
-                            expandedTargetYear = false
-                        },
-                        text = { Text(selectionOption.toString()) }
-                    )
-                }
-            }
 
+            DropDownComposable(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                options = entranceExamOptions,
+                label = "State"
+            ) {
+                state = it
+            }
         }
         Button(
             onClick = goToPayment,
@@ -201,8 +195,8 @@ fun Preview(
              )
          }*/
     ) { it ->
-        AddressScreen(Modifier.padding(paddingValues = it)) {
-            navController.navigate(Route.OrderRoute())
+        AddAddressScreen(Modifier.padding(paddingValues = it)) {
+            navController.navigate(Route.AllOrderRoute())
         }
     }
 }

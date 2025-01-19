@@ -19,6 +19,10 @@ sealed interface Route {
 
     @Serializable
     data object AuthGraph : Route
+    @Serializable
+    data object OrderGraph : Route
+    @Serializable
+    data object MainGraph : Route
 
     @Serializable
     data class SignIn(val title: String = "Best Book") : Route
@@ -26,8 +30,6 @@ sealed interface Route {
     @Serializable
     data class SignUp(val title: String = "Sign Up") : Route
 
-    @Serializable
-    data object MainGraph : Route
 
     @Serializable
     data object Home : Route
@@ -62,14 +64,16 @@ sealed interface Route {
     data class CartRoute(val title: String = "Your Cart") : Route
 
     @Serializable
-    data class AddressRoute(val title: String = "Delivery Address") : Route
+    data class AddAddressRoute(val title: String = "Delivery Address") : Route
 
     @Serializable
-    data class OrderRoute(val orderId: Int = 0, val title: String = "Your Order") : Route
-
+    data class AllOrderRoute(val title: String = "All Orders") : Route
 
     @Serializable
-    data object PaymentDialog : Route
+    data class OrderDetailRoute(val orderId: String, val title: String = "Order Detail") : Route
+
+    @Serializable
+    data object PaymentDialogRoute : Route
 }
 
 enum class TopLevelDestination(

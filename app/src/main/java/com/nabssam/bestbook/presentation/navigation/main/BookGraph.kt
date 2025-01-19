@@ -9,22 +9,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.address.AddressScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
 import com.nabssam.bestbook.presentation.ui.book.bookList.VMBookList
 import com.nabssam.bestbook.presentation.ui.cart.CartScreen
 import com.nabssam.bestbook.presentation.ui.cart.VMCart
-import com.nabssam.bestbook.presentation.ui.cart.claude.CartScreenClaude
-import com.nabssam.bestbook.presentation.ui.cart.claude.CartViewModelClaude
-import com.nabssam.bestbook.presentation.ui.orderConfirmScreen.OrderScreen
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
-
-    // Shared ViewModel scoped to the book navigation graph
-//    val sharedViewModel = hiltViewModel<ViewModelBookList>()
-
     composable<Route.AllBookRoute> { backStackEntry ->
        // val routeObj: Route.AllBook = backStackEntry.toRoute()
         val viewModel = hiltViewModel<VMBookList>()
@@ -84,23 +76,9 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
                 navController.navigate(route = Route.BookDetailRoute(bookId))
             },
             goToAddressScreen = {
-                navController.navigate(Route.AddressRoute())
+                navController.navigate(Route.AddAddressRoute())
             }
         )
 //        CartScreenClaude(){}
-    }
-    composable<Route.AddressRoute> { backStackEntry ->
-        //val routeObj: Route.Cart = backStackEntry.toRoute()
-        AddressScreen (
-            goToPayment = {
-                navController.navigate(Route.OrderRoute())
-            }
-        )
-    }
-    composable<Route.OrderRoute> { backStackEntry ->
-        //val routeObj: Route.Cart = backStackEntry.toRoute()
-        OrderScreen(
-
-        )
     }
 }
