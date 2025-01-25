@@ -1,7 +1,9 @@
 package com.nabssam.bestbook.utils
 
-import com.nabssam.bestbook.data.remote.dto.Review
 import com.nabssam.bestbook.domain.model.OrdersListItem
+import com.nabssam.bestbook.presentation.ui.order.all.Order
+import com.nabssam.bestbook.presentation.ui.order.all.OrderItem
+import com.nabssam.bestbook.presentation.ui.order.all.OrderStatus
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderDetail
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderStatusMain
 import java.util.Date
@@ -64,6 +66,91 @@ object DummyData {
         productName = "XI-Entrance preparation guide for AMU by Nawab Saquib Ibrahim",
        seller = "Penguin publication",
        // userReview = Review(comment = "Nice book", rating = 3)
+    )
+    val orders = listOf(
+        Order(
+            id = "1",
+            status = OrderStatus.PENDING,
+            date = "2024-12-19",
+            items = listOf(
+                OrderItem(
+                    id = "1",
+                    name = "Nike",
+                    description = "Running Shoes",
+                    size = "10",
+                    imageUrl = "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+                    price = 99.99
+                )
+            )
+        ),
+        Order(
+            id = "2",
+            status = OrderStatus.SHIPPED,
+            date = "2024-12-18",
+            items = listOf(
+                OrderItem(
+                    id = "2",
+                    name = "Apple",
+                    description = "iPhone 15",
+                    size = "128GB",
+                    imageUrl = "https://rukminim2.flixcart.com/image/612/612/kkec4280/book/1/o/j/11-years-solved-papers-cbse-aipmt-neet-original-imafzr7ahsrqzss3.jpeg?q=70\n",
+                    price = 999.99
+                )
+            )
+        ),
+        Order(
+            id = "3",
+            status = OrderStatus.DELIVERED,
+            date = "2024-12-17",
+            items = listOf(
+                OrderItem(
+                    id = "3",
+                    name = "Samsung",
+                    description = "Galaxy Watch 6",
+                    size = "44mm",
+                    imageUrl = "https://example.com/watch.jpg",
+                    price = 299.99
+                )
+            )
+        ),
+        Order(
+            id = "4",
+            status =  OrderStatus.CANCELLED,
+            date = "2024-12-16",
+            items = listOf(
+                OrderItem(
+                    id = "4",
+                    name = "Levi's",
+                    description = "Jeans",
+                    size = "32",
+                    imageUrl = "https://example.com/jeans.jpg",
+                    price = 79.99
+                )
+            )
+        ),
+        Order(
+            id = "5",
+            status = OrderStatus.PENDING,
+            date = "2024-12-15",
+            items = listOf(
+                OrderItem(
+                    id = "5",
+                    name = "Sony",
+                    description = "PlayStation 5",
+                    size = "10", // Size can be optional
+                    imageUrl = "https://example.com/ps5.jpg",
+                    price = 499.99
+                ),
+                OrderItem(
+                    id = "6",
+                    name = "Nintendo",
+                    description = "Switch",
+                    size = "null",
+                    imageUrl = "https://example.com/switch.jpg",
+                    price = 299.99
+                )
+            )
+        )
     )
 }
 
