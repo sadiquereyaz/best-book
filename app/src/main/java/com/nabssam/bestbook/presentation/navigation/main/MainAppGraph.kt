@@ -20,9 +20,10 @@ import com.nabssam.bestbook.utils.safeNavigate
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-        Route.Home  //TODO
+//        Route.Home  //TODO
 //        Route.BookDetailRoute(title = "Book Detail", id = "book1")
 //        Route.OrderGraph
+        Route.QuizGraph
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()
@@ -37,7 +38,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 
                 },
                 // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuiz = { quizId: Int ->
+                navigateToQuiz = { quizId ->
                     navController.navigate(
                         Route.QuizSubjectRoute()
                     )

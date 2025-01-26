@@ -14,6 +14,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import kotlinx.serialization.Serializable
+import kotlin.reflect.KClass
 
 sealed interface Route {
 
@@ -23,6 +24,8 @@ sealed interface Route {
     data object OrderGraph : Route
     @Serializable
     data object MainGraph : Route
+    @Serializable
+    data object QuizGraph : Route
 
     @Serializable
     data class SignIn(val title: String = "Best Book") : Route
@@ -56,6 +59,8 @@ sealed interface Route {
 
     @Serializable
     data class BookDetailRoute(val id: String, val title: String = "Book Detail") : Route
+    @Serializable
+    data class Contest(val id: String, val title: String = "Book Detail") : Route
 
     @Serializable
     data class AllReviewRoute(val bookId: String, val title: String= "Review") : Route

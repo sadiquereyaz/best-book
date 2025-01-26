@@ -38,7 +38,7 @@ data class CardColors(
 )
 
 enum class CardTheme(val colors: CardColors) {
-    RED(CardColors(Color(0x6FFFB3B3), Color(0xFF000000), Color(0x31FF8080))),
+    RED(CardColors(Color(0x6FFFB3B3), Color(0xFF000000), Color(0x5BFF8080))),
     GREEN(CardColors(Color(0x6DCCFFCC), Color(0xFF000000), Color(0x3E99FF99))),
     BLUE(CardColors(Color(0x40CCDDFF), Color(0xFF000000), Color(0x3E6699FF))),
     YELLOW(CardColors(Color(0x63FFD58F), Color(0xFF000000), Color(0x54FFFF99))),
