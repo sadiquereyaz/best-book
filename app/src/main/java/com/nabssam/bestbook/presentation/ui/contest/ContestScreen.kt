@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,12 +25,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Slider
@@ -45,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.contest.composable.ContestHeader
@@ -58,10 +64,11 @@ fun ContestScreen(
     val sections = listOf("Motion", "Force and Laws", "Oscillation", "Newtons Laws of Motion")
     val options = listOf(
         "Motion",
-        "Force and Laws. Planck's constant and angular momentum have the same Planck's constant and angular momentum have the same Planck's constant and angular momentum have the same dimensions.",
+        "Force and Laws.Linear momentum and moment of force have the same dimensions. Force and Laws.",
         "Oscillation",
         "Newtons Laws of Motion"
     )
+    var showAnswer by remember { mutableStateOf(false) }
     val tabScrollState = rememberScrollState()
     Column(
         modifier = modifier.fillMaxSize()
@@ -134,7 +141,8 @@ fun ContestScreen(
             )
         }
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Question Section
             item {
@@ -172,101 +180,63 @@ fun ContestScreen(
                     )
                     CustomLinearProgressIndicator(
                         modifier = Modifier
+                            .fillMaxHeight()
                             .fillMaxWidth()
                             .padding(12.dp)
-                            //.height(80.dp)
-                            .heightIn(
-                                min = dimensionResource(
-                                    R.dimen.option_min_height
-                                )
-                            ),
+//                            .height(80.dp)
+
+//                            .heightIn(
+//                                min = dimensionResource(
+//                                    R.dimen.option_min_height
+//                                )
+//                            )
+                        ,
                         progress = animatedProgress,
-                        option = it
+                        option = it,
+                        showAnswer = showAnswer,
+                        isCorrect = false,
+                        onOptionClick = { showAnswer != showAnswer}
                     )
-                    Slider(
+                   /* Slider(
                         modifier =
                         Modifier.width(300.dp),
                         value = progress, valueRange = 0f..1f,
                         onValueChange = {
                             progress = it
                         },
-                    )
+                    )*/
                 }
             }
-            item {
-                options.forEach {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                            .clickable {
-                                //onEvent(AuthEvent.UpdateUserTargetExam(it))
-                            }
-                            .border(
-                                if (/*state.userTargetExams.contains(it)*/ false) BorderStroke(
-                                    width = 2.dp, color = MaterialTheme.colorScheme.primary
-                                )
-                                else BorderStroke(
-                                    width = 1.dp, color = MaterialTheme.colorScheme.secondary
-                                ),
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(
-                                if (/*state.userTargetExams.contains(it)*/false) {
-                                    MaterialTheme.colorScheme.primaryContainer
-                                } else {
-                                    MaterialTheme.colorScheme.surface
-                                }
-                            ),
-                        //.clip(RoundedCornerShape(12.dp))
+            item{
+                Spacer(modifier = Modifier.height(16.dp))
 
-
-                        //.clip(RoundedCornerShape(12.dp))
+                // Navigation Buttons
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedButton(
+                        onClick = { /* Clear response */ },
+                        shape = RoundedCornerShape(4.dp)
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        ) {
-                            Text(text = it /*modifier = Modifier.padding(16.dp)*/)
-                            if (/*state.userTargetExams.contains(it)*/true) {
-                                Icon(
-                                    Icons.Filled.CheckCircle,
-                                    contentDescription = "Selected",
-                                    //modifier = Modifier.align(Alignment.End)
-                                )
-                            }
-                        }
+                        Icon(Icons.Default.ArrowBack, "prev")
+                    }
+                    Button(onClick = { showAnswer = !showAnswer }) {
+                        Text(text = "Show Answer")
+                    }
+                    OutlinedButton(
+                        onClick = { /* Clear response */ },
+                        shape = RoundedCornerShape(4.dp)
+                    ) {
+                        Icon(Icons.Default.ArrowForward, "prev")
                     }
                 }
             }
         }
-
-        // Spacer(modifier = Modifier.height(16.dp))
-
-        // Navigation Buttons
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(onClick = { /* Clear response */ }) {
-                Text(text = "Clear Response")
-            }
-            Button(onClick = { /* Previous */ }) {
-                Text(text = "Previous")
-            }
-            Button(onClick = { /* Mark for Review */ }) {
-                Text(text = "Mark for Review & Next")
-            }
-            Button(onClick = { /* Save & Next */ }) {
-                Text(text = "Save & Next")
-            }
-        }
-
     }
 }
+
 

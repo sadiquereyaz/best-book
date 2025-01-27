@@ -31,6 +31,7 @@ fun HomeScreen(
     navigateToQuiz: (String) -> Unit,
     onAllQuizSelect: (String) -> Unit,
     event: (EventHomeScreen) -> Unit,
+    onContestSelect: () -> Unit,
 ) {
     if (state.fullScreenError != null) {
         ErrorScreen(
@@ -85,7 +86,7 @@ fun HomeScreen(
 
             // Mock Tests Section
             item {
-                MockTests(navigateToMock = {})
+                MockTests(navigateToMock = {onContestSelect()})
             }
 
             // Quiz Row Section
