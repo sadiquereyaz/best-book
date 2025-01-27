@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,14 +36,17 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.contest.composable.ContestHeader
 import com.nabssam.bestbook.presentation.ui.contest.composable.CustomLinearProgressIndicator
 
@@ -52,7 +56,12 @@ fun ContestScreen(
     modifier: Modifier = Modifier
 ) {
     val sections = listOf("Motion", "Force and Laws", "Oscillation", "Newtons Laws of Motion")
-    val options = listOf("Motion", "Force and Laws", "Oscillation", "Newtons Laws of Motion")
+    val options = listOf(
+        "Motion",
+        "Force and Laws. Planck's constant and angular momentum have the same Planck's constant and angular momentum have the same Planck's constant and angular momentum have the same dimensions.",
+        "Oscillation",
+        "Newtons Laws of Motion"
+    )
     val tabScrollState = rememberScrollState()
     Column(
         modifier = modifier.fillMaxSize()
@@ -156,14 +165,23 @@ fun ContestScreen(
             //options
             item {
                 options.forEach {
-                    var progress by remember { mutableStateOf(0.1f) }
+                    var progress by remember { mutableFloatStateOf(0.1f) }
                     val animatedProgress by animateFloatAsState(
                         targetValue = progress,
                         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
                     )
                     CustomLinearProgressIndicator(
-                        modifier = Modifier.fillMaxWidth().padding(12.dp),
-                        progress = animatedProgress
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            //.height(80.dp)
+                            .heightIn(
+                                min = dimensionResource(
+                                    R.dimen.option_min_height
+                                )
+                            ),
+                        progress = animatedProgress,
+                        option = it
                     )
                     Slider(
                         modifier =
