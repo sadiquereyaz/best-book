@@ -38,13 +38,17 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl",  "\"http://10.57.3.147:3000/\"")
+//            buildConfigField("String", "baseUrl",  "\"http://192.168.139.63:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.5.216:3000/\"")
+            buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
 //            buildConfigField("String", "baseUrl",  "\"http://api.freeapi.app/\"")
 
         }
 
         debug {
-            buildConfigField("String", "baseUrl",  "\"http://10.57.3.147:3000/\"")
+//            buildConfigField("String", "baseUrl",  "\"http://192.168.139.63:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.5.216:3000/\"")
+            buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
 //            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
     }

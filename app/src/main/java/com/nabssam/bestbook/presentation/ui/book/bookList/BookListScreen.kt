@@ -28,7 +28,7 @@ fun BookListScreen(
     goToDetail: (String, String) -> Unit,
     onEvent: (EventBookList) -> Unit,
 ) {
-    if (state.loading) {
+    if (state.fetchingBooks) {
         FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
     } else if (state.errorMessage != null) {
         ErrorScreen(
@@ -39,7 +39,7 @@ fun BookListScreen(
     } else {
         Column {
             CategoryChipList(
-                examList = state.examList,
+                examList = state.categories,
                 onClick = { onEvent(EventBookList.SortBy(it)) }
             )
             HorizontalDivider()
@@ -58,7 +58,7 @@ fun BookListScreen(
                         contentAlignment = Alignment.TopCenter
                     ) {
                         Column {
-                            BookCoverImage(coverImage = it.imageUrls[0])
+                            BookCoverImage(coverImage = it.coverUrl)
                             //book title and price
                             BookTitlePrice(
                                 maxLine = 2,

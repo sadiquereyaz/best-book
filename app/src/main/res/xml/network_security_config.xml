@@ -10,9 +10,9 @@ It blocks cleartext (HTTP) traffic to protect the data exchanged between your ap
         <domain>: Specifies the domain to which the domain-config applies.
         includeSubdomains: If true, the security rules will also apply to all subdomains of the specified domain.
         -->
-        <domain includeSubdomains="true">api.freeapi.app</domain>
-        <domain includeSubdomains="true">192.168.0.106</domain>
-        <domain includeSubdomains="true">10.57.3.147</domain>
+        <domain includeSubdomains="true">res.cloudinary.com</domain>
+        <domain includeSubdomains="true">192.168.139.63</domain>
+        <domain includeSubdomains="true">10.57.5.216</domain>
         <domain includeSubdomains="true">10.27.50.129</domain>
         <domain includeSubdomains="true">mock.com</domain>
 

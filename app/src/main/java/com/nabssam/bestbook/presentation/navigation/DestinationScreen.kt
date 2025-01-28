@@ -47,9 +47,6 @@ sealed interface Route {
     data object Profile : Route
 
     @Serializable
-    data class QuizRoute(val title: String = "Quiz", val quizId: Int) : Route
-
-    @Serializable
     data class QuizSubjectRoute(val title: String = "Category") : Route
     @Serializable
     data class MCQRoute(val title: String = "Question") : Route

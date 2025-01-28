@@ -33,7 +33,6 @@ class ViewModelBookDetail @Inject constructor(
 
     init {
         fetchBookDetail()
-        fetchRelatedBooks()
     }
 
     private fun purchaseNow() {
@@ -44,7 +43,6 @@ class ViewModelBookDetail @Inject constructor(
         when (event) {
             is EventBookDetail.Retry -> {
                 fetchBookDetail()
-                fetchRelatedBooks()
             }
 
             is EventBookDetail.AddToCart -> {
@@ -72,7 +70,7 @@ class ViewModelBookDetail @Inject constructor(
 
     private fun fetchBookDetail() {
         viewModelScope.launch {
-            getBookByIdUC(productId = /*id*/  "book1").collect { resource ->        //todo: remove default arg
+            getBookByIdUC(productId = id).collect { resource ->        //todo: remove default arg
                 when (resource) {
                     is Resource.Error -> {
                         _state.update {
@@ -98,6 +96,7 @@ class ViewModelBookDetail @Inject constructor(
                                 fetchedBook = resource.data ?: Book()
                             )
                         }
+                        fetchRelatedBooks()
                     }
                 }
             }
@@ -107,17 +106,18 @@ class ViewModelBookDetail @Inject constructor(
 
     private fun fetchRelatedBooks() {
         viewModelScope.launch {
-            getBooksByExamUseCase(/*targetExam = state.value.fetchedBook.exam*/"JEE Main").collect { resource ->   // todo: uncomment
+            getBooksByExamUseCase(targetExam = state.value.fetchedBook.exam).collect { resource ->   // todo: uncomment
                 when (resource) {
                     is Resource.Loading -> {
                         _state.update { it.copy(isListFetching = true) }
                     }
 
                     is Resource.Success -> {
-                        Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
+                        Log.d("BOOK_DETAIL_VM", "Related books: ${resource.data}")
                         _state.update {
                             it.copy(
-                                fetchedList = resource.data ?: emptyList(),
+                                fetchedList = resource.data?.filter { it.name != state.value.fetchedBook.name }
+                                    ?: emptyList(),
                                 isListFetching = false
                             )
                         }

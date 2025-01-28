@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.account.auth.AuthViewModel
+import com.nabssam.bestbook.presentation.ui.account.auth.VMAuth
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthenticationScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -25,7 +25,7 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
                 onEvent = viewModel::onEvent,
             ) { navController.navigate(Route.MainGraph) }*/
 
-            val viewModel = hiltViewModel<AuthViewModel>()
+            val viewModel = hiltViewModel<VMAuth>()
             AuthenticationScreen(
                 onLoginSuccess = {
                     navController.navigate(Route.MainGraph) {

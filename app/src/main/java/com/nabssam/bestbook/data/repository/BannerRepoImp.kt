@@ -26,7 +26,7 @@ class BannerRepoImp @Inject constructor(
             Resource.Success(
                 data = listOf(
                     "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coaching-tuition-class-facebook-share-image-design-template-45300209f14ac652a11847cf66dc7523_screen.jpg?ts=1691780430",
-                    "https://i.pinimg.com/originals/12/fb/14/12fb144a72112b4271f0314face6b8af.jpg",
+                    "http://res.cloudinary.com/dniu1zxdq/image/upload/v1736689141/ucrl3fo8dryluiacy96s.jpg",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_ujH25vS4BtSzA73oMryexhORLFN-2QNRvQ&s"
                 )
             )

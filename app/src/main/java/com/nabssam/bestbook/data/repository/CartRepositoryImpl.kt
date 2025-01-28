@@ -1,12 +1,9 @@
 package com.nabssam.bestbook.data.repository
 
 import android.util.Log
-import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.dto.CartAllItems
-import com.nabssam.bestbook.data.remote.dto.CartItemMain
-import com.nabssam.bestbook.data.remote.dto.CartResponse
 import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.model.UserOld
 import com.nabssam.bestbook.domain.repository.CartRepository
@@ -21,14 +18,16 @@ class CartRepositoryImpl @Inject constructor(
     private val cartMapper: CartMapper,
 ) : CartRepository {
 
-    override suspend fun fetchCartItems(userId: String): Flow<Resource<List<CartItem>>> = flow {
+    override suspend fun fetchCartItems(): Flow<Resource<List<CartItem>>> = flow {
         emit(Resource.Loading())
         try {
-            val response: Response<CartAllItems> = cartApiService.fetchAll(userId)
+//            val response: Response<CartAllItems> = cartApiService.fetchAll()
+            val response = cartApiService.fetchAll()
+            Log.d("CART_REPO", "cart response $response")
             if (response.isSuccessful) {
                 Log.d("CART_REPO", "response: ${response.body()}")
                 response.body()?.items?.let {
-                    emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto)}))
+                   // emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto)}))
                 } ?: emit(Resource.Error("No data found"))
             } else {
                 emit(Resource.Error(response.message()))

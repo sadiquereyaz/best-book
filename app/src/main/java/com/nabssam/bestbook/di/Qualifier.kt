@@ -22,3 +22,7 @@ annotation class Track
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class Mock
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Pin

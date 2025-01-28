@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class AuthManager @Inject constructor(
     private val tokenStorage: TokenStorage,
-    private val authApiService: AuthApiService
+    //private val authApiService: AuthApiService
 ) {
 
     private val _authEvents = MutableSharedFlow<AppState>()
@@ -20,7 +20,7 @@ class AuthManager @Inject constructor(
         if (refreshToken.isNullOrBlank()) return null
 
         return try {
-            val response = authApiService.getNewTokens(refreshToken)
+           /* val response = authApiService.getNewTokens(refreshToken)
             if (response.isSuccessful) {
                 response.body()?.let {
                     tokenStorage.saveTokens(
@@ -29,7 +29,7 @@ class AuthManager @Inject constructor(
                     )
                     return it.accessToken
                 }
-            }
+            }*/
             null
         } catch (e: Exception) {
             null

@@ -9,7 +9,7 @@ import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.auth.AuthRepository
 import com.nabssam.bestbook.data.repository.ExamRepository
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,18 +20,19 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class VMAuth @Inject constructor(
     private val authRepository: AuthRepository,
     private val examRepository: ExamRepository,
-    private val userPrefRepoImpl: UserPrefRepoImpl,
+    private val tokenStorage: UserPreferencesTokenStorage
 ) : ViewModel() {
-    private val _state = MutableStateFlow(AuthState())
+    private val _state = MutableStateFlow(AuthState(isLoading = true))
     val state = _state.asStateFlow()
 
     private val _errState = MutableStateFlow<String?>(null)
     val errState = _errState.asStateFlow()
 
     init {
+        checkAuthState()
         onEvent(AuthEvent.Initialize)
     }
 
@@ -58,7 +59,7 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.RegisterAndSendOtp -> registerAndSendOtp()
             is AuthEvent.VerifyOtp -> verifyOtp()
            // is AuthEvent.ToggleNewUser -> toggleNewUser()
-            is AuthEvent.Initialize -> {fetchAllExam()}
+            is AuthEvent.Initialize -> fetchAllExam()
             is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
             is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
         }
@@ -73,10 +74,10 @@ class AuthViewModel @Inject constructor(
 
     private fun checkAuthState() {
         viewModelScope.launch {
-            userPrefRepoImpl.accessToken.collect { token ->
-                _state.value.isSignedIn = false
-                //token != null
-            }
+            if (tokenStorage.getAccessToken() != null)
+                updateState { it.copy(isSignedIn = true) }
+            else
+                updateState { it.copy(isLoading = false) }
         }
     }
 

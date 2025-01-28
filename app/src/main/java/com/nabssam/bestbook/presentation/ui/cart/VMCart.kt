@@ -3,19 +3,13 @@ package com.nabssam.bestbook.presentation.ui.cart
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.data.local.dao.CartDao
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.repository.CartRepository
-import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
-import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
-import com.nabssam.bestbook.domain.usecase.cart.RemoveFromCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.UpdateCartItemQuantityUseCase
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,8 +26,6 @@ class VMCart @Inject constructor(
     var userId: String = ""
 
     init {
-
-            Log.d("CART_VM", "user id: $userId")
             viewModelScope.launch {
                 userPrefRepoImpl.user.collect {
                     userId = it?.id ?: "NO ID FOUND!"
@@ -48,7 +40,7 @@ class VMCart @Inject constructor(
     fun fetchAllCartItems() {
         viewModelScope.launch {
             _uiState.value = CartUiState.Loading
-            cartRepository.fetchCartItems(userId).collect { resource ->
+            cartRepository.fetchCartItems().collect { resource ->
                 when (resource) {
                     is Resource.Error -> _uiState.value =
                         CartUiState.Error(resource.message ?: "No items in cart")
@@ -58,7 +50,6 @@ class VMCart @Inject constructor(
                         allCartItem = resource.data ?: emptyList()
                     )
                 }
-
             }
         }
     }

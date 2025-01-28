@@ -19,7 +19,7 @@ class GetBookByIdUC @Inject constructor(
 class GetAllBookUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getBooks("all")
+    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getByExam("all")
 }
 
 class GetAllTargetUC @Inject constructor(
@@ -35,7 +35,7 @@ class GetBooksByExamUC @Inject constructor(    // ToDO: rename: get all book
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(targetExam: String): Flow<Resource<List<Book>>> {
-        return repository.getBooks(targetExam)
+        return repository.getByExam(targetExam)
     }
 }
 
@@ -48,7 +48,7 @@ class SearchProductsUseCase @Inject constructor(
         try {
             emit(Resource.Loading()) // Emit loading state
             val products = if (query.isBlank()) {
-                repository.getBooks("all")
+                repository.getByExam("all")
             } else {
                 repository.searchProducts(query)
             }.first()

@@ -4,7 +4,11 @@ import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
+import com.nabssam.bestbook.data.remote.api.PinApiService
+import com.nabssam.bestbook.di.Auth
 import com.nabssam.bestbook.di.Mock
+import com.nabssam.bestbook.di.Pin
+import com.nabssam.bestbook.di.UnAuth
 import com.nabssam.bestbook.presentation.ui.cart.claude.CartApiServiceClaude
 import dagger.Module
 import dagger.Provides
@@ -18,19 +22,19 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun provideAuthApi(@Mock retrofit: Retrofit): AuthApiService {
+    fun provideAuthApi(@Auth retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideBookApi(@Mock retrofit: Retrofit): BookApi {
+    fun provideBookApi(@UnAuth retrofit: Retrofit): BookApi {
         return retrofit.create(BookApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideCartApi(@Mock retrofit: Retrofit): CartApiService {
+    fun provideCartApi(@Auth retrofit: Retrofit): CartApiService {
         return retrofit.create(CartApiService::class.java)
     }
 
@@ -42,7 +46,13 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideExamApi(@Mock retrofit: Retrofit): ExamApi {
+    fun provideExamApi(@UnAuth retrofit: Retrofit): ExamApi {
         return retrofit.create(ExamApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePinApi(@Pin retrofit: Retrofit): PinApiService {
+        return retrofit.create(PinApiService::class.java)
     }
 }

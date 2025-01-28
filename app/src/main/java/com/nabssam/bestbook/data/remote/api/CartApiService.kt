@@ -15,8 +15,9 @@ import retrofit2.http.Path
 
 interface CartApiService {
 
-    @GET("api/cart/{userId}")
-    suspend fun fetchAll(@Path("userId") userId: String): Response<CartAllItems>
+    @GET("api/cart")
+//    suspend fun fetchAll(): Response<CartAllItems>
+    suspend fun fetchAll(): Response<com.nabssam.bestbook.data.remote.api.CartResponse>
 
     @POST("api/cart/add/{userId}")
     suspend fun update(@Path("userId") userId: String, @Body request: AddToCartRequest): Response<CartResponse>
@@ -48,3 +49,14 @@ interface CartApiService {
     @PATCH("users/{userId}/cart/clear")
     suspend fun clearCart(@Path("userId") userId: String): Response<UserOld>
 }
+data class CartResponse(
+    val __v: Int,
+    val _id: String,
+    val coupon: Any,
+    val createdAt: String,
+    val items: List<Any>,
+    val owner: String,
+    val subtotal: Int,
+    val total: Int,
+    val updatedAt: String
+)

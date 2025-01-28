@@ -27,38 +27,25 @@ class VMBookList @Inject constructor(
     //private val targetExam = getTargetExamUseCase()
 
     init {
-        fetchCategories()
+       // fetchCategories()
         fetchBooks()
-    }
-
-    private fun fetchCategories() {
-        viewModelScope.launch {
-                getAllTargetUC().collect { resource ->
-                    when (resource) {
-                        is Resource.Loading -> _state.update { it.copy(loading = true) }
-                        is Resource.Error -> _state.update { it.copy(loading = false, errorMessage = resource.message) }
-                        is Resource.Success -> {
-                            Log.d("CATEGORY", resource.data.toString());
-                            _state.update { currentState -> currentState.copy(examList = resource.data ?: emptyList(), loading = false) }
-                        }
-                    }
-                }
-        }
     }
 
     fun onEvent(event: EventBookList) {
         when (event) {
             is EventBookList.FetchBook -> fetchBooks()
             is EventBookList.SortBy -> {
-                Log.d("BOOK_LIST_VM", event.id ?: "category id is null")
                 _state.update { currentState ->
                     currentState.copy(
-                        fetchedBooks = currentState.fetchedBooks
-                            .sortedByDescending { book ->
-                            if (event.id != null) {
-                                book.name == event.id
-                            } else {
-                                book.exam == _state.value.userTargetExam
+                        fetchedBooks = if (event.exam != null) {
+                            // Sort by whether the book's exam matches event.exam
+                            currentState.fetchedBooks.sortedByDescending { book ->
+                                book.exam == event.exam
+                            }
+                        } else {
+                            // Sort by rating when event.exam is null
+                            currentState.fetchedBooks.sortedByDescending { book ->
+                                book.rate?.points ?: 0.0
                             }
                         }
                     )
@@ -66,7 +53,7 @@ class VMBookList @Inject constructor(
             }
 
             is EventBookList.Retry -> {
-                fetchCategories()
+                //fetchCategories()
                 fetchBooks()
             }
         }
@@ -87,12 +74,14 @@ class VMBookList @Inject constructor(
 
                     is Resource.Success -> {
                         _state.update {
+                            Log.d("BOOK_LIST_VM", "Success: ${resource.data}")
                             it.copy(
                                 fetchingBooks = false,
                                 fetchedBooks = resource.data ?: emptyList(),
                                 errorMessage = null
                             )
                         }
+                        Log.d("BOOK_LIST_VM", "state: ${state.value.fetchedBooks}")
                     }
 
                     is Resource.Error -> {

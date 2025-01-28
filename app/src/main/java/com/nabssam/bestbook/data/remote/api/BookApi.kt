@@ -1,7 +1,8 @@
 package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.BookListResponse
-import com.nabssam.bestbook.data.remote.dto.BookResponse
+import com.nabssam.bestbook.data.remote.dto.BookListResponseFinal
+import com.nabssam.bestbook.data.remote.dto.BookResponseFinal
 import com.nabssam.bestbook.data.remote.dto.ProductResponseFreeApi
 import com.nabssam.bestbook.data.remote.dto.TargetExamsResponse
 import com.nabssam.bestbook.domain.model.Book
@@ -13,12 +14,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface BookApi {
-    @GET("api/book/getbookbyid/{id}")
-    suspend fun getBookById(@Path("id") bookId: String): Response<BookResponse>
+    @GET("api/book/getbookbyid/{bookId}")
+    suspend fun getBookById(@Path("bookId") bookId: String): Response<BookResponseFinal>
 
     //@Path annotation in Retrofit is used to define placeholders for dynamic parts of the API endpoint URL.
     @GET("api/book/getbookbyexam/{exam}")
-    suspend fun getBooks(@Path("exam") targetExam: String): Response<BookListResponse>
+    suspend fun getByExam(@Path("exam") targetExam: String): Response<BookListResponseFinal>
 
     @GET("api/exams/getalltarget")
     suspend fun getAllTarget(): Response<TargetExamsResponse>
@@ -39,7 +40,7 @@ interface BookApi {
     suspend fun addBook(@Body book: Book): Response<Book>
     //@Body: Used to specify the request body for POST, PUT, and PATCH requests.
 
-    @GET("/books")
+    @GET("api/book/admin/getbook")
     suspend fun getAll(): Response<List<Book>>
 
     @GET("/books/{id}")
@@ -48,4 +49,3 @@ interface BookApi {
     @GET("api/book/admin/getbook")
     suspend fun getBookList(): Response<BookListResponse>
 }
-

@@ -28,17 +28,17 @@ fun CategoryChipList(
             .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(examList) { index, item ->
+        itemsIndexed(examList) { index, exam ->
             FilterChip(
                 selected = selectedTargetExam == index,
-                label = { Text(item) },
+                label = { Text(exam) },
                 onClick = {
                     if (selectedTargetExam == index) {
                         selectedTargetExam = -1
                         onClick(null)
                     } else {
                         selectedTargetExam = index
-                        onClick(item)
+                        onClick(exam)
                     }
                 }
             )

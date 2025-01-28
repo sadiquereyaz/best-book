@@ -18,13 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
+@Module // This annotation tells Dagger that this class is a module that provides dependencies.
+@InstallIn(SingletonComponent::class)   //This tells Hilt that the dependencies provided in this module should be available in the SingletonComponent, which means they'll be available throughout the application's lifecycle.
 object OkHttpModule {
 
-    @Provides
-    @Singleton
-    @UnAuth
+    @Provides   //This annotation tells Dagger that this method provides an instance of the type it returns (Retrofit in this case).
+    @Singleton  //This annotation indicates that Dagger should create only one instance of this Retrofit object and reuse it throughout the application.
+    @UnAuth     //telling Dagger that this method provides a Retrofit instance that should be used when @UnAuth is requested.
     fun provideUnAuthOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

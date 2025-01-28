@@ -3,6 +3,7 @@ package com.nabssam.bestbook.di.remote
 import com.nabssam.bestbook.BuildConfig
 import com.nabssam.bestbook.di.Auth
 import com.nabssam.bestbook.di.Mock
+import com.nabssam.bestbook.di.Pin
 import com.nabssam.bestbook.di.Track
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
@@ -21,10 +22,31 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-//    @UnAuth
+    @UnAuth
     fun provideBaseRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Auth
+    fun provideAuthRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.baseUrl) // Replace with tracking base URL
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    @Provides
+    @Singleton
+    @Pin
+    fun providePinRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.pinBaseUrl) // Replace with tracking base URL
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -56,7 +56,7 @@ fun PurchaseOptionBox(
         // MRP Text
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
-            text = "MRP ₹${paperbackPrice + (paperbackPrice * paperbackDiscount / 100)}",
+            text = "MRP ₹${paperbackPrice}",
             style = MaterialTheme.typography.bodyMedium.copy(
                 textDecoration = TextDecoration.LineThrough,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)

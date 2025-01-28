@@ -30,7 +30,6 @@ class ExamRepository @Inject constructor(
                     val exams = examResponse.exams.map {
                         mapper.dtoToDomain(it)
                     }
-
                     emit(Resource.Success(data = exams))
                 }
                 else{
@@ -43,29 +42,47 @@ class ExamRepository @Inject constructor(
         }
     }
 
+     fun fetchAllTarget(): Flow<Resource<List<String>>> = flow {
+        emit(Resource.Loading())
+
+         try {
+             val response = examApi.getAllTargetExam()
+             if (response.isSuccessful) {
+                 response.body()?.let {
+                    /* val targetList: List<String> = it.classExamList.forEach{ std->
+                         mapper.dtoToDomaint(std)
+                     }
+
+                     emit(Resource.Success(data = targetList))*/
+                 } ?: emit(Resource.Error(message = "Empty response"))
+             } else {
+                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
+             }
+         } catch (e: Exception) {
+             emit(Resource.Error(e.message ?: "An unexpected error occurred"))
+         }
+    }
+
      fun fetchAllStandard(): Flow<Resource<List<Standard>>> = flow {
         emit(Resource.Loading())
-         Log.d("EXAM REPO", " fetchAllExam:")
-         delay(3000)
-         emit(Resource.Success(data = DummyData.standards))
-        /*try {
+        try {
             val response = examApi.getAllTargetExam()
             if (response.isSuccessful) {
                 val examResponse = response.body()
                 if (examResponse != null) {
-                    val exams = examResponse.map {
-                        mapper.dtoToDomain(it)
+                    val exams = examResponse.classExamList
+                        .map {
+                        mapper.dtoToDomainFinal(it)
                     }
                     emit(Resource.Success(data = exams))
                 }
                 else{
                     emit(Resource.Error(message = "no exam found"))
                 }
-
             }
         } catch (e: Exception) {
             emit(Resource.Error(message = e.message))
-        }*/
+        }
     }
 
     fun fetchAllSubjects(examId:String): Flow<Resource<List<Subject>>> = flow {

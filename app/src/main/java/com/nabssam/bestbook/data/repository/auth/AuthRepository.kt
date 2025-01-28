@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.data.repository.auth
 
+import android.util.Log
 import com.nabssam.bestbook.data.mapper.UserMapper
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
@@ -22,6 +23,7 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {    // is successful: Returns true if code() is in the range [200..300)
                 response.body()?.let { authResponse ->
                     // TODO Save users information into room as well
+                    Log.d("AuthRepository", "User data from server: $authResponse")
                     userPreferences.saveUser(userMapper.dtoToDomain(authResponse))
                     Result.success(Unit)
                 } ?: Result.failure(Exception("Empty response"))

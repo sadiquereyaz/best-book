@@ -97,10 +97,26 @@ fun BBNavSuite(
                     currentDestination?.let { destination ->
                         when {
                             destination.hasRoute(Route.Ebook::class) -> {
-                                IconButton(onClick = { /*Navigate to Cart*/TODO() }) {
+                                IconButton(onClick = { }) {
                                     Icon(
                                         imageVector = ImageVector.vectorResource(R.drawable.ebook),
                                         contentDescription = "ebook_store"
+                                    )
+                                }
+                            }
+                            destination.hasRoute(Route.AuthGraph::class) -> {
+                                IconButton(onClick = { }) {
+                                    Icon(
+                                        imageVector = ImageVector.vectorResource(R.drawable.ebook),
+                                        contentDescription = "ebook_store"
+                                    )
+                                }
+                            }
+                            else -> {
+                                IconButton(onClick = { navController.navigate(Route.CartRoute()) }) {
+                                    Icon(
+                                       Icons.Default.ShoppingCart,
+                                        contentDescription = "cart"
                                     )
                                 }
                             }

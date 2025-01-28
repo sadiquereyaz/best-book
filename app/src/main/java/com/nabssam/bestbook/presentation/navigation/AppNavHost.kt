@@ -1,49 +1,68 @@
- package com.nabssam.bestbook.presentation.navigation
+package com.nabssam.bestbook.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
-import com.nabssam.bestbook.data.repository.auth.AuthManager
-import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
-import com.nabssam.bestbook.domain.model.AppState
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import com.nabssam.bestbook.presentation.navigation.auth.authGraph
 import com.nabssam.bestbook.presentation.navigation.main.mainAppGraph
+import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import com.nabssam.bestbook.presentation.ui.account.auth.VMAuth
 
 
- @RequiresApi(Build.VERSION_CODES.O)
- @Composable
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier,
     innerPadding: PaddingValues,
 ) {
 
-    NavHost(
-        navController = navController,
-        startDestination = AppNavigation().getStartDestination(),
-        modifier = modifier.padding(innerPadding),
-    ) {
+    val viewModel: VMAuth = hiltViewModel()
+    val authState by viewModel.state.collectAsStateWithLifecycle()
 
-        // registration nested graph
-        authGraph(navController)
+//    if (!authState.isSignedIn) {
+//        LoadingScreen()
+//    } else {
+        NavHost(
+            navController = navController,
+            startDestination = getStartDestination(authState),
+            modifier = modifier.padding(innerPadding),
+        ) {
+            // registration nested graph
+            authGraph(navController)
 
-        // main app nested graph
-        mainAppGraph(navController)
+            // main app nested graph
+            mainAppGraph(navController)
+        }
     }
+//}
+
+fun getStartDestination(authState: AuthState): Route {
+    val isLoggedIn = authState.isSignedIn
+    return if (isLoggedIn)
+        Route.MainGraph
+    else
+        Route.AuthGraph
 }
 
-//Dependency Injection (preferred)
-class AppNavigation( ) {
-    fun getStartDestination(): Route {
-        val isLoggedIn = true  // TODO: check for already logged in here to avoid displaying signin screen
-        return if (isLoggedIn) Route.MainGraph else Route.AuthGraph
+@Composable
+private fun LoadingScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        LinearProgressIndicator()
     }
 }

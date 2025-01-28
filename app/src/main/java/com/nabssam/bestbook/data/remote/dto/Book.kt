@@ -2,17 +2,44 @@ package com.nabssam.bestbook.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class BookListResponse(
-    @SerializedName("books") val data: List<BookDto>,
+data class BookResponseFinal(
+    val book: BookDtoFinal,
     val message: String,
     val success: Boolean
 )
 
-data class BookResponse(
-    val data: BookDto,
+data class BookListResponseFinal(
+    val books: List<BookDtoFinal>,
     val message: String,
-    val success: Boolean,
-    val statusCoe:Int
+    val success: Boolean
+)
+
+data class BookDtoFinal(
+    val __v: Int,
+    val _id: String,
+    val coverImage: String,
+    val createdAt: String,
+    val description: String,
+    val eBook: String,
+    val ebookDiscount: Int,
+    val hardcopyDiscount: Int,
+    val images: List<String>,
+    val isEbookAvailable: Boolean,
+    val price: Int,
+    val rating: Int,
+    val reviews: List<Any>,
+    val reviewsId: List<Any>,
+    val stock: Int,
+    val targetExam: String,
+    val title: String,
+    val updatedAt: String
+)
+
+
+data class BookListResponse(
+    @SerializedName("books") val data: List<BookDto>,
+    val message: String,
+    val success: Boolean
 )
 
 data class BookDto(

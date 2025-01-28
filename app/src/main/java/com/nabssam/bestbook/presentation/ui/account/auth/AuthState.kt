@@ -15,7 +15,7 @@ data class AuthState(
     val mobileNumber: String = "8745971753",
     val otp: String = "",
     val currentStep: AuthSteps = AuthSteps.LOGIN,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isOtpSent: Boolean = false,
 //    val isOtpVerified: Boolean = false,
     var isSignedIn: Boolean = false,

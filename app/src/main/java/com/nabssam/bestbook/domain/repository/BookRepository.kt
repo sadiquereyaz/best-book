@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface BookRepository {
-    suspend fun getBooks(exam: String): Flow<Resource<List<Book>>>
+    suspend fun getByExam(exam: String): Flow<Resource<List<Book>>>
     suspend fun getAllTargetExam(): Flow<Resource<List<String>>>
     suspend fun getBookById(id: String): Flow<Resource<Book>>
 
