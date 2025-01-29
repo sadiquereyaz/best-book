@@ -34,7 +34,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-// Update the Composable to use Android's PdfRenderer
 @Composable
 fun SecurePdfScreen(
     viewModel: PdfViewModel = hiltViewModel(),

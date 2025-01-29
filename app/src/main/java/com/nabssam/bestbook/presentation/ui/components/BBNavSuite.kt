@@ -69,7 +69,7 @@ fun BBNavSuite(
                 NavigationDrawerContent(navController, drawerState, scope, authManager)
             }
         },
-        gesturesEnabled = true
+        gesturesEnabled = false
     ) {
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),

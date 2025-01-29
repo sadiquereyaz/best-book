@@ -55,7 +55,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 
         composable<Route.EbookPreviewRoute>{
 //            EbookPreviewScreen()
-            SecurePdfScreen(pdfUrl = "https://gbihr.org/images/docs/test.pdf")
+            SecurePdfScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
         }
 
         bookGraph(navController)
