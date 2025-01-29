@@ -21,14 +21,15 @@ class AuthenticatedOkHttpClient @Inject constructor(
                 Log.d("AUTH_OKHTTP", "Token from storage: $accessToken")
                 val authenticatedRequest = if (accessToken != null) {
                     request.newBuilder()
-//                        .header("Authorization", "Bearer access_token=$accessToken")
+                        .header("Authorization", "Bearer $accessToken")
+                        .header("RefreshToken", "Bearer $sessionToken")
 //                        .header("Cookie", "access_token=$accessToken; session_token=$sessionToken")
 //                        .header("Cookie","access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTczODA4NDM5NCwiZXhwIjoxNzM4MDg3OTk0fQ.pRFxv80Ae4YZfhqbEC6yJPCLri6xNhUfH3sAT8ZbaYc; session_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTczODA4NDM5NCwiZXhwIjoxNzM4MTcwNzk0fQ.5IRzVodyn_l0UhdQkPTEksF-r3UwyFscSPspUTLnLQc")
-                        .header("Authorization", "Bearer $accessToken") // Use "Bearer" for JWT tokens
+//                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsInNlc3Npb25JZCI6IjAwMDc1ZjVmLWExMjAtNDU0Ni05NGYwLWJiNjI0YWJjN2M3ZSIsImlhdCI6MTczODA4ODU0NywiZXhwIjoxNzM4OTUyNTQ3fQ.oSL7SX7WqHLPif6zL143lNuskJ1K6dQTMz2-wksEGD8") // Use "Bearer" for JWT tokens
                         .header("Content-Type", "application/json")
-//                        .header("User-Agent", "PostmanRuntime/7.43.0")
                         .header("Accept", "*/*")
                         .build()
+
                 } else {
                     request
                 }
@@ -48,12 +49,12 @@ class AuthenticatedOkHttpClient @Inject constructor(
                     if (newAccessToken != null) {
                         // Retry the request with the new token
                         val newRequest = request.newBuilder()
-                            .header("Authorization", "access_token=$newAccessToken")
+                            .header("Authorization", "Bearer $newAccessToken")
                             .build()
                         return@addInterceptor chain.proceed(newRequest)
                     } else {
                         // Logout the user if the refresh fails
-                        runBlocking { authManager.handleDeviceConflict() }
+                        //runBlocking { authManager.handleDeviceConflict() }
                     }
                 }
 

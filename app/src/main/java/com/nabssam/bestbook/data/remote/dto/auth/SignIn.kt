@@ -14,12 +14,13 @@ data class UserDto(
     val isAdmin: Boolean,
     val phoneNumber: String,
     val profilePicture: String,
-    val currentToken: String,
+    val accessToken: String,
     val password: String? = null,   // todo: this should not be returned
     val sessionToken: String,
     val subscribedEbook: List<String>,
     val targetExam: List<String>,
     val targetYear: List<String>,
     val updatedAt: String,
-    val username: String
+    val username: String,
+    val sessionId: String
 )

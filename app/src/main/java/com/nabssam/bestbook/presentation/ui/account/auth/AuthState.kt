@@ -3,9 +3,9 @@ import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Standard
 
 data class AuthState(
-    val username: String = "ayaz",
-    val password: String = "ayaz",
-    val confirmPassword: String = "ayaz",
+    val username: String = "sadique",
+    val password: String = "sadique",
+    val confirmPassword: String = "sadique",
     var currentClass: String = "",
     val schoolName: String = "AMU Sr. Sec. School",
     var standardList: List<Standard> = emptyList(),

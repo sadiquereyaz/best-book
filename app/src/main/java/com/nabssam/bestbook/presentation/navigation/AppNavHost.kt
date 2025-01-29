@@ -54,6 +54,7 @@ fun getStartDestination(authState: AuthState): Route {
     return if (isLoggedIn)
         Route.MainGraph
     else
+//        Route.MainGraph
         Route.AuthGraph
 }
 

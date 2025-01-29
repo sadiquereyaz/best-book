@@ -26,9 +26,9 @@ class CartRepositoryImpl @Inject constructor(
             Log.d("CART_REPO", "cart response $response")
             if (response.isSuccessful) {
                 Log.d("CART_REPO", "response: ${response.body()}")
-                response.body()?.items?.let {
-                   // emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto)}))
-                } ?: emit(Resource.Error("No data found"))
+//                response.body()?.items?.let {
+//                   // emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto)}))
+//                } ?: emit(Resource.Error("No data found"))
             } else {
                 emit(Resource.Error(response.message()))
             }

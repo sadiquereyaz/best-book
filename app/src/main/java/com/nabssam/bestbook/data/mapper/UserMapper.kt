@@ -11,7 +11,7 @@ class UserMapper {
             isAdmin = dto.isAdmin,
             picUrl = dto.profilePicture,
             phone = dto.phoneNumber,
-            accessToken = dto.currentToken,
+            accessToken = dto.accessToken,
             refreshToken = dto.sessionToken,
             targetExams = dto.targetExam,
             email = "dto.email",

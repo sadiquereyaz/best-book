@@ -43,6 +43,17 @@ object OkHttpModule {
     ): OkHttpClient {
         return AuthenticatedOkHttpClient(tokenStorage, authManager).create()
     }
+   /* @Provides
+    @Singleton
+    @Auth
+    fun provideAuthOkHttpClient( ): OkHttpClient {
+     val loggingInterceptor = HttpLoggingInterceptor().apply {
+         level = HttpLoggingInterceptor.Level.BODY
+     }
+     return OkHttpClient.Builder()
+         .addInterceptor(loggingInterceptor)
+         .build()
+    }*/
 
     @Provides
     @Singleton
