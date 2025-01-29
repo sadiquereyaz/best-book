@@ -16,7 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven(url = java.net.URI("https://jcenter.bintray.com"))
+//        maven(url = java.net.URI("https://jcenter.bintray.com"))
+        maven (url ="https://repository.liferay.com/nexus/content/repositories/public/" )
     }
 }
 

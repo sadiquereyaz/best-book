@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
-import android.webkit.WebView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,45 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-
-/*
-@Composable
-fun SecurePdfScreen(
-    viewModel: PdfViewModel = hiltViewModel(),
-    pdfUrl: String
-) {
-    val pdfState by viewModel.pdfState.collectAsState()
-    
-    LaunchedEffect(pdfUrl) {
-        viewModel.loadPdfFromUrl(pdfUrl)
-    }
-
-    when (val state = pdfState) {
-        is PdfViewState.Loading -> {
-            CircularProgressIndicator()
-        }
-        is PdfViewState.Success -> {
-            // Use your preferred PDF viewer library here
-            // For example, with AndroidPdfViewer:
-
-            AndroidPdfViewer(pdfBytes = state.pdfBytes)
-        }
-        is PdfViewState.Error -> {
-            Text(text = "Error: ${state.message}")
-        }
-        PdfViewState.Initial -> {
-            // Initial state UI
-        }
-    }
-}
-*/
-
-// Previous PdfModule, PdfEncryptionManager, and PdfRepository implementations remain the same
 
 // Update the Composable to use Android's PdfRenderer
 @Composable
@@ -202,46 +166,3 @@ fun PdfRendererView(
         }
     }
 }
-
-// Alternative WebView-based implementation
-@Composable
-fun WebViewPdfViewer(pdfBytes: ByteArray) {
-    val context = LocalContext.current
-
-    AndroidView(
-        factory = { context ->
-            WebView(context).apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    builtInZoomControls = true
-                    displayZoomControls = false
-                }
-            }
-        },
-        modifier = Modifier.fillMaxSize()
-    ) { webView ->
-        // Create a temporary file for the PDF
-        val tempFile = File.createTempFile("temp_pdf", "pdf", context.cacheDir).apply {
-            deleteOnExit()
-            writeBytes(pdfBytes)
-        }
-
-        // Load the PDF using built-in PDF viewer
-        webView.loadUrl("file:${tempFile.absolutePath}")
-    }
-}
-
-// Option 2: Using WebView
-/*
-@Composable
-fun YourWebViewPdfScreen(pdfUrl: String) {
-    val pdfState by viewModel.pdfState.collectAsState()
-
-    when (val state = pdfState) {
-        is PdfViewState.Success -> {
-            WebViewPdfViewer(pdfBytes = state.pdfBytes)
-        }
-        // ... handle other states
-    }
-}
-*/

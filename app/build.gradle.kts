@@ -130,10 +130,12 @@ dependencies {
 
     // for encryption and decryption
     implementation (libs.androidx.security.crypto)
-//    implementation (libs.android.pdf.viewer)
-    implementation ("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
+    implementation (libs.android.pdf.viewer)
+//    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
-//    implementation("androidx.pdf:pdf-viewer-fragment:1.0.0-alpha05")
+//    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+//    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+//    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
 }
 // Allow references to generated code
