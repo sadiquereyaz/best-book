@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.cart
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
@@ -23,17 +22,8 @@ class VMCart @Inject constructor(
 
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
     val uiState = _uiState.asStateFlow()
-    var userId: String = ""
 
     init {
-            viewModelScope.launch {
-                userPrefRepoImpl.user.collect {
-                    userId = it?.id ?: "NO ID FOUND!"
-                }
-            }
-            Log.d("CART_VM", "user id: $userId")
-            //fetchCartItems()
-
         fetchAllCartItems()
     }
 
@@ -65,6 +55,10 @@ class VMCart @Inject constructor(
                 }
             }
             _uiState.value = currentState.copy(allCartItem = updatedItems)
+        }
+
+        viewModelScope.launch {
+            cartRepository.updateQuantity(productId, quantity)
         }
     }
 }

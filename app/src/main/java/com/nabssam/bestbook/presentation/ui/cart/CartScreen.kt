@@ -41,16 +41,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.data.local.entity.CartItemEntity
+import com.nabssam.bestbook.data.remote.dto.ProductType
 import com.nabssam.bestbook.domain.model.CartItem
+import com.nabssam.bestbook.domain.model.StockType
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -96,7 +99,7 @@ fun CartScreen(
                         .padding(top = 12.dp)
                 ) {
                     items(cartItems) {
-                        if (it.quantity > 0) (CartItem(
+                        if (it.quantity > 0) CartItem(
                             goToBookDetail = goToBookDetail,
                             cartItem = it,
                             updateQuantity = { quantity ->
@@ -105,7 +108,7 @@ fun CartScreen(
                                     quantity = quantity
                                 )
                             },
-                        ))
+                        )
                     }
 
                     // price receipt
@@ -225,14 +228,29 @@ fun CartItem(
     updateQuantity: (Int) -> Unit
 ) {
     Card(
+        onClick = {},
         modifier = Modifier
             .fillMaxWidth()
             // .defaultMinSize(minHeight = 300.dp)
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+        enabled = cartItem.stockType != StockType.OUT_OF_STOCK
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+            Box(
+                modifier = Modifier
+                    .background(color = cartItem.productType.color.copy(alpha = 0.6f))
+                    .align(Alignment.TopEnd)
+            ) {
+                Text(
+                    text = cartItem.productType.type,
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                    , color = Color.White,
+                    fontSize = 12.sp,
+                    lineHeight = 6.sp
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -257,12 +275,16 @@ fun CartItem(
                         addToFontSize = 4,
                         padTop = 0.dp,
                         maxLine = 4,
-                        discPer = cartItem.disPer,
+                        discPer = cartItem.hardCopyDis,
                         originalPrice = cartItem.price,
                         title = cartItem.name,
-//                        rating = bookObj.rate.points
+                       // rating = bookObj.rate.points
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+//                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(text  = cartItem.stockType.text, color = cartItem.stockType.color.copy(alpha = 0.5f), fontStyle = FontStyle.Italic)
+
+                    if(cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
                     CountChanger(
                         updateQuantity = updateQuantity,
                         quantity = cartItem.quantity ?: 0
@@ -316,7 +338,6 @@ fun CountChanger(
         Icon(
             modifier = Modifier
                 .clickable {
-
                     updateQuantity(--count)
                 }
                 .background(

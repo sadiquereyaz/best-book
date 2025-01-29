@@ -41,7 +41,6 @@ fun BestBookApp(
                 }
                 else -> Unit
             }
-
         }
     }
 
@@ -56,7 +55,7 @@ fun BestBookApp(
         }
     },)
 
-    BBNavSuite(navController = navController, modifier = Modifier)
+    BBNavSuite(navController = navController, modifier = Modifier, authManager)
     { innerPadding ->
         AppNavHost(navController, modifier, innerPadding)
     }

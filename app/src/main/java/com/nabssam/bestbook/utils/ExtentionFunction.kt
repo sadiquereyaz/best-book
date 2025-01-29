@@ -2,7 +2,6 @@ package com.nabssam.bestbook.utils
 
 import android.util.Log
 import androidx.navigation.NavController
-import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.domain.model.CartItem
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -61,7 +60,7 @@ fun List<CartItem>.totalDiscountPercent(): Double {
 
     forEach {
         val originalPriceForItem = (it.quantity ?: 0) * it.price
-        val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
+        val discountedPriceForItem = originalPriceForItem * (1 - it.hardCopyDis / 100.0)
 
         originalTotal += originalPriceForItem
         discountedTotal += discountedPriceForItem
@@ -81,7 +80,7 @@ fun List<CartItem>.totalDiscountAmount(): Double {
 
     forEach {
         val originalPriceForItem = (it.quantity?:0).times(it.price)
-        val discountedPriceForItem = originalPriceForItem * (1 - it.disPer / 100.0)
+        val discountedPriceForItem = originalPriceForItem * (1 - it.hardCopyDis / 100.0)
         discountAmount += (originalPriceForItem - discountedPriceForItem)
     }
 

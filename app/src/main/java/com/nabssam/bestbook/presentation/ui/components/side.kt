@@ -1,20 +1,13 @@
+/*
 package com.nabssam.bestbook.presentation.ui.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.material.icons.filled.Menu
+
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,60 +20,41 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BBNavSuite(
+fun BBNavSuite1(
     navController: NavController,
     modifier: Modifier = Modifier,
-    // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
-    authManager: AuthManager,
     content: @Composable (PaddingValues) -> Unit
-
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-//    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    // val snackbarHostState = remember { SnackbarHostState() }
-
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             // Side Navigation Panel Content
-            ModalDrawerSheet(
-
-            ) {
-                NavigationDrawerContent(navController, drawerState, scope, authManager)
-            }
-        },
-        gesturesEnabled = true
+            NavigationDrawerContent(navController, drawerState)
+        }
     ) {
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
-                        if (currentDestination != null && navController.previousBackStackEntry != null && !currentDestination.isTopLevel() /*&& !(currentDestination.hasRoute(
-                            Route.SignIn::class
-                        ))*/
-                        ) {
-                            // Up button
+                        if (currentDestination != null && navController.previousBackStackEntry != null && !currentDestination.isTopLevel()) {
                             IconButton(onClick = { navController.popBackStack() }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -104,10 +78,7 @@ fun BBNavSuite(
                             Box(Modifier, contentAlignment = Alignment.Center) {
                                 Text(
                                     text = title.toString(),
-                                    modifier = Modifier
-                                    // .height(100.dp)
-                                    //.background(color = Color.Red)
-                                    ,
+                                    modifier = Modifier,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp,
                                     maxLines = 1,
@@ -117,13 +88,8 @@ fun BBNavSuite(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-                    /*.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-            )*/
                     scrollBehavior = scrollBehavior,
                     actions = {
-                        // Add buttons dynamically
                         currentDestination?.let { destination ->
                             when {
                                 destination.hasRoute(Route.Ebook::class) -> {
@@ -134,7 +100,6 @@ fun BBNavSuite(
                                         )
                                     }
                                 }
-
                                 destination.hasRoute(Route.AuthGraph::class) -> {
                                     IconButton(onClick = { }) {
                                         Icon(
@@ -143,7 +108,6 @@ fun BBNavSuite(
                                         )
                                     }
                                 }
-
                                 else -> {
                                     IconButton(onClick = { navController.navigate(Route.CartRoute()) }) {
                                         Icon(
@@ -162,121 +126,48 @@ fun BBNavSuite(
                     BottomNavigationMenu(navController = navController)
             },
             floatingActionButton = {
-                /* if (currentDestination?.hasRoute(Route.Home::class) == true)
-                     FloatingActionButton(
-                         onClick = { navController.navigate(Route.CartRoute()) },
-                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                     ) {
-                         Icon(Icons.Filled.ShoppingCart, "shopping")
-                     }*/
+                if (currentDestination?.hasRoute(Route.Home::class) == true)
+                    FloatingActionButton(
+                        onClick = { navController.navigate(Route.CartRoute()) },
+                        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                    ) {
+                        Icon(Icons.Filled.ShoppingCart, "shopping")
+                    }
             },
             snackbarHost = {
                 // SnackbarHost(hostState = snackbarHostState)
             }
         ) { innerPadding ->
             content(innerPadding)
-
-            // Observe network state and show Snackbar
-            /* NetworkSnackbar(
-             networkConnectivityObserver = networkConnectivityObserver,
-             snackbarHostState = snackbarHostState
-         )*/
         }
     }
 }
 
 @Composable
-fun NavigationDrawerContent(
+fun NavigationDrawerContent1(
     navController: NavController,
-    drawerState: DrawerState,
-    scope: CoroutineScope,
-    authManager: AuthManager
+    drawerState: DrawerState
 ) {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        Spacer(Modifier.height(12.dp))
-        Text(
-            "Drawer Title",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleLarge
-        )
-        HorizontalDivider()
+    val scope = rememberCoroutineScope()
 
-        Text(
-            "Section 1",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        NavigationDrawerItem(
-            label = { Text("Item 1") },
-            selected = false,
-            onClick = { /* Handle click */ }
-        )
-        NavigationDrawerItem(
-            label = { Text("Item 2") },
-            selected = false,
-            onClick = { /* Handle click */ }
-        )
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-        Text(
-            "Section 2",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        NavigationDrawerItem(
-            label = { Text("Settings") },
-            selected = false,
-            icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-            badge = { Text("20") }, // Placeholder
-            onClick = { /* Handle click */ }
-        )
-        NavigationDrawerItem(
-            label = { Text("Your Order") },
-            selected = false,
-            onClick = {
-                navController.navigate(Route.AllOrderRoute())
-                scope.launch { drawerState.close() }
-            }
-        )
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-        Text(
-            "Section 2",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        NavigationDrawerItem(
-            label = { Text("Settings") },
-            selected = false,
-            icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-            badge = { Text("20") }, // Placeholder
-            onClick = { /* Handle click */ }
-        )
-        NavigationDrawerItem(
-            label = { Text("Help and feedback") },
-            selected = false,
-            icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-            onClick = { /* Handle click */ },
-        )
-
-        NavigationDrawerItem(
-            label = { Text("Logout") },
-            selected = false,
-            icon = {Icon(imageVector = ImageVector.vectorResource(R.drawable.log_out), contentDescription = null)},
-            onClick = {
-                scope.launch {
-                    authManager.handleDeviceConflict()
-                }
-                scope.launch { drawerState.close() }
-            }
-        )
-        Spacer(Modifier.height(12.dp))
-    }
-}
+    // Add your side navigation panel content here
+    Text("Side Navigation Panel")
+    // Example: Add navigation items
+    NavigationDrawerItem(
+        label = { Text("Home") },
+        selected = false,
+        onClick = {
+            navController.navigate(Route.Home::class)
+            scope.launch { drawerState.close() }
+        }
+    )
+    NavigationDrawerItem(
+        label = { Text("Ebooks") },
+        selected = false,
+        onClick = {
+            navController.navigate(Route.Ebook::class)
+            scope.launch { drawerState.close() }
+        }
+    )
+}*/

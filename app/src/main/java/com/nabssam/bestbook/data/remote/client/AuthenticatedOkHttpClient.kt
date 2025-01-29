@@ -23,9 +23,6 @@ class AuthenticatedOkHttpClient @Inject constructor(
                     request.newBuilder()
                         .header("Authorization", "Bearer $accessToken")
                         .header("RefreshToken", "Bearer $sessionToken")
-//                        .header("Cookie", "access_token=$accessToken; session_token=$sessionToken")
-//                        .header("Cookie","access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTczODA4NDM5NCwiZXhwIjoxNzM4MDg3OTk0fQ.pRFxv80Ae4YZfhqbEC6yJPCLri6xNhUfH3sAT8ZbaYc; session_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTczODA4NDM5NCwiZXhwIjoxNzM4MTcwNzk0fQ.5IRzVodyn_l0UhdQkPTEksF-r3UwyFscSPspUTLnLQc")
-//                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTg4NWE3MWM4YThmNWMyODY4YjYxZSIsImlzQWRtaW4iOnRydWUsInNlc3Npb25JZCI6IjAwMDc1ZjVmLWExMjAtNDU0Ni05NGYwLWJiNjI0YWJjN2M3ZSIsImlhdCI6MTczODA4ODU0NywiZXhwIjoxNzM4OTUyNTQ3fQ.oSL7SX7WqHLPif6zL143lNuskJ1K6dQTMz2-wksEGD8") // Use "Bearer" for JWT tokens
                         .header("Content-Type", "application/json")
                         .header("Accept", "*/*")
                         .build()
@@ -54,7 +51,7 @@ class AuthenticatedOkHttpClient @Inject constructor(
                         return@addInterceptor chain.proceed(newRequest)
                     } else {
                         // Logout the user if the refresh fails
-                        //runBlocking { authManager.handleDeviceConflict() }
+                        runBlocking { authManager.handleDeviceConflict() }
                     }
                 }
 
