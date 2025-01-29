@@ -128,6 +128,13 @@ dependencies {
 
     testImplementation (libs.mockwebserver)
 
+    // for encryption and decryption
+    implementation (libs.androidx.security.crypto)
+//    implementation (libs.android.pdf.viewer)
+    implementation ("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
+
+//    implementation("androidx.pdf:pdf-viewer-fragment:1.0.0-alpha05")
+
 }
 // Allow references to generated code
 kapt {

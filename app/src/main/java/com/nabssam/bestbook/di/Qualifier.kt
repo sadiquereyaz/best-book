@@ -26,3 +26,6 @@ annotation class Mock
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class Pin
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Pdf

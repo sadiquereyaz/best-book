@@ -11,6 +11,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
 import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
+import com.nabssam.bestbook.presentation.ui.book.ebook.SecurePdfScreen
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
@@ -24,7 +25,8 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 //        Route.BookDetailRoute(title = "Book Detail", id = "book1")
 //        Route.OrderGraph
 //        Route.QuizGraph
-    Route.CartRoute()
+//    Route.CartRoute()
+        Route.EbookPreviewRoute()
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()
@@ -49,6 +51,11 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 //onQuizSelect = {navController.navigate(Route.QuizCategoryRoute(it))},
                 onContestSelect = {navController.navigate(Route.QuizGraph)},
             )
+        }
+
+        composable<Route.EbookPreviewRoute>{
+//            EbookPreviewScreen()
+            SecurePdfScreen(pdfUrl = "https://gbihr.org/images/docs/test.pdf")
         }
 
         bookGraph(navController)

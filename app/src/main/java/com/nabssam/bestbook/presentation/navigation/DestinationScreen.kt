@@ -76,6 +76,9 @@ sealed interface Route {
 
     @Serializable
     data object PaymentDialogRoute : Route
+
+    @Serializable
+    data class EbookPreviewRoute(val title: String = "Ebook Preview") : Route
 }
 
 enum class TopLevelDestination(
