@@ -14,26 +14,37 @@ import okhttp3.Request
 import java.io.File
 
 // Download PDF Using WorkManager
-
 class PDFDownloadWorker(context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val pdfUrl = inputData.getString("pdf_url") ?: return@withContext Result.failure()
         val pdfName = inputData.getString("pdf_name") ?: return@withContext Result.failure()
-        val pdfFile = File(applicationContext.filesDir, "$pdfName.pdf")
+
+        // Temporary file to store the downloaded PDF
+        val tempFile = File(applicationContext.cacheDir, "$pdfName.temp.pdf")
+        // Final encrypted file
+        val encryptedFile = File(applicationContext.filesDir, "$pdfName.encrypted.pdf")
 
         try {
+            // Download the PDF
             val request = Request.Builder().url(pdfUrl).build()
             val response = OkHttpClient().newCall(request).execute()
             if (response.isSuccessful) {
                 response.body?.byteStream()?.use { inputStream ->
-                    pdfFile.outputStream().use { outputStream ->
+                    tempFile.outputStream().use { outputStream ->
                         inputStream.copyTo(outputStream)
                     }
                 }
-                // Log the file path after saving
-                Log.d("PDFDownloadWorker", "PDF saved at: ${pdfFile.absolutePath}")
-                Log.d("PDFDownloadWorker", "File size: ${pdfFile.length()} bytes")
+
+                // Encrypt the downloaded PDF
+                PDFEncryptionHelper.encryptPDF(context = applicationContext, inputFile = tempFile, outputFile = encryptedFile)
+
+                // Delete the temporary file
+                tempFile.delete()
+
+                // Log the file path after encryption
+                Log.d("PDFDownloadWorker", "Encrypted PDF saved at: ${encryptedFile.absolutePath}")
+                Log.d("PDFDownloadWorker", "File size: ${encryptedFile.length()} bytes")
 
                 // Pass the pdfName in the output data
                 val outputData = workDataOf("pdf_name" to pdfName)
@@ -42,8 +53,13 @@ class PDFDownloadWorker(context: Context, workerParams: WorkerParameters) : Coro
                 Result.failure()
             }
         } catch (e: Exception) {
-            Log.e("PDFDownloadWorker", "Download failed: ${e.message}")
+            Log.e("PDFDownloadWorker", "Download or encryption failed: ${e.message}")
             Result.failure()
+        } finally {
+            // Ensure the temporary file is deleted in case of any failure
+            if (tempFile.exists()) {
+                tempFile.delete()
+            }
         }
     }
 

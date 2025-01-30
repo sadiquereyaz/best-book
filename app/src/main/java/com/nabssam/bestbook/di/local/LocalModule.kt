@@ -12,6 +12,7 @@ import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.presentation.ui.book.ebook.PDFDownloadStatusHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,5 +50,11 @@ object LocalModule {
     @Singleton
     fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
         return UserPreferencesTokenStorage(userPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun providePdfStorage(@ApplicationContext context: Context): PDFDownloadStatusHelper {
+        return PDFDownloadStatusHelper(context)
     }
 }
