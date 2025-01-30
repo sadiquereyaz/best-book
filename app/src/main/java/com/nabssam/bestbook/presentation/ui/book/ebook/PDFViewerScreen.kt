@@ -82,7 +82,7 @@ fun PDFViewerScreen() {
                         )
                     } else {
                         // Open the downloaded PDF
-                        val pdfFile = File(context.filesDir, "${pdf.name}.pdf")
+                        val pdfFile = File(context.filesDir, "${pdf.name}.encrypted")
                         Log.d(
                             "PDFViewerScreen",
                             "Attempting to open PDF at: ${pdfFile.absolutePath}"

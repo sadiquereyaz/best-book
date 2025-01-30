@@ -3,7 +3,6 @@ package com.nabssam.bestbook.presentation.ui.book.ebook
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKeys
-import com.github.barteksc.pdfviewer.exception.FileNotFoundException
 import java.io.File
 
 // encrypt the download pdf
@@ -12,7 +11,7 @@ object PDFEncryptionHelper {
     private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
     fun encryptPDF(context: Context, inputFile: File, outputFile: File) {
         if (!inputFile.exists()) {
-            throw FileNotFoundException("Input file does not exist: ${inputFile.absolutePath}")
+            throw Exception("Input file does not exist: ${inputFile.absolutePath}")
         }
 
         val encryptedFile = EncryptedFile.Builder(
@@ -31,6 +30,10 @@ object PDFEncryptionHelper {
 
 
     fun decryptPDF(context: Context, encryptedFile: File, outputFile: File) {
+        if (!encryptedFile.exists()) {
+            throw Exception("Encrypted file does not exist: ${encryptedFile.absolutePath}")
+        }
+
         val encryptedFile = EncryptedFile.Builder(
             encryptedFile,
             context,

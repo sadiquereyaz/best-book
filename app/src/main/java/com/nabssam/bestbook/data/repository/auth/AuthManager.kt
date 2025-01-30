@@ -2,6 +2,7 @@ package com.nabssam.bestbook.data.repository.auth
 
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.domain.model.AppState
+import com.nabssam.bestbook.presentation.ui.book.ebook.PDFDownloadStatusHelper
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
@@ -9,6 +10,7 @@ import javax.inject.Inject
 
 class AuthManager @Inject constructor(
     private val tokenStorage: TokenStorage,
+    private val pdfStorage: PDFDownloadStatusHelper
     //private val authApiService: AuthApiService
 ) {
 
@@ -42,6 +44,7 @@ class AuthManager @Inject constructor(
     }
 
     private suspend fun logout() {
+        pdfStorage.clearAllStatuses()
         tokenStorage.clearTokens()
         _authEvents.emit(AppState.LoggedOut) // Emit logout event
     }
