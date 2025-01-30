@@ -55,18 +55,4 @@ object AppModule {
     fun provideMockInterceptor(@ApplicationContext context: Context): MockInterceptor {
         return MockInterceptor(context)
     }
-
-
-    @Provides
-    @Singleton
-    @ApplicationScope
-    fun providesApplicationScope(): CoroutineScope {
-        return CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    }
-
-
-    // Add ApplicationScope qualifier
-    @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ApplicationScope
 }

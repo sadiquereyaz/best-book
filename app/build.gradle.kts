@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     // Kotlin serialization plugin for type-safe routes and navigation arguments
-    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.0"
 
     // Hilt plugin for Dependency Injection
     alias(libs.plugins.kotlin.kapt)
@@ -136,6 +136,9 @@ dependencies {
 //    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 //    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
 //    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
+
+    // WorkManager for background tasks
+    implementation(libs.androidx.work.runtime.ktx)
 
 }
 // Allow references to generated code
