@@ -49,7 +49,7 @@ class PDFDownloadWorker(context: Context, workerParams: WorkerParameters) : Coro
                 Log.d("PDFDownloadWorker", "File size: ${encryptedFile.length()} bytes")
 
                 // Pass the pdfName in the output data
-                val outputData = workDataOf("pdf_name" to pdfName)
+                val outputData = workDataOf("pdf_name" to pdfName, "pdf_path" to encryptedFile.absolutePath)
                 Result.success(outputData)
             } else {
                 Result.failure()

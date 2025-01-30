@@ -50,11 +50,12 @@ fun PDFViewerScreen() {
 
         if (workInfo?.state == WorkInfo.State.SUCCEEDED) {
             val pdfName = workInfo.outputData.getString("pdf_name")
+            val pdfPath = workInfo.outputData.getString("pdf_path")
             Log.d("PDFViewerScreen", "Download succeeded for: $pdfName")
 
             if (pdfName != null) {
                 // Update the download status in SharedPreferences
-                pdfDownloadStatusHelper.setDownloadStatus(pdfName, true)
+                pdfDownloadStatusHelper.setDownloadStatus(pdfName, pdfPath ?: "no path from worker")
 
                 // Update the UI state
                 pdfListState = pdfListState.map { pdf ->

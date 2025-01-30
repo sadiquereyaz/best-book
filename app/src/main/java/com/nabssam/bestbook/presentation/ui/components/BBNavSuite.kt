@@ -1,16 +1,20 @@
 package com.nabssam.bestbook.presentation.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Info
@@ -64,7 +68,6 @@ fun BBNavSuite(
         drawerContent = {
             // Side Navigation Panel Content
             ModalDrawerSheet(
-
             ) {
                 NavigationDrawerContent(navController, drawerState, scope, authManager)
             }
@@ -199,11 +202,20 @@ fun NavigationDrawerContent(
             .verticalScroll(rememberScrollState())
     ) {
         Spacer(Modifier.height(12.dp))
-        Text(
-            "Drawer Title",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleLarge
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(
+                "Drawer Title",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
+            IconButton(onClick = { scope.launch { drawerState.close() } }) {
+                Icon(Icons.Default.Close, "close drawer")
+            }
+        }
         HorizontalDivider()
 
         Text(
