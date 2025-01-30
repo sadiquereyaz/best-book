@@ -11,6 +11,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
 import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
+import com.nabssam.bestbook.presentation.ui.book.ebook.PdfLibraryScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.SecurePdfScreen
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
@@ -55,7 +56,8 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 
         composable<Route.EbookPreviewRoute>{
 //            EbookPreviewScreen()
-            SecurePdfScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
+//            SecurePdfScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
+            PdfLibraryScreen {  }
         }
 
         bookGraph(navController)

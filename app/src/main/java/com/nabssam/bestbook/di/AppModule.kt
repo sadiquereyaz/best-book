@@ -16,8 +16,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.Interceptor
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -52,4 +55,18 @@ object AppModule {
     fun provideMockInterceptor(@ApplicationContext context: Context): MockInterceptor {
         return MockInterceptor(context)
     }
+
+
+    @Provides
+    @Singleton
+    @ApplicationScope
+    fun providesApplicationScope(): CoroutineScope {
+        return CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
+
+
+    // Add ApplicationScope qualifier
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ApplicationScope
 }
