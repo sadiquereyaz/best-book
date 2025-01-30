@@ -284,6 +284,5 @@ fun RestrictScreenshot(content: @Composable () -> Unit) {
             window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
-
     content()
 }
