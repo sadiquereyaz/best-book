@@ -32,6 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- PDFViewActivity -->
+        <activity
+            android:name=".PDFViewActivity"
+            android:exported="true"
+            android:label="PDF Viewer"
+            android:theme="@style/ThemeBestBook.PDFView" />
     </application>
 
 </manifest>

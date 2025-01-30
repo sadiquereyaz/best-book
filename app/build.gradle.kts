@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.appcompat)
 //    implementation(libs.identity.jvm)
 
     // Compose and UI Testing
@@ -138,7 +139,8 @@ dependencies {
 //    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
     // WorkManager for background tasks
-    implementation(libs.androidx.work.runtime.ktx)
+//    implementation(libs.androidx.work.runtime.ktx)
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
 
 }
 // Allow references to generated code

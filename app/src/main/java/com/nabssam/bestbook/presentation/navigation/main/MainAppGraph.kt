@@ -11,8 +11,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
 import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.PdfLibraryScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.SecurePdfScreen
+import com.nabssam.bestbook.presentation.ui.book.ebook.v2deep.PDFViewerScreen
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
@@ -50,14 +49,16 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onBannerClick = { navController.safeNavigate("DUMMY_ROUTE") },
                 event = { event -> viewModel.onEvent(event) },
                 //onQuizSelect = {navController.navigate(Route.QuizCategoryRoute(it))},
-                onContestSelect = {navController.navigate(Route.QuizGraph)},
+                onContestSelect = { navController.navigate(Route.QuizGraph) },
             )
         }
 
-        composable<Route.EbookPreviewRoute>{
+        composable<Route.EbookPreviewRoute> {
 //            EbookPreviewScreen()
 //            SecurePdfScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
-            PdfLibraryScreen {  }
+            //PdfLibraryScreen {  }
+//            PDFViewerScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
+            PDFViewerScreen()
         }
 
         bookGraph(navController)

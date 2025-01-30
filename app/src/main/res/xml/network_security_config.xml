@@ -15,6 +15,7 @@ It blocks cleartext (HTTP) traffic to protect the data exchanged between your ap
         <domain includeSubdomains="true">10.57.5.216</domain>
         <domain includeSubdomains="true">10.27.50.129</domain>
         <domain includeSubdomains="true">mock.com</domain>
+            <domain includeSubdomains="true">icseindia.org</domain>
 
 
 <!--        <domain includeSubdomains="true">https://api.freeapi.app</domain>-->
