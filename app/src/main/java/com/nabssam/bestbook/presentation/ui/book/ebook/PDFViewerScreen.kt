@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook.v2deep
+package com.nabssam.bestbook.presentation.ui.book.ebook
 
 import android.content.Context
 import android.content.Intent
@@ -27,7 +27,16 @@ import java.io.File
 fun PDFViewerScreen() {
     val context = LocalContext.current
     val workManager = remember { WorkManager.getInstance(context) }
-    var pdfListState by remember { mutableStateOf(pdfList) }
+    val pdfDownloadStatusHelper = remember { PDFDownloadStatusHelper(context) }
+
+    // Load the initial download status for each PDF
+    var pdfListState by remember {
+        mutableStateOf(
+            pdfList.map { pdf ->
+                pdf.copy(isDownloaded = pdfDownloadStatusHelper.getDownloadStatus(pdf.name))
+            }
+        )
+    }
 
     // Observe WorkManager state
     val workInfoList by workManager.getWorkInfosForUniqueWorkLiveData("pdf_download")
@@ -44,6 +53,10 @@ fun PDFViewerScreen() {
             Log.d("PDFViewerScreen", "Download succeeded for: $pdfName")
 
             if (pdfName != null) {
+                // Update the download status in SharedPreferences
+                pdfDownloadStatusHelper.setDownloadStatus(pdfName, true)
+
+                // Update the UI state
                 pdfListState = pdfListState.map { pdf ->
                     if (pdf.name == pdfName) pdf.copy(isDownloaded = true) else pdf
                 }
@@ -127,65 +140,4 @@ fun PDFListItem(pdf: PDFItem, onItemClick: () -> Unit) {
 
 fun <T> LiveData<T>.toFlow(): Flow<T> = this.asFlow()
 
-/*
-@Composable
-fun PDFViewerScreen(pdfUrl: String) {
-    val context = LocalContext.current
-    val workManager = remember { WorkManager.getInstance(context) }
-    val tempFile = remember { File.createTempFile("temp_pdf", ".pdf", context.cacheDir) }
-
-    // Convert LiveData to Flow and collect as State
-    val workInfoList by workManager.getWorkInfosForUniqueWorkLiveData(pdfUrl)
-        .toFlow()
-        .collectAsState(initial = emptyList())
-
-    // Download and encrypt the PDF
-    LaunchedEffect(pdfUrl) {
-        val workRequest = PDFDownloadWorker.createWorkRequest(pdfUrl)
-        workManager.enqueueUniqueWork(pdfUrl, ExistingWorkPolicy.REPLACE, workRequest)
-    }
-
-    // Handle WorkManager state changes
-    LaunchedEffect(workInfoList) {
-        val workInfo = workInfoList.firstOrNull() // Get the first WorkInfo (since it's unique work)
-        if (workInfo?.state == WorkInfo.State.SUCCEEDED) {
-            val encryptedFile = File(context.filesDir, "encrypted_pdf.pdf")
-            if (encryptedFile.exists()) {
-                try {
-                    PDFEncryptionHelper.encryptPDF(context, encryptedFile, encryptedFile)
-                } catch (e: Exception) {
-                    Log.e("PDFViewerScreen", "Encryption failed: ${e.message}")
-                }
-            } else {
-                Log.e("PDFViewerScreen", "Encrypted file does not exist")
-            }
-        }
-    }
-
-    // Decrypt and display the PDF
-    DisposableEffect(Unit) {
-        val encryptedFile = File(context.filesDir, "encrypted_pdf.pdf")
-        if (encryptedFile.exists()) {
-            try {
-                PDFEncryptionHelper.decryptPDF(context, encryptedFile, tempFile)
-            } catch (e: Exception) {
-                Log.e("PDFViewerScreen", "Decryption failed: ${e.message}")
-            }
-        }
-
-        onDispose {
-            tempFile.delete() // Clean up the temporary file
-        }
-    }
-
-    // PDF Viewer
-    AndroidView(
-        factory = { context ->
-            PDFView(context, null).apply {
-                fromFile(tempFile).load()
-            }
-        }
-    )
-}
-*/
 

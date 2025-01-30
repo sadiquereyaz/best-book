@@ -11,7 +11,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
 import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.v2deep.PDFViewerScreen
+import com.nabssam.bestbook.presentation.ui.book.ebook.PDFViewerScreen
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
@@ -26,7 +26,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 //        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()
-        Route.EbookPreviewRoute()
+        Route.EbookPreviewRoute(title = "Purchased Ebook")
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()

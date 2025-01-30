@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook.v2deep
+package com.nabssam.bestbook.presentation.ui.book.ebook
 
 import android.content.Context
 import androidx.security.crypto.EncryptedFile

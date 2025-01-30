@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook.v2deep
+package com.nabssam.bestbook.presentation.ui.book.ebook
 
 data class PDFItem(
     val name: String, // Display name of the PDF
