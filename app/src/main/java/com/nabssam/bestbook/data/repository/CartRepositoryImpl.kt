@@ -4,8 +4,10 @@ import android.util.Log
 import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.dto.AddToCartRequest
+import com.nabssam.bestbook.data.remote.dto.ProductType
+import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.domain.model.CartItem
-import com.nabssam.bestbook.domain.model.UserOld
+import com.nabssam.bestbook.domain.model.Unit
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +27,7 @@ class CartRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 Log.d("CART_REPO", "response body: ${response.body()}")
                 response.body()?.cartData?.cartItems?.let {
-                    emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto)}))
+                    emit(Resource.Success(it.map { bookDto -> cartMapper.dtoToDomain(bookDto) }))
                 } ?: emit(Resource.Error("No data found"))
             } else {
                 emit(Resource.Error(response.message()))
@@ -35,29 +37,86 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateQuantity(productId: String, quantity: Int): Flow<Resource<String>> = flow {
-        emit(Resource.Loading()) // Emit loading state
-        if (quantity < 1) {
-            // Call removeProductFromCart and handle its Flow
-            removeProductFromCart(productId).collect { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        emit(Resource.Success(data = null, message = "Item removed successfully")) // Emit success from removeProductFromCart
-                    }
-                    is Resource.Error -> {
-                        emit(Resource.Error(resource.message)) // Emit error from removeProductFromCart
-                    }
-                    is Resource.Loading -> {
-                        // Optionally handle loading state if needed
+    override suspend fun updateQuantity(productId: String, quantity: Int): Flow<Resource<String>> =
+        flow {
+            emit(Resource.Loading()) // Emit loading state
+            if (quantity < 1) {
+                // Call removeProductFromCart and handle its Flow
+                removeProductFromCart(productId).collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            emit(
+                                Resource.Success(
+                                    data = null,
+                                    message = "Item removed successfully"
+                                )
+                            ) // Emit success from removeProductFromCart
+                        }
+
+                        is Resource.Error -> {
+                            emit(Resource.Error(resource.message)) // Emit error from removeProductFromCart
+                        }
+
+                        is Resource.Loading -> {
+                            // Optionally handle loading state if needed
+                        }
                     }
                 }
+            } else {
+                // Handle the case where quantity is >= 1 (e.g., update quantity in the cart)
+                try {
+                    val response =
+                        cartApiService.updateQuantity(UpdateQuantityRequest(productId, quantity))
+                    if (response.isSuccessful) {
+                        emit(
+                            Resource.Success(
+                                data = null,
+                                message = "Quantity updated successfully"
+                            )
+                        )
+                    } else {
+                        emit(Resource.Error(response.message()))
+                    }
+                } catch (e: Exception) {
+                    emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
+                }
             }
-        } else {
-            // Handle the case where quantity is >= 1 (e.g., update quantity in the cart)
+        }
+
+    override suspend fun addProductToCart(
+        productType: ProductType,
+        productId: String
+    ): Flow<Resource<String?>> = flow {
+        Log.d("CART_REPO", "adding productId: $productId")
+        emit(Resource.Loading())
+        try {
+            val response = cartApiService.add(
+                request = AddToCartRequest(
+                    bookId = productId,
+                    productType = productType,
+                    quantity = 1
+                )
+            )
+            Log.d("CART_REPO", "Adding..${response}")
+            Log.d("CART_REPO", "Adding..${response.body()}")
+            if (response.isSuccessful) {
+                emit(Resource.Success(data = null, message = "Item added successfully"))
+            } else {
+                emit(Resource.Error(response.message()))
+            }
+        } catch (e: Exception) {
+            Log.d("CART_REPO", "error: ${e.message}")
+            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
+        }
+    }
+
+    override suspend fun removeProductFromCart(productId: String): Flow<Resource<kotlin.Unit>> =
+        flow {
+            emit(Resource.Loading())
             try {
-                val response = cartApiService.updateQuantity(AddToCartRequest(productId, quantity))
+                val response = cartApiService.removeProductFromCart(productId)
                 if (response.isSuccessful) {
-                    emit(Resource.Success(data = null, message = "Quantity updated successfully"))
+                    emit(Resource.Success(Unit))
                 } else {
                     emit(Resource.Error(response.message()))
                 }
@@ -65,37 +124,8 @@ class CartRepositoryImpl @Inject constructor(
                 emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
             }
         }
-    }
 
-    override suspend fun addProductToCart(userId: String, productId: String): Flow<Resource<UserOld>> = flow {
-        emit(Resource.Loading())
-       /* try {
-            val response = cartApiService.update(userId, productId)
-            if (response.isSuccessful) {
-                emit(Resource.Success(response.body()!!))
-            } else {
-                emit(Resource.Error(response.message()))
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
-        }*/
-    }
-
-    override suspend fun removeProductFromCart(productId: String): Flow<Resource<Unit>> = flow {
-        emit(Resource.Loading())
-        try {
-            val response = cartApiService.removeProductFromCart(productId)
-            if (response.isSuccessful) {
-                emit(Resource.Success(Unit))
-            } else {
-                emit(Resource.Error(response.message()))
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
-        }
-    }
-
-    override suspend fun clearCart(userId: String): Flow<Resource<UserOld>> = flow {
+    override suspend fun clearCart(userId: String): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         try {
             val response = cartApiService.clearCart(userId)

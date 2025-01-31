@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import com.nabssam.bestbook.data.remote.dto.ProductType
 
 data class CartItem(
-    val id: String,
     val productId: String,
     val name: String,
     val price: Int,

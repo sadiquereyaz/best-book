@@ -1,19 +1,25 @@
 package com.nabssam.bestbook.domain.usecase.cart
 
+import android.util.Log
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
-import com.nabssam.bestbook.domain.repository.BookRepository
+import com.nabssam.bestbook.data.remote.dto.ProductType
+import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.LocalCartRepository
+import com.nabssam.bestbook.utils.Resource
 import com.nabssam.bestbook.utils.ValidationException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AddToCartUseCase @Inject constructor(
     private val localCartRepository: LocalCartRepository,
-    private val bookRepository: BookRepository
+    private val cartRepository: CartRepository
 ) {
-    suspend operator fun invoke(item: CartItemEntity) {
-       // bookRepository.
-        //cartRepository.addToCart(item)
+    suspend operator fun invoke(id: String, productType: ProductType): Flow<Resource<String?>> {
+        Log.d("AddToCartUseCase", "invoke: $id")
+        return cartRepository.addProductToCart(
+            productId = id, productType = productType
+        )
     }
 }
 

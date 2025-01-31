@@ -3,6 +3,7 @@ package com.nabssam.bestbook.di
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.repository.BookRepository
+import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
@@ -86,9 +87,9 @@ object ViewModelProviderModule {
     @Singleton
     fun provideAddToCartUseCase(
         localCartRepository: LocalCartRepository,
-        bookRepository: BookRepository
+        cartRepository: CartRepository
     ): AddToCartUseCase {
-        return AddToCartUseCase(localCartRepository, bookRepository)
+        return AddToCartUseCase(localCartRepository, cartRepository)
     }
 
     @Provides

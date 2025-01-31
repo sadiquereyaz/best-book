@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
@@ -149,10 +150,24 @@ fun BBNavSuite(
 
                                 else -> {
                                     IconButton(onClick = { navController.navigate(Route.CartRoute()) }) {
-                                        Icon(
-                                            Icons.Default.ShoppingCart,
-                                            contentDescription = "cart"
-                                        )
+                                        BadgedBox(
+                                            badge = {
+                                            val itemCount = 5
+                                                if (itemCount > 0) {
+                                                    Badge(
+                                                        containerColor = Color.Red,
+                                                        contentColor = Color.White
+                                                    ) {
+                                                        Text("$itemCount")
+                                                    }
+                                                }
+                                            }
+                                        ) {
+                                            Icon(
+                                                Icons.Default.ShoppingCart,
+                                                contentDescription = "cart"
+                                            )
+                                        }
                                     }
                                 }
                             }

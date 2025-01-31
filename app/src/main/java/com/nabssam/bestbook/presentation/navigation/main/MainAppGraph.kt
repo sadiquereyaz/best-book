@@ -26,6 +26,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 //        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()
+//    Route.AllBookRoute(targetExam = "JEE")
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()

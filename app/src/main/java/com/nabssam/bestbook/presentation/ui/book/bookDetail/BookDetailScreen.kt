@@ -38,6 +38,8 @@ import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 
 
@@ -125,10 +127,12 @@ fun BookDetailScreen(
                     paperbackDiscount = bookObj.hardCopyDis,
                     ebookPrice = bookObj.ebookPrice,
                     ebookDiscount = bookObj.ebookDis,
-                    onTabSelect = { btnState ->
+                    /*onTabSelect = { btnState ->
                         onEvent(EventBookDetail.BookTypeSelect(btnState))
+                    },*/
+                    onTypeSelect = { productType ->
+                        onEvent(EventBookDetail.ProductTypeSelect(productType))
                     },
-//                    onEvent = onEvent,
                 )
             }
 
@@ -181,7 +185,7 @@ fun BookDetailScreen(
                 .clip(shape = RoundedCornerShape(0.dp)),
             onClick = {
                 when (state.buttonState) {
-                    ButtonType.EBOOK -> navigateToPayment(bookObj.id)
+//                    ButtonType.EBOOK -> navigateToPayment(bookObj.id)
                     ButtonType.ADD_TO_CART -> {
                         onEvent(EventBookDetail.ButtonClick)
                     }
@@ -194,7 +198,7 @@ fun BookDetailScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Icon(ImageVector.vectorResource(state.buttonState.iconId), state.buttonState.btnText)
+                 Icon(ImageVector.vectorResource(state.buttonState.iconId), state.buttonState.btnText)
                 Text(
                     text = state.buttonState.btnText,
                     fontSize = 18.sp,

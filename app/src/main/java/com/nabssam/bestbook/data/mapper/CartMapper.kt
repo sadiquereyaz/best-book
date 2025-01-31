@@ -7,7 +7,6 @@ class CartMapper {
     fun dtoToDomain(dto: CartItemFinal): CartItem {
         val product = dto.product
         return CartItem(
-            id = product._id,
             productId = product._id,
             name = product.title,
             price = product.price,

@@ -46,12 +46,18 @@ class ViewModelBookDetail @Inject constructor(
             }
 
             is EventBookDetail.AddToCart -> {
-                addToCart(id)
+                addToCart()
             }
 
-            is EventBookDetail.BookTypeSelect -> {
+            /*is EventBookDetail.BookTypeSelect -> {
                 _state.update {
                     it.copy(buttonState = event.btnState)
+                }
+            }*/
+
+            is EventBookDetail.ProductTypeSelect -> {
+                _state.update {
+                    it.copy(productType = event.type)
                 }
             }
 
@@ -59,7 +65,7 @@ class ViewModelBookDetail @Inject constructor(
                 when (state.value.buttonState) {
                     ButtonType.ADD_TO_CART -> {
                         _state.update { it.copy(buttonState = ButtonType.GO_TO_CART) }
-                        addToCart(id)
+                        addToCart()
                     }
 //                    ButtonType.GO_TO_CART -> TODO()
                     else -> {}
@@ -133,11 +139,15 @@ class ViewModelBookDetail @Inject constructor(
         }
     }
 
-    fun addToCart(bookId: String) {
+    private fun addToCart() {
+        Log.d("VM_BOOK_DETAIL", "add to cart $id")
         viewModelScope.launch {
-            /*  addToCartUseCase(
-                  mapper.domainToEntity(book)
-              )*/
+            addToCartUseCase(
+                id = state.value.fetchedBook.id,
+                productType = state.value.productType,
+            ).collect{
+
+            }
         }
     }
 

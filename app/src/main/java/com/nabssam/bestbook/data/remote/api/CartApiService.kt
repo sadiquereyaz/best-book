@@ -1,11 +1,11 @@
 package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.AddToCartRequest
-import com.nabssam.bestbook.data.remote.dto.CartAllItems
+import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.data.remote.dto.CartItemDtoFree
 import com.nabssam.bestbook.data.remote.dto.CartResponse
 import com.nabssam.bestbook.data.remote.dto.CartResponseFinal
-import com.nabssam.bestbook.domain.model.UserOld
+import com.nabssam.bestbook.domain.model.Unit
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,12 +19,15 @@ interface CartApiService {
     @GET("api/cart/getcart")
     suspend fun fetchAll(): Response<CartResponseFinal>
 
+    @POST("api/cart/add")
+    suspend fun add(@Body request: AddToCartRequest): Response<kotlin.Unit>
+
     @POST("api/cart/update-quantity")
-    suspend fun updateQuantity(@Body request: AddToCartRequest): Response<CartResponse>
+    suspend fun updateQuantity(@Body request: UpdateQuantityRequest): Response<CartResponse>
 
     // Remove a product ID from the user's cart
     @PATCH("api/cart/remove")
-    suspend fun removeProductFromCart(@Body productId: String): Response<UserOld>
+    suspend fun removeProductFromCart(@Body productId: String): Response<Unit>
 
 
     @POST("api/cart/clear")
@@ -45,5 +48,5 @@ interface CartApiService {
 
     // Clear all items from the user's cart
     @PATCH("users/{userId}/cart/clear")
-    suspend fun clearCart(@Path("userId") userId: String): Response<UserOld>
+    suspend fun clearCart(@Path("userId") userId: String): Response<Unit>
 }

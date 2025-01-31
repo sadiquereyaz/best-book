@@ -2,7 +2,7 @@ package com.nabssam.bestbook.presentation.ui.profile
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.nabssam.bestbook.domain.model.UserOld
+import com.nabssam.bestbook.domain.model.Unit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private fun fetchProfile() {
         try {
             //val user = firebaseRepo.user()
-            val userOld = UserOld()
+            val userOld = Unit()
             if (userOld != null) {
                 _profileUiState.update { profileState ->
                     profileState.copy(

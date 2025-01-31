@@ -3,9 +3,15 @@ package com.nabssam.bestbook.data.remote.dto
 import com.google.gson.annotations.SerializedName
 import com.nabssam.bestbook.data.remote.dto.auth.UserDto
 
-data class AddToCartRequest(
+data class UpdateQuantityRequest(
     @SerializedName("productId") val bookId: String,
     @SerializedName("quantity") val quantity: Int
+)
+
+data class AddToCartRequest(
+    @SerializedName("productId") val bookId: String,
+    @SerializedName("quantity") val quantity: Int,
+    @SerializedName("bookType") val productType: ProductType
 )
 
 data class CartResponse(

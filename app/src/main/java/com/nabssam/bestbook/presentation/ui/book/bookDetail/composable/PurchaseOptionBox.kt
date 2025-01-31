@@ -29,8 +29,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.ButtonType
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.EventBookDetail
+import com.nabssam.bestbook.data.remote.dto.ProductType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +40,8 @@ fun PurchaseOptionBox(
     paperbackDiscount: Int,
     ebookPrice: Int?,
     ebookDiscount: Int? = null,
-    onTabSelect: (ButtonType) -> Unit ={},
+//    onTabSelect: (ButtonType) -> Unit ={},
+    onTypeSelect: (ProductType) -> Unit,
 //    onEvent: (EventBookDetail) -> Unit
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -79,7 +79,8 @@ fun PurchaseOptionBox(
                     isSelected = selectedTabIndex == 0,
                     onClick = {
                         selectedTabIndex = 0
-                        onTabSelect(ButtonType.ADD_TO_CART)
+//                        onTabSelect(ButtonType.ADD_TO_CART)
+                        onTypeSelect(ProductType.Book)
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -122,7 +123,8 @@ fun PurchaseOptionBox(
                                 scope.launch {
                                     tooltipState.show()
                                 }
-                                onTabSelect(ButtonType.EBOOK)
+//                                onTabSelect(ButtonType.EBOOK)
+                                onTypeSelect(ProductType.ebook)
                             },
                             modifier = Modifier.fillMaxWidth()
                         )

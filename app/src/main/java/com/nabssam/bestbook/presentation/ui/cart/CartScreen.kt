@@ -50,6 +50,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.remote.dto.ProductType
 import com.nabssam.bestbook.domain.model.CartItem
@@ -99,16 +100,17 @@ fun CartScreen(
                         .padding(top = 12.dp)
                 ) {
                     items(cartItems) {
-                        if (it.quantity > 0) CartItem(
-                            goToBookDetail = goToBookDetail,
-                            cartItem = it,
-                            updateQuantity = { quantity ->
-                                vm.updateQuantity(
-                                    productId = it.productId,
-                                    quantity = quantity
-                                )
-                            },
-                        )
+                        if (it.quantity > 0)
+                            CartItem(
+                                goToBookDetail = goToBookDetail,
+                                cartItem = it,
+                                updateQuantity = { quantity ->
+                                    vm.updateQuantity(
+                                        productId = it.productId,
+                                        quantity = quantity
+                                    )
+                                },
+                            )
                     }
 
                     // price receipt
@@ -130,12 +132,12 @@ fun CartScreen(
                                 priceTitle = "Discount (${idleState.totalDiscountPer}%)",
                                 price = "-₹${idleState.totalDiscountAmount}"
                             )
-                           /* PriceRow(
-                                priceTitle = "Delivery Charges",
-                                price = "₹${idleState.totalAmount}",
-                                color = MaterialTheme.colorScheme.secondary,
-                                textDecoration = TextDecoration.LineThrough
-                            )*/
+                            /* PriceRow(
+                                 priceTitle = "Delivery Charges",
+                                 price = "₹${idleState.totalAmount}",
+                                 color = MaterialTheme.colorScheme.secondary,
+                                 textDecoration = TextDecoration.LineThrough
+                             )*/
                             PriceRow(
                                 modifier = Modifier.padding(top = 8.dp),
                                 priceTitle = "Total Amount",
@@ -228,7 +230,7 @@ fun CartItem(
     updateQuantity: (Int) -> Unit
 ) {
     Card(
-        onClick = {},
+        onClick = {goToBookDetail(cartItem.productId)},
         modifier = Modifier
             .fillMaxWidth()
             // .defaultMinSize(minHeight = 300.dp)
@@ -245,8 +247,7 @@ fun CartItem(
             ) {
                 Text(
                     text = cartItem.productType.type,
-                    modifier = Modifier.padding(horizontal = 4.dp)
-                    , color = Color.White,
+                    modifier = Modifier.padding(horizontal = 4.dp), color = Color.White,
                     fontSize = 12.sp,
                     lineHeight = 6.sp
                 )
@@ -260,6 +261,7 @@ fun CartItem(
             ) {
                 BookCoverImage(
                     modifier = Modifier
+                        .zIndex(5f)
                         .height(140.dp)
                         .clickable { goToBookDetail(cartItem.productId) },
                     coverImage = cartItem.coverImage
@@ -278,17 +280,21 @@ fun CartItem(
                         discPer = cartItem.hardCopyDis,
                         originalPrice = cartItem.price,
                         title = cartItem.name,
-                       // rating = bookObj.rate.points
+                        // rating = bookObj.rate.points
                     )
 //                    Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(text  = cartItem.stockType.text, color = cartItem.stockType.color.copy(alpha = 0.5f), fontStyle = FontStyle.Italic)
-
-                    if(cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
-                    CountChanger(
-                        updateQuantity = updateQuantity,
-                        quantity = cartItem.quantity ?: 0
+                    Text(
+                        text = cartItem.stockType.text,
+                        color = cartItem.stockType.color.copy(alpha = 0.5f),
+                        fontStyle = FontStyle.Italic
                     )
+
+                    if (cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
+                        CountChanger(
+                            updateQuantity = updateQuantity,
+                            quantity = cartItem.quantity ?: 0
+                        )
                 }
 
             }
