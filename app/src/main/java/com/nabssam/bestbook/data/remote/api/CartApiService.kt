@@ -5,7 +5,9 @@ import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.data.remote.dto.CartItemDtoFree
 import com.nabssam.bestbook.data.remote.dto.CartResponse
 import com.nabssam.bestbook.data.remote.dto.CartResponseFinal
-import com.nabssam.bestbook.domain.model.Unit
+import com.nabssam.bestbook.data.remote.dto.RemoveRequest
+import com.nabssam.bestbook.data.remote.dto.RemoveResponse
+import com.nabssam.bestbook.domain.model.Unit1
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,14 +22,26 @@ interface CartApiService {
     suspend fun fetchAll(): Response<CartResponseFinal>
 
     @POST("api/cart/add")
-    suspend fun add(@Body request: AddToCartRequest): Response<kotlin.Unit>
+    suspend fun add(@Body request: AddToCartRequest): Response<Unit>
 
     @POST("api/cart/update-quantity")
     suspend fun updateQuantity(@Body request: UpdateQuantityRequest): Response<CartResponse>
 
     // Remove a product ID from the user's cart
-    @PATCH("api/cart/remove")
-    suspend fun removeProductFromCart(@Body productId: String): Response<Unit>
+    @POST("api/cart/remove")
+    suspend fun removeProductFromCart(@Body removeRequest: RemoveRequest): Response<RemoveResponse>
+
+    @GET("api/address/getuseraddresses")
+    suspend fun getAllAddress(@Body productId: String): Response<Unit>
+
+    @GET("api/address/addaddress")
+    suspend fun addAddress(@Body productId: String): Response<Unit>
+
+    @GET("api/address/updateaddress/:addressId")
+    suspend fun updateAddress(@Body productId: String): Response<Unit>
+
+    @GET("api/address/deleteaddress/:addressId")
+    suspend fun deleteaddress(@Body productId: String): Response<Unit>
 
 
     @POST("api/cart/clear")

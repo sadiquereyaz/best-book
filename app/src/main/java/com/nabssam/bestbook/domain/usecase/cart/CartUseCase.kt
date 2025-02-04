@@ -3,7 +3,6 @@ package com.nabssam.bestbook.domain.usecase.cart
 import android.util.Log
 import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.remote.dto.ProductType
-import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.utils.Resource
@@ -24,10 +23,12 @@ class AddToCartUseCase @Inject constructor(
 }
 
 class RemoveFromCartUseCase @Inject constructor(
-    private val repository: LocalCartRepository
+    private val localRepo: LocalCartRepository,
+    private val cartRepository: CartRepository
+
 ) {
-    suspend operator fun invoke(productId: String) {
-        repository.removeFromCart(productId)
+    suspend operator fun invoke(productId: String): Flow<Resource<String?>> {
+        return cartRepository.removeProductFromCart(productId)
     }
 }
 

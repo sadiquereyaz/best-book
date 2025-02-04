@@ -5,9 +5,9 @@ import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.dto.AddToCartRequest
 import com.nabssam.bestbook.data.remote.dto.ProductType
+import com.nabssam.bestbook.data.remote.dto.RemoveRequest
 import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.domain.model.CartItem
-import com.nabssam.bestbook.domain.model.Unit
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -41,6 +41,8 @@ class CartRepositoryImpl @Inject constructor(
         flow {
             emit(Resource.Loading()) // Emit loading state
             if (quantity < 1) {
+                Log.d("CR_I", "updateQuantity: $productId $quantity")
+
                 // Call removeProductFromCart and handle its Flow
                 removeProductFromCart(productId).collect { resource ->
                     when (resource) {
@@ -110,13 +112,14 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeProductFromCart(productId: String): Flow<Resource<kotlin.Unit>> =
+    override suspend fun removeProductFromCart(productId: String): Flow<Resource<String?>> =
         flow {
             emit(Resource.Loading())
             try {
-                val response = cartApiService.removeProductFromCart(productId)
+                Log.d("CART_REPO", "removing productId: $productId")
+                val response = cartApiService.removeProductFromCart(RemoveRequest(productId))
                 if (response.isSuccessful) {
-                    emit(Resource.Success(Unit))
+                    emit(Resource.Success(data = null, message = "deleted successfully"))
                 } else {
                     emit(Resource.Error(response.message()))
                 }

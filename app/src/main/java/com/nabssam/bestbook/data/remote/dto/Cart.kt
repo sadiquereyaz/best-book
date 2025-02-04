@@ -29,6 +29,28 @@ data class Product(
     val title: String
 )
 
+data class RemoveResponse(
+    val __v: Int,
+    val _id: String,
+    val belongTo: String,
+    val coupon: String,
+    val createdAt: String,
+    val items: List<Item>,
+    val subtotal: Int,
+    val total: Int,
+    val updatedAt: String
+)
+
+data class Item(
+    val _id: String,
+    val productId: String,
+    val productType: String,
+    val quantity: Int
+)
+data class RemoveRequest(
+    val productId: String,
+)
+
 enum class ProductType(val color: Color, val type: String) {
     ebook(color = Color(0xFF005205), type = "Ebook"),
     Book(

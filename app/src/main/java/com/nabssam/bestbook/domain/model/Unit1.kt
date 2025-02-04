@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.domain.model
 
-data class Unit(
+data class Unit1(
     var phoneNumber: String? = null,
     var email: String? = null,
     var exam: String? = null,
