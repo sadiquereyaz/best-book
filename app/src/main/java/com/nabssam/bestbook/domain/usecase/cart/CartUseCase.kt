@@ -28,7 +28,7 @@ class RemoveFromCartUseCase @Inject constructor(
 
 ) {
     suspend operator fun invoke(productId: String): Flow<Resource<String?>> {
-        return cartRepository.removeProductFromCart(productId)
+        return cartRepository.removeProductFromCart(productId, -100)
     }
 }
 

@@ -8,9 +8,9 @@ data class OrderRequest(
     @SerialName("userId")
     val userId: String,
 
-    @SerialName("items")
+   /* @SerialName("items")
     val items: List<CartItemFinal>, // Change Any to a specific data type as needed
-
+*/
     @SerialName("totalAmount")
     val totalAmount: Double,
 

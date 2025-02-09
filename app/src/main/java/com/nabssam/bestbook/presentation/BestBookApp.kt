@@ -1,16 +1,14 @@
 package com.nabssam.bestbook.presentation
 
 
-import android.content.Intent
 import android.os.Build
-import android.provider.ContactsContract
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -32,33 +30,42 @@ fun BestBookApp(
 ) {
     //listen to authenticated events
     LaunchedEffect(Unit) {
-        authManager.authEvents.collect {events->
-            when(events){
+        authManager.authEvents.collect { events ->
+            when (events) {
                 AppState.LoggedOut -> {
                     navController.navigate(Route.AuthGraph) {
                         popUpTo(0) // Clear backstack
                     }
                 }
+
                 else -> Unit
             }
         }
     }
-
-    //AuthObserver(authManager = authManager, navController = navController)
+    val appViewModel: AppViewModel = hiltViewModel()
+    AuthObserver(authManager = authManager, navController = navController)
 
     val isWeakConnection by connectivityObserver.observe().collectAsState(initial = true)
-    OfflineDialog(isVisible = !isWeakConnection, onRetryClick = {
-        // Retry logic: check network availability again
-        val isStillDisconnected = !connectivityObserver.isNetworkAvailable()
-        if (!isStillDisconnected) {
-            // Perform any action needed when network is back
-        }
-    },)
+    OfflineDialog(
+        isVisible = !isWeakConnection,
+        onRetryClick = {
+            // Retry logic: check network availability again
+            val isStillDisconnected = !connectivityObserver.isNetworkAvailable()
+            if (!isStillDisconnected) {
+                // Perform any action needed when network is back
+            }
+        },
+    )
 
-    BBNavSuite(navController = navController, modifier = Modifier, authManager)
-    { innerPadding ->
-        AppNavHost(navController, modifier, innerPadding)
-    }
+    BBNavSuite(
+        navController = navController,
+        modifier = Modifier,
+        authManager = authManager,
+        appViewModel = appViewModel,
+        { innerPadding ->
+            AppNavHost(navController, modifier, innerPadding)
+        }
+    )
 }
 
 @Composable
@@ -72,6 +79,7 @@ fun AuthObserver(authManager: AuthManager, navController: NavHostController) {
                         popUpTo(0) // Clear backstack
                     }
                 }
+
                 else -> Unit
             }
         }

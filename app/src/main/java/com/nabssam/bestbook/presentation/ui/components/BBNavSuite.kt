@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,16 +15,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
@@ -35,14 +48,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.repository.auth.AuthManager
+import com.nabssam.bestbook.presentation.AppViewModel
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
+import com.nabssam.bestbook.presentation.navigation.appbar.TopAppBarActions
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +65,8 @@ fun BBNavSuite(
     modifier: Modifier = Modifier,
     // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
     authManager: AuthManager,
-    content: @Composable (PaddingValues) -> Unit
+    appViewModel: AppViewModel,
+    content: @Composable (PaddingValues) -> Unit,
 
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -63,7 +77,7 @@ fun BBNavSuite(
 //    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     // val snackbarHostState = remember { SnackbarHostState() }
 
-
+    val cartCount by appViewModel.cartItemCount.collectAsState()
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -121,57 +135,9 @@ fun BBNavSuite(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-                    /*.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-            )*/
                     scrollBehavior = scrollBehavior,
                     actions = {
-                        // Add buttons dynamically
-                        currentDestination?.let { destination ->
-                            when {
-                                destination.hasRoute(Route.Ebook::class) -> {
-                                    IconButton(onClick = { }) {
-                                        Icon(
-                                            imageVector = ImageVector.vectorResource(R.drawable.ebook),
-                                            contentDescription = "ebook_store"
-                                        )
-                                    }
-                                }
-
-                                destination.hasRoute(Route.AuthGraph::class) -> {
-                                    IconButton(onClick = { }) {
-                                        Icon(
-                                            imageVector = ImageVector.vectorResource(R.drawable.ebook),
-                                            contentDescription = "ebook_store"
-                                        )
-                                    }
-                                }
-
-                                else -> {
-                                    IconButton(onClick = { navController.navigate(Route.CartRoute()) }) {
-                                        BadgedBox(
-                                            badge = {
-                                            val itemCount = 5
-                                                if (itemCount > 0) {
-                                                    Badge(
-                                                        containerColor = Color.Red,
-                                                        contentColor = Color.White
-                                                    ) {
-                                                        Text("$itemCount")
-                                                    }
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                Icons.Default.ShoppingCart,
-                                                contentDescription = "cart"
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        TopAppBarActions(currentDestination, navController, cartCount)
                     },
                 )
             },

@@ -49,5 +49,3 @@ class AuthManager @Inject constructor(
         _authEvents.emit(AppState.LoggedOut) // Emit logout event
     }
 }
-
-// 3. Modify AuthInterceptor to use the interface instead

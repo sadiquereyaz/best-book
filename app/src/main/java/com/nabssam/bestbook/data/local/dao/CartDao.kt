@@ -9,11 +9,25 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartDao {
+
+
+    @Query("SELECT SUM(quantity) FROM cart_items")
+    suspend fun getTotalCartCount(): Int
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdateCartItem(cartItem: CartItemEntity)
+
+    @Query("DELETE FROM cart_items WHERE productId = :productId")
+    suspend fun removeCartItem(productId: String)
+
+    @Query("DELETE FROM cart_items")
+    suspend fun clearCart()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(cartItem: CartItemEntity)
 
-   /* @Query("DELETE FROM cart_items WHERE productId = :productId")
-    suspend fun delete(productId: String)*/
+    /* @Query("DELETE FROM cart_items WHERE productId = :productId")
+     suspend fun delete(productId: String)*/
 
     @Query("DELETE FROM cart_items WHERE productId = :productId")
     suspend fun deleteCartItem(productId: String)
@@ -28,9 +42,6 @@ interface CartDao {
     @Query("SELECT SUM(quantity) FROM cart_items")
     fun getTotalItems(): Flow<Int?>
 
-    @Query("DELETE FROM cart_items")
-    suspend fun clearCart()
-
     // Check if product exists in cart
     @Query("SELECT EXISTS(SELECT * FROM cart_items WHERE productId = :productId)")
     suspend fun isProductInCart(productId: String): Boolean
@@ -40,11 +51,13 @@ interface CartDao {
     suspend fun getCartItemById(productId: String): CartItemEntity?
 
 
-    @Query("INSERT INTO cart_items (productId, quantity, price, disPer, name, coverImage, inStock) VALUES\n" +
-            "('product1', 2, 100, 10, 'Product 1', 'image1.jpg', 1),\n" +
-            "('product2', 1, 50, 5, 'Product 2', 'image2.jpg', 1),\n" +
-            "('product3', 3, 150, 15, 'Product 3', 'image3.jpg', 1),\n" +
-            "('product4', 2, 80, 8, 'Product 4', 'image4.jpg', 1);")
+    @Query(
+        "INSERT INTO cart_items (productId, quantity, price, disPer, name, coverImage, inStock) VALUES\n" +
+                "('product1', 2, 100, 10, 'Product 1', 'image1.jpg', 1),\n" +
+                "('product2', 1, 50, 5, 'Product 2', 'image2.jpg', 1),\n" +
+                "('product3', 3, 150, 15, 'Product 3', 'image3.jpg', 1),\n" +
+                "('product4', 2, 80, 8, 'Product 4', 'image4.jpg', 1);"
+    )
     suspend fun insertDummy()
 }
 
