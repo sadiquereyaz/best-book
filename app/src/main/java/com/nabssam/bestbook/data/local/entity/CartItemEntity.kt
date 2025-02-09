@@ -8,9 +8,4 @@ data class CartItemEntity(
     @PrimaryKey
     val productId: String,
     val quantity: Int,
-    val price: Int,
-    val disPer: Int,
-    val name: String,
-    val coverImage: String,
-    val inStock: Boolean = true
 )

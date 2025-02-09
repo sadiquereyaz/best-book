@@ -1,7 +1,8 @@
 package com.nabssam.bestbook.data.repository
 
 import android.util.Log
-import com.nabssam.bestbook.data.AppPreferences
+import com.nabssam.bestbook.data.local.dao.CartDao
+import com.nabssam.bestbook.data.local.entity.CartItemEntity
 import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.dto.AddToCartRequest
@@ -12,14 +13,13 @@ import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
     private val cartApiService: CartApiService,
     private val cartMapper: CartMapper,
-    private val appPreferences: AppPreferences
+    private val cartDao: CartDao // Inject Room DAO
 ) : CartRepository {
 
     override suspend fun fetchCartItems(): Flow<Resource<List<CartItem>>> = flow {
@@ -30,8 +30,8 @@ class CartRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                // Log.d("CART_REPO", "response body: ${response.body()}")
                 response.body()?.cartData?.cartItems?.let { items->
-                    val totalItems = items.sumOf { it.quantity }
-                    appPreferences.updateCartItemCount(totalItems)
+                    cartDao.clearCart() // Clear previous data
+                    items.forEach { cartDao.insertOrUpdateCartItem(CartItemEntity(it.product._id, it.quantity)) }
                     emit(Resource.Success(items.map { bookDto -> cartMapper.dtoToDomain(bookDto) }))
                 } ?: emit(Resource.Error("No data found"))
             } else {
@@ -49,10 +49,11 @@ class CartRepositoryImpl @Inject constructor(
                 Log.d("CART_REPO", "updateQuantity: $productId $quantity")
 
                 // Call removeProductFromCart and handle its Flow
-                removeProductFromCart(productId,-quantity).collect { resource ->
+                removeProductFromCart(productId).collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
                             //updateCartCountInPreferences(quantity)
+                            cartDao.removeCartItem(productId)
                             emit(
                                 Resource.Success(
                                     data = null,
@@ -76,7 +77,8 @@ class CartRepositoryImpl @Inject constructor(
                     val response =
                         cartApiService.updateQuantity(UpdateQuantityRequest(productId, quantity))
                     if (response.isSuccessful) {
-                        updateCartCountInPreferences(quantity)
+//                        updateCartCountInPreferences(quantity)
+                        cartDao.insertOrUpdateCartItem(CartItemEntity(productId, quantity))
                         emit(
                             Resource.Success(
                                 data = null,
@@ -109,7 +111,7 @@ class CartRepositoryImpl @Inject constructor(
 //            Log.d("CART_REPO", "Adding..${response}")
 //            Log.d("CART_REPO", "Adding..${response.body()}")
             if (response.isSuccessful) {
-                updateCartCountInPreferences(1)
+                cartDao.insertOrUpdateCartItem(CartItemEntity(productId, 1))
                 emit(Resource.Success(data = null, message = "Item added successfully"))
             } else {
                 emit(Resource.Error(response.message()))
@@ -120,7 +122,7 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeProductFromCart(productId: String, arithCount: Int): Flow<Resource<String?>> =
+    override suspend fun removeProductFromCart(productId: String): Flow<Resource<String?>> =
         flow {
             emit(Resource.Loading())
             try {
@@ -141,6 +143,7 @@ class CartRepositoryImpl @Inject constructor(
         try {
             val response = cartApiService.clearCart(userId)
             if (response.isSuccessful) {
+                cartDao.clearCart()
                 emit(Resource.Success(response.body()!!))
             } else {
                 emit(Resource.Error(response.message()))
@@ -158,9 +161,9 @@ class CartRepositoryImpl @Inject constructor(
 //            if (resource is Resource.Success) {
 //                val totalItems = resource.data?.sumOf { it.quantity } ?: 0
         Log.d("CART_REPO", "arithCount: $arithCount")
-        val totalItems1 :Int = appPreferences.cartItemCount.first() + arithCount
-        appPreferences.updateCartItemCount(totalItems1)
-        Log.d("CART_REPO", "Cart count updated: $totalItems1")
+//        val totalItems1 :Int = appPreferences.cartItemCount.first() + arithCount
+//        appPreferences.updateCartItemCount(totalItems1)
+//        Log.d("CART_REPO", "Cart count updated: $totalItems1")
         /*appPreferences.cartItemCount.collect { currentCount ->
             val totalItems = currentCount + arithCount
             if (totalItems >= 0) {

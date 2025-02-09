@@ -77,7 +77,8 @@ fun BBNavSuite(
 //    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     // val snackbarHostState = remember { SnackbarHostState() }
 
-    val cartCount by appViewModel.cartItemCount.collectAsState()
+    val cartCount:Int? by appViewModel.getCartItemCount.collectAsState()
+//    val cartCount by appViewModel.cartItemCount.collectAsState()
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -137,7 +138,7 @@ fun BBNavSuite(
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
                     scrollBehavior = scrollBehavior,
                     actions = {
-                        TopAppBarActions(currentDestination, navController, cartCount)
+                        TopAppBarActions(currentDestination, navController, cartCount?: 0)
                     },
                 )
             },

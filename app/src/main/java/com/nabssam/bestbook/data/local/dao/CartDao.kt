@@ -12,7 +12,7 @@ interface CartDao {
 
 
     @Query("SELECT SUM(quantity) FROM cart_items")
-    suspend fun getTotalCartCount(): Int
+     fun getTotalCartCount(): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateCartItem(cartItem: CartItemEntity)
@@ -22,12 +22,12 @@ interface CartDao {
 
     @Query("DELETE FROM cart_items")
     suspend fun clearCart()
-
+/*
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(cartItem: CartItemEntity)
 
-    /* @Query("DELETE FROM cart_items WHERE productId = :productId")
-     suspend fun delete(productId: String)*/
+    *//* @Query("DELETE FROM cart_items WHERE productId = :productId")
+     suspend fun delete(productId: String)*//*
 
     @Query("DELETE FROM cart_items WHERE productId = :productId")
     suspend fun deleteCartItem(productId: String)
@@ -58,7 +58,7 @@ interface CartDao {
                 "('product3', 3, 150, 15, 'Product 3', 'image3.jpg', 1),\n" +
                 "('product4', 2, 80, 8, 'Product 4', 'image4.jpg', 1);"
     )
-    suspend fun insertDummy()
+    suspend fun insertDummy()*/
 }
 
 /*

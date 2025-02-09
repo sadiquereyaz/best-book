@@ -4,7 +4,6 @@ import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
-import com.nabssam.bestbook.domain.repository.LocalCartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
@@ -12,7 +11,6 @@ import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.cart.GetAllCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
@@ -86,27 +84,17 @@ object ViewModelProviderModule {
     @Provides
     @Singleton
     fun provideAddToCartUseCase(
-        localCartRepository: LocalCartRepository,
         cartRepository: CartRepository
     ): AddToCartUseCase {
-        return AddToCartUseCase(localCartRepository, cartRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetCartItemsUseCase(
-        repository: LocalCartRepository
-    ): GetAllCartItemsUseCase {
-        return GetAllCartItemsUseCase(repository)
+        return AddToCartUseCase(cartRepository)
     }
 
     @Provides
     @Singleton
     fun providePlaceOrderUseCase(
         orderRepository: OrderRepository,
-        localCartRepository: LocalCartRepository
     ): PlaceOrderUseCase {
-        return PlaceOrderUseCase(orderRepository, localCartRepository)
+        return PlaceOrderUseCase(orderRepository)
     }
 
     @Provides
