@@ -3,6 +3,7 @@ package com.nabssam.bestbook.data.mapper
 import com.nabssam.bestbook.data.remote.dto.BookDtoFinal
 import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
 
 class BookMapper {
     fun dtoToDomain(dto: BookDto): Book {
@@ -48,6 +49,17 @@ class BookMapper {
             ebookDis = dto.ebookDiscount,
             //noOfPages = dto.pages,
             ebookUrl = dto.eBook
+        )
+    }
+
+    fun ebookDtoToDomain(dto: BookDtoFinal): Ebook {
+        return Ebook(
+            id = dto._id,
+            name = dto.title,
+            exam = dto.targetExam,
+            coverUrl = dto.coverImage,
+            author = dto.description,
+            url = dto.eBook
         )
     }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.PDFViewerScreen
+import com.nabssam.bestbook.presentation.ui.book.ebook.ViewModelEbook
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
@@ -57,7 +58,12 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
 //            SecurePdfScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
             //PdfLibraryScreen {  }
 //            PDFViewerScreen(pdfUrl = "https://icseindia.org/document/sample.pdf")
-            PDFViewerScreen()
+            val viewModel = hiltViewModel<ViewModelEbook>()
+            val state by viewModel.uiState.collectAsState()
+            PDFViewerScreen(
+                uiState = state,
+                onEvent = { viewModel.onEvent(it) }
+            )
         }
 
         bookGraph(navController)

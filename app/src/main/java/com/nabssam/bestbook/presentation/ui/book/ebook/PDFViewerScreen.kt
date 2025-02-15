@@ -4,10 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
@@ -16,12 +23,14 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.nabssam.bestbook.PDFViewActivity
+import com.nabssam.bestbook.presentation.navigation.LoadingScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.components.PDFListItem
+import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 @Composable
-fun PDFViewerScreen() {
+fun PDFViewerScreen(uiState: UiStateEbook, onEvent: (EventEbook) -> Unit) {
     val context = LocalContext.current
     val workManager = remember { WorkManager.getInstance(context) }
     val pdfDownloadStatusHelper = remember { PDFDownloadStatusHelper(context) }
@@ -29,7 +38,7 @@ fun PDFViewerScreen() {
     // Load the initial download status for each PDF
     var pdfListState by remember {
         mutableStateOf(
-            pdfList.map { pdf ->
+            uiState.ebookList.map { pdf ->
                 pdf.copy(isDownloaded = pdfDownloadStatusHelper.getDownloadStatus(pdf.name))
             }
         )
@@ -65,36 +74,47 @@ fun PDFViewerScreen() {
     }
 
     // Display the list of PDFs
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(pdfListState) { pdf ->
-            PDFListItem(
-                pdf = pdf,
-                onItemClick = {
-                    if (!pdf.isDownloaded) {
-                        // Start download
-                        val workRequest = PDFDownloadWorker.createWorkRequest(pdf.name, pdf.url)
-                        workManager.enqueueUniqueWork(
-                            "pdf_download",
-                            ExistingWorkPolicy.REPLACE,
-                            workRequest
-                        )
-                    } else {
-                        // Open the downloaded PDF
-                        val pdfFile = File(context.filesDir, "${pdf.name}.encrypted")
-                        Log.d(
-                            "PDFViewerScreen",
-                            "Attempting to open PDF at: ${pdfFile.absolutePath}"
-                        )
-                        Log.d("PDFViewerScreen", "File exists: ${pdfFile.exists()}")
-
-                        if (pdfFile.exists()) {
-                            openPDF(context, pdfFile)
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ){
+        if (uiState.isLoading)
+            LoadingScreen()
+        else if(uiState.error != null)
+            ErrorScreen(modifier = Modifier.fillMaxSize(), message = uiState.error, {})
+        else
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(pdfListState) { pdf ->
+                PDFListItem(
+                    pdf = pdf,
+                    onItemClick = {
+                        if (!pdf.isDownloaded) {
+                            // Start download
+                            val workRequest = PDFDownloadWorker.createWorkRequest(pdf.name, pdf.url)
+                            workManager.enqueueUniqueWork(
+                                "pdf_download",
+                                ExistingWorkPolicy.REPLACE,
+                                workRequest
+                            )
                         } else {
-                            Toast.makeText(context, "PDF file not found", Toast.LENGTH_SHORT).show()
+                            // Open the downloaded PDF
+                            val pdfFile = File(context.filesDir, "${pdf.name}.encrypted")
+                            Log.d(
+                                "PDFViewerScreen",
+                                "Attempting to open PDF at: ${pdfFile.absolutePath}"
+                            )
+                            Log.d("PDFViewerScreen", "File exists: ${pdfFile.exists()}")
+
+                            if (pdfFile.exists()) {
+                                openPDF(context, pdfFile)
+                            } else {
+                                Toast.makeText(context, "PDF file not found", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
+
         }
     }
 }

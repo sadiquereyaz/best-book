@@ -5,6 +5,7 @@ import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.data.remote.dto.CartItemDtoFree
 import com.nabssam.bestbook.data.remote.dto.CartResponse
 import com.nabssam.bestbook.data.remote.dto.CartResponseFinal
+import com.nabssam.bestbook.data.remote.dto.PurchasedEbookResponse
 import com.nabssam.bestbook.data.remote.dto.RemoveRequest
 import com.nabssam.bestbook.data.remote.dto.RemoveResponse
 import com.nabssam.bestbook.domain.model.Unit1
@@ -30,4 +31,7 @@ interface OrderApiService {
     // Clear all items from the user's cart
     @PATCH("users/{userId}/cart/clear")
     suspend fun clearCart(@Path("userId") userId: String): Response<Unit>
+
+    @GET("api/book/purchasedebooks")
+    suspend fun getAllPurchasedEbook(): Response<PurchasedEbookResponse>
 }

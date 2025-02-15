@@ -30,16 +30,17 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.presentation.ui.book.ebook.PDFItem
+import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
 
 @Composable
 fun PDFListItem(
     modifier: Modifier = Modifier,
-    pdf: PDFItem,
+    pdf: Ebook,
     onItemClick: () -> Unit
 ) {
     Card(
@@ -60,7 +61,7 @@ fun PDFListItem(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("http://res.cloudinary.com/dniu1zxdq/image/upload/v1737962343/tdiudk2hhebt4faznxhq.jpg")
+                        .data(pdf.coverUrl)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
@@ -77,25 +78,22 @@ fun PDFListItem(
                 ) {
                     Text(
                         text = pdf.name,
-                        fontSize = 22.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (pdf.isDownloaded) {
-                        Text(
-                            text = "Downloaded - Click to Open",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Green
-                        )
-                    } else {
-                        Text(
-                            text = "Click to Download",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Blue
-                        )
-                    }
+                    Text(
+                        text = pdf.exam,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = pdf.author,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
 

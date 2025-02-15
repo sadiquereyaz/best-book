@@ -35,14 +35,14 @@ data class BookDtoFinal(
     val updatedAt: String
 )
 
-
-data class BookListResponse(
-    @SerializedName("books") val data: List<BookDto>,
+data class PurchasedEbookResponse(
+    @SerializedName("ebooks") val data: List<BookDtoFinal>,
     val message: String,
     val success: Boolean
 )
-data class PurchasedEbookResponse(
-    @SerializedName("ebooks") val data: List<BookDto>,
+
+data class BookListResponse(
+    @SerializedName("books") val data: List<BookDto>,
     val message: String,
     val success: Boolean
 )

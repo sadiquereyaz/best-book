@@ -22,9 +22,6 @@ interface BookApi {
     @GET("api/book/getbookbyexam/{exam}")
     suspend fun getByExam(@Path("exam") targetExam: String): Response<BookListResponseFinal>
 
-    @GET("api/book/purchasedebooks")
-    suspend fun getAllPurchasedEbook(): Response<PurchasedEbookResponse>
-
     @GET("api/exams/getalltarget")
     suspend fun getAllTarget(): Response<TargetExamsResponse>
 

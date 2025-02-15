@@ -3,6 +3,8 @@ package com.nabssam.bestbook.di
 import com.nabssam.bestbook.data.mapper.AddressMapper
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.AddressApiService
+import com.nabssam.bestbook.data.remote.api.BookApi
+import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
@@ -16,6 +18,8 @@ import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
 import com.nabssam.bestbook.domain.repository.AddressRepository
 import com.nabssam.bestbook.data.repository.AddressRepositoryImpl
+import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepository
+import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepositoryImp
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module
@@ -119,5 +123,13 @@ object ViewModelProviderModule {
         addressMapper: AddressMapper
     ): AddressRepository {
         return AddressRepositoryImpl(addressApiService, addressMapper)
+    }
+    @Provides
+    @Singleton
+    fun provideEbookRepository(
+        api: OrderApiService,
+        mapper: BookMapper
+    ): EbookRepository {
+        return EbookRepositoryImp(api, mapper)
     }
 }
