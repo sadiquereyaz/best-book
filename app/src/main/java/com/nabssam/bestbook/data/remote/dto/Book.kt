@@ -41,6 +41,11 @@ data class BookListResponse(
     val message: String,
     val success: Boolean
 )
+data class PurchasedEbookResponse(
+    @SerializedName("ebooks") val data: List<BookDto>,
+    val message: String,
+    val success: Boolean
+)
 
 data class BookDto(
 

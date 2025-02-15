@@ -14,8 +14,8 @@ import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
-import com.nabssam.bestbook.presentation.ui.address.AddressRepository
-import com.nabssam.bestbook.presentation.ui.address.AddressRepositoryImpl
+import com.nabssam.bestbook.domain.repository.AddressRepository
+import com.nabssam.bestbook.data.repository.AddressRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module

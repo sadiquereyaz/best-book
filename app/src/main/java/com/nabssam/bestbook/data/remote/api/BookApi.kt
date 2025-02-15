@@ -4,6 +4,7 @@ import com.nabssam.bestbook.data.remote.dto.BookListResponse
 import com.nabssam.bestbook.data.remote.dto.BookListResponseFinal
 import com.nabssam.bestbook.data.remote.dto.BookResponseFinal
 import com.nabssam.bestbook.data.remote.dto.ProductResponseFreeApi
+import com.nabssam.bestbook.data.remote.dto.PurchasedEbookResponse
 import com.nabssam.bestbook.data.remote.dto.TargetExamsResponse
 import com.nabssam.bestbook.domain.model.Book
 import retrofit2.Response
@@ -21,9 +22,11 @@ interface BookApi {
     @GET("api/book/getbookbyexam/{exam}")
     suspend fun getByExam(@Path("exam") targetExam: String): Response<BookListResponseFinal>
 
+    @GET("api/book/purchasedebooks")
+    suspend fun getAllPurchasedEbook(): Response<PurchasedEbookResponse>
+
     @GET("api/exams/getalltarget")
     suspend fun getAllTarget(): Response<TargetExamsResponse>
-
 
 
 

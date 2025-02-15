@@ -4,22 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asFlow
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.nabssam.bestbook.PDFViewActivity
+import com.nabssam.bestbook.presentation.ui.book.ebook.components.PDFListItem
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -110,35 +107,4 @@ fun openPDF(context: Context, pdfFile: File) {
     context.startActivity(intent)
 }
 
-@Composable
-fun PDFListItem(pdf: PDFItem, onItemClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onItemClick() }
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = pdf.name, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            if (pdf.isDownloaded) {
-                Text(
-                    text = "Downloaded - Click to Open",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Green
-                )
-            } else {
-                Text(
-                    text = "Click to Download",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Blue
-                )
-            }
-        }
-    }
-}
-
-
 fun <T> LiveData<T>.toFlow(): Flow<T> = this.asFlow()
-
-
