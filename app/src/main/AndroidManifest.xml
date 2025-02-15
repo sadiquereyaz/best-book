@@ -38,6 +38,12 @@
             android:exported="true"
             android:label="PDF Viewer"
             android:theme="@style/ThemeBestBook.PDFView" />
+        <activity
+            android:name=".PhonePeActivity"
+            android:exported="false"
+            android:label="PhonePe"
+            android:launchMode="singleTop"
+            android:theme="@style/ThemeBestBook.PDFView" />
     </application>
 
 </manifest>

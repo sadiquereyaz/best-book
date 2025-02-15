@@ -14,7 +14,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import kotlinx.serialization.Serializable
-import kotlin.reflect.KClass
 
 sealed interface Route {
 
@@ -66,7 +65,7 @@ sealed interface Route {
     data class CartRoute(val title: String = "Your Cart") : Route
 
     @Serializable
-    data class AddAddressRoute(val title: String = "Delivery Address") : Route
+    data class AddressRoute(val title: String = "Delivery Address") : Route
 
     @Serializable
     data class AllOrderRoute(val title: String = "All Orders") : Route

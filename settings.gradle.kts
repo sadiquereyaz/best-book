@@ -18,6 +18,8 @@ dependencyResolutionManagement {
         mavenCentral()
         maven(url = java.net.URI("https://jcenter.bintray.com"))
         maven (url ="https://repository.liferay.com/nexus/content/repositories/public/" )
+        maven (url = "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android")
+
     }
 }
 

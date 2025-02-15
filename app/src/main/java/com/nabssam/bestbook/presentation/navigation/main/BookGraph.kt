@@ -15,7 +15,6 @@ import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
 import com.nabssam.bestbook.presentation.ui.book.bookList.VMBookList
 import com.nabssam.bestbook.presentation.ui.cart.CartScreen
 import com.nabssam.bestbook.presentation.ui.cart.VMCart
-import com.nabssam.bestbook.presentation.ui.cart.claude.CartScreenClaude
 
 fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
     composable<Route.AllBookRoute> { backStackEntry ->
@@ -77,7 +76,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
                 navController.navigate(route = Route.BookDetailRoute(bookId))
             },
             goToAddressScreen = {
-                navController.navigate(Route.AddAddressRoute())
+                navController.navigate(Route.AddressRoute())
             }
         )
 //        CartScreenClaude(){}

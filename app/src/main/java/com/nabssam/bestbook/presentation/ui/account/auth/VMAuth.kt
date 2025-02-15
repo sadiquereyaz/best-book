@@ -74,10 +74,14 @@ class VMAuth @Inject constructor(
 
     private fun checkAuthState() {
         viewModelScope.launch {
-            if (tokenStorage.getAccessToken() != null)
-                updateState { it.copy(isSignedIn = true) }
-            else
+            if (tokenStorage.getAccessToken() != null) {
+                Log.d("AUTH_VM", "checkAuthState: ${tokenStorage.getAccessToken()}")
+                updateState { it.copy(isSignedIn = true, isLoading = false) }
+            }
+            else {
+                Log.d("AUTH_VM", "checkAuthState: null")
                 updateState { it.copy(isLoading = false) }
+            }
         }
     }
 

@@ -9,7 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.address.AddAddressScreen
+import com.nabssam.bestbook.presentation.ui.address.AddressScreen
+import com.nabssam.bestbook.presentation.ui.address.ViewModelAddress
 import com.nabssam.bestbook.presentation.ui.order.all.OrderListScreen
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderDetailsScreen
 import com.nabssam.bestbook.presentation.ui.order.detail.VMOrderDetail
@@ -18,13 +19,17 @@ import com.nabssam.bestbook.utils.DummyData
 fun NavGraphBuilder.orderGraph(navController: NavHostController) {
     navigation<Route.OrderGraph>(
         startDestination =
-//        Route.AddressRoute()
-        Route.OrderDetailRoute(orderId = "heehehe", title = "Product Name")
+        Route.AddressRoute()
+//        Route.OrderDetailRoute(orderId = "heehehe", title = "Product Name")
 //        Route.AllOrderRoute(title = "All Order")
     ) {
-        composable<Route.AddAddressRoute> { backStackEntry ->
+        composable<Route.AddressRoute> { backStackEntry ->
             //val routeObj: Route.Cart = backStackEntry.toRoute()
-            AddAddressScreen(
+            val viewModel: ViewModelAddress = hiltViewModel()
+            val state by viewModel.uiState.collectAsState()
+            AddressScreen(
+                uiState = state,
+                onEvent = { viewModel.onEvent(it) },
                 goToPayment = {
                     navController.navigate(Route.AllOrderRoute())
                 }

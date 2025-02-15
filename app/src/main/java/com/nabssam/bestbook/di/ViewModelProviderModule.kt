@@ -12,6 +12,8 @@ import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
 import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
+import com.nabssam.bestbook.presentation.ui.address.AddressRepository
+import com.nabssam.bestbook.presentation.ui.address.AddressRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module
@@ -106,5 +108,11 @@ object ViewModelProviderModule {
     @Singleton
     fun provideChatRepository(): ChatRepositoryImpl {
         return ChatRepositoryImpl( )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddressRepository(): AddressRepository {
+        return AddressRepositoryImpl( )
     }
 }

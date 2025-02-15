@@ -27,14 +27,13 @@ fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier,
     innerPadding: PaddingValues,
+    viewModel: VMAuth = hiltViewModel()
 ) {
-
-    val viewModel: VMAuth = hiltViewModel()
     val authState by viewModel.state.collectAsStateWithLifecycle()
 
-//    if (!authState.isSignedIn) {
-//        LoadingScreen()
-//    } else {
+    if (authState.isLoading) {
+        LoadingScreen()
+    } else {
         NavHost(
             navController = navController,
             startDestination = getStartDestination(authState),
@@ -47,7 +46,7 @@ fun AppNavHost(
             mainAppGraph(navController)
         }
     }
-//}
+}
 
 fun getStartDestination(authState: AuthState): Route {
     val isLoggedIn = authState.isSignedIn
@@ -59,7 +58,7 @@ fun getStartDestination(authState: AuthState): Route {
 }
 
 @Composable
-private fun LoadingScreen() {
+ fun LoadingScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

@@ -46,7 +46,7 @@ import com.nabssam.bestbook.presentation.theme.BoxColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaymentScreen(
+ fun PaymentScreen(
     paymentUiState: PaymentUiState,
     changePaymentMethod: (String) -> Unit,
     placeOrder: () -> Unit,

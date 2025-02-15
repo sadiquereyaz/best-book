@@ -122,7 +122,7 @@ fun BBNavSuite(
                             val title = navBackStackEntry?.arguments?.getString("title")
                             Box(Modifier, contentAlignment = Alignment.Center) {
                                 Text(
-                                    text = title.toString(),
+                                    text = title ?: "Best Book",
                                     modifier = Modifier
                                     // .height(100.dp)
                                     //.background(color = Color.Red)

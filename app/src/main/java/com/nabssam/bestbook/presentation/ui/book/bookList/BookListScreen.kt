@@ -57,8 +57,10 @@ fun BookListScreen(
                             .clickable { goToDetail(it.id, it.name) },
                         contentAlignment = Alignment.TopCenter
                     ) {
-                        Column {
-                            BookCoverImage(coverImage = it.coverUrl)
+                        Column(
+                            modifier = Modifier
+                        ) {
+                            BookCoverImage(coverImage = it.coverUrl, onClick = { goToDetail(it.id, it.name) })
                             //book title and price
                             BookTitlePrice(
                                 maxLine = 2,

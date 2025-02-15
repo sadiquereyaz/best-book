@@ -38,19 +38,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            buildConfigField("String", "baseUrl",  "\"http://192.168.139.63:3000/\"")
-//            buildConfigField("String", "baseUrl",  "\"http://10.57.7.19:3000/\"")
-            buildConfigField("String", "baseUrl",  "\"http://10.57.7.19:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.3.55:3000/\"")
 
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
-//            buildConfigField("String", "baseUrl",  "\"http://api.freeapi.app/\"")
 
         }
 
         debug {
-//            buildConfigField("String", "baseUrl",  "\"http://192.168.139.63:3000/\"")
-//            buildConfigField("String", "baseUrl",  "\"http://10.57.7.19:3000/\"")
-            buildConfigField("String", "baseUrl",  "\"http://10.57.7.19:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.3.55:3000/\"")
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
 //            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
@@ -144,6 +139,10 @@ dependencies {
     // WorkManager for background tasks
 //    implementation(libs.androidx.work.runtime.ktx)
     implementation("androidx.work:work-runtime-ktx:2.10.0")
+    
+    implementation("phonepe.intentsdk.android.release:IntentSDK:4.0.0")
+//    implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
+
 
 }
 // Allow references to generated code

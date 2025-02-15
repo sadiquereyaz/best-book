@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
     modifier: Modifier = Modifier,
     options: List<String>,
     label: String,
-    onOptionSelect: (String) -> Unit
+    onOptionSelected: (String) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable{ mutableStateOf("") }
@@ -53,7 +53,7 @@ import androidx.compose.ui.Modifier
                     onClick = {
                         selectedOptionText = selectionOption
                         expanded = false
-                        onOptionSelect(selectionOption)
+                        onOptionSelected(selectionOption)
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                 )

@@ -148,6 +148,8 @@ fun CartScreen(
                             Spacer(Modifier.height(/*56.dp*/72.dp))
                         }
                 }
+
+                // bottom price card
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -264,7 +266,8 @@ fun CartItem(
                         .zIndex(5f)
                         .height(140.dp)
                         .clickable { goToBookDetail(cartItem.productId) },
-                    coverImage = cartItem.coverImage
+                    coverImage = cartItem.coverImage,
+                    onClick = { goToBookDetail(cartItem.productId) }
                 )
                 Column(
                     modifier = Modifier

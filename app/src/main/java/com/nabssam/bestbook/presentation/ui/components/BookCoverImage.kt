@@ -25,6 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 fun BookCoverImage(
     modifier: Modifier = Modifier,
     coverImage: String,
+    onClick: ()->Unit
 ) {
     Card(
         modifier = modifier
@@ -34,7 +35,7 @@ fun BookCoverImage(
             color = Color.Black
         ),
         shape = RoundedCornerShape(8.dp),
-        onClick = {}, enabled = false
+        onClick = {onClick()}, enabled = false
     ) {
         // State to track loading progress
         val painter = rememberAsyncImagePainter(model = coverImage)

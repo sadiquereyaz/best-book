@@ -23,7 +23,7 @@ sealed interface CartUiState {
         val totalLabelAmount: Double = allCartItem.totalCartPrice()
         val totalItems: Int = allCartItem.totalItem()
         val totalDiscountPer: Double = allCartItem.totalDiscountPercent()
-        val totalAmount: Double = (totalDiscountPer).percentOf(totalLabelAmount)
+        val totalAmount: Double = totalLabelAmount.minus((totalDiscountPer).percentOf(totalLabelAmount))
         val totalDiscountAmount: Double =
             BigDecimal(totalLabelAmount.minus(totalAmount))
             .setScale(1, RoundingMode.HALF_DOWN)

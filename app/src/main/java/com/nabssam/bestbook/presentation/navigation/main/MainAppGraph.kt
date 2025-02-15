@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.phonepe.PhonePeScreen1
 import com.nabssam.bestbook.presentation.ui.PdfViewerScreenFromUrlDirect
 import com.nabssam.bestbook.presentation.ui.RestrictScreenshot
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
@@ -21,9 +22,9 @@ import com.nabssam.bestbook.utils.safeNavigate
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-        Route.Home  //TODO
+//        Route.Home  //TODO
 //        Route.BookDetailRoute(title = "Book Detail", id = "book1")
-//        Route.OrderGraph
+        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()
 //    Route.AllBookRoute(targetExam = "JEE")
@@ -68,11 +69,11 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
         composable<Route.Profile> {
             ProfileScreen()
         }
-       /* composable<Route.Ebook> {
-            RestrictScreenshot {
-                PdfViewerScreenFromUrlDirect()
-            }
-        }*/
+        /* composable<Route.Ebook> {
+             RestrictScreenshot {
+                 PdfViewerScreenFromUrlDirect()
+             }
+         }*/
         composable<Route.SubscribedQuiz> {
             SubscribedQuizScreen()
         }
