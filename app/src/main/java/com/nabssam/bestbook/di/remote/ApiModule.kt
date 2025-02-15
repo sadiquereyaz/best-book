@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.di.remote
 
+import com.nabssam.bestbook.data.remote.api.AddressApiService
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
@@ -32,6 +33,11 @@ object ApiModule {
         return retrofit.create(BookApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideAddressApi(@Auth retrofit: Retrofit): AddressApiService {
+        return retrofit.create(AddressApiService::class.java)
+    }
     @Provides
     @Singleton
     fun provideCartApi(@Auth retrofit: Retrofit): CartApiService {

@@ -2,6 +2,7 @@ package com.nabssam.bestbook.presentation.ui.address
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,17 +19,38 @@ class ViewModelAddress @Inject constructor(
 
     init {
         onEvent(EventAddressScreen.LoadAddress)
+//        fetchFormData()
     }
 
     fun onEvent(event: EventAddressScreen) {
         when (event) {
-            is EventAddressScreen.AddNewAddress -> TODO()
             is EventAddressScreen.LoadAddress -> fetchAddresses()
+            is EventAddressScreen.AddNewAddress -> TODO()
+            is EventAddressScreen.DeleteAddress -> deleteAddress(event.id)
             is EventAddressScreen.ShowError -> TODO()
-            is EventAddressScreen.ToggleAddressFields -> if (event.showForm)fetchFormData() else fetchAddresses()
-            EventAddressScreen.FetchFormData -> TODO()
-            EventAddressScreen.SubmitForm -> TODO()
+            is EventAddressScreen.ToggleAddressFields -> if (event.showForm) fetchFormData() else fetchAddresses()
+            is EventAddressScreen.FetchFormData -> TODO()
+            is EventAddressScreen.SubmitForm -> onSubmitForm()
             is EventAddressScreen.UpdateFormField -> onFormFieldUpdated(event.field, event.value)
+        }
+    }
+
+    private fun deleteAddress(id: String) {
+        viewModelScope.launch {
+            val initialAddresses = (_uiState.value as? UiStateAddress.Success.Addresses)
+            repository.deleteAddress(id).collect {
+                when (it) {
+                    is Resource.Loading -> _uiState.value = UiStateAddress.Loading
+                    is Resource.Error -> _uiState.value =
+                        UiStateAddress.Error(it.message ?: "Unknown error")
+
+                    is Resource.Success -> {
+                        val updatedAddresses = initialAddresses?.addresses?.filter { address ->
+                            address._id != id }
+                        updatedAddresses?.let { _uiState.value = UiStateAddress.Success.Addresses(it) }
+                    }
+                }
+            }
         }
     }
 
@@ -38,14 +60,27 @@ class ViewModelAddress @Inject constructor(
             try {
                 // Simulate fetching initial form data (e.g., from a repository)
                 _uiState.value = UiStateAddress.Success.Form(
-                    name = "",
+                    /*firstName = "",
+                    lastName = "",
                     phone = "",
                     pinCode = "",
-                    post = "",
-                    district = "",
+                    street = "",
+                    city = "",
                     state = "",
                     country = "",
-                    isSubmitEnabled = false
+                    locality = "",
+                    isSubmitEnabled = false,*/
+                 pinCode = "110025",
+                 firstName = "John",
+                 lastName = "Doe",
+                 phone = "9876543210",
+                 street = "123 Main Street",
+                 locality = "Central Park",
+                 city = "New Delhi",
+                 state = "Delhi",
+                 country = "India",
+                 isSubmitEnabled = true,
+                 isDeliverable = true,
                 )
             } catch (e: Exception) {
                 _uiState.value = UiStateAddress.Error(e.message ?: "Unknown error")
@@ -56,45 +91,64 @@ class ViewModelAddress @Inject constructor(
     private fun onFormFieldUpdated(field: FormField, value: String) {
         val currentState = _uiState.value as? UiStateAddress.Success.Form ?: return
         val updatedState = when (field) {
-            FormField.Name -> currentState.copy(name = value)
+            FormField.FirstName -> currentState.copy(firstName = value)
+            FormField.LastName -> currentState.copy(lastName = value)
             FormField.Pincode -> currentState.copy(pinCode = value)
             FormField.Phone -> currentState.copy(phone = value)
-            FormField.Post -> currentState.copy(post = value)
-            FormField.District -> currentState.copy(district = value)
+            FormField.Locality -> currentState.copy(locality = value)
+            FormField.Street -> currentState.copy(street = value)
+            FormField.City -> currentState.copy(city = value)
             FormField.State -> currentState.copy(state = value)
         }
         _uiState.value = updatedState.copy(isSubmitEnabled = isFormValid(updatedState))
     }
 
-    fun onSubmitForm() {
+    private fun onSubmitForm() {
         val currentState = _uiState.value as? UiStateAddress.Success.Form ?: return
         if (isFormValid(currentState)) {
             viewModelScope.launch {
                 // Submit form data (e.g., to a repository)
-                //repository.submitForm(currentState)
+                repository.addAddress(currentState).collect{
+                    when(it){
+                        is Resource.Loading -> _uiState.value = UiStateAddress.Loading
+                        is Resource.Error -> _uiState.value = UiStateAddress.Error(it.message ?: "Unknown error")
+                        is Resource.Success -> fetchAddresses()
+                    }
+                }
                 // Optionally, navigate to another screen or show a success message
             }
         }
     }
 
     private fun isFormValid(form: UiStateAddress.Success.Form): Boolean {
-        return true
-//        form.firstName.isNotBlank() &&
-//                form.lastName.isNotBlank() &&
-//                form.email.isNotBlank() &&
-//                isValidEmail(form.email)
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return form.firstName.isNotBlank() &&
+                form.pinCode.isNotBlank() &&
+                form.street.isNotBlank() &&
+                form.state.isNotBlank() &&
+                form.locality.isNotBlank() &&
+                form.phone.isNotBlank() &&
+                form.lastName.isNotBlank() &&
+                form.country.isNotBlank() &&
+                form.isDeliverable &&
+                form.city.isNotBlank()
     }
 
     private fun fetchAddresses() {
         viewModelScope.launch {
             try {
-                val addresses = repository.fetchAddresses()
-//                Log.d("ADDRESS_VM", "fetchAddresses: $addresses")
-                _uiState.value = UiStateAddress.Success.Addresses(addresses = addresses )
+                repository.fetchAddresses().collect {
+                    when (it) {
+                        is Resource.Loading -> _uiState.value = UiStateAddress.Loading
+                        is Resource.Error -> _uiState.value =
+                            UiStateAddress.Error(it.message ?: "Unknown error")
+
+                        is Resource.Success -> {
+                            _uiState.value =
+                                UiStateAddress.Success.Addresses(it.data ?: emptyList())
+                        }
+
+                    }
+                }
             } catch (e: Exception) {
                 _uiState.value = UiStateAddress.Error(e.message ?: "Unknown error")
             }
@@ -155,5 +209,5 @@ class ViewModelAddress @Inject constructor(
 
 // Enum to represent form fields
 enum class FormField {
-    Pincode, Name, Phone, Post, District, State
+    Pincode, FirstName, LastName, Phone, Street, Locality, City, State
 }

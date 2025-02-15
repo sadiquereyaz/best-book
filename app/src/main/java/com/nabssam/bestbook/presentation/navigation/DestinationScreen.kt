@@ -71,6 +71,9 @@ sealed interface Route {
     data class AllOrderRoute(val title: String = "All Orders") : Route
 
     @Serializable
+    data class OrderSummaryRoute(val title: String = "Order Summary", val deliveryCharge: Int = 0) : Route
+
+    @Serializable
     data class OrderDetailRoute(val orderId: String, val title: String = "Order Detail") : Route
 
     @Serializable
@@ -93,17 +96,17 @@ enum class TopLevelDestination(
         label = "Home",
         route = Route.Home
     ),
-    QUIZ(
-        selectedIcon = Icons.Filled.DateRange,
-        unSelectedIcon = Icons.Outlined.DateRange,
-        label = "Quiz",
-        route = Route.SubscribedQuiz
-    ),
     EBOOK(
         selectedIcon = Icons.Filled.Edit,
         unSelectedIcon = Icons.Outlined.Edit,
         label = "E-book",
         route = Route.Ebook
+    ),
+    QUIZ(
+        selectedIcon = Icons.Filled.DateRange,
+        unSelectedIcon = Icons.Outlined.DateRange,
+        label = "Quiz",
+        route = Route.SubscribedQuiz
     ),
     PROFILE(
         selectedIcon = Icons.Filled.Person,

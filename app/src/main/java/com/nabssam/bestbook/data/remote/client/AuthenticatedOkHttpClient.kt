@@ -33,9 +33,10 @@ class AuthenticatedOkHttpClient @Inject constructor(
 
                 // Make the request
                 val response = chain.proceed(authenticatedRequest)
+                Log.d("AUTH_OKHTTP", "response code: ${response.code}")
 
                 // Handle unauthorized response (401)
-                if (response.code == 401) {
+                if (response.code == 401 || response.code == 403) {
                     Log.d("AUTH_OKHTTP", "INVALID ACCESS TOKEN")
                     // TODO: extract new access token from response if response have it otherwise user has
                     response.close() // Close the previous response

@@ -12,6 +12,7 @@ import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.address.AddressScreen
 import com.nabssam.bestbook.presentation.ui.address.ViewModelAddress
 import com.nabssam.bestbook.presentation.ui.order.all.OrderListScreen
+import com.nabssam.bestbook.presentation.ui.order.all.SummaryScreen
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderDetailsScreen
 import com.nabssam.bestbook.presentation.ui.order.detail.VMOrderDetail
 import com.nabssam.bestbook.utils.DummyData
@@ -30,9 +31,21 @@ fun NavGraphBuilder.orderGraph(navController: NavHostController) {
             AddressScreen(
                 uiState = state,
                 onEvent = { viewModel.onEvent(it) },
-                goToPayment = {
-                    navController.navigate(Route.AllOrderRoute())
+                navigateToSummary = {
+                    navController.navigate(Route.OrderSummaryRoute(deliveryCharge = it))
                 }
+            )
+        }
+
+        composable<Route.OrderSummaryRoute> {
+//            val viewModel: ViewModelAddress = hiltViewModel()
+//            val state by viewModel.uiState.collectAsState()
+            SummaryScreen(
+               /* uiState = state,
+                onEvent = { viewModel.onEvent(it) },
+                navigateToSummary = {
+                    navController.navigate(Route.AllOrderRoute())
+                }*/
             )
         }
 

@@ -8,9 +8,9 @@ data class OrderRequest(
     @SerialName("userId")
     val userId: String,
 
-   /* @SerialName("items")
-    val items: List<CartItemFinal>, // Change Any to a specific data type as needed
-*/
+    /* @SerialName("items")
+     val items: List<CartItemFinal>, // Change Any to a specific data type as needed
+ */
     @SerialName("totalAmount")
     val totalAmount: Double,
 
@@ -18,7 +18,7 @@ data class OrderRequest(
     val status: String = OrderStatusEnum.PENDING.name,
 
     @SerialName("shippingAddress")
-    val shippingAddress: Address,
+    val shippingAddress: Address1,
 
     @SerialName("paymentProvider")
     val paymentProvider: String = PaymentProviderEnum.COD.name,
@@ -28,7 +28,7 @@ data class OrderRequest(
 )
 
 @Serializable
-data class Address(
+data class Address1(
     val street: String,
     val city: String,
     val state: String,
