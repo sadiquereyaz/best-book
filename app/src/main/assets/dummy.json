@@ -1,0 +1,275 @@
+{
+  "books": [
+    {
+      "isbn": "111-222-333-444",
+      "__v": 1,
+      "_id": "book1",
+      "author": "Author One",
+      "category": "JEE Main",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+      "description": "This is a comprehensive guide for JEE Main preparation.",
+      "eBook": "https://example.com/ebook1",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 450,
+      "price": 499,
+      "publicationDate": "2024-01-01",
+      "publisher": "Publisher One",
+      "rate": {
+        "rate": 4.5,
+        "count": 200,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "1",
+            "rating": 5,
+            "comment": "Excellent book for JEE Main preparation.",
+            "createdAt": "2024-04-14"
+          },
+          {
+            "id": "2",
+            "userId": "2",
+            "rating": 4,
+            "comment": "Very helpful and detailed.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 100,
+      "targetExam": "JEE Main",
+      "title": "JEE Main Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-01-01"
+    },
+    {
+      "isbn": "222-333-444-555",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Author Two",
+      "category": "JEE Main",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+      "description": "A detailed book covering all topics for JEE Main.",
+      "eBook": "https://example.com/ebook2",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 18,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 599,
+      "publicationDate": "2024-02-01",
+      "publisher": "Publisher Two",
+      "rate": {
+        "rate": 4.0,
+        "count": 150,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "3",
+            "rating": 4,
+            "comment": "Good book with clear explanations.",
+            "createdAt": "2024-06-14"
+          },
+          {
+            "id": "4",
+            "userId": "4",
+            "rating": 3,
+            "comment": "Helpful but could be more detailed.",
+            "createdAt": "2024-07-20"
+          }
+        ]
+      },
+      "stock": 80,
+      "targetExam": "JEE Main",
+      "title": "JEE Main Comprehensive Guide",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-02-01"
+    },
+    {
+      "isbn": "978-1-111-111-222",
+      "__v": 1,
+      "_id": "63a9ef9f9a8b4b0010e97d7c",
+      "author": "Oswaal Editorial Board",
+      "category": "Exam Preparation",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+      "description": "Oswaal JEE Main 164 Chapter-wise Topic-wise Solved Papers, tailored for JEE aspirants to master concepts and solve past questions effectively.",
+      "eBook": "https://example.com/ebooks/oswaal-jee-main.pdf",
+      "ebookDiscount": 20,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/p/u/x/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26tsmy2hyz.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 550,
+      "price": 499,
+      "publicationDate": "2023-06-15",
+      "publisher": "Oswaal Books",
+      "rate": {
+        "rate": 4.3,
+        "count": 120,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "101",
+            "rating": 5,
+            "comment": "A very useful book for JEE preparation.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "Jee Main",
+      "title": "Oswaal 164 Chapter-wise Topic-wise Solved Papers - JEE Main",
+      "updatedAt": "2024-12-01",
+      "createdAt": "2024-06-01"
+    },
+    {
+      "isbn": "978-1-333-555-666",
+      "__v": 1,
+      "_id": "63a9ef9f9a8b4b0010e97d7d",
+      "author": "Disha Experts",
+      "category": "Exam Preparation",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70",
+      "description": "Disha 144 JEE Main Physics Solved Papers provides comprehensive practice for JEE Main aspirants with fully solved questions from 2023 to 2002.",
+      "eBook": "https://example.com/ebooks/disha-jee-main-physics.pdf",
+      "ebookDiscount": 25,
+      "hardcopyDiscount": 10,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/v/0/y/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26ygvqedrn.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 720,
+      "price": 599,
+      "publicationDate": "2022-11-01",
+      "publisher": "Disha Publications",
+      "rate": {
+        "rate": 4.0,
+        "count": 95,
+        "reviews": [
+          {
+            "id": "2",
+            "userId": "102",
+            "rating": 4,
+            "comment": "Detailed solutions and perfect for practice.",
+            "createdAt": "2024-07-15"
+          }
+        ]
+      },
+      "stock": 30,
+      "targetExam": "Jee Main",
+      "title": "Disha 144 JEE Main Physics Solved Papers",
+      "updatedAt": "2024-11-01",
+      "createdAt": "2024-01-01"
+    },
+    {
+      "isbn": "978-123-456-789",
+      "__v": 1,
+      "_id": "64bdc56f3f9b9a001",
+      "author": "Dr. A. K. Singh",
+      "category": "Biology",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kkec4280/book/1/o/j/11-years-solved-papers-cbse-aipmt-neet-original-imafzr7ahsrqzss3.jpeg?q=70",
+      "description": "A comprehensive guide for NEET aspirants covering all essential topics with solved papers.",
+      "eBook": "https://example.com/ebooks/neet-guide",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/0/o/f/neet-original-imagmnzjkrkpegvn.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 540,
+      "price": 599,
+      "publicationDate": "2024-05-15",
+      "publisher": "Academic Press",
+      "rate": {
+        "rate": 4.2,
+        "count": 150,
+        "reviews": [
+          {
+            "id": "r101",
+            "userId": "u301",
+            "rating": 5,
+            "comment": "Extremely helpful for revision!",
+            "createdAt": "2024-06-20"
+          },
+          {
+            "id": "r102",
+            "userId": "u302",
+            "rating": 4,
+            "comment": "Good coverage of topics.",
+            "createdAt": "2024-07-01"
+          }
+        ]
+      },
+      "stock": 35,
+      "targetExam": "NEET",
+      "title": "11 Years Solved Papers for NEET",
+      "updatedAt": "2024-12-01",
+      "createdAt": "2024-01-10"
+    },
+    {
+      "isbn": "978-987-654-321",
+      "__v": 1,
+      "_id": "64bdc56f3f9b9a002",
+      "author": "Dr. R. Mehta",
+      "category": "Chemistry",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/regionalbooks/k/d/t/elementary-problems-in-organic-chemistry-for-neet-10th-edition-original-imaguqrepzfdg8j9.jpeg?q=70",
+      "description": "Master organic chemistry concepts with this detailed and well-structured book.",
+      "eBook": "https://example.com/ebooks/organic-chemistry",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 480,
+      "price": 699,
+      "publicationDate": "2023-11-12",
+      "publisher": "Exam Prep Books",
+      "rate": {
+        "rate": 4.5,
+        "count": 180,
+        "reviews": [
+          {
+            "id": "r201",
+            "userId": "u401",
+            "rating": 5,
+            "comment": "Perfect for organic chemistry preparation!",
+            "createdAt": "2023-12-10"
+          },
+          {
+            "id": "r202",
+            "userId": "u402",
+            "rating": 4,
+            "comment": "Detailed and easy to follow.",
+            "createdAt": "2023-12-18"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "NEET",
+      "title": "Elementary Problems in Organic Chemistry",
+      "updatedAt": "2024-01-01",
+      "createdAt": "2023-10-15"
+    }
+  ],
+  "message": "Books fetched successfully.",
+  "success": true
+}
+

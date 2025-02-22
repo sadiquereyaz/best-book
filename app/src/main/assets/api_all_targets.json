@@ -1,0 +1,15 @@
+{
+  "statusCode": 200,
+  "message": "Target exams fetched successfully.",
+  "success": true,
+  "data": [
+    "UPSC",
+    "Bank PO",
+    "CAT",
+    "SSC",
+    "GRE",
+    "JEE Main",
+    "NEET",
+    "Civil Services"
+  ]
+}

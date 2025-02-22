@@ -1,0 +1,823 @@
+{
+  "books": [
+    {
+      "isbn": "111-222-333",
+      "__v": 1,
+      "_id": "book1",
+      "author": "John Maxwell",
+      "category": "UPSC",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false",
+      "description": "An essential guide to mastering the UPSC civil services exam.",
+      "eBook": "https://example.com/book1-ebook",
+      "ebookDiscount": 20,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 550,
+      "price": 850,
+      "publicationDate": "2023-07-01",
+      "publisher": "Pearson",
+      "rate": {
+        "rate": 4.5,
+        "count": 300,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "u1",
+            "rating": 5,
+            "comment": "Great resource for beginners.",
+            "createdAt": "2023-08-01"
+          }
+        ]
+      },
+      "stock": 40,
+      "targetExam": "UPSC",
+      "title": "Cracking UPSC Civil Services",
+      "updatedAt": "2023-12-01",
+      "createdAt": "2023-07-01"
+    },
+    {
+      "isbn": "444-555-666",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Amitabh Sinha",
+      "category": "Bank PO",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/v/0/y/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26ygvqedrn.jpeg?q=70&crop=false",
+      "description": "Complete guide to Bank PO exam preparation with solved papers.",
+      "eBook": "https://example.com/book2-ebook",
+      "ebookDiscount": 25,
+      "hardcopyDiscount": 10,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/v/0/y/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26ygvqedrn.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 400,
+      "price": 600,
+      "publicationDate": "2023-02-15",
+      "publisher": "McGraw Hill",
+      "rate": {
+        "rate": 4.3,
+        "count": 250,
+        "reviews": [
+          {
+            "id": "2",
+            "userId": "u2",
+            "rating": 4,
+            "comment": "Comprehensive and easy to follow.",
+            "createdAt": "2023-03-01"
+          }
+        ]
+      },
+      "stock": 60,
+      "targetExam": "Bank PO",
+      "title": "Bank PO Exam Mastery",
+      "updatedAt": "2023-11-15",
+      "createdAt": "2023-02-15"
+    },
+    {
+      "isbn": "777-888-999",
+      "__v": 1,
+      "_id": "book3",
+      "author": "Ramesh Kumar",
+      "category": "CAT",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+      "description": "Ultimate resource for CAT aspirants with mock tests and strategies.",
+      "eBook": "https://example.com/book3-ebook",
+      "ebookDiscount": 30,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 650,
+      "price": 950,
+      "publicationDate": "2022-10-01",
+      "publisher": "Disha Publications",
+      "rate": {
+        "rate": 4.7,
+        "count": 180,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "u3",
+            "rating": 5,
+            "comment": "Very detailed and helpful.",
+            "createdAt": "2022-11-01"
+          }
+        ]
+      },
+      "stock": 20,
+      "targetExam": "CAT",
+      "title": "CAT Preparation Bible",
+      "updatedAt": "2023-01-01",
+      "createdAt": "2022-10-01"
+    },
+    {
+      "isbn": "123-456-789",
+      "__v": 1,
+      "_id": "book4",
+      "author": "Vivek Gupta",
+      "category": "SSC",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70&crop=false",
+      "description": "Complete SSC exam preparation book with practice papers.",
+      "eBook": "https://example.com/book4-ebook",
+      "ebookDiscount": 15,
+      "hardcopyDiscount": 25,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 750,
+      "publicationDate": "2023-09-01",
+      "publisher": "Arihant",
+      "rate": {
+        "rate": 4.4,
+        "count": 220,
+        "reviews": [
+          {
+            "id": "4",
+            "userId": "u4",
+            "rating": 4,
+            "comment": "Well-organized and concise.",
+            "createdAt": "2023-10-01"
+          }
+        ]
+      },
+      "stock": 35,
+      "targetExam": "SSC",
+      "title": "SSC Comprehensive Guide",
+      "updatedAt": "2023-12-01",
+      "createdAt": "2023-09-01"
+    },
+    {
+      "isbn": "987-654-321",
+      "__v": 1,
+      "_id": "book5",
+      "author": "Anjali Mehra",
+      "category": "GRE",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+      "description": "A practical approach to scoring high on the GRE.",
+      "eBook": "https://example.com/book5-ebook",
+      "ebookDiscount": 20,
+      "hardcopyDiscount": 10,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 700,
+      "price": 1200,
+      "publicationDate": "2023-03-01",
+      "publisher": "Kaplan",
+      "rate": {
+        "rate": 4.6,
+        "count": 300,
+        "reviews": [
+          {
+            "id": "5",
+            "userId": "u5",
+            "rating": 5,
+            "comment": "Excellent content for GRE preparation.",
+            "createdAt": "2023-03-15"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "GRE",
+      "title": "GRE Success Strategies",
+      "updatedAt": "2023-09-01",
+      "createdAt": "2023-03-01"
+    },
+    {
+      "isbn": "333-444-555-666",
+      "__v": 1,
+      "_id": "book1",
+      "author": "Author One",
+      "category": "UPSC",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70",
+      "description": "Comprehensive guide for UPSC preparation.",
+      "eBook": "https://example.com/ebook1",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 600,
+      "price": 799,
+      "publicationDate": "2024-03-01",
+      "publisher": "Publisher One",
+      "rate": {
+        "rate": 4.5,
+        "count": 250,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "1",
+            "rating": 5,
+            "comment": "Excellent book for UPSC preparation.",
+            "createdAt": "2024-04-14"
+          },
+          {
+            "id": "2",
+            "userId": "2",
+            "rating": 4,
+            "comment": "Very helpful and detailed.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 120,
+      "targetExam": "UPSC",
+      "title": "UPSC Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-03-01"
+    },
+    {
+      "isbn": "444-555-666-777",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Author Two",
+      "category": "CAT",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70",
+      "description": "A detailed book covering all topics for CAT.",
+      "eBook": "https://example.com/ebook2",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 18,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 699,
+      "publicationDate": "2024-04-01",
+      "publisher": "Publisher Two",
+      "rate": {
+        "rate": 4.0,
+        "count": 180,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "3",
+            "rating": 4,
+            "comment": "Good book with clear explanations.",
+            "createdAt": "2024-06-14"
+          },
+          {
+            "id": "4",
+            "userId": "4",
+            "rating": 3,
+            "comment": "Helpful but could be more detailed.",
+            "createdAt": "2024-07-20"
+          }
+        ]
+      },
+      "stock": 90,
+      "targetExam": "CAT",
+      "title": "CAT Comprehensive Guide",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-04-01"
+    },
+    {
+      "isbn": "555-666-777-888",
+      "__v": 1,
+      "_id": "book3",
+      "author": "Author Three",
+      "category": "GATE",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70",
+      "description": "Comprehensive guide for GATE preparation.",
+      "eBook": "https://example.com/ebook3",
+      "ebookDiscount": 15,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 700,
+      "price": 899,
+      "publicationDate": "2024-05-01",
+      "publisher": "Publisher Three",
+      "rate": {
+        "rate": 4.2,
+        "count": 220,
+        "reviews": [
+          {
+            "id": "5",
+            "userId": "5",
+            "rating": 4,
+            "comment": "Very detailed and helpful.",
+            "createdAt": "2024-08-14"
+          },
+          {
+            "id": "6",
+            "userId": "6",
+            "rating": 5,
+            "comment": "Excellent resource for GATE.",
+            "createdAt": "2024-09-10"
+          }
+        ]
+      },
+      "stock": 110,
+      "targetExam": "GATE",
+      "title": "GATE Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-05-01"
+    },
+    {
+      "isbn": "666-777-888-999",
+      "__v": 1,
+      "_id": "book4",
+      "author": "Author Four",
+      "category": "GRE",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70",
+      "description": "A detailed book covering all topics for GRE.",
+      "eBook": "https://example.com/ebook4",
+      "ebookDiscount": 8,
+      "hardcopyDiscount": 12,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 550,
+      "price": 749,
+      "publicationDate": "2024-06-01",
+      "publisher": "Publisher Four",
+      "rate": {
+        "rate": 4.3,
+        "count": 190,
+        "reviews": [
+          {
+            "id": "7",
+            "userId": "7",
+            "rating": 4,
+            "comment": "Good book with clear explanations.",
+            "createdAt": "2024-10-14"
+          },
+          {
+            "id": "8",
+            "userId": "8",
+            "rating": 5,
+            "comment": "Very helpful for GRE preparation.",
+            "createdAt": "2024-11-10"
+          }
+        ]
+      },
+      "stock": 130,
+      "targetExam": "GRE",
+      "title": "GRE Comprehensive Guide",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-06-01"
+    },
+    {
+      "isbn": "111-222-333-444",
+      "__v": 1,
+      "_id": "book1",
+      "author": "Author One",
+      "category": "JEE Main",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+      "description": "This is a comprehensive guide for JEE Main preparation.",
+      "eBook": "https://example.com/ebook1",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 450,
+      "price": 499,
+      "publicationDate": "2024-01-01",
+      "publisher": "Publisher One",
+      "rate": {
+        "rate": 4.5,
+        "count": 200,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "1",
+            "rating": 5,
+            "comment": "Excellent book for JEE Main preparation.",
+            "createdAt": "2024-04-14"
+          },
+          {
+            "id": "2",
+            "userId": "2",
+            "rating": 4,
+            "comment": "Very helpful and detailed.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 100,
+      "targetExam": "JEE Main",
+      "title": "JEE Main Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-01-01"
+    },
+    {
+      "isbn": "222-333-444-555",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Author Two",
+      "category": "JEE Main",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+      "description": "A detailed book covering all topics for JEE Main.",
+      "eBook": "https://example.com/ebook2",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 18,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 599,
+      "publicationDate": "2024-02-01",
+      "publisher": "Publisher Two",
+      "rate": {
+        "rate": 4.0,
+        "count": 150,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "3",
+            "rating": 4,
+            "comment": "Good book with clear explanations.",
+            "createdAt": "2024-06-14"
+          },
+          {
+            "id": "4",
+            "userId": "4",
+            "rating": 3,
+            "comment": "Helpful but could be more detailed.",
+            "createdAt": "2024-07-20"
+          }
+        ]
+      },
+      "stock": 80,
+      "targetExam": "JEE Main",
+      "title": "JEE Main Comprehensive Guide",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-02-01"
+    },
+    {
+      "isbn": "978-1-111-111-222",
+      "__v": 1,
+      "_id": "63a9ef9f9a8b4b0010e97d7c",
+      "author": "Oswaal Editorial Board",
+      "category": "Exam Preparation",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+      "description": "Oswaal JEE Main 164 Chapter-wise Topic-wise Solved Papers, tailored for JEE aspirants to master concepts and solve past questions effectively.",
+      "eBook": "https://example.com/ebooks/oswaal-jee-main.pdf",
+      "ebookDiscount": 20,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/p/u/x/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26tsmy2hyz.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 550,
+      "price": 499,
+      "publicationDate": "2023-06-15",
+      "publisher": "Oswaal Books",
+      "rate": {
+        "rate": 4.3,
+        "count": 120,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "101",
+            "rating": 5,
+            "comment": "A very useful book for JEE preparation.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "Jee Main",
+      "title": "Oswaal 164 Chapter-wise Topic-wise Solved Papers - JEE Main",
+      "updatedAt": "2024-12-01",
+      "createdAt": "2024-06-01"
+    },
+    {
+      "isbn": "978-1-333-555-666",
+      "__v": 1,
+      "_id": "63a9ef9f9a8b4b0010e97d7d",
+      "author": "Disha Experts",
+      "category": "Exam Preparation",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70",
+      "description": "Disha 144 JEE Main Physics Solved Papers provides comprehensive practice for JEE Main aspirants with fully solved questions from 2023 to 2002.",
+      "eBook": "https://example.com/ebooks/disha-jee-main-physics.pdf",
+      "ebookDiscount": 25,
+      "hardcopyDiscount": 10,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/v/0/y/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26ygvqedrn.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 720,
+      "price": 599,
+      "publicationDate": "2022-11-01",
+      "publisher": "Disha Publications",
+      "rate": {
+        "rate": 4.0,
+        "count": 95,
+        "reviews": [
+          {
+            "id": "2",
+            "userId": "102",
+            "rating": 4,
+            "comment": "Detailed solutions and perfect for practice.",
+            "createdAt": "2024-07-15"
+          }
+        ]
+      },
+      "stock": 30,
+      "targetExam": "Jee Main",
+      "title": "Disha 144 JEE Main Physics Solved Papers",
+      "updatedAt": "2024-11-01",
+      "createdAt": "2024-01-01"
+    },
+    {
+      "isbn": "123-456-789",
+      "__v": 1,
+      "_id": "book1",
+      "author": "John Doe",
+      "category": "Civil Services",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+      "description": "Comprehensive guide for aspiring civil servants.",
+      "eBook": "https://example.com/book1-ebook",
+      "ebookDiscount": 15,
+      "hardcopyDiscount": 10,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 450,
+      "price": 600,
+      "publicationDate": "2023-05-01",
+      "publisher": "ABC Publications",
+      "rate": {
+        "rate": 4.2,
+        "count": 200,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "u1",
+            "rating": 5,
+            "comment": "Very informative.",
+            "createdAt": "2023-06-01"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "Civil Services",
+      "title": "Mastering Civil Services Exams",
+      "updatedAt": "2023-12-01",
+      "createdAt": "2023-05-01"
+    },
+    {
+      "isbn": "223-789-456",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Jane Smith",
+      "category": "Banking",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false",
+      "description": "Essential banking concepts for exam preparation.",
+      "eBook": "https://example.com/book2-ebook",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 320,
+      "price": 450,
+      "publicationDate": "2023-04-01",
+      "publisher": "XYZ Press",
+      "rate": {
+        "rate": 4.5,
+        "count": 150,
+        "reviews": [
+          {
+            "id": "2",
+            "userId": "u2",
+            "rating": 4,
+            "comment": "Helpful for beginners.",
+            "createdAt": "2023-04-15"
+          }
+        ]
+      },
+      "stock": 75,
+      "targetExam": "Banking",
+      "title": "Banking Exam Guide",
+      "updatedAt": "2023-10-10",
+      "createdAt": "2023-04-01"
+    },
+    {
+      "isbn": "321-654-987",
+      "__v": 1,
+      "_id": "book3",
+      "author": "Paul Brown",
+      "category": "SSC",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/book/p/u/x/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26tsmy2hyz.jpeg?q=70&crop=false",
+      "description": "Step-by-step solutions for SSC exams.",
+      "eBook": "https://example.com/book3-ebook",
+      "ebookDiscount": 20,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/p/u/x/disha-144-jee-main-mathematics-online-2023-2012-offline-2018-original-imahyg26tsmy2hyz.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 700,
+      "publicationDate": "2022-08-01",
+      "publisher": "Alpha Books",
+      "rate": {
+        "rate": 4.0,
+        "count": 175,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "u3",
+            "rating": 4,
+            "comment": "Highly recommended for SSC aspirants.",
+            "createdAt": "2022-08-15"
+          }
+        ]
+      },
+      "stock": 30,
+      "targetExam": "SSC",
+      "title": "SSC Exam Cracker",
+      "updatedAt": "2022-12-01",
+      "createdAt": "2022-08-01"
+    },
+    {
+      "isbn": "333-444-555-666",
+      "__v": 1,
+      "_id": "book1",
+      "author": "Author One",
+      "category": "UPSC",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70",
+      "description": "Comprehensive guide for UPSC preparation.",
+      "eBook": "https://example.com/ebook1",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/c/i/o/oswaal-164-chapter-wise-topic-wise-solved-papers-jee-main-23-original-imah83uuz7phrgzq.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 600,
+      "price": 799,
+      "publicationDate": "2024-03-01",
+      "publisher": "Publisher One",
+      "rate": {
+        "rate": 4.5,
+        "count": 250,
+        "reviews": [
+          {
+            "id": "1",
+            "userId": "1",
+            "rating": 5,
+            "comment": "Excellent book for UPSC preparation.",
+            "createdAt": "2024-04-14"
+          },
+          {
+            "id": "2",
+            "userId": "2",
+            "rating": 4,
+            "comment": "Very helpful and detailed.",
+            "createdAt": "2024-05-10"
+          }
+        ]
+      },
+      "stock": 120,
+      "targetExam": "UPSC",
+      "title": "UPSC Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-03-01"
+    },
+    {
+      "isbn": "444-555-666-777",
+      "__v": 1,
+      "_id": "book2",
+      "author": "Author Two",
+      "category": "CAT",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+      "description": "A detailed book covering all topics for CAT.",
+      "eBook": "https://example.com/ebook2",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 18,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 500,
+      "price": 699,
+      "publicationDate": "2024-04-01",
+      "publisher": "Publisher Two",
+      "rate": {
+        "rate": 4.0,
+        "count": 180,
+        "reviews": [
+          {
+            "id": "3",
+            "userId": "3",
+            "rating": 4,
+            "comment": "Good book with clear explanations.",
+            "createdAt": "2024-06-14"
+          },
+          {
+            "id": "4",
+            "userId": "4",
+            "rating": 3,
+            "comment": "Helpful but could be more detailed.",
+            "createdAt": "2024-07-20"
+          }
+        ]
+      },
+      "stock": 90,
+      "targetExam": "CAT",
+      "title": "CAT Comprehensive Guide",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-04-01"
+    },
+    {
+      "isbn": "555-666-777-888",
+      "__v": 1,
+      "_id": "book3",
+      "author": "Author Three",
+      "category": "GATE",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70",
+      "description": "Comprehensive guide for GATE preparation.",
+      "eBook": "https://example.com/ebook3",
+      "ebookDiscount": 15,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc3sggw2s9m.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/832/832/kg5fzww0/regionalbooks/f/g/v/how-to-win-friends-and-influence-people-original-imafwgc36znxuqmy.jpeg?q=70&crop=false"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 700,
+      "price": 899,
+      "publicationDate": "2024-05-01",
+      "publisher": "Publisher Three",
+      "rate": {
+        "rate": 4.2,
+        "count": 220,
+        "reviews": [
+          {
+            "id": "5",
+            "userId": "5",
+            "rating": 4,
+            "comment": "Very detailed and helpful.",
+            "createdAt": "2024-08-14"
+          },
+          {
+            "id": "6",
+            "userId": "6",
+            "rating": 5,
+            "comment": "Excellent resource for GATE.",
+            "createdAt": "2024-09-10"
+          }
+        ]
+      },
+      "stock": 110,
+      "targetExam": "GATE",
+      "title": "GATE Solved Papers",
+      "updatedAt": "2025-01-16",
+      "createdAt": "2024-05-01"
+    }
+  ],
+  "message": "Books fetched successfully.",
+  "success": true
+}
+
+

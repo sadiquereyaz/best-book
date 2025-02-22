@@ -1,0 +1,100 @@
+{
+  "books": [
+    {
+      "isbn": "978-123-456-789",
+      "__v": 1,
+      "_id": "64bdc56f3f9b9a001",
+      "author": "Dr. A. K. Singh",
+      "category": "Biology",
+      "coverImage": "https://rukminim2.flixcart.com/image/612/612/kkec4280/book/1/o/j/11-years-solved-papers-cbse-aipmt-neet-original-imafzr7ahsrqzss3.jpeg?q=70",
+      "description": "A comprehensive guide for NEET aspirants covering all essential topics with solved papers.",
+      "eBook": "https://example.com/ebooks/neet-guide",
+      "ebookDiscount": 10,
+      "hardcopyDiscount": 15,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/0/o/f/neet-original-imagmnzjkrkpegvn.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 540,
+      "price": 599,
+      "publicationDate": "2024-05-15",
+      "publisher": "Academic Press",
+      "rate": {
+        "rate": 4.2,
+        "count": 150,
+        "reviews": [
+          {
+            "id": "r101",
+            "userId": "u301",
+            "rating": 5,
+            "comment": "Extremely helpful for revision!",
+            "createdAt": "2024-06-20"
+          },
+          {
+            "id": "r102",
+            "userId": "u302",
+            "rating": 4,
+            "comment": "Good coverage of topics.",
+            "createdAt": "2024-07-01"
+          }
+        ]
+      },
+      "stock": 35,
+      "targetExam": "NEET",
+      "title": "11 Years Solved Papers for NEET",
+      "updatedAt": "2024-12-01",
+      "createdAt": "2024-01-10"
+    },
+    {
+      "isbn": "978-987-654-321",
+      "__v": 1,
+      "_id": "64bdc56f3f9b9a002",
+      "author": "Dr. R. Mehta",
+      "category": "Chemistry",
+      "coverImage": "https://rukminim2.flixcart.com/image/832/832/xif0q/regionalbooks/k/d/t/elementary-problems-in-organic-chemistry-for-neet-10th-edition-original-imaguqrepzfdg8j9.jpeg?q=70",
+      "description": "Master organic chemistry concepts with this detailed and well-structured book.",
+      "eBook": "https://example.com/ebooks/organic-chemistry",
+      "ebookDiscount": 12,
+      "hardcopyDiscount": 20,
+      "images": [
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/3/k/6/elementary-problems-in-organic-chemistry-for-neet-11-edition-original-imah6mzq3ksdmq4z.jpeg?q=70",
+        "https://rukminim2.flixcart.com/image/832/832/xif0q/book/q/h/0/disha-144-jee-main-physics-online-2023-2012-offline-2018-2002-original-imahyg23d9rte8dh.jpeg?q=70"
+      ],
+      "isEbookAvailable": true,
+      "language": "English",
+      "pages": 480,
+      "price": 699,
+      "publicationDate": "2023-11-12",
+      "publisher": "Exam Prep Books",
+      "rate": {
+        "rate": 4.5,
+        "count": 180,
+        "reviews": [
+          {
+            "id": "r201",
+            "userId": "u401",
+            "rating": 5,
+            "comment": "Perfect for organic chemistry preparation!",
+            "createdAt": "2023-12-10"
+          },
+          {
+            "id": "r202",
+            "userId": "u402",
+            "rating": 4,
+            "comment": "Detailed and easy to follow.",
+            "createdAt": "2023-12-18"
+          }
+        ]
+      },
+      "stock": 50,
+      "targetExam": "NEET",
+      "title": "Elementary Problems in Organic Chemistry",
+      "updatedAt": "2024-01-01",
+      "createdAt": "2023-10-15"
+    }
+  ],
+  "message": "Books fetched successfully.",
+  "success": true
+}
