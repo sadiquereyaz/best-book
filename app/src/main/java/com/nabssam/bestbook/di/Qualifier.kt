@@ -17,7 +17,7 @@ annotation class UnAuth
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class Track
+annotation class Delhivery
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

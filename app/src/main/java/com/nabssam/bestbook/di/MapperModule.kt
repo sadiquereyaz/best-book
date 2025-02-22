@@ -6,6 +6,7 @@ import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.mapper.ExamMapper
 import com.nabssam.bestbook.data.mapper.MiscMapper
 import com.nabssam.bestbook.data.mapper.UserMapper
+import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +19,10 @@ import javax.inject.Singleton
 object MapperModule {
     @Provides
     @Singleton
-    fun provideProductMapper(): BookMapper {
-        return BookMapper()
+    fun provideProductMapper(
+        downloadStatusHelper: PDFDownloadStatusHelper
+    ): BookMapper {
+        return BookMapper(downloadStatusHelper)
     }
 
     @Provides

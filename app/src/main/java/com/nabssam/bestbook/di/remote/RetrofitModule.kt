@@ -4,7 +4,7 @@ import com.nabssam.bestbook.BuildConfig
 import com.nabssam.bestbook.di.Auth
 import com.nabssam.bestbook.di.Mock
 import com.nabssam.bestbook.di.Pin
-import com.nabssam.bestbook.di.Track
+import com.nabssam.bestbook.di.Delhivery
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -46,7 +45,7 @@ object RetrofitModule {
     @Pin
     fun providePinRetrofit(@UnAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.pinBaseUrl) // Replace with tracking base URL
+            .baseUrl(BuildConfig.pinBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -54,10 +53,10 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @Track
+    @Delhivery
     fun provideTrackingRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.baseUrl) // Replace with tracking base URL
+            .baseUrl(BuildConfig.delhiveryBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

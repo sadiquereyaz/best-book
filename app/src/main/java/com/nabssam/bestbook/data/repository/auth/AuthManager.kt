@@ -1,8 +1,7 @@
 package com.nabssam.bestbook.data.repository.auth
 
-import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.domain.model.AppState
-import com.nabssam.bestbook.presentation.ui.book.ebook.PDFDownloadStatusHelper
+import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject

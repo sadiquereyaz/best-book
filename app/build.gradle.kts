@@ -39,15 +39,15 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "baseUrl",  "\"http://10.57.3.55:3000/\"")
-
+            buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
 
         }
 
         debug {
-            buildConfigField("String", "baseUrl",  "\"http://10.57.3.55:3000/\"")
+            buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.10.144:3000/\"")
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
-//            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/\"")
         }
     }
     compileOptions {

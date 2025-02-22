@@ -4,8 +4,11 @@ import com.nabssam.bestbook.data.remote.dto.BookDtoFinal
 import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
+import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 
-class BookMapper {
+class BookMapper (
+    private val pdfDownloadStatusHelper: PDFDownloadStatusHelper
+){
     fun dtoToDomain(dto: BookDto): Book {
         return Book(
             id = dto._id,
@@ -59,7 +62,8 @@ class BookMapper {
             exam = dto.targetExam,
             coverUrl = dto.coverImage,
             author = dto.description,
-            url = dto.eBook
+            url = dto.eBook,
+            isDownloaded = pdfDownloadStatusHelper.getDownloadStatus(dto.title)
         )
     }
 }

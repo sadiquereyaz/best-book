@@ -4,17 +4,17 @@ import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.utils.Resource
+import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface EbookRepository {
     suspend fun fetchEbook(): Flow<Resource<List<Ebook>>>
-
 }
 
 class EbookRepositoryImp(
     private val api: OrderApiService,
-    private val mapper: BookMapper
+    private val mapper: BookMapper,
 ) : EbookRepository {
     override suspend fun fetchEbook(): Flow<Resource<List<Ebook>>> = flow {
         emit(Resource.Loading())
@@ -31,5 +31,4 @@ class EbookRepositoryImp(
             emit(Resource.Error(e.message ?: "Unknown error"))
         }
     }
-
 }

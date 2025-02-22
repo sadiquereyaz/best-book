@@ -6,7 +6,14 @@ data class UiStateEbook(
     val ebookList: List<Ebook> = emptyList()
 )
 
-sealed class EventEbook{
-    data object FetchEbook: EventEbook()
-    data object Retry: EventEbook()
+sealed class EventEbook {
+    object FetchEbook : EventEbook()
+    object Retry : EventEbook()
+    data class DownloadPdf(val pdf: Ebook) : EventEbook()
+}
+sealed class DownloadState {
+    object Idle : DownloadState()
+    object Downloading : DownloadState()
+    data class Success(val pdfName: String) : DownloadState()
+    data class Error(val message: String) : DownloadState()
 }

@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook
+package com.nabssam.bestbook.utils
 
 import android.content.Context
 import android.util.Log
@@ -7,6 +7,7 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.nabssam.bestbook.presentation.ui.book.ebook.PDFEncryptionHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient

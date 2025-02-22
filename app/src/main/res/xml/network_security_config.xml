@@ -16,10 +16,12 @@ It blocks cleartext (HTTP) traffic to protect the data exchanged between your ap
         <domain includeSubdomains="true">10.27.50.129</domain>
         <domain includeSubdomains="true">mock.com</domain>
         <domain includeSubdomains="true">10.57.3.55</domain>
-            <domain includeSubdomains="true">icseindia.org</domain>
+        <domain includeSubdomains="true">10.57.10.144</domain>
+        <domain includeSubdomains="true">icseindia.org</domain>
+        <domain includeSubdomains="true">https://staging-express.delhivery.com</domain>
 
 
-<!--        <domain includeSubdomains="true">https://api.freeapi.app</domain>-->
+        <!--        <domain includeSubdomains="true">https://api.freeapi.app</domain>-->
         <domain includeSubdomains="true">10.0.0.2</domain>  <!--local host-->
     </domain-config>
 </network-security-config>

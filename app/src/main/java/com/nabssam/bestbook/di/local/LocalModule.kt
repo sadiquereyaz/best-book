@@ -7,12 +7,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.nabssam.bestbook.data.local.AppDatabase
-import com.nabssam.bestbook.data.local.dao.CartDao
-import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
-import com.nabssam.bestbook.presentation.ui.book.ebook.PDFDownloadStatusHelper
+import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,9 +50,4 @@ object LocalModule {
         return UserPreferencesTokenStorage(userPreferences)
     }
 
-    @Provides
-    @Singleton
-    fun providePdfStorage(@ApplicationContext context: Context): PDFDownloadStatusHelper {
-        return PDFDownloadStatusHelper(context)
-    }
 }
