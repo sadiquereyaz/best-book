@@ -16,9 +16,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginStep(
@@ -46,31 +52,35 @@ fun LoginStep(
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
-        Image(imageVector = ImageVector.vectorResource(if(isSystemInDarkTheme()) R.drawable.logo_night else  R.drawable.logo), "", modifier = Modifier.fillMaxWidth(0.6f))
-        Spacer(modifier = Modifier.height(24.dp))
-        OutlinedTextField(
-            value = state.username,
-            onValueChange = { if( it.length< 10 ) onEvent(AuthEvent.UpdateUsername(it)) },
-            label = { Text("Username") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
+            Image(
+                imageVector = ImageVector.vectorResource(if (isSystemInDarkTheme()) R.drawable.logo_night else R.drawable.logo),
+                "",
+                modifier = Modifier.fillMaxWidth(0.6f)
             )
-        )
+            Spacer(modifier = Modifier.height(24.dp))
+            OutlinedTextField(
+                value = state.username,
+                onValueChange = { if (it.length < 10) onEvent(AuthEvent.UpdateUsername(it)) },
+                label = { Text("Username") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // password
-        PasswordField(
-            value = state.password,
-            onInput = { onEvent(AuthEvent.UpdatePassword(it)) },
-            label = "Password",
-            imeAction = ImeAction.Done,
-            onDoneAction = { if (validate()) onEvent(AuthEvent.SignIn) }
-        )
+            // password
+            PasswordField(
+                value = state.password,
+                onInput = { onEvent(AuthEvent.UpdatePassword(it)) },
+                label = "Password",
+                imeAction = ImeAction.Done,
+                onDoneAction = { if (validate()) onEvent(AuthEvent.SignIn) }
+            )
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = { onEvent(AuthEvent.SignIn) },
@@ -80,19 +90,19 @@ fun LoginStep(
             Text("Login")
         }
 
-        Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-        OutlinedButton(
-            onClick = { onEvent(AuthEvent.NavigateNext) },
-                    modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Sign Up")
-        }
+            OutlinedButton(
+                onClick = { onEvent(AuthEvent.NavigateNext) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Sign Up")
+            }
 
-        TextButton(
-            onClick = { onEvent(AuthEvent.ForgetPassword) }
-        ) {
-            Text("Forgot Password? Reset Now")
+            TextButton(
+                onClick = { onEvent(AuthEvent.ForgetPassword) }
+            ) {
+                Text("Forgot Password? Reset Now")
+            }
         }
     }
-}

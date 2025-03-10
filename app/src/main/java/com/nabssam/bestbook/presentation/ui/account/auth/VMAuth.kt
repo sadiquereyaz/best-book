@@ -7,12 +7,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ListenableWorker.Result.retry
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.auth.AuthRepository
 import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarDuration
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarMessage
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarType
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -26,7 +31,8 @@ import javax.inject.Inject
 class VMAuth @Inject constructor(
     private val authRepository: AuthRepository,
     private val examRepository: ExamRepository,
-    private val tokenStorage: UserPreferencesTokenStorage
+    private val tokenStorage: UserPreferencesTokenStorage,
+    private val snackbarManager: SnackbarManager
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState(isLoading = true))
     val state = _state.asStateFlow()
@@ -56,16 +62,28 @@ class VMAuth @Inject constructor(
                 }
                 if (_state.value.error == null)*/ handleNavigateNext()
             }
+
             is AuthEvent.UpdateUsername -> updateState { it.copy(username = event.username) }
             is AuthEvent.UpdatePassword -> updateState { it.copy(password = event.password) }
-            is AuthEvent.OnClassSelect -> updateState { it.copy(currentClass = event.selectedClass, allTargetExam = event.classExams) }
+            is AuthEvent.OnClassSelect -> updateState {
+                it.copy(
+                    currentClass = event.selectedClass,
+                    allTargetExam = event.classExams
+                )
+            }
+
             is AuthEvent.UpdateSchool -> updateState { it.copy(schoolName = event.schoolName) }
-            is AuthEvent.UpdateTargetYear -> updateState { it.copy(targetYear = event.year.toIntOrNull() ?: 202) }
+            is AuthEvent.UpdateTargetYear -> updateState {
+                it.copy(
+                    targetYear = event.year.toIntOrNull() ?: 202
+                )
+            }
+
             is AuthEvent.UpdateMobile -> updateState { it.copy(mobileNumber = event.mobile) }
             is AuthEvent.UpdateOtp -> updateState { it.copy(otp = event.otp) }
             is AuthEvent.RegisterAndSendOtp -> registerAndSendOtp()
             is AuthEvent.VerifyOtp -> verifyOtp()
-           // is AuthEvent.ToggleNewUser -> toggleNewUser()
+            // is AuthEvent.ToggleNewUser -> toggleNewUser()
             is AuthEvent.Initialize -> fetchAllExam()
             is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
             is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
@@ -86,8 +104,7 @@ class VMAuth @Inject constructor(
                 //Log.d("AUTH_VM", "checkAuthState: ${tokenStorage.getAccessToken()}")
                 updateState { it.copy(isSignedIn = true, isLoading = false) }
 //                Log.d("AUTH_VM", "checkAuthState: ${_state.value}")
-            }
-            else {
+            } else {
                 //Log.d("AUTH_VM", "checkAuthState: null")
                 updateState { it.copy(isLoading = false) }
             }
@@ -96,7 +113,7 @@ class VMAuth @Inject constructor(
 
     private fun fetchAllExam() {
         viewModelScope.launch {
-                _errState.value = null
+            _errState.value = null
             examRepository.fetchAllStandard().collect { resource ->
                 when (resource) {
                     is Resource.Error -> {
@@ -109,7 +126,12 @@ class VMAuth @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        updateState { it.copy(standardList = resource.data ?: emptyList(), isLoading = false) }
+                        updateState {
+                            it.copy(
+                                standardList = resource.data ?: emptyList(),
+                                isLoading = false
+                            )
+                        }
                         ////Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
                     }
                 }
@@ -120,13 +142,23 @@ class VMAuth @Inject constructor(
     private fun signIn() {
         viewModelScope.launch {
             _errState.value = null
-            updateState { it.copy(isLoading = true) }
+            Log.d("AUTH_VM", "signIn: ${_state.value}")
+            snackbarManager.showSnackbar(
+                SnackbarMessage(
+                    message = "Sign in click",
+                    type = SnackbarType.ERROR,
+                    duration = SnackbarDuration.Long,
+                    actionLabel = "Retry",
+                    onActionPerformed = { retry() }
+                )
+            )
+            /*updateState { it.copy(isLoading = true) }
             authRepository.signIn(_state.value.username, _state.value.password).fold(onSuccess = {
                 updateState { it.copy(isLoading = false, isSignedIn = true) }
             }, onFailure = { error ->
                 _errState.value = error.message
                 updateState { it.copy(isLoading = false) }
-            })
+            })*/
         }
     }
 
@@ -211,24 +243,24 @@ class VMAuth @Inject constructor(
             AuthSteps.CREDENTIALS -> {
                 if (_state.value.password == _state.value.confirmPassword) {
                     AuthSteps.EDUCATION_INFO
-                }
-                else {
+                } else {
                     _errState.value = "Password mismatch"
                     null
                 }
             }
+
             AuthSteps.EDUCATION_INFO -> AuthSteps.EXAM_INFO
             AuthSteps.EXAM_INFO -> AuthSteps.MOBILE_VERIFICATION
             AuthSteps.MOBILE_VERIFICATION -> {
 //                if (_state.value.isOtpVerified)
-                    AuthSteps.LOGIN
+                AuthSteps.LOGIN
 //                else {
 //                    _errState.value = "Incorrect OTP!"
 //                    null
 //                }
             }
         }
-       // if (_state.value.error == null)
+        // if (_state.value.error == null)
         nextStep?.let { updateState { state -> state.copy(currentStep = it) } }
     }
 

@@ -9,6 +9,8 @@ import com.nabssam.bestbook.data.remote.interceptors.MockInterceptor
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManagerImpl
 import com.nabssam.bestbook.utils.DispatcherProvider
 import com.nabssam.bestbook.utils.NetworkMonitor
 import dagger.Module
@@ -54,5 +56,13 @@ object AppModule {
     @Singleton
     fun provideMockInterceptor(@ApplicationContext context: Context): MockInterceptor {
         return MockInterceptor(context)
+    }
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object SnackbarModule {
+        @Provides
+        @Singleton
+        fun provideSnackbarManager(): SnackbarManager = SnackbarManagerImpl()
     }
 }

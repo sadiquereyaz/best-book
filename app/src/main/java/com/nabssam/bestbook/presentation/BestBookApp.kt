@@ -6,16 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
@@ -25,10 +17,7 @@ import com.nabssam.bestbook.presentation.navigation.AppNavHost
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.components.BBNavSuite
 import com.nabssam.bestbook.presentation.ui.components.OfflineDialog
-import com.nabssam.bestbook.utils.AuthObserver
-import com.nabssam.bestbook.utils.showToast
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 
 @Composable
 fun BestBookApp(
@@ -37,6 +26,7 @@ fun BestBookApp(
     authManager: AuthManager,
     connectivityObserver: NetworkConnectivityObserver,
     appViewModel: AppViewModel = hiltViewModel(),
+    snackbarManager: SnackbarManager,
 ) {
     val isSignedIn: Boolean by appViewModel.authState.collectAsState()
     val cartItemCount: Int by appViewModel.getCartItemCount.collectAsState()
@@ -59,9 +49,9 @@ fun BestBookApp(
         navController = navController,
         modifier = Modifier,
         authManager = authManager,
-        cartItemCount = cartItemCount
+        cartItemCount = cartItemCount,
+        snackbarManager = snackbarManager
     ) { innerPadding ->
-
         AppNavHost(navController, modifier, innerPadding, isSignedIn)
     }
 
