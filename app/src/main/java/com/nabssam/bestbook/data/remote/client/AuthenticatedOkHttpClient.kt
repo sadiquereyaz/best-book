@@ -18,7 +18,7 @@ class AuthenticatedOkHttpClient @Inject constructor(
                 val request = chain.request()
                 val accessToken = runBlocking { tokenStorage.getAccessToken() }
                 val sessionToken = runBlocking { tokenStorage.getRefreshToken() }
-                Log.d("AUTH_OKHTTP", "Token from storage: $accessToken")
+                //Log.d("AUTH_OKHTTP", "Token from storage: $accessToken")
                 val authenticatedRequest = if (accessToken != null) {
                     request.newBuilder()
                         .header("Authorization", "Bearer $accessToken")
@@ -30,18 +30,17 @@ class AuthenticatedOkHttpClient @Inject constructor(
                 } else {
                     request
                 }
-
                 // Make the request
                 val response = chain.proceed(authenticatedRequest)
-                Log.d("AUTH_OKHTTP", "response code: ${response.code}")
+                //Log.d("AUTH_OKHTTP", "response code: ${response.code}")
 
                 // Handle unauthorized response (401)
                 if (response.code == 401 || response.code == 403) {
-                    Log.d("AUTH_OKHTTP", "INVALID ACCESS TOKEN")
+                    //Log.d("AUTH_OKHTTP", "INVALID ACCESS TOKEN")
                     // TODO: extract new access token from response if response have it otherwise user has
                     response.close() // Close the previous response
 
-                    // Attempt to refresh the token
+                    // Attempt to refresh the token ToDo
                     val newAccessToken = null
                         //runBlocking { authManager.refreshAllToken() }
                     if (newAccessToken != null) {
@@ -52,7 +51,8 @@ class AuthenticatedOkHttpClient @Inject constructor(
                         return@addInterceptor chain.proceed(newRequest)
                     } else {
                         // Logout the user if the refresh fails
-                        runBlocking { authManager.handleDeviceConflict() }
+                        Log.d("AUTH_OKCLIENT", "Your session has expired. Please login again.")
+                        runBlocking { authManager.logout() }
                     }
                 }
 

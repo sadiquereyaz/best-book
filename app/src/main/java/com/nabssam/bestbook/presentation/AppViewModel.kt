@@ -1,10 +1,13 @@
 package com.nabssam.bestbook.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.AppPreferences
 import com.nabssam.bestbook.data.local.dao.CartDao
+import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
+import com.nabssam.bestbook.domain.model.AppState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,7 +17,8 @@ import javax.inject.Inject
 class AppViewModel @Inject constructor(
     private val appPreferences: AppPreferences,
     private val cartDao: CartDao,
-    private val tokenStorage: TokenStorage
+    private val tokenStorage: TokenStorage,
+    private val authManager: AuthManager
 ) : ViewModel() {
 
     /*fun getCartItemCount(): Flow<Int> = flow {

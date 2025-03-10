@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.domain.model
 
 sealed class AppState {
+    object Initial : AppState()
     object DeviceConflict : AppState()
     object TokenExpired : AppState()
     object LoggedOut : AppState()

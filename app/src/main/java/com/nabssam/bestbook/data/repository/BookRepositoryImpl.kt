@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.data.repository
 
-import android.util.Log
+import android.util.Log.d
 import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
@@ -55,10 +55,10 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getBookById(id: String): Flow<Resource<Book>> = flow {
         emit(Resource.Loading())
-        Log.d("BOOK_REPO", "getProductById called with book ID: $id")
+        //Log.d.d("BOOK_REPO", "getProductById called with book ID: $id")
         try {
             val response = api.getBookById(id)
-            Log.d("BOOK_REPO", "getBookById: ${response.body()}")
+            //Log.d.d("BOOK_REPO", "getBookById: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Resource.Success(data = mapper.dtoToDomainFinal(it.book)))
@@ -72,11 +72,11 @@ class BookRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllTargetExam(): Flow<Resource<List<String>>> = flow {
-        Log.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: called")
+        //Log.d.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: called")
         emit(Resource.Loading())
         try {
             val response = api.getAllTarget()
-            Log.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: ${response.body()}")
+            //Log.d.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Resource.Success(data = it.data))
@@ -98,7 +98,7 @@ class BookRepositoryImpl @Inject constructor(
             emit(Resource.Loading())
             try {
                 val response = api.getBooksByCategory(/*category = category*/)
-                Log.d("BOOK_REPO", "RESPONSE FROM API IN getBooksByCategory: $response")
+                //Log.d.d("BOOK_REPO", "RESPONSE FROM API IN getBooksByCategory: $response")
 
                 if (response.isSuccessful) {
                     val productResponse = response.body()

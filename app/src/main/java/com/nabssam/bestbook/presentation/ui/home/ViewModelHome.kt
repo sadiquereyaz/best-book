@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.home
 
-import android.util.Log
+import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.repository.ExamRepository
@@ -65,7 +65,7 @@ class ViewModelHome @Inject constructor(
                         _state.update { it.copy(fetchingBooks = true) }
                     }
                     is Resource.Success -> {
-                        Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
+                        //Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
                         _state.update {
                             it.copy(fetchedBooks = resource.data ?: emptyList(), fetchingBooks = false)
                         }

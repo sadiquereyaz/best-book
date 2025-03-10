@@ -76,11 +76,11 @@ class VMAuth @Inject constructor(
     private fun checkAuthState() {
         viewModelScope.launch {
             if (tokenStorage.getAccessToken() != null) {
-                Log.d("AUTH_VM", "checkAuthState: ${tokenStorage.getAccessToken()}")
+                //Log.d("AUTH_VM", "checkAuthState: ${tokenStorage.getAccessToken()}")
                 updateState { it.copy(isSignedIn = true, isLoading = false) }
             }
             else {
-                Log.d("AUTH_VM", "checkAuthState: null")
+                //Log.d("AUTH_VM", "checkAuthState: null")
                 updateState { it.copy(isLoading = false) }
             }
         }
@@ -102,7 +102,7 @@ class VMAuth @Inject constructor(
 
                     is Resource.Success -> {
                         updateState { it.copy(standardList = resource.data ?: emptyList(), isLoading = false) }
-                        //Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
+                        ////Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
                     }
                 }
             }

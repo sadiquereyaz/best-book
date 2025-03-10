@@ -6,7 +6,6 @@ import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.di.Auth
 import com.nabssam.bestbook.di.Mock
-import com.nabssam.bestbook.di.Pdf
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
 import dagger.Provides
@@ -14,15 +13,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.security.KeyStore
 import java.util.concurrent.TimeUnit
-import javax.inject.Qualifier
 import javax.inject.Singleton
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManagerFactory
-import javax.net.ssl.X509TrustManager
 
 @Module // This annotation tells Dagger that this class is a module that provides dependencies.
 @InstallIn(SingletonComponent::class)   //This tells Hilt that the dependencies provided in this module should be available in the SingletonComponent, which means they'll be available throughout the application's lifecycle.

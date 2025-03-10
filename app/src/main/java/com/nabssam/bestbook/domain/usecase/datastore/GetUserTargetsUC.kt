@@ -9,7 +9,7 @@ class GetUserTargetsUC @Inject constructor(
 ) {
     suspend operator fun invoke(): List<String> {
         val targetExams = userPrefRepoImpl.getUserTargetExams()
-        Log.d("GetUserTargetsUC", "Fetched target exams: $targetExams")
+//        Log.d("GetUserTargetsUC", "Fetched target exams: $targetExams")
         return targetExams
     }
 

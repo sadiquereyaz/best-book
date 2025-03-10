@@ -265,7 +265,7 @@ fun NavigationDrawerContent(
             icon = {Icon(imageVector = ImageVector.vectorResource(R.drawable.log_out), contentDescription = null)},
             onClick = {
                 scope.launch {
-                    authManager.handleDeviceConflict()
+                    authManager.logout()
                 }
                 scope.launch { drawerState.close() }
             }
