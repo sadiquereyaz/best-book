@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var authManager: AuthManager
     @Inject lateinit var connectivityObserver: NetworkConnectivityObserver
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,7 +40,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
 

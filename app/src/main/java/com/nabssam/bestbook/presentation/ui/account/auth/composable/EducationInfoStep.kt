@@ -89,10 +89,10 @@ fun EducationInfoStep(
 
         OutlinedTextField(
             value = state.schoolName,
-            onValueChange = { onEvent(AuthEvent.UpdateSchool(it)) },
+            onValueChange = { if(it.length < 22) onEvent(AuthEvent.UpdateSchool(it)) },
             label = { Text("School Name") },
             modifier = Modifier.fillMaxWidth(),
-            minLines = 3
+            minLines = 2
         )
 
         Spacer(modifier = Modifier.height(24.dp))

@@ -18,4 +18,6 @@ sealed class AuthEvent {
     data object RegisterAndSendOtp : AuthEvent()
     data object VerifyOtp : AuthEvent()
     //data object ToggleNewUser : AuthEvent()
+    data object ForgetPassword : AuthEvent()
+
 }

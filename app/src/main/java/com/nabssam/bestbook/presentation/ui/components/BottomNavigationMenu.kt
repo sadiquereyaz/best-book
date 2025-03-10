@@ -9,8 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import bottomNavigationLogic
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination
+import com.nabssam.bestbook.presentation.navigation.bottomNavigationLogic
 
 
 @Composable

@@ -1,15 +1,14 @@
 package com.nabssam.bestbook.presentation
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
@@ -19,8 +18,9 @@ import com.nabssam.bestbook.presentation.navigation.AppNavHost
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.components.BBNavSuite
 import com.nabssam.bestbook.presentation.ui.components.OfflineDialog
+import com.nabssam.bestbook.utils.AuthObserver
+import com.nabssam.bestbook.utils.showToast
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BestBookApp(
     modifier: Modifier = Modifier,
@@ -28,11 +28,17 @@ fun BestBookApp(
     authManager: AuthManager,
     connectivityObserver: NetworkConnectivityObserver
 ) {
+    val context = LocalContext.current
     //listen to authenticated events
     LaunchedEffect(Unit) {
         authManager.authEvents.collect { events ->
             when (events) {
-                AppState.LoggedOut -> {
+                is AppState.DeviceConflict -> {
+                    Log.d("BestBookApp", "Device Conflict")
+                    showToast(context, "device conflict")
+                }
+                is AppState.LoggedOut -> {
+                    Log.d("BestBookApp", "LoggedOut State")
                     navController.navigate(Route.AuthGraph) {
                         popUpTo(0) // Clear backstack
                     }
@@ -42,10 +48,24 @@ fun BestBookApp(
             }
         }
     }
-    val appViewModel: AppViewModel = hiltViewModel()
-    AuthObserver(authManager = authManager, navController = navController)
 
-    val isWeakConnection by connectivityObserver.observe().collectAsState(initial = true)
+//    AuthObserver(authManager = authManager, navController = navController)
+
+    val appViewModel: AppViewModel = hiltViewModel()
+    val isSignedIn: Boolean by appViewModel.authState.collectAsState()
+    val cartItemCount: Int by appViewModel.getCartItemCount.collectAsState()
+    Log.d("BestBookApp", "cartItemCount: $cartItemCount")
+
+    BBNavSuite(
+        navController = navController,
+        modifier = Modifier,
+        authManager = authManager,
+        cartItemCount = cartItemCount
+    ) { innerPadding ->
+        AppNavHost(navController, modifier, innerPadding, isSignedIn)
+    }
+
+    val isWeakConnection by connectivityObserver.observe().collectAsState(initial = false)
     OfflineDialog(
         isVisible = !isWeakConnection,
         onRetryClick = {
@@ -54,34 +74,7 @@ fun BestBookApp(
             if (!isStillDisconnected) {
                 // Perform any action needed when network is back
             }
+            authManager.handleDeviceConflict()
         },
     )
-
-    BBNavSuite(
-        navController = navController,
-        modifier = Modifier,
-        authManager = authManager,
-        appViewModel = appViewModel,
-        { innerPadding ->
-            AppNavHost(navController, modifier, innerPadding)
-        }
-    )
-}
-
-@Composable
-fun AuthObserver(authManager: AuthManager, navController: NavHostController) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    LaunchedEffect(Unit) {
-        authManager.authEvents.collect { event ->
-            when (event) {
-                is AppState.LoggedOut -> {
-                    navController.navigate(Route.AuthGraph) {
-                        popUpTo(0) // Clear backstack
-                    }
-                }
-
-                else -> Unit
-            }
-        }
-    }
 }

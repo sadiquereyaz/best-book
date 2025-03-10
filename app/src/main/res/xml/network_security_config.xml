@@ -12,6 +12,7 @@ It blocks cleartext (HTTP) traffic to protect the data exchanged between your ap
         -->
         <domain includeSubdomains="true">res.cloudinary.com</domain>
         <domain includeSubdomains="true">192.168.139.63</domain>
+        <domain includeSubdomains="true">10.57.250.250</domain>
         <domain includeSubdomains="true">10.57.4.229</domain>
         <domain includeSubdomains="true">10.27.50.129</domain>
         <domain includeSubdomains="true">mock.com</domain>

@@ -1,21 +1,32 @@
 package com.nabssam.bestbook.presentation.ui.account.auth.composable
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
 
@@ -28,30 +39,35 @@ fun LoginStep(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Welcome",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(vertical = 32.dp)
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
+        Image(imageVector = ImageVector.vectorResource(if(isSystemInDarkTheme()) R.drawable.logo_night else  R.drawable.logo), "", modifier = Modifier.fillMaxWidth(0.6f))
+        Spacer(modifier = Modifier.height(24.dp))
         OutlinedTextField(
             value = state.username,
-            onValueChange = { onEvent(AuthEvent.UpdateUsername(it)) },
+            onValueChange = { if( it.length< 10 ) onEvent(AuthEvent.UpdateUsername(it)) },
             label = { Text("Username") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
+        // password
+        PasswordField(
             value = state.password,
-            onValueChange = { onEvent(AuthEvent.UpdatePassword(it)) },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            onInput = { onEvent(AuthEvent.UpdatePassword(it)) },
+            label = "Password",
+            imeAction = ImeAction.Done,
+            onDoneAction = { onEvent(AuthEvent.SignIn) }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -64,11 +80,19 @@ fun LoginStep(
             Text("Login")
         }
 
-        TextButton(
-//            onClick = { onEvent(AuthEvent.ToggleNewUser) }
-            onClick = { onEvent(AuthEvent.NavigateNext) }
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedButton(
+            onClick = { onEvent(AuthEvent.NavigateNext) },
+                    modifier = Modifier.fillMaxWidth()
         ) {
-            Text("New User? Register Here")
+            Text("Sign Up")
+        }
+
+        TextButton(
+            onClick = { onEvent(AuthEvent.ForgetPassword) }
+        ) {
+            Text("Forgot Password? Reset Now")
         }
     }
 }

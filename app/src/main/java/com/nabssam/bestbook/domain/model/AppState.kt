@@ -5,6 +5,7 @@ sealed class AppState {
     object TokenExpired : AppState()
     object LoggedOut : AppState()
     object NetworkError : AppState()
-    object Authenticated : AppState()
+    data object Authenticated : AppState()
     object Unauthenticated : AppState()
+    data object AlreadySignedIn : AppState()
 }

@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth;
 
+import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -36,7 +37,6 @@ class VMAuth @Inject constructor(
         onEvent(AuthEvent.Initialize)
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.SignIn -> signIn()
@@ -62,6 +62,7 @@ class VMAuth @Inject constructor(
             is AuthEvent.Initialize -> fetchAllExam()
             is AuthEvent.UpdateConfirmPassword -> updateState { it.copy(confirmPassword = event.password) }
             is AuthEvent.UpdateUserTargetExam -> updateTargetExam(event.exam)
+            AuthEvent.ForgetPassword -> {}
         }
     }
 
@@ -101,7 +102,7 @@ class VMAuth @Inject constructor(
 
                     is Resource.Success -> {
                         updateState { it.copy(standardList = resource.data ?: emptyList(), isLoading = false) }
-                        Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
+                        //Log.d("AUTH_VM", "success fetchAllExam: ${_state.value.standardList}")
                     }
                 }
             }
@@ -225,7 +226,6 @@ class VMAuth @Inject constructor(
         _state.value = update(_state.value)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun validateCurrentStep(): Boolean {
         return when (_state.value.currentStep) {
             AuthSteps.LOGIN -> {
@@ -241,12 +241,17 @@ class VMAuth @Inject constructor(
             }
 
             AuthSteps.EXAM_INFO -> {
-                _state.value.userTargetExams.isNotEmpty() && (_state.value.targetYear) >= LocalDate.now().year
+                _state.value.userTargetExams.isNotEmpty() && (_state.value.targetYear) >= getCurrentYearCalendar()
             }
 
             AuthSteps.MOBILE_VERIFICATION -> {
                 _state.value.mobileNumber.length == 10 && (/*_state.value.isOtpVerified ||*/ (_state.value.isOtpSent && _state.value.otp.length == 4))
             }
         }
+    }
+
+    private fun getCurrentYearCalendar(): Int {
+        val calendar = Calendar.getInstance()
+        return calendar.get(Calendar.YEAR)
     }
 }

@@ -1,8 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
-import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,7 +20,6 @@ import com.nabssam.bestbook.presentation.ui.account.auth.composable.LoginStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.MobileVerificationStep
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AuthenticationScreen(
     viewModel: VMAuth,

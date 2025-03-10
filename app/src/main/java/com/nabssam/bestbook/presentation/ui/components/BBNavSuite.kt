@@ -51,7 +51,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.repository.auth.AuthManager
-import com.nabssam.bestbook.presentation.AppViewModel
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
 import com.nabssam.bestbook.presentation.navigation.appbar.TopAppBarActions
@@ -65,10 +64,10 @@ fun BBNavSuite(
     modifier: Modifier = Modifier,
     // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
     authManager: AuthManager,
-    appViewModel: AppViewModel,
+    cartItemCount: Int,
     content: @Composable (PaddingValues) -> Unit,
 
-) {
+    ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -77,7 +76,7 @@ fun BBNavSuite(
 //    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     // val snackbarHostState = remember { SnackbarHostState() }
 
-    val cartCount:Int? by appViewModel.getCartItemCount.collectAsState()
+    ///val cartCount:Int? by cartItemCount.getCartItemCount.collectAsState()
 //    val cartCount by appViewModel.cartItemCount.collectAsState()
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -138,7 +137,7 @@ fun BBNavSuite(
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
                     scrollBehavior = scrollBehavior,
                     actions = {
-                        TopAppBarActions(currentDestination, navController, cartCount?: 0)
+                        TopAppBarActions(currentDestination, navController, cartItemCount?: 0)
                     },
                 )
             },

@@ -4,14 +4,20 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -30,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import com.nabssam.bestbook.presentation.ui.components.VerticalSpacer
 
 @Composable
 fun ExamInfoStep(
@@ -48,14 +55,17 @@ fun ExamInfoStep(
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 32.dp)
         )
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 128.dp),
+            //contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ){
             items(state.allTargetExam) { it ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        //.padding(8.dp)
                         .clickable {
                             onEvent(AuthEvent.UpdateUserTargetExam(it))
                         },
@@ -91,6 +101,7 @@ fun ExamInfoStep(
 
             }
         }
+        Spacer(modifier = Modifier.weight(1f))
 
         OutlinedTextField(
             value = state.targetYear.toString(),
@@ -99,15 +110,18 @@ fun ExamInfoStep(
             },
             label = { Text("Target Year") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+            keyboardActions = KeyboardActions(
+                onDone = { onEvent(AuthEvent.NavigateNext) }
+            )
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+//        Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = { onEvent(AuthEvent.NavigateNext) },
             enabled = validate(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text("Next")
         }

@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.account.auth.composable
+
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,17 +23,19 @@ import com.nabssam.bestbook.R
 @Composable
 fun PasswordField(
     value: String,
-    onEvent: (String) -> Unit, // Use a lambda for onValueChange
+    onInput: (String) -> Unit, // Use a lambda for onValueChange
     label: String = "Create Password", // Add a label parameter with a default value
-    imeAction: ImeAction = ImeAction.Next // Add an imeAction parameter with a default value
+    imeAction: ImeAction = ImeAction.Next, // Add an imeAction parameter with a default value
+    onDoneAction: () -> Unit = {}
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = value,
-        onValueChange = { onEvent(it) }, // Pass onValueChange to OutlinedTextField
+        onValueChange = { if( it.length < 15 ) onInput(it) }, // Pass onValueChange to OutlinedTextField
         label = { Text(label) }, // Use the label parameter
         modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
         visualTransformation = if (passwordVisible)
             VisualTransformation.None
         else
@@ -40,14 +44,19 @@ fun PasswordField(
             keyboardType = KeyboardType.Password,
             imeAction = imeAction
         ),
+        keyboardActions = KeyboardActions(
+            onDone = { onDoneAction() }
+        ),
         trailingIcon = {
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 val image = if (passwordVisible)
                     R.drawable.baseline_visibility_24
                 else
                     R.drawable.baseline_visibility_off_24 // Use correct drawable name
-                Icon(painter = painterResource(image),
-                    contentDescription = "Toggle password visibility")
+                Icon(
+                    painter = painterResource(image),
+                    contentDescription = "Toggle password visibility"
+                )
             }
         },
     )

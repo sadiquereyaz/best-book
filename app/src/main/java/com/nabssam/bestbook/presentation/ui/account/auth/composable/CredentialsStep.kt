@@ -36,7 +36,7 @@ fun CredentialsStep(
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 32.dp)
         )
-
+        // username
         OutlinedTextField(
             value = state.username,
             onValueChange = { onEvent(AuthEvent.UpdateUsername(it)) },
@@ -46,15 +46,17 @@ fun CredentialsStep(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        //password
         PasswordField(
             value = state.password,
-            onEvent = { onEvent(AuthEvent.UpdatePassword(it)) }
+            onInput = { onEvent(AuthEvent.UpdatePassword(it)) }
         )
         Spacer(modifier = Modifier.height(16.dp))
 
+        //confirm password
         PasswordField(
             value = state.confirmPassword,
-            onEvent = { onEvent(AuthEvent.UpdateConfirmPassword(it)) },
+            onInput = { onEvent(AuthEvent.UpdateConfirmPassword(it)) },
             label = "Confirm Password",
             imeAction = ImeAction.Done
         )

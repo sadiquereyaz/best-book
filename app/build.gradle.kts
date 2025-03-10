@@ -38,7 +38,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl",  "\"http://10.57.3.55:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.250.250:3000/\"")
             buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
 
@@ -46,7 +46,7 @@ android {
 
         debug {
             buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
-            buildConfigField("String", "baseUrl",  "\"http://10.57.10.144:3000/\"")
+            buildConfigField("String", "baseUrl",  "\"http://10.57.250.250:3000/\"")
             buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
         }
     }
