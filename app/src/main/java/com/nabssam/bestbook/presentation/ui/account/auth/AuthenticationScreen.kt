@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.CredentialsStep
 import com.nabssam.bestbook.presentation.ui.account.auth.composable.EducationInfoStep
@@ -27,6 +28,7 @@ fun AuthenticationScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val errorState by viewModel.errState.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(state.isSignedIn) {
         if (state.isSignedIn) {
@@ -72,7 +74,8 @@ fun AuthenticationScreen(
             AuthSteps.MOBILE_VERIFICATION -> MobileVerificationStep(
                 state = state,
                 onEvent = viewModel::onEvent,
-                validate = viewModel::validateCurrentStep
+                validate = viewModel::validateCurrentStep,
+                context = context
             )
         }
 

@@ -3,6 +3,7 @@ package com.nabssam.bestbook.presentation.ui.account.auth;
 import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -35,6 +37,10 @@ class VMAuth @Inject constructor(
     init {
         checkAuthState()
         onEvent(AuthEvent.Initialize)
+        viewModelScope.launch {
+            delay(2_000)
+            state.value.isOtpVerified = true
+        }
     }
 
     fun onEvent(event: AuthEvent) {
@@ -167,7 +173,7 @@ class VMAuth @Inject constructor(
                     updateState {
                         it.copy(
                             isLoading = false,
-//                            isOtpVerified = true,
+                            isOtpVerified = true,
                             currentStep = AuthSteps.LOGIN
                         )
                     }

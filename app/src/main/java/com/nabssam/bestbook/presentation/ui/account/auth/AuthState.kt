@@ -6,7 +6,7 @@ data class AuthState(
     val username: String = "sadique1",
     val password: String = "sadique",
     val confirmPassword: String = "sadique",
-    var currentClass: String = "10th Grade",
+    var currentClass: String = "",
     val schoolName: String = "AMU Sr. Sec. School",
     var standardList: List<Standard> = emptyList(),
     val allTargetExam: List<String> = emptyList(),
@@ -17,6 +17,6 @@ data class AuthState(
     val currentStep: AuthSteps = AuthSteps.LOGIN,   // auth screen start destination
     val isLoading: Boolean = true,
     val isOtpSent: Boolean = false,
-//    val isOtpVerified: Boolean = false,
+    var isOtpVerified: Boolean = false,
     var isSignedIn: Boolean = false,
 )

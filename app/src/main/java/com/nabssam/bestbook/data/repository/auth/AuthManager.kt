@@ -19,9 +19,8 @@ class AuthManager @Inject constructor(
 
     suspend fun logout() {
         Log.d("APP_STATE", "logout function calling")
-//        pdfStorage.deleteAllDownloadedPDFs()
-//        tokenStorage.clearTokens()
-//        delay(100)
+        pdfStorage.deleteAllDownloadedPDFs()
+        tokenStorage.clearTokens()
         _apptate.emit(AppState.LoggedOut) // Emit logout event
     }
 }
