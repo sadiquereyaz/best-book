@@ -11,7 +11,7 @@ data class AuthState(
     var standardList: List<Standard> = emptyList(),
     val allTargetExam: List<String> = emptyList(),
     var userTargetExams: List<String> = emptyList(),
-    val targetYear: Int = 2026,     // TODO: change to 202
+    val targetYear: Int = 2026,     // TODO: remove
     val mobileNumber: String = "8287895302" /*"8745971753"*/,
     val otp: String = "",
     val currentStep: AuthSteps = AuthSteps.LOGIN,   // auth screen start destination

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import kotlin.math.sin
 
 @Composable
 fun CredentialsStep(
@@ -41,6 +43,8 @@ fun CredentialsStep(
             value = state.username,
             onValueChange = { onEvent(AuthEvent.UpdateUsername(it)) },
             label = { Text("Choose Username") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -58,7 +62,8 @@ fun CredentialsStep(
             value = state.confirmPassword,
             onInput = { onEvent(AuthEvent.UpdateConfirmPassword(it)) },
             label = "Confirm Password",
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Done,
+            onDoneAction = { if(validate()) onEvent(AuthEvent.NavigateNext) }
         )
 
         Spacer(modifier = Modifier.height(24.dp))

@@ -37,10 +37,11 @@ class VMAuth @Inject constructor(
     init {
         checkAuthState()
         onEvent(AuthEvent.Initialize)
-        viewModelScope.launch {
+        /*viewModelScope.launch {
             delay(2_000)
             state.value.isOtpVerified = true
-        }
+            Log.d("AUTH_VM", "init: ${_state.value}")
+        }*/
     }
 
     fun onEvent(event: AuthEvent) {
@@ -84,6 +85,7 @@ class VMAuth @Inject constructor(
             if (tokenStorage.getAccessToken() != null) {
                 //Log.d("AUTH_VM", "checkAuthState: ${tokenStorage.getAccessToken()}")
                 updateState { it.copy(isSignedIn = true, isLoading = false) }
+//                Log.d("AUTH_VM", "checkAuthState: ${_state.value}")
             }
             else {
                 //Log.d("AUTH_VM", "checkAuthState: null")
@@ -170,6 +172,7 @@ class VMAuth @Inject constructor(
                 VerifyOtpRequest(otp = _state.value.otp.toInt(), phone = _state.value.mobileNumber)
             ).fold(
                 onSuccess = {
+                    Log.d("AUTH_VM", "verifyOtp success: $it")
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -179,6 +182,7 @@ class VMAuth @Inject constructor(
                     }
                 },
                 onFailure = { error ->
+                    Log.d("AUTH_VM", "verifyOtp fail: $error")
                     _errState.value = error.message
                     updateState { it.copy(isLoading = false) }
                 }

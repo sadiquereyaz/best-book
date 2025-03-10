@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,11 +37,11 @@ fun AuthenticationScreen(
             onLoginSuccess()
         }
     }
-   /* LaunchedEffect(state.isOtpVerified) {
+    LaunchedEffect(state.isOtpVerified) {
         if (state.isOtpVerified) {
-            viewModel.onEvent(AuthEvent.NavigateNext)
+            Toast.makeText(context, "Account Created Successfully.", Toast.LENGTH_SHORT).show()
         }
-    }*/
+    }
 
     BackHandler(enabled = state.currentStep != AuthSteps.LOGIN) {
         viewModel.onEvent(AuthEvent.NavigateBack)

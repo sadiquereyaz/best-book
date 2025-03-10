@@ -67,7 +67,7 @@ fun LoginStep(
             onInput = { onEvent(AuthEvent.UpdatePassword(it)) },
             label = "Password",
             imeAction = ImeAction.Done,
-            onDoneAction = { onEvent(AuthEvent.SignIn) }
+            onDoneAction = { if (validate()) onEvent(AuthEvent.SignIn) }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
