@@ -2,6 +2,7 @@ package com.nabssam.bestbook.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -29,6 +30,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -36,6 +38,7 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
 import com.nabssam.bestbook.presentation.navigation.appbar.TopAppBarActions
+import com.nabssam.bestbook.presentation.ui.snackbar.KeyboardAwareSnackbarHost
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarObserver
 import kotlinx.coroutines.launch
@@ -139,10 +142,14 @@ fun BBNavSuite(
                      }*/
             },
             snackbarHost = {
-                 SnackbarHost(hostState = snackbarHostState)
+                 //SnackbarHost(hostState = snackbarHostState)
             }
         ) { innerPadding ->
             content(innerPadding)
+            KeyboardAwareSnackbarHost(
+                modifier = Modifier.padding(innerPadding /*bottom = 32.dp*/ ),
+                hostState = snackbarHostState
+            )
             SnackbarObserver(snackbarManager = snackbarManager, snackbarHostState = snackbarHostState)
         }
     }

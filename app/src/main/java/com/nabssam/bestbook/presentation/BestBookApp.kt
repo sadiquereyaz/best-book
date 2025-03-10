@@ -50,7 +50,7 @@ fun BestBookApp(
         modifier = Modifier,
         authManager = authManager,
         cartItemCount = cartItemCount,
-        snackbarManager = snackbarManager
+        snackbarManager = snackbarManager,
     ) { innerPadding ->
         AppNavHost(navController, modifier, innerPadding, isSignedIn)
     }

@@ -43,11 +43,12 @@ class VMAuth @Inject constructor(
     init {
         checkAuthState()
         onEvent(AuthEvent.Initialize)
-        /*viewModelScope.launch {
-            delay(2_000)
-            state.value.isOtpVerified = true
-            Log.d("AUTH_VM", "init: ${_state.value}")
-        }*/
+        // Add this collector to show snackbar whenever errState changes
+        viewModelScope.launch {
+            errState.collect { errorMessage ->
+                errorMessage?.let { showErrorSnackbar(it) }
+            }
+        }
     }
 
     fun onEvent(event: AuthEvent) {
@@ -142,27 +143,20 @@ class VMAuth @Inject constructor(
     private fun signIn() {
         viewModelScope.launch {
             _errState.value = null
-            Log.d("AUTH_VM", "signIn: ${_state.value}")
-            snackbarManager.showSnackbar(
-                SnackbarMessage(
-                    message = "Sign in click",
-                    type = SnackbarType.ERROR,
-                    duration = SnackbarDuration.Long,
-                    actionLabel = "Retry",
-                    onActionPerformed = { retry() }
-                )
-            )
-            /*updateState { it.copy(isLoading = true) }
+//            Log.d("AUTH_VM", "signIn: ${_state.value}")
+            //errState.value?.let { showErrorSnackbar(it) }
+            updateState { it.copy(isLoading = true) }
             authRepository.signIn(_state.value.username, _state.value.password).fold(onSuccess = {
                 updateState { it.copy(isLoading = false, isSignedIn = true) }
             }, onFailure = { error ->
                 _errState.value = error.message
+                showErrorSnackbar(error.message ?: "Unknown Error")
                 updateState { it.copy(isLoading = false) }
-            })*/
+            })
         }
     }
 
-    private fun registerAndSendOtp() {
+    private fun registerAndSendOtp() {/**/
 
         viewModelScope.launch {
             _errState.value = null
@@ -296,4 +290,30 @@ class VMAuth @Inject constructor(
         val calendar = Calendar.getInstance()
         return calendar.get(Calendar.YEAR)
     }
+    // Add this function to your VMAuth class to display snackbars for errors
+    private fun showErrorSnackbar(errorMessage: String) {
+        viewModelScope.launch{
+            snackbarManager.showSnackbar(
+                SnackbarMessage(
+                    message = errorMessage,
+                    type = SnackbarType.ERROR,
+                    duration = SnackbarDuration.Short,
+                    actionLabel = "Dismiss",
+                    onActionPerformed = { /* No action needed */ }
+                )
+            )
+        }
+    }
+
+// Modify your error handling to use this function
+// For example, in your viewModelScope.launch blocks where you set _errState.value:
+
+// Before:
+// _errState.value = error.message
+// updateState { it.copy(isLoading = false) }
+
+// After:
+// _errState.value = error.message
+// error.message?.let { showErrorSnackbar(it) }
+// updateState { it.copy(isLoading = false) }
 }

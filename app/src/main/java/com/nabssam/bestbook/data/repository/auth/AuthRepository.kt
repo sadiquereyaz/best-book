@@ -9,6 +9,7 @@ import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.model.User
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
@@ -18,6 +19,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun signIn(email: String, password: String): Result<Unit> {
         return try {
+            //throw Exception("Testing Exception")
             val request = SignInRequest(email, password)
             val response = authApiService.signIn(request)
 

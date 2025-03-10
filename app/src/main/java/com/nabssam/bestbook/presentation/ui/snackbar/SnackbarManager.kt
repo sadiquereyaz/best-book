@@ -10,7 +10,6 @@ interface SnackbarManager {
     suspend fun showSnackbar(message: SnackbarMessage)
 }
 
-// 2. SnackbarManager implementation
 class SnackbarManagerImpl @Inject constructor() : SnackbarManager {
     // Use a Channel to handle messages - will process one at a time
     private val _snackbarChannel = Channel<SnackbarMessage>(Channel.BUFFERED)
