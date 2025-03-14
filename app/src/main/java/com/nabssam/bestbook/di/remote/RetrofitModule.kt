@@ -2,9 +2,9 @@ package com.nabssam.bestbook.di.remote
 
 import com.nabssam.bestbook.BuildConfig
 import com.nabssam.bestbook.di.Auth
+import com.nabssam.bestbook.di.Delhivery
 import com.nabssam.bestbook.di.Mock
 import com.nabssam.bestbook.di.Pin
-import com.nabssam.bestbook.di.Delhivery
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
 import dagger.Provides

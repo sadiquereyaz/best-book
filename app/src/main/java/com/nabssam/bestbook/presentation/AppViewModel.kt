@@ -1,15 +1,15 @@
 package com.nabssam.bestbook.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.AppPreferences
 import com.nabssam.bestbook.data.local.dao.CartDao
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
-import com.nabssam.bestbook.domain.model.AppState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

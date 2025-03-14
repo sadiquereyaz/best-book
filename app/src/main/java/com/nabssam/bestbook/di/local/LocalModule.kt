@@ -10,7 +10,6 @@ import com.nabssam.bestbook.data.local.AppDatabase
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
-import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

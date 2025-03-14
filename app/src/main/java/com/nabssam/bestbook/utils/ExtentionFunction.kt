@@ -1,7 +1,5 @@
 package com.nabssam.bestbook.utils
 
-import android.util.Log
-import androidx.navigation.NavController
 import com.nabssam.bestbook.domain.model.CartItem
 import java.math.BigDecimal
 import java.math.RoundingMode

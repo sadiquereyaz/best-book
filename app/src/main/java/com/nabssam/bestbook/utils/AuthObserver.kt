@@ -1,16 +1,11 @@
 package com.nabssam.bestbook.utils
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.nabssam.bestbook.data.repository.auth.AuthManager
-import com.nabssam.bestbook.domain.model.AppState
-import com.nabssam.bestbook.presentation.navigation.Route
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
     fun AuthObserver(authManager: AuthManager, navController: NavController) {

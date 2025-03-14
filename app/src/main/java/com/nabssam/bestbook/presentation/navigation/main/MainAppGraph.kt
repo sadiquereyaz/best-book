@@ -10,7 +10,6 @@ import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.safeNavigate
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.PDFViewerScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.PurchasedEbookScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.ViewModelEbook
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen

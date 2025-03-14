@@ -1,18 +1,14 @@
 package com.nabssam.bestbook.presentation.ui.account.auth;
 
 import android.icu.util.Calendar
-import android.os.Build
 import android.util.Log
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.ListenableWorker.Result.retry
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.auth.AuthRepository
-import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
+import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarDuration
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
@@ -20,11 +16,9 @@ import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarMessage
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarType
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -115,7 +109,7 @@ class VMAuth @Inject constructor(
     private fun fetchAllExam() {
         viewModelScope.launch {
             _errState.value = null
-            examRepository.fetchAllStandard().collect { resource ->
+            examRepository.fetchAllStandard1().collect { resource ->
                 when (resource) {
                     is Resource.Error -> {
                         updateState { it.copy(isLoading = false) }

@@ -1,8 +1,5 @@
 package com.nabssam.bestbook.data.remote.dto.auth
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-
 data class SignInRequest(
     val username: String,
     val password: String

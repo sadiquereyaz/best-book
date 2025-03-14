@@ -1,12 +1,10 @@
 package com.nabssam.bestbook.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.nabssam.bestbook.domain.model.Role
 import com.nabssam.bestbook.domain.model.User
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow

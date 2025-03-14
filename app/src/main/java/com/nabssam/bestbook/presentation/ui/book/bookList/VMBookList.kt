@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
-import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
+import com.nabssam.bestbook.domain.usecase.exam.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

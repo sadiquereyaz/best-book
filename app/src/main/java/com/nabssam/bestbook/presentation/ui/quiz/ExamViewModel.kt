@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.data.remote.dto.Chapter
 import com.nabssam.bestbook.data.remote.dto.Quize
 import com.nabssam.bestbook.data.remote.dto.Subject
-import com.nabssam.bestbook.data.repository.ExamRepository
 import com.nabssam.bestbook.domain.model.Exam
+import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

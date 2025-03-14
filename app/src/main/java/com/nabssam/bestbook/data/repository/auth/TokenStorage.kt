@@ -2,10 +2,6 @@ package com.nabssam.bestbook.data.repository.auth
 
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 

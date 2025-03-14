@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.account.auth
 
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box

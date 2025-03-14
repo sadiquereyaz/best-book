@@ -1,15 +1,12 @@
 package com.nabssam.bestbook.data.repository.auth
 
-import android.util.Log.d
 import com.nabssam.bestbook.data.mapper.UserMapper
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
-import com.nabssam.bestbook.domain.model.User
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,

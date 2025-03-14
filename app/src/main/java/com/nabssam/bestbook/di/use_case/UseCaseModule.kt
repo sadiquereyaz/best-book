@@ -1,26 +1,19 @@
-package com.nabssam.bestbook.di
+package com.nabssam.bestbook.di.use_case
 
-import com.nabssam.bestbook.data.mapper.AddressMapper
 import com.nabssam.bestbook.data.mapper.BookMapper
-import com.nabssam.bestbook.data.remote.api.AddressApiService
-import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
+import com.nabssam.bestbook.domain.usecase.GetAllBannerUseCase
 import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.datastore.GetUserTargetsUC
-import com.nabssam.bestbook.domain.repository.AddressRepository
-import com.nabssam.bestbook.data.repository.AddressRepositoryImpl
-import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepository
-import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepositoryImp
-import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
-import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
+import com.nabssam.bestbook.domain.usecase.exam.GetUserTargetsUC
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ViewModelProviderModule {
+object UseCaseModule {
 
     @Provides
     @Singleton
@@ -72,22 +65,6 @@ object ViewModelProviderModule {
         return GetUserTargetsUC(userPrefRepoImpl)
     }
 
-   /* @Provides
-    @Singleton
-    fun provideLoginUseCase(
-        repository: AuthRepository
-    ): LoginUseCase {
-        return LoginUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSignUpUseCase(
-        repository: AuthRepository
-    ): SignUpUseCase {
-        return SignUpUseCase(repository)
-    }*/
-
     @Provides
     @Singleton
     fun provideAddToCartUseCase(
@@ -106,29 +83,5 @@ object ViewModelProviderModule {
 
     @Provides
     @Singleton
-    fun provideOrderRepository(): OrderRepositoryMain {
-        return OrderRepositoryMain()
-    }
-    @Provides
-    @Singleton
-    fun provideChatRepository(): ChatRepositoryImpl {
-        return ChatRepositoryImpl( )
-    }
-
-    @Provides
-    @Singleton
-    fun provideAddressRepository(
-        addressApiService: AddressApiService,
-        addressMapper: AddressMapper
-    ): AddressRepository {
-        return AddressRepositoryImpl(addressApiService, addressMapper)
-    }
-    @Provides
-    @Singleton
-    fun provideEbookRepository(
-        api: OrderApiService,
-        mapper: BookMapper
-    ): EbookRepository {
-        return EbookRepositoryImp(api, mapper)
-    }
+    fun provideGetAllBannerUseCase(bannerRepository: BannerRepository) = GetAllBannerUseCase(bannerRepository)
 }

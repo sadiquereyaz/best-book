@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDetailList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.RelatedBookList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.Review
@@ -35,12 +38,6 @@ import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
 import com.nabssam.bestbook.presentation.ui.components.RatingBar
 import kotlinx.coroutines.launch
-
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 
 
 @Composable

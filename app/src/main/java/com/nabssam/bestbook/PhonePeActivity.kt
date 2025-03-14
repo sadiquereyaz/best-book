@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.nabssam.bestbook.presentation.ui.payment.PaymentScreen
 import com.phonepe.intent.sdk.api.PhonePeKt
 import com.phonepe.intent.sdk.api.models.PhonePeEnvironment
 
- const val TAG = "PhonePePayment"
+const val TAG = "PhonePePayment"
  const val PAYMENT_REQUEST_CODE = 1001
 // Example usage in your Activity
 class PhonePeActivity : ComponentActivity() {

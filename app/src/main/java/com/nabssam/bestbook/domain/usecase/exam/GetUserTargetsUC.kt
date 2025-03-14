@@ -1,6 +1,5 @@
-package com.nabssam.bestbook.domain.usecase.datastore
+package com.nabssam.bestbook.domain.usecase.exam
 
-import android.util.Log
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import javax.inject.Inject
 

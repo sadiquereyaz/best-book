@@ -1,6 +1,5 @@
 package com.nabssam.bestbook.presentation.ui.book.ebook
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingWorkPolicy

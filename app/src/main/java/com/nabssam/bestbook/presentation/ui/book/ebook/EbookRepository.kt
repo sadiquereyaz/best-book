@@ -1,10 +1,8 @@
 package com.nabssam.bestbook.presentation.ui.book.ebook
 
 import com.nabssam.bestbook.data.mapper.BookMapper
-import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.utils.Resource
-import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

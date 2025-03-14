@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.data.mapper
 
-import com.nabssam.bestbook.data.remote.dto.BookDtoFinal
 import com.nabssam.bestbook.data.remote.dto.BookDto
+import com.nabssam.bestbook.data.remote.dto.BookDtoFinal
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper

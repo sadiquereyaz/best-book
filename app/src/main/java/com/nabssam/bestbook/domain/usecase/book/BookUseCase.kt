@@ -47,12 +47,12 @@ class SearchProductsUseCase @Inject constructor(
     operator fun invoke(query: String): Flow<Resource<List<Book>>> = flow {
         try {
             emit(Resource.Loading()) // Emit loading state
-            val products = if (query.isBlank()) {
+            /*val products = if (query.isBlank()) {
                 repository.getByExam("all")
             } else {
-                repository.searchProducts(query)
+                //repository.searchProducts(query)
             }.first()
-            emit(products) // Emit success state with product details
+            emit(products) // Emit success state with product details*/
         } catch (e: Exception) {
             emit(
                 Resource.Error(
@@ -62,24 +62,3 @@ class SearchProductsUseCase @Inject constructor(
         }
     }
 }
-
-class RefreshProductsUseCase @Inject constructor(
-    private val repository: BookRepository
-) {
-    fun invoke(): Flow<Resource<Unit>> = flow {
-        try {
-            emit(Resource.Loading()) // Emit loading state
-            repository.refreshProducts()
-            emit(Resource.Success(Unit)) // Emit success state
-        } catch (e: Exception) {
-            emit(
-                Resource.Error(
-                    e.localizedMessage ?: "An unexpected error occurred"
-                )
-            ) // Emit error state
-        }
-
-    }
-}
-
-

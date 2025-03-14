@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.account.auth.composable
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

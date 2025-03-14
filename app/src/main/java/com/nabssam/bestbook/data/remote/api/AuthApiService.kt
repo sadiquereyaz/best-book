@@ -2,7 +2,6 @@ package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignInResponse
-import com.nabssam.bestbook.data.remote.dto.auth.UserDto
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpResponse
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest

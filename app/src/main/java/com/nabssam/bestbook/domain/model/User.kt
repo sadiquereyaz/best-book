@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.domain.model
 
 import com.nabssam.bestbook.utils.Constants
-import com.nabssam.bestbook.utils.DummyData
 
 
 data class User(

@@ -3,11 +3,13 @@ package com.nabssam.bestbook.di
 import com.nabssam.bestbook.data.repository.BannerRepoImp
 import com.nabssam.bestbook.data.repository.BookRepositoryImpl
 import com.nabssam.bestbook.data.repository.CartRepositoryImpl
+import com.nabssam.bestbook.data.repository.ExamRepositoryImpl
 import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
 import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
 import dagger.Binds
@@ -38,5 +40,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserPref(userPrefRepoImpl: UserPrefRepoImpl): UserPreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExamRepository(examRepositoryImpl: ExamRepositoryImpl): ExamRepository
 
 }

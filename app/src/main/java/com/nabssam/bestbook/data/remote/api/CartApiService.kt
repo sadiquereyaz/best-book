@@ -1,13 +1,12 @@
 package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.AddToCartRequest
-import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import com.nabssam.bestbook.data.remote.dto.CartItemDtoFree
 import com.nabssam.bestbook.data.remote.dto.CartResponse
 import com.nabssam.bestbook.data.remote.dto.CartResponseFinal
 import com.nabssam.bestbook.data.remote.dto.RemoveRequest
 import com.nabssam.bestbook.data.remote.dto.RemoveResponse
-import com.nabssam.bestbook.domain.model.Unit1
+import com.nabssam.bestbook.data.remote.dto.UpdateQuantityRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

@@ -3,10 +3,6 @@ package com.nabssam.bestbook.presentation.navigation
 import android.os.Bundle
 import android.util.Log
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.nabssam.bestbook.presentation.navigation.Route
 
 fun NavController.safeNavigate(route: Route) {
     try {
