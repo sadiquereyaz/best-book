@@ -11,8 +11,7 @@ plugins {
     alias(libs.plugins.android.hilt)
 
     //firebase
-   // alias(libs.plugins.google.gms.google.services)
-
+    // alias(libs.plugins.google.gms.google.services)
 
 
 }
@@ -38,16 +37,24 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl",  "\"http://10.57.250.250:3000/\"")
-            buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
-            buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
+            buildConfigField("String", "baseUrl", "\"http://10.57.250.250:3000/\"")
+            buildConfigField(
+                "String",
+                "delhiveryBaseUrl",
+                "\"https://staging-express.delhivery.com/c/api/\""
+            )
+            buildConfigField("String", "pinBaseUrl", "\"https://api.postalpincode.in/\"")
 
         }
 
         debug {
-            buildConfigField("String", "delhiveryBaseUrl",  "\"https://staging-express.delhivery.com/c/api/\"")
-            buildConfigField("String", "baseUrl",  "\"http://10.57.250.250:3000/\"")
-            buildConfigField("String", "pinBaseUrl",  "\"https://api.postalpincode.in/\"")
+            buildConfigField(
+                "String",
+                "delhiveryBaseUrl",
+                "\"https://staging-express.delhivery.com/c/api/\""
+            )
+            buildConfigField("String", "baseUrl", "\"http://10.57.250.250:3000/\"")
+            buildConfigField("String", "pinBaseUrl", "\"https://api.postalpincode.in/\"")
         }
     }
     compileOptions {
@@ -99,7 +106,7 @@ dependencies {
     // Retrofit for network calls
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation (libs.logging.interceptor)
+    implementation(libs.logging.interceptor)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -107,7 +114,7 @@ dependencies {
     // Room dependencies (uses KSP/KAPT)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt (libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 
     // Firebase
 //    implementation(platform(libs.firebase.bom))
@@ -123,13 +130,13 @@ dependencies {
 
     implementation(libs.kotlinx.datetime)
 
-    implementation (libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences)
 
-    testImplementation (libs.mockwebserver)
+    testImplementation(libs.mockwebserver)
 
     // for encryption and decryption
-    implementation (libs.androidx.security.crypto)
-    implementation (libs.android.pdf.viewer)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.android.pdf.viewer)
 //    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
 //    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
@@ -139,10 +146,11 @@ dependencies {
     // WorkManager for background tasks
 //    implementation(libs.androidx.work.runtime.ktx)
     implementation("androidx.work:work-runtime-ktx:2.10.0")
-    
+
     implementation("phonepe.intentsdk.android.release:IntentSDK:4.0.0")
 //    implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
 
+    implementation(libs.accompanist.systemuicontroller)
 
 }
 // Allow references to generated code

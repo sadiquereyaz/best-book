@@ -91,7 +91,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun BestBookTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false /*isSystemInDarkTheme()*/,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

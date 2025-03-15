@@ -1,4 +1,5 @@
 [versions]
+accompanistSystemuicontroller = "0.28.0"
 agp = "8.7.3"
 
 androidPdfViewer = "3.2.0-beta.1"
@@ -29,6 +30,7 @@ securityCrypto = "1.1.0-alpha06"
 appcompat = "1.7.0"
 
 [libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 android-pdf-viewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
