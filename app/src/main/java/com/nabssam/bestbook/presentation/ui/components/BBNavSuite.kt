@@ -58,7 +58,7 @@ fun BBNavSuite(
     content: @Composable (PaddingValues) -> Unit,
 
     ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+   // val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val scope = rememberCoroutineScope()
@@ -79,7 +79,9 @@ fun BBNavSuite(
         gesturesEnabled = false
     ) {
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier
+                //.nestedScroll(scrollBehavior.nestedScrollConnection)
+            ,
             topBar = {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
@@ -129,7 +131,7 @@ fun BBNavSuite(
 //                        }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-                    scrollBehavior = scrollBehavior,
+                    //scrollBehavior = scrollBehavior,
                     actions = {
                         TopAppBarActions(currentDestination, navController, cartItemCount?: 0)
                     },

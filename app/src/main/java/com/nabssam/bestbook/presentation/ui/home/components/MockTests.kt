@@ -17,6 +17,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
@@ -57,13 +61,95 @@ fun MockTests(
 
     HomeScreenRowItem(
         modifier = Modifier,
+        title = "Quizzes",
+        leadingIcon = if (isExpanded) {
+            Icons.Default.KeyboardArrowUp
+        } else {
+            Icons.AutoMirrored.Default.KeyboardArrowRight
+
+        },
+        onClick = { isExpanded = !isExpanded }
+    ) {
+        Column(modifier = modifier) {
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .heightIn(max = totalHeight)
+                    .animateContentSize(),
+                columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = false
+            ) {
+                items(visibleItems) { item ->
+                    Box(
+                        modifier = Modifier
+                            .height(dimensionResource(R.dimen.book_height_home))
+                            .width(dimensionResource(R.dimen.book_width_home))
+                            .clip(RoundedCornerShape(16.dp))
+
+                            .background(
+                                color = (MaterialTheme.colorScheme.surface).copy(alpha = 0.7f)
+                            )
+                            .clickable { navigateToMock() }
+
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = item.title,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Start,
+                                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.9f)
+                            )
+                            Text(
+                                text = item.subtitle,
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Start,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f),
+                                lineHeight = 16.sp
+                            )
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+/*
+@Composable
+fun MockTests(
+    modifier: Modifier = Modifier,
+    navigateToMock: () -> Unit
+) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val cardWidth = dimensionResource(R.dimen.book_width_home)
+    val spacing = 8.dp
+    val itemPerRow = (screenWidth / (cardWidth + spacing)).toInt()
+    var isExpanded by remember { mutableStateOf(false) }
+    // Filter items based on isExpanded state
+    val visibleItems = if (isExpanded) dummyMockTests else dummyMockTests.take(itemPerRow)
+    val totalRows = ceil(dummyMockTests.size.toDouble() / itemPerRow).toInt()
+    val totalHeight = dimensionResource(R.dimen.book_height_home).plus(spacing).times(totalRows)
+
+    HomeScreenRowItem(
+        modifier = Modifier,
         title = "Quizes",
         btnText = if (isExpanded) "Collapse" else "Expand",
         onClick = { isExpanded = !isExpanded }
     ) {
         Column(modifier = modifier) {
             LazyVerticalGrid(
-                modifier = Modifier.heightIn(max = totalHeight).animateContentSize(),
+                modifier = Modifier
+                    .heightIn(max = totalHeight)
+                    .animateContentSize(),
                 columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -115,7 +201,7 @@ fun MockTests(
             }
         }
     }
-}
+}*/
 
 data class MockHomeModel(
     val id: String,
