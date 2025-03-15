@@ -1,11 +1,16 @@
 package com.nabssam.bestbook.presentation.ui.components
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,7 +27,9 @@ fun BottomNavigationMenu(
 
     val topLevelDestination = TopLevelDestination.fromNavDestination(currentDestination)
 
-    NavigationBar(tonalElevation = 12.dp) {
+    NavigationBar(
+        modifier = Modifier,
+    ) {
         TopLevelDestination.entries.forEach { topLevelRoute ->
             val isSelected = topLevelRoute == topLevelDestination
             NavigationBarItem(
@@ -36,7 +43,7 @@ fun BottomNavigationMenu(
                 label = {
                     Text(topLevelRoute.label)
                 },
-                selected = isSelected ,
+                selected = isSelected,
                 onClick = {
                     if (!isSelected) {
                         navController.bottomNavigationLogic(topLevelRoute.route)

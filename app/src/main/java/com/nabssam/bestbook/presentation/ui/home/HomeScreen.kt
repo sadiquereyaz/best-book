@@ -36,7 +36,7 @@ fun HomeScreen(
         LazyColumn(
             state = listState,
             modifier = modifier
-                .padding(8.dp)
+                .padding(8.dp, 0.dp, 8.dp, 0.dp)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
