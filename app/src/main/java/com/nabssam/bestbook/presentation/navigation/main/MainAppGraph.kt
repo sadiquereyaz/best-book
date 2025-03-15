@@ -39,14 +39,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                 onNavigateToBook = { bookId ->
                     navController.navigate(Route.BookDetailRoute(bookId))
                 },
-                // navigateToQuizCategory = { quizId: String -> navController.navigate(QuizCategoryRoute(quizId)) },
-                navigateToQuiz = { quizId ->
-                    navController.navigate(
-                        Route.QuizSubjectRoute()
-                    )
-                },
                 event = { event -> viewModel.onEvent(event) },
-                //onQuizSelect = {navController.navigate(Route.QuizCategoryRoute(it))},
                 onContestSelect = { navController.navigate(Route.QuizGraph) },
             )
         }

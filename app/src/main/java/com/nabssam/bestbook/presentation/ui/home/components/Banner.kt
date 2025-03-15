@@ -20,7 +20,7 @@ fun Banner(
         FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.banner_height)))
     } else {
         AutoScrollingImagePager(
-            autoscroll = true,
+            autoscroll = false,
             modifier = Modifier,
             imageList = fetchedBanners.map { it.imageLink },
             redirectLinkList = fetchedBanners.map { it.redirectLink },

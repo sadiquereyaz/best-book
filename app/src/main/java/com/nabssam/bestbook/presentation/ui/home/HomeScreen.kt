@@ -1,24 +1,19 @@
 package com.nabssam.bestbook.presentation.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.home.components.Banner
+import com.nabssam.bestbook.presentation.ui.home.components.HomeScreenRowItem
 import com.nabssam.bestbook.presentation.ui.home.components.HorizontalBookList
 import com.nabssam.bestbook.presentation.ui.home.components.MockTests
-import com.nabssam.bestbook.presentation.ui.home.components.QuizRow
+import com.nabssam.bestbook.presentation.ui.home.components.PyqRow
 
 @Composable
 fun HomeScreen(
@@ -26,11 +21,10 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onAllBookSelect: (String) -> Unit,
     onNavigateToBook: (String) -> Unit,
-    navigateToQuiz: (String) -> Unit,
-    onAllQuizSelect: (String) -> Unit = {},
     event: (EventHomeScreen) -> Unit,
     onContestSelect: () -> Unit,
 ) {
+    val listState = rememberLazyListState()
     if (state.fullScreenError != null) {
         ErrorScreen(
             modifier = modifier,
@@ -40,6 +34,7 @@ fun HomeScreen(
     } else {
 
         LazyColumn(
+            state = listState,
             modifier = modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
@@ -55,50 +50,40 @@ fun HomeScreen(
 
             // Recommended Books Section
             item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Recommended for you",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    TextButton(
-                        onClick = { onAllBookSelect(state.randomTarget ?: "all") },
-                        contentPadding = PaddingValues(0.dp),
-                    ) {
-                        Text(
-                            text = "View all",
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    }
-                }
-            }
-
-            item {
-                HorizontalBookList(
+                HomeScreenRowItem(
                     modifier = Modifier,
-                    state.fetchingBooks,
-                    state.fetchedBooks,
-                    state.fullScreenError,
-                    onNavigateToBook,
-                    { event(EventHomeScreen.Initialize) }
-                )
+                    title = "Recommended for you",
+                    onClick = { onAllBookSelect(state.randomTarget ?: "all") }) {
+                    HorizontalBookList(
+                        modifier = Modifier,
+                        state.fetchingBooks,
+                        state.fetchedBooks,
+                        state.fullScreenError,
+                        onNavigateToBook,
+                        { event(EventHomeScreen.Initialize) }
+                    )
+                }
             }
 
             // Mock Tests Section
             item {
-                MockTests(navigateToMock = { onContestSelect() })
+                    MockTests(navigateToMock = onContestSelect)
             }
 
-            // Quiz Row Section
+            // PYQs Row Section
             item {
-                QuizRow(
-                    navigateToQuiz = {},
-                    navigateToAllQuiz = { onAllQuizSelect("all") }
-                )
+                HomeScreenRowItem(
+                    modifier = Modifier,
+                    title = "Free PYQs",
+                    onClick = { onAllBookSelect("Free PYQs") }
+                ){
+                    PyqRow(
+                        pyqList = state.fetchedPyq,
+                        navigateToPyq = onNavigateToBook
+                    )
+                }
             }
         }
     }
 }
+

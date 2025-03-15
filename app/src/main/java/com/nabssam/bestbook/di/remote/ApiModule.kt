@@ -2,7 +2,7 @@ package com.nabssam.bestbook.di.remote
 
 import com.nabssam.bestbook.data.remote.api.AddressApiService
 import com.nabssam.bestbook.data.remote.api.AuthApiService
-import com.nabssam.bestbook.data.remote.api.BannerApiService
+import com.nabssam.bestbook.data.remote.api.HomeApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
@@ -71,7 +71,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideBannerApiService(@UnAuth retrofit: Retrofit): BannerApiService {
-        return retrofit.create(BannerApiService::class.java)
+    fun provideBannerApiService(@UnAuth retrofit: Retrofit): HomeApiService {
+        return retrofit.create(HomeApiService::class.java)
     }
 }

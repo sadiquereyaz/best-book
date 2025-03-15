@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.presentation.theme
-
 import androidx.compose.ui.graphics.Color
 
+/*
 val primaryLight = Color(0xFF223876)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFFFFFFF)
@@ -78,13 +78,7 @@ val Purple80 = Color(0xFFD0BCFF)
 val BoxColor = Color(0xfff3f3f3)
 val Star = Color(0xFFFF9800)
 val GreenColor=Color(0xFF4CAF50)
-
-
-
-/*
-package com.nabssam.bestbook.presentation.theme
-
-import androidx.compose.ui.graphics.Color
+*/
 
 val primaryLight = Color(0xFF565992)
 val onPrimaryLight = Color(0xFFFFFFFF)
@@ -166,4 +160,3 @@ val GreenColor=Color(0xFF4CAF50)
 
 
 
-*/

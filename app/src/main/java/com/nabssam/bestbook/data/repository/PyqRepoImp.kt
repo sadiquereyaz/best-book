@@ -2,30 +2,26 @@ package com.nabssam.bestbook.data.repository
 
 import android.util.Log
 import com.nabssam.bestbook.data.mapper.bannerDtoToDomain
+import com.nabssam.bestbook.data.mapper.pyqDtoToDomain
 import com.nabssam.bestbook.data.remote.api.HomeApiService
-import com.nabssam.bestbook.domain.model.Banner
-import com.nabssam.bestbook.domain.repository.BannerRepository
+import com.nabssam.bestbook.domain.model.Pyq
 import com.nabssam.bestbook.domain.repository.PyqRepository
 import com.nabssam.bestbook.domain.usecase.exam_std.GetCurrentClassUseCase
 import javax.inject.Inject
 
-private const val TAG = "BANNER_REPO_IMPL"
+private const val TAG = "PYQ_REPO_IMPL"
 
-class BannerRepoImp @Inject constructor(
-    private val bannerApi: HomeApiService,
-    private val getCurrentClassUseCase: GetCurrentClassUseCase
-) : BannerRepository {
-    override suspend fun getAll(): Result<List<Banner>> {
+class PyqRepoImp @Inject constructor(
+    private val homeApi: HomeApiService
+) : PyqRepository {
+    override suspend fun getAll(): Result<List<Pyq>> {
         return try {
-            val currentClass = getCurrentClassUseCase()
-//            Log.d(TAG, "getAll: currentClass: $currentClass")
-            val response = bannerApi.getBanners(/*currentClass = currentClass ?: ""*/)
-            Log.d(TAG, "getAll: response: ${response.body()}")
+            val response = homeApi.getPyq()
             if (response.isSuccessful) {
-                response.body()?.banners?.let {
+                response.body()?.pyqs?.let {
                     Result.success(
-                        it.map { bannerDto ->
-                            bannerDto.bannerDtoToDomain()
+                        it.map { pyq->
+                            pyq.pyqDtoToDomain()
                         }
                     )
                 } ?: Result.failure(Exception("Empty response"))

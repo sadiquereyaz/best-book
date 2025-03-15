@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthEvent
 import com.nabssam.bestbook.presentation.ui.account.auth.AuthState
+import com.nabssam.bestbook.presentation.ui.components.gradientBrush
 
 @Composable
 fun LoginStep(
@@ -88,9 +89,7 @@ fun LoginStep(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF223876), Color(0xFF1e429f),Color(0xFF5C1ED9)),
-                ),
+                brush = gradientBrush(),
                 shape = RoundedCornerShape(100)
                 ),
             enabled = validate()

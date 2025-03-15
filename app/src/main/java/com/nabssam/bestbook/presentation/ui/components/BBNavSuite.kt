@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -23,12 +24,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -99,24 +104,29 @@ fun BBNavSuite(
                         }
                     },
                     title = {
-                        if (currentDestination != null && currentDestination.isTopLevel()) {
-                            ImageClassesTitle()
-                        } else {
+//                        if (currentDestination != null && currentDestination.isTopLevel()) {
+//                            ImageClassesTitle()
+//                        } else {
                             val title = navBackStackEntry?.arguments?.getString("title")
                             Box(Modifier, contentAlignment = Alignment.Center) {
                                 Text(
                                     text = title ?: "Best Book",
-                                    modifier = Modifier
-                                    // .height(100.dp)
-                                    //.background(color = Color.Red)
-                                    ,
+                                    style = androidx.compose.ui.text.TextStyle(
+                                        brush = gradientBrush()
+                                    ),
+
+                                    modifier = Modifier.background(
+                                        color = Color.Transparent
+                                    )
+                                        .padding(horizontal = 2.dp),
+
                                     fontWeight = FontWeight.Bold,
                                     fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
                             }
-                        }
+//                        }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
                     scrollBehavior = scrollBehavior,

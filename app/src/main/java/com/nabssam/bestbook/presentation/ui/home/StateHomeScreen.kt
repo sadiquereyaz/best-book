@@ -3,6 +3,7 @@ package com.nabssam.bestbook.presentation.ui.home
 import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.model.Exam
+import com.nabssam.bestbook.domain.model.Pyq
 import com.nabssam.bestbook.domain.model.Quiz
 
 data class StateHomeScreen(
@@ -20,9 +21,9 @@ data class StateHomeScreen(
     var fetchedBooks: List<Book> = emptyList(),
     var errorBooks: String? = null,
 
-    var gettingQuizzes: Boolean = false,
-    var fetchedQuizzes: List<Quiz> = emptyList(),
-    var errorQuizzes: String? = null,
+    var fetchingPyq: Boolean = false,
+    var fetchedPyq: List<Book> = emptyList(),
+    var errorPyq: String? = null,
 
     val fullScreenError:String? = null,
 

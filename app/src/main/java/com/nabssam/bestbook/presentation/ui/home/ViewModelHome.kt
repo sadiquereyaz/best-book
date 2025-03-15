@@ -1,8 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.home
 
+import android.util.Log
+import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.GetAllBannerUseCase
+import com.nabssam.bestbook.domain.usecase.GetPyqUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
 import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
@@ -16,17 +19,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
+private const val TAG = "VIEW_MODEL_HOME"
+
 @HiltViewModel
 class ViewModelHome @Inject constructor(
     private val getBooksByExamUseCase: GetBooksByExamUC,
     private val getTargetExamsUseCase: GetUserTargetsUC,
     private val getAllBannerUseCase: GetAllBannerUseCase,
+    private val getPyqUseCase: GetPyqUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(StateHomeScreen())
     val state = _state.asStateFlow()
-
-//    private var randomTargetExam: String? = null
 
     init {
         onEvent(EventHomeScreen.Initialize)
@@ -83,6 +87,36 @@ class ViewModelHome @Inject constructor(
                 }
             }
         }
+
+        viewModelScope.launch {
+            getBooksByExamUseCase(
+                targetExam = "Free PYQs"
+            ).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        _state.update { it.copy(fetchingPyq = true) }
+                    }
+
+                    is Resource.Success -> {
+                        d(TAG, "${resource.data}")
+                        _state.update {
+                            it.copy(
+                                fetchedPyq = resource.data ?: emptyList(),
+                                fetchingPyq = false
+                            )
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(fetchingPyq = false, errorPyq = resource.message)
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
     private fun fetchBanners() = getAllBannerUseCase.invoke().onEach { resource ->

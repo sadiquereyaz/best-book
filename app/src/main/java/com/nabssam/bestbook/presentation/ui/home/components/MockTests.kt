@@ -7,9 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,10 +17,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +43,7 @@ import kotlin.math.ceil
 @Composable
 fun MockTests(
     modifier: Modifier = Modifier,
-    navigateToMock: (String) -> Unit
+    navigateToMock: () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val cardWidth = dimensionResource(R.dimen.book_width_home)
@@ -60,78 +55,64 @@ fun MockTests(
     val totalRows = ceil(dummyMockTests.size.toDouble() / itemPerRow).toInt()
     val totalHeight = dimensionResource(R.dimen.book_height_home).plus(spacing).times(totalRows)
 
-    Column(modifier = modifier) {
-        // Header Row with title and expand/collapse button
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Contests", style = MaterialTheme.typography.bodyLarge)
-            Spacer(modifier = Modifier.weight(1f))
-            TextButton(
-                contentPadding = PaddingValues(0.dp),
-                onClick = { isExpanded = !isExpanded } // Toggle expand/collapse state
+    HomeScreenRowItem(
+        modifier = Modifier,
+        title = "Quizes",
+        btnText = if (isExpanded) "Collapse" else "Expand",
+        onClick = { isExpanded = !isExpanded }
+    ) {
+        Column(modifier = modifier) {
+            LazyVerticalGrid(
+                modifier = Modifier.heightIn(max = totalHeight).animateContentSize(),
+                columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = false
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = if (isExpanded) "Collapse" else "View all",
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
-            }
-        }
-
-        LazyVerticalGrid(
-            modifier = Modifier.heightIn( max = totalHeight).animateContentSize(),
-            columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            userScrollEnabled = false
-        ) {
-            items(visibleItems) { item ->
-                Box(
-                    modifier = Modifier
-                        .height(dimensionResource(R.dimen.book_height_home))
-                        .width(dimensionResource(R.dimen.book_width_home))
-                        .background(
-                            brush = Brush.verticalGradient(
-                                listOf(
-                                    item.color.copy(alpha = 0.03f),
-                                    item.color.copy(alpha = 0.2f)
-                                )
-                            ), shape = RoundedCornerShape(16.dp)
-                        )
-                        .clip(RoundedCornerShape(16.dp))
-                        .clickable { navigateToMock(item.id) }
-
-                ) {
-                    Column(
+                items(visibleItems) { item ->
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        horizontalAlignment = Alignment.Start
+                            .height(dimensionResource(R.dimen.book_height_home))
+                            .width(dimensionResource(R.dimen.book_width_home))
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    listOf(
+                                        item.color.copy(alpha = 0.03f),
+                                        item.color.copy(alpha = 0.2f)
+                                    )
+                                ), shape = RoundedCornerShape(16.dp)
+                            )
+                            .clip(RoundedCornerShape(16.dp))
+                            .clickable { navigateToMock() }
+
                     ) {
-                        Text(
-                            text = item.title,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Start,
-                            color = item.color.copy(alpha = 0.7f)
-                        )
-                        Text(
-                            text = item.subtitle,
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Start,
-                            color = item.color,
-                            lineHeight = 16.sp
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = item.title,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Start,
+                                color = item.color.copy(alpha = 0.7f)
+                            )
+                            Text(
+                                text = item.subtitle,
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Start,
+                                color = item.color,
+                                lineHeight = 16.sp
+                            )
+                        }
                     }
                 }
-            }
 
+            }
         }
     }
 }

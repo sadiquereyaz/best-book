@@ -1,5 +1,8 @@
 package com.nabssam.bestbook.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+
 data class BannerResponse(
     val banners: List<BannerDto>,
     val success: Boolean
@@ -10,7 +13,7 @@ data class BannerDto(
     val _id: String,
     val cloudinaryId: String,
 
-    val redirectLink: String? = null,       // Default null if missing
+    @SerializedName("redirectUrl") val redirectLink: String? = null,       // Default null if missing
     val imageUrl: String? = null,
     val isActive: Boolean,
 
