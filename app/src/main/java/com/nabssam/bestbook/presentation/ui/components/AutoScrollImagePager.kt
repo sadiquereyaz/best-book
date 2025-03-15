@@ -1,6 +1,8 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -38,6 +42,9 @@ fun AutoScrollingImagePager(
 ) {
     val pageCount= imageList.size
     val pagerState = rememberPagerState(pageCount = { pageCount })
+
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
     // Auto-scroll logic
     LaunchedEffect(pagerState) {
@@ -65,6 +72,21 @@ fun AutoScrollingImagePager(
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                        .fillMaxSize()
+                        .clickable(
+                            enabled = true,
+                            onClick = {
+                                val uri2: String? = "https://forms.gle/8g3R2J2G5ohAkhVK6"    // uri must include protocol like 'https'
+                                try {
+                                    // Used only for opening URIs (like web links or deep links) from Jetpack Compose
+                                    if (!uri2.isNullOrBlank() && uri2.startsWith("http"))
+                                        uriHandler.openUri(imageList[page])
+                                } catch (e: Exception) {
+                                    // No app can handle this URI
+                                    Toast.makeText(context, "Unable to open the link", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        )
                         .clip(shape = RoundedCornerShape(8.dp))
                         .height(height),
                 )

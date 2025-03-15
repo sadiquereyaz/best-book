@@ -27,6 +27,7 @@ class ViewModelHome @Inject constructor(
 
     private val _state = MutableStateFlow(StateHomeScreen())
     val state = _state.asStateFlow()
+
 //    private var randomTargetExam: String? = null
 
     init {
@@ -39,7 +40,7 @@ class ViewModelHome @Inject constructor(
             EventHomeScreen.FetchBanner -> fetchBanners()
             EventHomeScreen.Initialize -> {
                 viewModelScope.launch {
-                    getUserTargets() // Wait for exams to be fetched
+                    getUserTargetExams() // Wait for exams to be fetched
                     fetchBooks()    // Fetch books after exams are fetched
                     fetchBanners()  // Fetch banners after exams are fetched
                 }
@@ -47,12 +48,11 @@ class ViewModelHome @Inject constructor(
         }
     }
 
-    private suspend fun getUserTargets() {
+    private suspend fun getUserTargetExams() {
         val targetExamList = getTargetExamsUseCase()
         val randomTargetExam: String? = if (targetExamList.isNotEmpty())
             targetExamList[Random.nextInt(targetExamList.size)]
         else null
-
         _state.update { it.copy(randomTarget = randomTargetExam) }
     }
 

@@ -6,6 +6,7 @@ import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.utils.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

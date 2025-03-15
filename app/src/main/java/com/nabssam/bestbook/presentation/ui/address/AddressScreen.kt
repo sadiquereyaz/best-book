@@ -84,7 +84,6 @@ fun AddressScreen(
                         }
                     }
 
-
                     when (uiState) {
 
                         is UiStateAddress.Success.Addresses -> {
