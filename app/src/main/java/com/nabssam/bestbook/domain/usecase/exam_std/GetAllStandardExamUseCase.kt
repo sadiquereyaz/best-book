@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.domain.usecase.exam
+package com.nabssam.bestbook.domain.usecase.exam_std
 
 import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.utils.Resource

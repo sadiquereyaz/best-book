@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,14 +34,16 @@ import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 
+private const val TAG = "AUTO_SCROLLING_IMAGE_PAGER"
 @Composable
 fun AutoScrollingImagePager(
-    autoscroll: Boolean = true,
-    imageList: List<String> = emptyList(),
     modifier: Modifier = Modifier,
+    autoscroll: Boolean = true,
+    imageList: List<String?> = emptyList(),
+    redirectLinkList: List<String?> = emptyList(),
     height: Dp = 160.dp
 ) {
-    val pageCount= imageList.size
+    val pageCount = imageList.size
     val pagerState = rememberPagerState(pageCount = { pageCount })
 
     val uriHandler = LocalUriHandler.current
@@ -48,9 +51,9 @@ fun AutoScrollingImagePager(
 
     // Auto-scroll logic
     LaunchedEffect(pagerState) {
-        while (autoscroll && pageCount> 1) {
+        while (autoscroll && pageCount > 1) {
             yield()
-            delay(2000) // Change page every 3 seconds
+            delay(3000) // Change page every 3 seconds
             val nextPage = (pagerState.currentPage + 1) % pageCount
             pagerState.animateScrollToPage(nextPage)
         }
@@ -66,30 +69,31 @@ fun AutoScrollingImagePager(
                 //.fillMaxWidth()
                 .height(height)
         ) { page ->
-                AsyncImage(
-                    model = imageList[page],
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                       .fillMaxSize()
-                        .clickable(
-                            enabled = true,
-                            onClick = {
-                                val uri2: String? = "https://forms.gle/8g3R2J2G5ohAkhVK6"    // uri must include protocol like 'https'
-                                try {
-                                    // Used only for opening URIs (like web links or deep links) from Jetpack Compose
-                                    if (!uri2.isNullOrBlank() && uri2.startsWith("http"))
-                                        uriHandler.openUri(imageList[page])
-                                } catch (e: Exception) {
-                                    // No app can handle this URI
-                                    Toast.makeText(context, "Unable to open the link", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
+            AsyncImage(
+                model = imageList[page],
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        enabled = redirectLinkList[page] != null,
+                        onClick = {
+                            try {
+                                // Used only for opening URIs (like web links or deep links) from Jetpack Compose
+                                redirectLinkList[page]?.let {
+                                    if (it.startsWith("http"))      // uri must include protocol like 'https'
+                                        uriHandler.openUri(it)
+                                } ?: throw Exception("Invalid redirect link")
+                            } catch (e: Exception) {
+                                // No app can handle this URI
+                                Log.e(TAG, "error", e)
+                                Toast.makeText(context, "Unable to open the link", Toast.LENGTH_SHORT).show()
                             }
-                        )
-                        .clip(shape = RoundedCornerShape(8.dp))
-                        .height(height),
-                )
+                        }
+                    )
+                    .clip(shape = RoundedCornerShape(8.dp))
+                    .height(height),
+            )
         }
 
         // Pager Indicator
@@ -118,9 +122,10 @@ fun AutoScrollingImagePager(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewImagePager(modifier:Modifier = Modifier) {
+fun PreviewImagePager(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {

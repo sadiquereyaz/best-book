@@ -1,7 +1,7 @@
 package com.nabssam.bestbook.di.use_case
 
 import com.nabssam.bestbook.data.mapper.BookMapper
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.UserDataStoreRepoImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
@@ -13,7 +13,7 @@ import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
-import com.nabssam.bestbook.domain.usecase.exam.GetUserTargetsUC
+import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,9 +60,9 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun provideGetUserFavoriteCategoryUseCase(
-        userPrefRepoImpl: UserPrefRepoImpl
+        userDataStoreRepoImpl: UserDataStoreRepoImpl
     ): GetUserTargetsUC {
-        return GetUserTargetsUC(userPrefRepoImpl)
+        return GetUserTargetsUC(userDataStoreRepoImpl)
     }
 
     @Provides

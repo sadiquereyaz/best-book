@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.home.components.Banner
-import com.nabssam.bestbook.presentation.ui.home.components.BannerItem
 import com.nabssam.bestbook.presentation.ui.home.components.HorizontalBookList
 import com.nabssam.bestbook.presentation.ui.home.components.MockTests
 import com.nabssam.bestbook.presentation.ui.home.components.QuizRow
@@ -48,10 +47,10 @@ fun HomeScreen(
         ) {
 
             item {
-                // todo: BannerItem implement
                 Banner(
                     fetchingBanners = state.fetchingBanners,
-                    fetchedBanners = state.fetchedBanners.map { BannerItem(it) })
+                    fetchedBanners = state.fetchedBanners
+                )
             }
 
             // Recommended Books Section

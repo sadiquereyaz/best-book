@@ -9,7 +9,7 @@ import androidx.activity.compose.setContent
 import com.phonepe.intent.sdk.api.PhonePeKt
 import com.phonepe.intent.sdk.api.models.PhonePeEnvironment
 
-const val TAG = "PhonePePayment"
+private const val TAG = "PhonePePayment"
  const val PAYMENT_REQUEST_CODE = 1001
 // Example usage in your Activity
 class PhonePeActivity : ComponentActivity() {

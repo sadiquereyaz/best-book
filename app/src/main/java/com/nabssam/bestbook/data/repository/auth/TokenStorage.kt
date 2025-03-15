@@ -1,6 +1,6 @@
 package com.nabssam.bestbook.data.repository.auth
 
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.domain.repository.UserDataStoreRepository
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ interface TokenStorage {
 }
 
 class UserPreferencesTokenStorage @Inject constructor(
-    private val userPreferences: UserPreferencesRepository
+    private val userPreferences: UserDataStoreRepository
 ) : TokenStorage {
     override suspend fun getAccessToken() = userPreferences.accessToken.firstOrNull()
     override suspend fun getRefreshToken() = userPreferences.refreshToken.firstOrNull()

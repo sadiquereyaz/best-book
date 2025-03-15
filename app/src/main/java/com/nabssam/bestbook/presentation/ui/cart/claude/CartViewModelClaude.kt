@@ -3,7 +3,7 @@ package com.nabssam.bestbook.presentation.ui.cart.claude
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.UserDataStoreRepoImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,14 +17,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModelClaude @Inject constructor(
     private val cartRepositoryClaude: CartRepositoryClaude,
-    private val userPrefRepoImpl: UserPrefRepoImpl
+    private val userDataStoreRepoImpl: UserDataStoreRepoImpl
 ) : ViewModel() {
 
     var userId: String = ""
 
     init {
         viewModelScope.launch {
-            userPrefRepoImpl.user.collect {
+            userDataStoreRepoImpl.user.collect {
                 userId = it?.username ?: "NO ID FOUND!"
             }
         }

@@ -6,15 +6,49 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.nabssam.bestbook.domain.model.User
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.domain.repository.UserDataStoreRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class UserPrefRepoImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
-) : UserPreferencesRepository {
+/**
+ * Writes to DataStore should always be suspend since they perform disk I/O.
+ *
+ * Use Flow when you want to continuously observe changes in DataStore, such as when using collect() in a ViewModel.
+ * Flow is reactive, meaning it emits updates whenever DataStore changes.
+ * Useful for Live UI updates in Jetpack Compose or observing session tokens.
+ *
+ * Use suspend for One-time Reads
+ * ✔️ Use suspend functions when you just need the value once (e.g., fetching a setting at app launch).
+ *
+ * suspend fun getAccessToken(): String? {
+ *     return dataStore.data.firstOrNull()?.get(ACCESS_TOKEN_KEY)
+ * }
+ * Why?
+ * firstOrNull() gets the value only once and does not keep listening for changes.
+ * Good for functions like authentication checks.
+ **/
+
+private object PreferencesKeys {
+    val CURRENT_CLASS = stringPreferencesKey("current_class")
+    val TARGET_EXAMS = stringPreferencesKey("target_exams")
+    val ACCESS_TOKEN = stringPreferencesKey("access_token")
+    val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+    val USER_ID = stringPreferencesKey("user_id")
+    val USERNAME = stringPreferencesKey("username")
+    val USER_EMAIL = stringPreferencesKey("user_email")
+    val USER_PHONE = stringPreferencesKey("user_phone")
+    val USER_ROLE = booleanPreferencesKey("user_role")
+    val USER_AVATAR = stringPreferencesKey("user_avatar")
+    val EBOOK = stringPreferencesKey("ebook")
+    val SCHOOL = stringPreferencesKey("school")
+}
+
+class UserDataStoreRepoImpl @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
+) : UserDataStoreRepository {
 
     override val accessToken: Flow<String?> = dataStore.data.map { preferences ->
         preferences[PreferencesKeys.ACCESS_TOKEN]
@@ -50,6 +84,9 @@ class UserPrefRepoImpl @Inject constructor(
             subscribedEbooks = subscribedEbooks,
         )
     }
+
+    override suspend fun getCurrentClass(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.CURRENT_CLASS)
+
 
     /*val targetExam: Flow<String> = dataStore.data
         .catch { exception ->
@@ -100,7 +137,6 @@ class UserPrefRepoImpl @Inject constructor(
         //Log.d("DATASTORE", "Saved user target exams for datastore: ${user.targetExams.joinToString(",")}")
     }
 
-
     override suspend fun saveTokens(accessToken: String, refreshToken: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.ACCESS_TOKEN] = accessToken
@@ -115,18 +151,4 @@ class UserPrefRepoImpl @Inject constructor(
     }
 }
 
-private object PreferencesKeys {
-    val CURRENT_CLASS = stringPreferencesKey("current_class")
-    val TARGET_EXAMS = stringPreferencesKey("target_exams")
-    val ACCESS_TOKEN = stringPreferencesKey("access_token")
-    val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
-    val USER_ID = stringPreferencesKey("user_id")
-    val USERNAME = stringPreferencesKey("username")
-    val USER_EMAIL = stringPreferencesKey("user_email")
-    val USER_PHONE = stringPreferencesKey("user_phone")
-    val USER_ROLE = booleanPreferencesKey("user_role")
-    val USER_AVATAR = stringPreferencesKey("user_avatar")
-    val EBOOK = stringPreferencesKey("ebook")
-    val SCHOOL = stringPreferencesKey("school")
-}
 

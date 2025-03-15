@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.home
 
+import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.model.Exam
 import com.nabssam.bestbook.domain.model.Quiz
@@ -7,8 +8,7 @@ import com.nabssam.bestbook.domain.model.Quiz
 data class StateHomeScreen(
 
     var fetchingBanners: Boolean = true,
-    var fetchedBanners: List<String> = emptyList(),
-//    var fetchedBanners: List<Banner> = emptyList(),   //TODO: later implementation
+    var fetchedBanners: List<Banner> = emptyList(),
     var errorBanners: String? = null,
 
     var fetchedExams: List<Exam> = emptyList(),

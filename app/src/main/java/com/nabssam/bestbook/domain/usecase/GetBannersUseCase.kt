@@ -9,14 +9,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetBannersUseCase @Inject constructor(    // todo: delete
-    private val repository: BannerRepository
-) {
-    suspend operator fun invoke(targetExam: String): Flow<Resource<List</*Banner*/String>>> {
-        return repository.getAll1(targetExam)
-    }
-}
-
 class GetAllBannerUseCase @Inject constructor(
     private val repository: BannerRepository
 ) {

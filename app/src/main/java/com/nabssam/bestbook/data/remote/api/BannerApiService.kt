@@ -1,22 +1,10 @@
 package com.nabssam.bestbook.data.remote.api
 
+import com.nabssam.bestbook.data.remote.dto.BannerResponse
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface BannerApiService {
-    @GET("/api/banners")
-    suspend fun getBanners(): Response<BannerResponse>
-
+    @GET("/api/banners/topBanners")
+    suspend fun getBanners(/*currentClass: String*/): Response<BannerResponse>
 }
-
-data class BannerResponse(
-    val data: List<BannerDto>,
-    val message: String,
-    val success: Boolean
-)
-
-data class BannerDto(
-    val imageUrl: String,
-    val link: String
-)
-

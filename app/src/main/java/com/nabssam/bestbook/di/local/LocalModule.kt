@@ -9,7 +9,7 @@ import androidx.room.Room
 import com.nabssam.bestbook.data.local.AppDatabase
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.domain.repository.UserDataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +45,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideTokenStorage(userPreferences: UserPreferencesRepository): TokenStorage {
+    fun provideTokenStorage(userPreferences: UserDataStoreRepository): TokenStorage {
         return UserPreferencesTokenStorage(userPreferences)
     }
 

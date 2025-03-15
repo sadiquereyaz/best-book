@@ -5,13 +5,13 @@ import com.nabssam.bestbook.data.repository.BookRepositoryImpl
 import com.nabssam.bestbook.data.repository.CartRepositoryImpl
 import com.nabssam.bestbook.data.repository.ExamRepositoryImpl
 import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.UserDataStoreRepoImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
-import com.nabssam.bestbook.domain.repository.UserPreferencesRepository
+import com.nabssam.bestbook.domain.repository.UserDataStoreRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -39,7 +39,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserPref(userPrefRepoImpl: UserPrefRepoImpl): UserPreferencesRepository
+    abstract fun bindUserPref(userDataStoreRepoImpl: UserDataStoreRepoImpl): UserDataStoreRepository
 
     @Binds
     @Singleton

@@ -3,9 +3,8 @@ package com.nabssam.bestbook.presentation.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.GetAllBannerUseCase
-import com.nabssam.bestbook.domain.usecase.GetBannersUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
-import com.nabssam.bestbook.domain.usecase.exam.GetUserTargetsUC
+import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,6 @@ import kotlin.random.Random
 class ViewModelHome @Inject constructor(
     private val getBooksByExamUseCase: GetBooksByExamUC,
     private val getTargetExamsUseCase: GetUserTargetsUC,
-    private val getBannersUseCase: GetBannersUseCase,   // todo: delete
     private val getAllBannerUseCase: GetAllBannerUseCase,
 ) : ViewModel() {
 
@@ -87,30 +85,8 @@ class ViewModelHome @Inject constructor(
         }
     }
 
-
-    private fun fetchBanners() {
-        viewModelScope.launch {
-            if (state.value.randomTarget == null) return@launch
-            getBannersUseCase(state.value.randomTarget ?: "").collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> _state.update { it.copy(fetchingBanners = true) }
-                    is Resource.Success -> _state.update {
-                        it.copy(
-                            fetchedBanners = resource.data ?: emptyList(),
-                            fetchingBanners = false
-                        )
-                    }
-
-                    is Resource.Error -> _state.update {
-                        it.copy(fetchingBanners = false, errorBanners = resource.message)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getAllBanner() = getAllBannerUseCase.invoke().onEach { resource ->
-        /*when (resource) {
+    private fun fetchBanners() = getAllBannerUseCase.invoke().onEach { resource ->
+        when (resource) {
             is Resource.Loading -> _state.update { it.copy(fetchingBanners = true) }
             is Resource.Success -> _state.update {
                 it.copy(
@@ -121,7 +97,7 @@ class ViewModelHome @Inject constructor(
             is Resource.Error -> _state.update {
                 it.copy(fetchingBanners = false, errorBanners = resource.message)
             }
-        }*/
+        }
 
     }.launchIn(viewModelScope)
 }

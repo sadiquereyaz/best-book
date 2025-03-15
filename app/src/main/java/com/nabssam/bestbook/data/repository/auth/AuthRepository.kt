@@ -5,12 +5,12 @@ import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.dto.auth.SignInRequest
 import com.nabssam.bestbook.data.remote.dto.auth.SignUpRequest
 import com.nabssam.bestbook.data.remote.dto.auth.VerifyOtpRequest
-import com.nabssam.bestbook.data.repository.UserPrefRepoImpl
+import com.nabssam.bestbook.data.repository.UserDataStoreRepoImpl
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val userPreferences: UserPrefRepoImpl,
+    private val userPreferences: UserDataStoreRepoImpl,
     private val userMapper: UserMapper
 ) {
 
