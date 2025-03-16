@@ -1,8 +1,10 @@
 package com.nabssam.bestbook.presentation.navigation.main
 
 //import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,6 +25,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
         val state by viewModel.state.collectAsState()
 
         BookListScreen(
+            modifier = Modifier.fillMaxSize(),
             state = state,
             goToDetail = { id: String, title: String ->
                 navController.navigate(route = Route.BookDetailRoute(id = id, title = title))

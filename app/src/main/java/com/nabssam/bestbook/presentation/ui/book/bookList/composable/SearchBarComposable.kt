@@ -41,7 +41,10 @@ fun SearchBarComposable(
     val inputField =
         @Composable {
             SearchBarDefaults.InputField(
-                modifier = Modifier.clip(shape = CircleShape).background(MaterialTheme.colorScheme.background).height(TextFieldDefaults.MinHeight.times(0.9f)),
+                modifier = Modifier
+                    .clip(shape = CircleShape)
+                    .background(MaterialTheme.colorScheme.background)
+                    .height(TextFieldDefaults.MinHeight.times(0.9f)),
 //                searchBarState = searchBarState,
 //                textFieldState = textFieldState,
 //                onSearch = { scope.launch { searchBarState.animateToCollapsed() } },
@@ -101,7 +104,8 @@ fun SearchBarComposable(
         }*/,
         expanded = expanded,
         onExpandedChange = { expanded = it },
-        modifier = modifier.fillMaxWidth().padding(8.dp),
+        modifier = modifier
+            .fillMaxWidth(),
         shape = CircleShape,
         colors = SearchBarDefaults.colors(),
         tonalElevation = SearchBarDefaults.TonalElevation,
