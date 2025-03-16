@@ -69,7 +69,7 @@ fun BookListScreen(
     goToDetail: (String, String) -> Unit,
     onEvent: (EventBookList) -> Unit,
 ) {
-    var showDropDown by remember { mutableStateOf(true) }
+    var showDropDown by remember { mutableStateOf(false) }
 
     var checkedState by remember {
         mutableStateOf(mapOf<String, Boolean>().apply {
@@ -151,15 +151,22 @@ fun BookListScreen(
                     }
                 }
             }
-
-
-
-            CategoryChipList(
-                modifier = Modifier.padding(16.dp, 0.dp),
-                examList = /*state.categories*/checkedState.map { it.key },
-                onClick = { /*onEvent(EventBookList.SortBy(it))*/ }
-            )
-            HorizontalDivider(modifier = Modifier.padding(top = 12.dp))
+            AnimatedVisibility(
+                visible = checkedState.any { it.value },
+                enter = fadeIn(animationSpec = tween(500)) + slideInVertically(),
+                exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
+            ) {
+                CategoryChipList(
+                    modifier = Modifier.padding(16.dp, 0.dp),
+                    examList = /*state.categories*/checkedState.filter { it.value }.map { it.key },
+                    onClick = { /*onEvent(EventBookList.SortBy(it))*/
+                        checkedState = checkedState.toMutableMap().apply {
+                            this[it] = false
+                        }
+                    }
+                )
+            }
+            HorizontalDivider(modifier = if (!checkedState.any { it.value }) Modifier.padding(top = 12.dp) else Modifier)
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier

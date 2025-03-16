@@ -48,7 +48,8 @@ fun SearchBarComposable(
 //                searchBarState = searchBarState,
 //                textFieldState = textFieldState,
 //                onSearch = { scope.launch { searchBarState.animateToCollapsed() } },
-                placeholder = { Text("Search...") },
+
+                placeholder = { Text(text = "Search...", modifier = Modifier.offset(0.dp, (-2).dp)) },
                 leadingIcon = {
                     if (expanded) {
                         IconButton(
@@ -71,7 +72,6 @@ fun SearchBarComposable(
                 onSearch = { expanded = true },
                 expanded = false,
                 onExpandedChange = { expanded = it },
-                //placeholder = { Text("Search books...") },
             )
         }
 
