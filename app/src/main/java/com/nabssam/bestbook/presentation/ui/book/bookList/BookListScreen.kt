@@ -10,34 +10,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,21 +34,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.bookList.composable.CategoryChipList
-import com.nabssam.bestbook.presentation.ui.book.bookList.composable.SearchBarComposable
+import com.nabssam.bestbook.presentation.ui.book.bookList.composable.EnhancedSearchBar
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
-import com.nabssam.bestbook.presentation.ui.components.VerticalSpacer
 
 @Composable
 fun BookListScreen(
@@ -69,13 +53,9 @@ fun BookListScreen(
     goToDetail: (String, String) -> Unit,
     onEvent: (EventBookList) -> Unit,
 ) {
-    var showDropDown by remember { mutableStateOf(false) }
+    var showFilterSheet by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
-    var checkedState by remember {
-        mutableStateOf(mapOf<String, Boolean>().apply {
-            //state.categories.forEach { this[it] = false }
-        })
-    }
 
     if (state.fetchingBooks) {
         FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
@@ -86,12 +66,6 @@ fun BookListScreen(
             onRetry = { onEvent(EventBookList.Retry) }
         )
     } else {
-        val books = listOf(
-            "The Great Gatsby", "Moby Dick", "Pride and Prejudice",
-            "To Kill a Mockingbird", "1984", "Harry Potter"
-        )
-
-        var selectedBook by remember { mutableStateOf("") }
 
         Column(
             modifier = modifier.fillMaxSize()
@@ -99,74 +73,57 @@ fun BookListScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp, 0.dp, 12.dp, 0.dp)
-                    .wrapContentWidth(),
+                    .padding(12.dp, 0.dp, 12.dp, 0.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SearchBarComposable(
-                    modifier = Modifier
-                        .weight(1f),
-                    books = books,
-                    onBookSelected = { selectedBook = it }
+                // Enhanced SearchBar
+                EnhancedSearchBar(
+                    modifier = Modifier.weight(1f),
+                    query = state.searchQuery,
+                    onQueryChange = { onEvent(EventBookList.UpdateSearchQuery(it)) },
+                    focusManager = focusManager
                 )
-                //Filter
+
+                // Filter button
                 IconButton(
                     modifier = Modifier
-                        .offset(y = 4.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface)/*.align(Alignment.CenterVertically)*/,
+                        .background(MaterialTheme.colorScheme.surface)
+                        .size(TextFieldDefaults.MinHeight),
                     onClick = {
-                        showDropDown = !showDropDown
-                    }) {
+                        focusManager.clearFocus()
+                        showFilterSheet = true
+                    }
+                ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.sort_icon),
-                        contentDescription = "sort btn"
+                        contentDescription = "Filter books"
                     )
-                    DropdownMenu(
-                        modifier = Modifier.height(256.dp),
-                        expanded = showDropDown,
-                        onDismissRequest = {
-                            showDropDown = false
-                            onEvent(EventBookList.SortBy(/*state.sortCategoiries.forEach*/"JEE"))
-                        },
-                        offset = DpOffset(0.dp, 12.dp)
-                    ) {
-                        state.categories.forEach {
-                            DropdownMenuItem(
-                                text = { Text(it) },
-                                onClick = {},
-                                trailingIcon = {
-                                    Checkbox(
-                                        checked = checkedState[it] ?: false,
-                                        onCheckedChange = { isChecked ->
-                                            checkedState = checkedState.toMutableMap().apply {
-                                                this[it] = isChecked
-                                            }
-                                        }
-                                    )
-                                }
-                            )
-                        }
-                    }
                 }
             }
+
+            // Selected category chips
             AnimatedVisibility(
-                visible = checkedState.any { it.value },
+                visible = state.selectedCategories.isNotEmpty(),
                 enter = fadeIn(animationSpec = tween(500)) + slideInVertically(),
                 exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
             ) {
                 CategoryChipList(
                     modifier = Modifier.padding(16.dp, 0.dp),
-                    examList = /*state.categories*/checkedState.filter { it.value }.map { it.key },
-                    onClick = { /*onEvent(EventBookList.SortBy(it))*/
-                        checkedState = checkedState.toMutableMap().apply {
-                            this[it] = false
-                        }
+                    examList = state.selectedCategories.toList(),
+                    onClick = { category ->
+                        onEvent(EventBookList.ToggleCategory(category))
                     }
                 )
             }
-            HorizontalDivider(modifier = if (!checkedState.any { it.value }) Modifier.padding(top = 12.dp) else Modifier)
+
+            HorizontalDivider(
+                modifier = if (state.selectedCategories.isEmpty())
+                    Modifier.padding(top = 12.dp) else Modifier
+            )
+
+            // Book grid
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -175,31 +132,49 @@ fun BookListScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(state.fetchedBooks) {
+                items(state.filteredBooks) { book ->
                     Box(
                         modifier = Modifier
-                            .clickable { goToDetail(it.id, it.name) },
+                            .clickable { goToDetail(book.id, book.name) },
                         contentAlignment = Alignment.TopCenter
                     ) {
-                        Column(
-                            modifier = Modifier
-                        ) {
+                        Column {
                             BookCoverImage(
-                                coverImage = it.coverUrl,
-                                onClick = { goToDetail(it.id, it.name) })
-                            //book title and price
+                                coverImage = book.coverUrl,
+                                onClick = { goToDetail(book.id, book.name) }
+                            )
                             BookTitlePrice(
                                 maxLine = 2,
-                                discPer = it.hardCopyDis,
-                                originalPrice = it.price,
-                                title = it.name,
-//                                rating = it.rate.points
+                                discPer = book.hardCopyDis,
+                                originalPrice = book.price,
+                                title = book.name
                             )
                         }
                     }
-
                 }
             }
+
+            // Empty state
+            if (state.filteredBooks.isEmpty() && !state.fetchingBooks) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No books found. Try adjusting your filters.",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+        }
+
+        // Filter bottom sheet
+        if (showFilterSheet) {
+            FilterBottomSheet(
+                state = state,
+                onEvent = onEvent,
+                onDismiss = { showFilterSheet = false }
+            )
         }
     }
 }

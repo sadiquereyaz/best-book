@@ -27,35 +27,21 @@ class VMBookList @Inject constructor(
     //private val targetExam = getTargetExamUseCase()
 
     init {
-       // fetchCategories()
         fetchBooks()
     }
 
     fun onEvent(event: EventBookList) {
         when (event) {
             is EventBookList.FetchBook -> fetchBooks()
-            is EventBookList.SortBy -> {
-                _state.update { currentState ->
-                    currentState.copy(
-                        fetchedBooks = if (event.exam != null) {
-                            // Sort by whether the book's exam matches event.exam
-                            currentState.fetchedBooks.sortedByDescending { book ->
-                                book.exam == event.exam
-                            }
-                        } else {
-                            // Sort by rating when event.exam is null
-                            currentState.fetchedBooks.sortedByDescending { book ->
-                                book.rate?.points ?: 0.0
-                            }
-                        }
-                    )
-                }
-            }
+            is EventBookList.Retry -> fetchBooks()
+            is EventBookList.SortBy -> updateSorting(event.exam)
 
-            is EventBookList.Retry -> {
-                //fetchCategories()
-                fetchBooks()
-            }
+            // Handle new search and filter events
+            is EventBookList.UpdateSearchQuery -> updateSearchQuery(event.query)
+            is EventBookList.ToggleCategory -> toggleCategory(event.category)
+            is EventBookList.UpdatePriceRange -> updatePriceRange(event.range)
+            is EventBookList.ToggleDiscountedOnly -> toggleDiscountedOnly()
+            is EventBookList.ResetFilters -> resetFilters()
         }
     }
 
@@ -73,15 +59,19 @@ class VMBookList @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        val books = resource.data ?: emptyList()
                         _state.update {
-                            Log.d("BOOK_LIST_VM", "Success: ${resource.data}")
                             it.copy(
                                 fetchingBooks = false,
-                                fetchedBooks = resource.data ?: emptyList(),
-                                errorMessage = null
+                                fetchedBooks = books,
+                                filteredBooks = books, // Initially, filtered books = all books
+                                errorMessage = null,
+                                priceRange = (books.minOfOrNull { book -> book.price.toFloat() } ?: 0f)..
+                                        (books.maxOfOrNull { book -> book.price.toFloat() } ?: 5000f)
                             )
                         }
-                        Log.d("BOOK_LIST_VM", "state: ${state.value.fetchedBooks}")
+                        // Apply any existing filters
+                        applyFilters()
                     }
 
                     is Resource.Error -> {
@@ -98,6 +88,85 @@ class VMBookList @Inject constructor(
 
         }
 
+    }
+
+    private fun updateSorting(exam: String?) {
+        _state.update { currentState ->
+            val sortedBooks = if (exam != null) {
+                // Sort by whether the book's exam matches exam
+                currentState.filteredBooks.sortedByDescending { book ->
+                    book.exam == exam
+                }
+            } else {
+                // Sort by rating when exam is null
+                currentState.filteredBooks.sortedByDescending { book ->
+                    book.rate?.points ?: 0.0
+                }
+            }
+            currentState.copy(filteredBooks = sortedBooks)
+        }
+    }
+
+    private fun updateSearchQuery(query: String) {
+        _state.update { it.copy(searchQuery = query) }
+        applyFilters()
+    }
+
+    private fun toggleCategory(category: String) {
+        _state.update { currentState ->
+            val updatedCategories = currentState.selectedCategories.toMutableSet()
+            if (category in updatedCategories) {
+                updatedCategories.remove(category)
+            } else {
+                updatedCategories.add(category)
+            }
+            currentState.copy(selectedCategories = updatedCategories)
+        }
+        applyFilters()
+    }
+
+    private fun updatePriceRange(range: ClosedFloatingPointRange<Float>) {
+        _state.update { it.copy(priceRange = range) }
+        applyFilters()
+    }
+
+    private fun toggleDiscountedOnly() {
+        _state.update { it.copy(showOnlyDiscounted = !it.showOnlyDiscounted) }
+        applyFilters()
+    }
+
+    private fun resetFilters() {
+        _state.update { currentState ->
+            currentState.copy(
+                searchQuery = "",
+                selectedCategories = emptySet(),
+                showOnlyDiscounted = false,
+                priceRange = currentState.minPrice..currentState.maxPrice,
+                filteredBooks = currentState.fetchedBooks
+            )
+        }
+    }
+
+    private fun applyFilters() {
+        _state.update { currentState ->
+            val filteredBooks = currentState.fetchedBooks.filter { book ->
+                val matchesSearch = currentState.searchQuery.isEmpty() ||
+                        book.name.contains(currentState.searchQuery, ignoreCase = true) ||
+                        book.description?.contains(currentState.searchQuery, ignoreCase = true) == true
+
+                val matchesCategory = currentState.selectedCategories.isEmpty() ||
+                        book.exam in currentState.selectedCategories
+
+                val matchesPrice = book.price.toFloat() >= currentState.priceRange.start &&
+                        book.price.toFloat() <= currentState.priceRange.endInclusive
+
+                val matchesDiscount = !currentState.showOnlyDiscounted ||
+                        (book.hardCopyDis ?: 0) > 0
+
+                matchesSearch && matchesCategory && matchesPrice && matchesDiscount
+            }
+            currentState.copy(filteredBooks = filteredBooks)
+        }
     }
 }
 
