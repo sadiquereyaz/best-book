@@ -3,6 +3,7 @@ package com.nabssam.bestbook.presentation.ui.components
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBarDefaults
@@ -21,16 +22,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
 import com.nabssam.bestbook.presentation.ui.snackbar.KeyboardAwareSnackbarHost
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarObserver
+
 private const val TAG = "BB_NAV_SUITE"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BBNavSuite(
@@ -79,14 +88,14 @@ fun BBNavSuite(
                     BottomNavigationMenu(navController = navController)
             },
             floatingActionButton = {
-                /* if (currentDestination?.hasRoute(Route.Home::class) == true)
-                     FloatingActionButton(
-                         onClick = { navController.navigate(Route.CartRoute()) },
-                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                     ) {
-                         Icon(Icons.Filled.ShoppingCart, "shopping")
-                     }*/
+                if (currentDestination?.hasRoute(Route.Home::class) == true)
+                    FloatingActionButton(
+                        onClick = { navController.navigate(Route.AllBookRoute(targetExam = "all")) },
+                        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                    ) {
+                        Icon(painter = painterResource(R.drawable.store), "", modifier = Modifier.size(32.dp))
+                    }
             },
             snackbarHost = {
                 //SnackbarHost(hostState = snackbarHostState)

@@ -2,11 +2,7 @@ package com.nabssam.bestbook.presentation.ui.home.components
 
 import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,14 +13,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,8 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
@@ -48,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.presentation.ui.components.gradientBrush
 import kotlin.math.ceil
 
 @Composable
@@ -69,63 +57,64 @@ fun MockTests(
     HomeScreenRowItem(
         modifier = Modifier,
         title = "Quizzes",
+        icon = R.drawable.quiz_filled,
         leadingIcon = if (isExpanded) {
             Icons.Default.KeyboardArrowUp
         } else {
             Icons.AutoMirrored.Default.KeyboardArrowRight
 
         },
-        onClick = { isExpanded = !isExpanded }
-    ) {
-        Column(modifier = modifier) {
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .heightIn(max = totalHeight)
-                    .animateContentSize(),
-                columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                userScrollEnabled = false
-            ) {
-                items(visibleItems) { item ->
-                    ElevatedCard(
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .height(dimensionResource(R.dimen.book_height_home))
-                            .width(dimensionResource(R.dimen.book_width_home))
-                                ,
-                        onClick = { navigateToMock()}
-
-                    ) {
-                        Column(
+        onClick = { isExpanded = !isExpanded },
+        content = {
+            Column(modifier = modifier) {
+                LazyVerticalGrid(
+                    modifier = Modifier
+                        .heightIn(max = totalHeight)
+                        .animateContentSize(),
+                    columns = GridCells.Adaptive(minSize = dimensionResource(R.dimen.book_width_home)),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    userScrollEnabled = false
+                ) {
+                    items(visibleItems) { item ->
+                        ElevatedCard(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(8.dp),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
+                                .padding(2.dp)
+                                .height(dimensionResource(R.dimen.book_height_home))
+                                .width(dimensionResource(R.dimen.book_width_home)),
+                            onClick = { navigateToMock()}
+
                         ) {
-                            Text(
-                                text = item.title,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Start,
-                                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.9f)
-                            )
-                            Text(
-                                text = item.subtitle,
-                                fontSize = 12.sp,
-                                textAlign = TextAlign.Start,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f),
-                                lineHeight = 16.sp
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Text(
+                                    text = item.title,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Start,
+                                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.9f)
+                                )
+                                Text(
+                                    text = item.subtitle,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Start,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f),
+                                    lineHeight = 16.sp
+                                )
+                            }
                         }
                     }
-                }
 
+                }
             }
-        }
-    }
+        },
+    )
 }
 /*
 @Composable

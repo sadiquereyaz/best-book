@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.navigation.appbar
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
@@ -8,9 +9,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -49,8 +52,9 @@ fun TopAppBarActions(
                         }
                     ) {
                         Icon(
-                            Icons.Default.ShoppingCart,
-                            contentDescription = "cart"
+                            imageVector = ImageVector.vectorResource(R.drawable.book_cart),
+                            contentDescription = "cart",
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }

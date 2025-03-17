@@ -68,7 +68,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                  PdfViewerScreenFromUrlDirect()
              }
          }*/
-        composable<Route.SubscribedQuiz> {
+        composable<Route.Notification> {
             SubscribedQuizScreen()
         }
         settingsGraph(navController)
