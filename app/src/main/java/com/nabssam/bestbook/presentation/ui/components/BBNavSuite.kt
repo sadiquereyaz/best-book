@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,7 +60,7 @@ fun BBNavSuite(
     content: @Composable (PaddingValues) -> Unit,
 
     ) {
-   // val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    // val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val scope = rememberCoroutineScope()
@@ -80,62 +81,14 @@ fun BBNavSuite(
         gesturesEnabled = false
     ) {
         Scaffold(
-            modifier = Modifier
-                //.nestedScroll(scrollBehavior.nestedScrollConnection)
-            ,
+            modifier = Modifier,
             topBar = {
-                CenterAlignedTopAppBar(
-                    navigationIcon = {
-                        if (currentDestination != null && navController.previousBackStackEntry != null && !currentDestination.isTopLevel() /*&& !(currentDestination.hasRoute(
-                            Route.SignIn::class
-                        ))*/
-                        ) {
-                            // Up button
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back"
-                                )
-                            }
-                        } else if (currentDestination != null && currentDestination.isTopLevel()) {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(
-                                    imageVector = Icons.Default.Menu,
-                                    contentDescription = "Menu"
-                                )
-                            }
-                        }
-                    },
-                    title = {
-//                        if (currentDestination != null && currentDestination.isTopLevel()) {
-//                            ImageClassesTitle()
-//                        } else {
-                            val title = navBackStackEntry?.arguments?.getString("title")
-                            Box(Modifier, contentAlignment = Alignment.Center) {
-                                Text(
-                                    text = title ?: "Best Book",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        brush = gradientBrush()
-                                    ),
-
-                                    modifier = Modifier.background(
-                                        color = Color.Transparent
-                                    )
-                                        .padding(horizontal = 2.dp),
-
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-//                        }
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-                    //scrollBehavior = scrollBehavior,
-                    actions = {
-                        TopAppBarActions(currentDestination, navController, cartItemCount?: 0)
-                    },
+                BBTopBar(
+                    currentDestination,
+                    navController,
+                    cartItemCount,
+                    scope,
+                    drawerState
                 )
             },
             bottomBar = {
@@ -153,16 +106,84 @@ fun BBNavSuite(
                      }*/
             },
             snackbarHost = {
-                 //SnackbarHost(hostState = snackbarHostState)
+                //SnackbarHost(hostState = snackbarHostState)
             }
         ) { innerPadding ->
+
             content(innerPadding)
             KeyboardAwareSnackbarHost(
-                modifier = Modifier.padding(innerPadding /*bottom = 32.dp*/ ),
+                modifier = Modifier.padding(innerPadding /*bottom = 32.dp*/),
                 hostState = snackbarHostState
             )
-            SnackbarObserver(snackbarManager = snackbarManager, snackbarHostState = snackbarHostState)
+
+            SnackbarObserver(
+                snackbarManager = snackbarManager,
+                snackbarHostState = snackbarHostState
+            )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BBTopBar(
+    currentDestination: androidx.navigation.NavDestination?,
+    navController: NavController,
+    cartItemCount: Int,
+    scope: kotlinx.coroutines.CoroutineScope,
+    drawerState: androidx.compose.material3.DrawerState
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    CenterAlignedTopAppBar(
+        navigationIcon = {
+            if (currentDestination != null && navController.previousBackStackEntry != null && !currentDestination.isTopLevel()) {
+                // Up button
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+            } else if (currentDestination != null && currentDestination.isTopLevel()) {
+                IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu"
+                    )
+                }
+            }
+        },
+        title = {
+//                        if (currentDestination != null && currentDestination.isTopLevel()) {
+//                            ImageClassesTitle()
+//                        } else {
+            val title = navBackStackEntry?.arguments?.getString("title")
+            Box(Modifier, contentAlignment = Alignment.Center) {
+                Text(
+                    text = title ?: "Best Book",
+                    style = androidx.compose.ui.text.TextStyle(
+                        brush = gradientBrush()
+                    ),
+
+                    modifier = Modifier
+                        .background(
+                            color = Color.Transparent
+                        )
+                        .padding(horizontal = 2.dp),
+
+                    fontWeight = FontWeight.Bold,
+                    fontSize = dimensionResource(R.dimen.topBarTextSize).value.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = /*MaterialTheme.colorScheme.surface*/colorResource(R.color.navigation_container)
+        ),
+        actions = {
+            TopAppBarActions(currentDestination, navController, cartItemCount ?: 0)
+        },
+    )
 }
 

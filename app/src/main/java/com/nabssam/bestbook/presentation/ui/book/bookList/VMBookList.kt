@@ -17,14 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class VMBookList @Inject constructor(
     private val getAllBookUseCase: GetAllBookUseCase,
-    private val getUserTargetsUC: GetUserTargetsUC,
-    private val getAllTargetUC: GetAllTargetUC
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(StateBookList())
     val state = _state.asStateFlow()
-
-    //private val targetExam = getTargetExamUseCase()
 
     init {
         fetchBooks()

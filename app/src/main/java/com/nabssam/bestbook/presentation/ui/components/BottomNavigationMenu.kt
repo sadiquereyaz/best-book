@@ -11,9 +11,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination
 import com.nabssam.bestbook.presentation.navigation.bottomNavigationLogic
 
@@ -29,6 +31,7 @@ fun BottomNavigationMenu(
 
     NavigationBar(
         modifier = Modifier,
+        containerColor = colorResource(R.color.navigation_container)
     ) {
         TopLevelDestination.entries.forEach { topLevelRoute ->
             val isSelected = topLevelRoute == topLevelDestination

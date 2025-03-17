@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+//import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.nabssam.bestbook.data.connectivity.NetworkConnectivityObserver
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.domain.model.AppState
@@ -34,11 +34,11 @@ fun BestBookApp(
 ) {
     val isSignedIn: Boolean by appViewModel.authState.collectAsState()
     val cartItemCount: Int by appViewModel.getCartItemCount.collectAsState()
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = /*!isSystemInDarkTheme()*/ true
+    //val systemUiController = rememberSystemUiController()
+    //val useDarkIcons = /*!isSystemInDarkTheme()*/ true
     val navigationBarColor = MaterialTheme.colorScheme.surfaceContainer // Or any color you want
 
-    DisposableEffect(systemUiController, useDarkIcons) {
+    /*DisposableEffect(systemUiController, useDarkIcons) {
         // Update all of the system bar colors
         systemUiController.setNavigationBarColor(
             color = navigationBarColor,
@@ -48,7 +48,7 @@ fun BestBookApp(
         systemUiController.statusBarDarkContentEnabled  = true
 
         onDispose {}
-    }
+    }*/
     LaunchedEffect(Unit) {
         authManager.appState.collect { appState ->
             when (appState) {

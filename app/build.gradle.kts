@@ -150,7 +150,7 @@ dependencies {
     implementation("phonepe.intentsdk.android.release:IntentSDK:4.0.0")
 //    implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
 
-    implementation(libs.accompanist.systemuicontroller)
+//    implementation(libs.accompanist.systemuicontroller)   //deprecated
 
 }
 // Allow references to generated code

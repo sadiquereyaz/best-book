@@ -21,13 +21,13 @@ import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-//        Route.Home  //TODO
+        Route.Home  //TODO
 //        Route.Ebook
 //        Route.BookDetailRoute(title = "Book Detail", id = "book1")
 //        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()
-    Route.AllBookRoute(targetExam = "JEE")
+//    Route.AllBookRoute(targetExam = "JEE")
     ) {
         composable<Route.Home> {
             val viewModel = hiltViewModel<ViewModelHome>()

@@ -80,7 +80,8 @@ val Star = Color(0xFFFF9800)
 val GreenColor=Color(0xFF4CAF50)
 */
 
-val primaryLight = Color(0xFF565992)
+//val primaryLight = Color(0xFF565992)
+val primaryLight = Color(0xFF1e429f)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFE0E0FF)
 val onPrimaryContainerLight = Color(0xFF11144B)

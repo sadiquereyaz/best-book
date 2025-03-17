@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.bookList
+package com.nabssam.bestbook.presentation.ui.book.bookList.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,15 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -30,7 +27,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key.Companion.I
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.R
+import com.nabssam.bestbook.presentation.ui.book.bookList.EventBookList
+import com.nabssam.bestbook.presentation.ui.book.bookList.StateBookList
 
 // Filter bottom sheet component
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,18 +56,29 @@ fun FilterBottomSheet(
             // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.filter),
+                    tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                    contentDescription = "filter icon"
+                )
                 Text(
                     text = "Filter Books",
-                    style = MaterialTheme.typography.titleLarge
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp
                 )
-
+                Spacer(modifier = Modifier.weight(1f))
                 TextButton(onClick = {
                     onEvent(EventBookList.ResetFilters)
                     onDismiss()
                 }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "reset",
+                        modifier = Modifier.padding(end = 4.dp)
+                    )
                     Text("Reset")
                 }
             }
@@ -81,7 +97,7 @@ fun FilterBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(state.categories) { category ->
-                    FilterChip(
+                    EnhancedFilterChip(
                         selected = category in state.selectedCategories,
                         onClick = { onEvent(EventBookList.ToggleCategory(category)) },
                         label = { Text(category) }
@@ -146,28 +162,4 @@ fun FilterBottomSheet(
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
-}
-
-// Helper FilterChip component for categories
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FilterChip(
-    selected: Boolean,
-    onClick: () -> Unit,
-    label: @Composable () -> Unit
-) {
-    ElevatedFilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = label,
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
-                    modifier = Modifier.size(16.dp)
-                )
-            }
-        } else null
-    )
 }

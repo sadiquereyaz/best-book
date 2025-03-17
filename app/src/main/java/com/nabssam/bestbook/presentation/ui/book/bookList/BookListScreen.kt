@@ -39,8 +39,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.presentation.ui.book.bookList.composable.CategoryChipList
+import com.nabssam.bestbook.presentation.ui.book.bookList.composable.EnhancedElevatedChip
 import com.nabssam.bestbook.presentation.ui.book.bookList.composable.EnhancedSearchBar
+import com.nabssam.bestbook.presentation.ui.book.bookList.composable.FilterBottomSheet
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -109,13 +110,14 @@ fun BookListScreen(
                 enter = fadeIn(animationSpec = tween(500)) + slideInVertically(),
                 exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
             ) {
-                CategoryChipList(
+                EnhancedElevatedChip(
                     modifier = Modifier.padding(16.dp, 0.dp),
                     examList = state.selectedCategories.toList(),
                     onClick = { category ->
                         onEvent(EventBookList.ToggleCategory(category))
                     }
                 )
+                //FilterChip() { }
             }
 
             HorizontalDivider(
