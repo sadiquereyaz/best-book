@@ -42,8 +42,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("MainActivity", "onCreate: ${Color(0xFFF0EEF4).toArgb()}")
-        val navigationContainer = getColor(R.color.navigation_container)
+        val navigationContainer =
+//            getColor(R.color.navigation_container)
+        surfaceLight.toArgb()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 scrim = navigationContainer,
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             BestBookTheme {
-                Surface(tonalElevation = 5.dp) {
+                Surface(/*tonalElevation = 5.dp*/) {
                     BestBookApp(
                         modifier = Modifier.fillMaxSize(),
                         authManager = authManager,

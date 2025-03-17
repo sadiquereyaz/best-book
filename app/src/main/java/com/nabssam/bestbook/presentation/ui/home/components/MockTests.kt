@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabssam.bestbook.R
+import com.nabssam.bestbook.presentation.ui.components.gradientBrush
 import kotlin.math.ceil
 
 @Composable
@@ -89,6 +90,7 @@ fun MockTests(
 
                             .background(
                                 color = (MaterialTheme.colorScheme.surface).copy(alpha = 0.7f)
+//                                brush = gradientBrush(alpha = 0.002f)
                             )
                             .clickable { navigateToMock() }
 

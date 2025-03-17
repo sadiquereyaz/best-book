@@ -70,6 +70,7 @@ fun BookListScreen(
 
         Column(
             modifier = modifier.fillMaxSize()
+//                .background(MaterialTheme.colorScheme.surface)
         ) {
             Row(
                 modifier = Modifier

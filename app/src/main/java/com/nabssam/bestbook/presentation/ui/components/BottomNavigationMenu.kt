@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -31,7 +33,7 @@ fun BottomNavigationMenu(
 
     NavigationBar(
         modifier = Modifier,
-        containerColor = colorResource(R.color.navigation_container)
+        containerColor = MaterialTheme.colorScheme.surface
     ) {
         TopLevelDestination.entries.forEach { topLevelRoute ->
             val isSelected = topLevelRoute == topLevelDestination
