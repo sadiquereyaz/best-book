@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 //            DigitalClock()
         CountdownTimer()
 
-        Button(
+        GradientButton(
             onClick = { /* Submit action */ }, shape = RoundedCornerShape(8.dp)
         ) {
             Text(text = "Submit")

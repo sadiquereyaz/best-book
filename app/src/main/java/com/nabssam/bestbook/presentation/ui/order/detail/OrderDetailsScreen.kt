@@ -21,7 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MailOutline
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -256,7 +256,7 @@ fun OrderDetailsScreen(
                         label = { Text("Write a review") }
                     )
 
-                    Button(
+                    GradientButton(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .padding(16.dp),

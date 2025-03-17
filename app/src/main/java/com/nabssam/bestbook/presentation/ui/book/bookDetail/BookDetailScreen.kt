@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -176,7 +176,7 @@ fun BookDetailScreen(
             .fillMaxSize()
             .padding(horizontal = 8.dp), contentAlignment = Alignment.BottomCenter
     ) {
-        Button(
+        GradientButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(0.dp)),

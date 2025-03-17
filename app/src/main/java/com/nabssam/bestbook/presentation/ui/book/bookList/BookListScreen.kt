@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
@@ -72,54 +74,7 @@ fun BookListScreen(
             modifier = modifier.fillMaxSize()
 //                .background(MaterialTheme.colorScheme.surface)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp, 0.dp, 12.dp, 0.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Enhanced SearchBar
-                EnhancedSearchBar(
-                    modifier = Modifier.weight(1f),
-                    query = state.searchQuery,
-                    onQueryChange = { onEvent(EventBookList.UpdateSearchQuery(it)) },
-                    focusManager = focusManager
-                )
-
-                // Filter button
-                IconButton(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .size(TextFieldDefaults.MinHeight),
-                    onClick = {
-                        focusManager.clearFocus()
-                        showFilterSheet = true
-                    }
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.sort_icon),
-                        contentDescription = "Filter books"
-                    )
-                }
-            }
-
-            // Selected category chips
-            AnimatedVisibility(
-                visible = state.selectedCategories.isNotEmpty(),
-                enter = fadeIn(animationSpec = tween(500)) + slideInVertically(),
-                exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
-            ) {
-                EnhancedElevatedChip(
-                    modifier = Modifier.padding(16.dp, 0.dp),
-                    examList = state.selectedCategories.toList(),
-                    onClick = { category ->
-                        onEvent(EventBookList.ToggleCategory(category))
-                    }
-                )
-                //FilterChip() { }
-            }
+            SearchFilter(state, onEvent, focusManager, showFilterSheet = { showFilterSheet = it })
 
             HorizontalDivider(
                 modifier = if (state.selectedCategories.isEmpty())
@@ -179,5 +134,62 @@ fun BookListScreen(
                 onDismiss = { showFilterSheet = false }
             )
         }
+    }
+}
+
+@Composable
+fun ColumnScope.SearchFilter(
+    state: StateBookList,
+    onEvent: (EventBookList) -> Unit,
+    focusManager: FocusManager,
+    showFilterSheet: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp, 0.dp, 12.dp, 0.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        // Enhanced SearchBar
+        EnhancedSearchBar(
+            modifier = Modifier.weight(1f),
+            query = state.searchQuery,
+            onQueryChange = { onEvent(EventBookList.UpdateSearchQuery(it)) },
+            focusManager = focusManager
+        )
+
+        // Filter button
+        IconButton(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .size(TextFieldDefaults.MinHeight),
+            onClick = {
+                focusManager.clearFocus()
+                showFilterSheet(true)
+            }
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.sort_icon),
+                contentDescription = "Filter books"
+            )
+        }
+    }
+
+    // Selected category chips
+    AnimatedVisibility(
+        visible = state.selectedCategories.isNotEmpty(),
+        enter = fadeIn(animationSpec = tween(500)) + slideInVertically(),
+        exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
+    ) {
+        EnhancedElevatedChip(
+            modifier = Modifier.padding(16.dp, 0.dp),
+            examList = state.selectedCategories.toList(),
+            onClick = { category ->
+                onEvent(EventBookList.ToggleCategory(category))
+            }
+        )
+        //FilterChip() { }
     }
 }

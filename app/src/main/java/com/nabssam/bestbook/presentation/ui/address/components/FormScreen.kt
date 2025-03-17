@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -175,7 +175,7 @@ fun FormScreen(
             label = "State",
             onOptionSelected = { onFieldUpdated(FormField.State, it) }
         )
-        Button(
+        GradientButton(
             onClick = onSubmit,
             enabled = formState.isSubmitEnabled,
             modifier = Modifier.fillMaxWidth()

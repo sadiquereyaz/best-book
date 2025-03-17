@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -69,7 +69,7 @@ fun CartSummary(cartItemClaude: List<CartItemClaude>) {
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            Button(
+            GradientButton(
                 onClick = { /* Implement checkout */ },
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -22,7 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -213,7 +213,7 @@ fun ContestScreen(
                     ) {
                         Icon(Icons.Default.ArrowBack, "prev")
                     }
-                    Button(onClick = { showAnswer = !showAnswer }) {
+                    GradientButton(onClick = { showAnswer = !showAnswer }) {
                         Text(text = "Show Answer")
                     }
                     OutlinedButton(

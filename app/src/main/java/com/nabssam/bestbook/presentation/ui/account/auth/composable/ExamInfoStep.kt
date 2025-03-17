@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -95,7 +95,7 @@ fun ExamInfoStep(
         }
         Spacer(modifier = Modifier.weight(1f))
         YearSelector(state, onEvent)
-        Button(
+        GradientButton(
             onClick = { onEvent(AuthEvent.NavigateNext) },
             enabled = validate(),
             modifier = Modifier.fillMaxWidth(),

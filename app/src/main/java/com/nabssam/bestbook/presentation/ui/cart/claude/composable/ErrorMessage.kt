@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,7 +46,7 @@ fun ErrorMessage(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = onRetry) {
+        GradientButton(onClick = onRetry) {
             Text("Retry")
         }
     }

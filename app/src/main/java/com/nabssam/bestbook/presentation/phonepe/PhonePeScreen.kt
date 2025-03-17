@@ -3,7 +3,7 @@ package com.nabssam.bestbook.presentation.phonepe
 import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +18,7 @@ fun PhonePeScreen1(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Button(
+        GradientButton(
             onClick = {
                     val intent = Intent(context, PhonePeActivity::class.java).apply {
                         putExtra("pdf_path", "pdfFile.absolutePath")

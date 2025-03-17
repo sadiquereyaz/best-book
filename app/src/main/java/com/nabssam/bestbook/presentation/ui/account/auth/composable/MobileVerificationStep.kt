@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -91,7 +91,7 @@ fun MobileVerificationStep(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
+            GradientButton(
                 onClick = { onEvent(AuthEvent.RegisterAndSendOtp) },
                 enabled = state.mobileNumber.length == 10,
                 modifier = Modifier.fillMaxWidth()
@@ -118,7 +118,7 @@ fun MobileVerificationStep(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
+            GradientButton(
                 onClick = { onEvent(AuthEvent.VerifyOtp) },
                 enabled = validate(),
                 modifier = Modifier.fillMaxWidth()

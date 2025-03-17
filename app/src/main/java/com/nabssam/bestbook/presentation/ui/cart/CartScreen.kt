@@ -23,7 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -184,7 +184,7 @@ fun CartScreen(
                                 Icon(Icons.Outlined.Info, "price info", Modifier.size(14.dp))
                             }
                         }
-                        Button(
+                        GradientButton(
                             onClick = { goToAddressScreen() },
                             modifier = Modifier
                         ) {

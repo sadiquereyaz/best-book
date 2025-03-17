@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -104,7 +104,7 @@ fun AddressScreen(
                             }
                             VerticalSpacer(18)
                             // checkout btn
-                            Button(
+                            GradientButton(
                                 enabled = selectedOption != null,
                                 onClick = {
                                     navigateToSummary(40)

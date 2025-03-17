@@ -14,7 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -23,7 +23,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -80,18 +79,14 @@ fun LoginStep(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-        Button(
+        GradientButton(
             onClick = { onEvent(AuthEvent.SignIn) },
             //modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent
             ),
             modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                brush = gradientBrush(),
-                shape = RoundedCornerShape(100)
-                ),
+                .fillMaxWidth(),
             enabled = validate()
         ) {
             Text("Login")

@@ -18,7 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Button
+import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -87,7 +87,7 @@ fun PdfViewerScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = {
+            GradientButton(onClick = {
                 choosePdfLauncher.launch("application/pdf")
             }) {
                 Text(text = "Choose PDF")
@@ -111,7 +111,7 @@ fun PdfViewerScreen(
                     )
                 }
             }
-            Button(onClick = {
+            GradientButton(onClick = {
                 choosePdfLauncher.launch("application/pdf")
             }) {
                 Text(text = "Choose another PDF")
@@ -196,7 +196,7 @@ fun PdfViewerScreenFromUrlDirect(
            )
 
 
-           Button(
+           GradientButton(
                onClick = {
                    show = false
                    scope.launch {
