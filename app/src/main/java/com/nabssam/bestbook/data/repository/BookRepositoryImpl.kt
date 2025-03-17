@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 private const val TAG = "BOOK_REPO_IMPL"
 class BookRepositoryImpl @Inject constructor(
-    private val dao: ProductDao,
     private val api: BookApi,
     private val mapper: BookMapper
 ) : BookRepository {
@@ -83,7 +82,7 @@ class BookRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let {it->
                     Result.success( it.data.map { bookDto ->
-                        Log.d(TAG, "get all/: ${bookDto.reviewStats}\n\n\n")
+                        Log.d(TAG, "rate: : ${bookDto.reviewStats}\n\n\n")
                         mapper.dtoToDomain(
                             bookDto
                         )

@@ -30,6 +30,7 @@ fun BookTitlePrice(
     title: String? = null,
     rating: Double? = null
 ) {
+    val haveDiscount: Boolean = discPer != 0
     Column(modifier = modifier) {
         //title
        title?.let {
@@ -52,32 +53,34 @@ fun BookTitlePrice(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             //discount %
-            Text(
-                modifier = Modifier,
-                text = "↓${discPer}%",
-                fontSize = (16 + addToFontSize).sp,
-                fontWeight = FontWeight.ExtraBold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
+            if (haveDiscount) {
+                Text(
+                    modifier = Modifier,
+                    text = "↓${discPer}%",
+                    fontSize = (16 + addToFontSize).sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
 //                            textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary
-            )
-            // original price
-            Text(
-                modifier = Modifier,
-                text = "₹${originalPrice}",
-                fontSize = (14 + addToFontSize).sp,
-                fontWeight = FontWeight.Normal,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                textDecoration = TextDecoration.LineThrough,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                // original price
+                Text(
+                    modifier = Modifier,
+                    text = "₹${originalPrice}",
+                    fontSize = (14 + addToFontSize).sp,
+                    fontWeight = FontWeight.Normal,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    textDecoration = TextDecoration.LineThrough,
 //                            textAlign = TextAlign.Center
-            )
+                )
+            }
             // final price
             Text(
                 modifier = Modifier,
                 text = "₹${(originalPrice - (discPer * originalPrice) / 100)}",
-                color = colorResource(R.color.green_price),
+                color = if (haveDiscount)colorResource(R.color.green_price) else MaterialTheme.colorScheme.primary,
                 fontSize = (16 + addToFontSize).sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,

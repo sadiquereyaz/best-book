@@ -27,6 +27,8 @@ import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 
 @Composable
 fun BookListScreen(
@@ -35,7 +37,7 @@ fun BookListScreen(
     goToDetail: (String, String) -> Unit,
     onEvent: (EventBookList) -> Unit,
 ) {
-    var showFilterSheet by remember { mutableStateOf(true) }
+    var showFilterSheet by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     if (state.fetchingBooks) {
@@ -52,51 +54,18 @@ fun BookListScreen(
             modifier = modifier.fillMaxSize()
 //                .background(MaterialTheme.colorScheme.surface)
         ) {
-            SearchAndFilter(state, onEvent, focusManager, showFilterSheet = { showFilterSheet = it })
+            SearchAndFilter(
+                state,
+                onEvent,
+                focusManager,
+                showFilterSheet = { showFilterSheet = it })
 
             HorizontalDivider(
                 modifier = if (state.selectedCategories.isEmpty())
                     Modifier.padding(top = 12.dp) else Modifier
             )
 
-            // Book grid
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp, 12.dp, 12.dp, 0.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(state.filteredBooks) { book ->
-                    Box(
-                        modifier = Modifier
-                            .clickable { goToDetail(book.id, book.name) },
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        Column {
-                            book.averageRate?.let { rate ->
-                                book.coverUrl?.let { imageUrl ->
-                                    BookCoverImage(
-                                        rate = rate,
-                                        coverImageUrl = imageUrl,
-                                        onClick = { goToDetail(book.id, book.name) }
-                                    )
-                                }
-                            }
-                            BookTitlePrice(
-                                maxLine = 2,
-                                discPer = book.hardCopyDis,
-                                originalPrice = book.price,
-                                title = book.name
-                            )
-                        }
-                    }
-                }
-            }
-
-            // Empty state
-            if (state.filteredBooks.isEmpty() && !state.fetchingBooks) {
+            if (state.filteredBooks.isEmpty())
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -106,7 +75,41 @@ fun BookListScreen(
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
-            }
+            else
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp, 12.dp, 12.dp, 0.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(state.filteredBooks) { book ->
+                        Box(
+                            modifier = Modifier
+                                .clickable { goToDetail(book.id, book.name) },
+                            contentAlignment = Alignment.TopCenter
+                        ) {
+                            Column {
+                                book.averageRate?.let { rate ->
+                                    book.coverUrl?.let { imageUrl ->
+                                        BookCoverImage(
+                                            rate = rate,
+                                            coverImageUrl = imageUrl,
+                                            onClick = { goToDetail(book.id, book.name) }
+                                        )
+                                    }
+                                }
+                                BookTitlePrice(
+                                    maxLine = 2,
+                                    discPer = book.hardCopyDis ?: 0,
+                                    originalPrice = book.price,
+                                    title = book.name
+                                )
+                            }
+                        }
+                    }
+                }
         }
 
         // Filter bottom sheet

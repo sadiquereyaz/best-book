@@ -22,9 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
@@ -78,10 +80,10 @@ fun BookCoverImage(
             if (rate > 0.0)
                 Box(
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
+                        .align(Alignment.TopEnd)
                         .padding(4.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.25f),
                             shape = RoundedCornerShape(100)
                         )
                         .padding(horizontal = 4.dp)
@@ -98,17 +100,19 @@ fun BookCoverImage(
                         Text(
                             modifier = Modifier.padding(horizontal = 1.dp),
                             fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-                            text = "|"
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+                            text = "|",
+                                fontWeight = FontWeight.Bold,
+
                         )
                         Text(
                             text = rate.toString(),
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = MaterialTheme.colorScheme.surface,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
+//                            background = Color.White,
                         )
                     }
-
                 }
         }
     }

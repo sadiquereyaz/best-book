@@ -23,7 +23,7 @@ class BookMapper (
             hardCopyDis = dto.hardcopyDiscount ?: 0,
             publisher = dto.publisher,
             //rate = dto.rating,
-            averageRate = dto.reviewStats?.averageRating?.toDouble() ?: 0.1,
+            averageRate = dto.reviewStats?.averageRating ?: 0.0,
             stock = dto.stock ?: 0,
             //isbn = dto.isbn,
             //language = dto.language,
