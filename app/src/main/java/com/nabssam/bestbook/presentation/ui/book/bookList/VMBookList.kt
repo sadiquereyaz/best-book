@@ -1,11 +1,14 @@
 package com.nabssam.bestbook.presentation.ui.book.bookList
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
+import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +19,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG ="BOOK_LIST_VM"
+private const val TAG = "BOOK_LIST_VM"
 
 @HiltViewModel
 class VMBookList @Inject constructor(
     private val getAllBookUseCase: GetAllBookUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val targetExam:String? = savedStateHandle.toRoute<Route.AllBookRoute>().targetExam
+
 
     private val _state = MutableStateFlow(StateBookList())
     val state = _state.asStateFlow()
@@ -58,7 +65,7 @@ class VMBookList @Inject constructor(
 
             is Resource.Success -> {
                 val books = resource.data ?: emptyList()
-                Log.d(TAG, "Fetched books: ${books.map { it.exam }}")
+                //Log.d(TAG, "Fetched books: ${books.map { it.exam }}")
                 _state.update {
                     it.copy(
                         fetchingBooks = false,
@@ -71,6 +78,8 @@ class VMBookList @Inject constructor(
                                     ?: 5000f)
                     )
                 }
+                targetExam?.let {
+                updateSearchQuery(it)}
                 // Apply any existing filters
                 applyFilters()
             }

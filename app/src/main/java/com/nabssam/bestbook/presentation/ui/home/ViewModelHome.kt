@@ -98,7 +98,7 @@ class ViewModelHome @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        d(TAG, "${resource.data}")
+                        //d(TAG, "${resource.data}")
                         _state.update {
                             it.copy(
                                 fetchedPyq = resource.data ?: emptyList(),

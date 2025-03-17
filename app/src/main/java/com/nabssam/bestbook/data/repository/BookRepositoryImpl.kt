@@ -78,18 +78,18 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun getAllBook(): Result<List<Book>> {
         return try {
             val response = api.getAll()
-            Log.d(TAG, "getAll: response: ${response.body()}")
+//            Log.d(TAG, "getAll: response: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.let {it->
                     Result.success( it.data.map { bookDto ->
-                        Log.d(TAG, "rate: : ${bookDto.reviewStats}\n\n\n")
+//                        Log.d(TAG, "rate: : ${bookDto.reviewStats}\n\n\n")
                         mapper.dtoToDomain(
                             bookDto
                         )
                     })
                 } ?: Result.failure(Exception("Empty response"))
             } else {
-                Log.e(TAG, "getAll: Error: ${response.code()} - ${response.message()}")
+//                Log.e(TAG, "getAll: Error: ${response.code()} - ${response.message()}")
                 Result.failure(Exception("Error: ${response.code()} - ${response.message()}"))
             }
         } catch (e: Exception) {

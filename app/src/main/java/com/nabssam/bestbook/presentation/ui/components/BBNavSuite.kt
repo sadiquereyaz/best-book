@@ -1,7 +1,9 @@
 package com.nabssam.bestbook.presentation.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -12,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -23,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -90,11 +94,17 @@ fun BBNavSuite(
             floatingActionButton = {
                 if (currentDestination?.hasRoute(Route.Home::class) == true)
                     FloatingActionButton(
-                        onClick = { navController.navigate(Route.AllBookRoute(targetExam = "all")) },
-                        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                        onClick = { navController.navigate(Route.AllBookRoute()) },
+                        containerColor = colorResource(
+                            R.color.brand_color
+                        )
                     ) {
-                        Icon(painter = painterResource(R.drawable.store), "", modifier = Modifier.size(32.dp))
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.store),
+                            contentDescription = "",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
                     }
             },
             snackbarHost = {
