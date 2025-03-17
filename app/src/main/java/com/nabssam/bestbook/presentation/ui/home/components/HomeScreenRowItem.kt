@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,13 +42,22 @@ fun HomeScreenRowItem(
                 .clip(CircleShape)
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f)
+//                    color = MaterialTheme.colorScheme.surface,
+                    brush =
+                        Brush.linearGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                MaterialTheme.colorScheme.surface
+                            )
+                        )
                 ),
         ) {
             Icon(
-                imageVector = trailingIcon,  contentDescription = "",
-                modifier = Modifier.padding(4.dp).clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                imageVector = trailingIcon, contentDescription = "",
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(6.dp)
             )
             Text(

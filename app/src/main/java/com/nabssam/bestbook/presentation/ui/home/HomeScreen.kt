@@ -46,11 +46,11 @@ fun HomeScreen(
         ) {
 
             item {
-                VerticalSpacer(20)
-                /*Banner(
+//                VerticalSpacer(20)
+                Banner(
                     fetchingBanners = state.fetchingBanners,
                     fetchedBanners = state.fetchedBanners
-                )*/
+                )
             }
 
             // Recommended Books Section
