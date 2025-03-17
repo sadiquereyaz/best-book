@@ -112,26 +112,28 @@ class ViewModelBookDetail @Inject constructor(
 
     private fun fetchRelatedBooks() {
         viewModelScope.launch {
-            getBooksByExamUseCase(targetExam = state.value.fetchedBook.exam).collect { resource ->   // todo: uncomment
-                when (resource) {
-                    is Resource.Loading -> {
-                        _state.update { it.copy(isListFetching = true) }
-                    }
-
-                    is Resource.Success -> {
-                        Log.d("BOOK_DETAIL_VM", "Related books: ${resource.data}")
-                        _state.update {
-                            it.copy(
-                                fetchedList = resource.data?.filter { it.name != state.value.fetchedBook.name }
-                                    ?: emptyList(),
-                                isListFetching = false
-                            )
+            state.value.fetchedBook.exam?.let {
+                getBooksByExamUseCase(targetExam = it).collect { resource ->   // todo: uncomment
+                    when (resource) {
+                        is Resource.Loading -> {
+                            _state.update { it.copy(isListFetching = true) }
                         }
-                    }
 
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(isListFetching = false, listError = resource.message)
+                        is Resource.Success -> {
+                            Log.d("BOOK_DETAIL_VM", "Related books: ${resource.data}")
+                            _state.update {
+                                it.copy(
+                                    fetchedList = resource.data?.filter { it.name != state.value.fetchedBook.name }
+                                        ?: emptyList(),
+                                    isListFetching = false
+                                )
+                            }
+                        }
+
+                        is Resource.Error -> {
+                            _state.update {
+                                it.copy(isListFetching = false, listError = resource.message)
+                            }
                         }
                     }
                 }

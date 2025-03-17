@@ -23,32 +23,40 @@ fun BookDetailList(book: Book) {
             .padding(start = 8.dp, top = 4.dp, bottom = 8.dp),
         fontWeight = FontWeight.Bold
     )
-    ProductDetail(
+    book.author?.let {
+        ProductDetail(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surfaceContainerLow),
         headText = "Author",
-        tailText = book.author
+        tailText = it
     )
-    ProductDetail(
+    }
+    book.publishDate?.let {
+        ProductDetail(
         modifier = Modifier,
         headText = "Publishing date",
-        tailText = book.publishDate
+        tailText = it
     )
-    ProductDetail(
+    }
+    book.publisher?.let {
+        ProductDetail(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surfaceContainerLow),
         headText = "Publisher",
-        tailText = book.publisher
+        tailText = it
     )
+    }
     ProductDetail(
         modifier = Modifier,
         headText = "No. of pages",
         tailText = "${book.noOfPages}"
     )
-    ProductDetail(
+    book.language?.let {
+        ProductDetail(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surfaceContainerLow),
         headText = "Language",
-        tailText = book.language
+        tailText = it
     )
+    }
 }

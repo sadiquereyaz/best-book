@@ -50,7 +50,7 @@ fun LoginStep(
         Spacer(modifier = Modifier.height(16.dp))
 
             Image(
-                imageVector = ImageVector.vectorResource(if (isSystemInDarkTheme()) R.drawable.logo_night else R.drawable.logo),
+                imageVector = ImageVector.vectorResource(R.drawable.logo),
                 "",
                 modifier = Modifier.fillMaxWidth(0.6f)
                     )

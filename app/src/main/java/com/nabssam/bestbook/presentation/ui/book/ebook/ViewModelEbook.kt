@@ -69,12 +69,14 @@ class ViewModelEbook @Inject constructor(
     }
 
     private fun downloadPdf(pdf: Ebook) {
-        val workRequest = PDFDownloadWorker.createWorkRequest(pdf.name, pdf.url)
-        workManager.enqueueUniqueWork(
-            "pdf_download_${pdf.name}",
-            ExistingWorkPolicy.REPLACE,
-            workRequest
-        )
+        val workRequest = pdf.url?.let { PDFDownloadWorker.createWorkRequest(pdf.name, it) }
+        if (workRequest != null) {
+            workManager.enqueueUniqueWork(
+                "pdf_download_${pdf.name}",
+                ExistingWorkPolicy.REPLACE,
+                workRequest
+            )
+        }
     }
 
     private fun observeDownloadStatus() {

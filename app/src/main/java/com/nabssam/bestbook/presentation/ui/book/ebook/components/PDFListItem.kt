@@ -80,17 +80,21 @@ fun PDFListItem(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = pdf.exam,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = pdf.author,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    pdf.exam?.let {
+                        Text(
+                            text = it,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    pdf.author?.let {
+                        Text(
+                            text = it,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             }
 

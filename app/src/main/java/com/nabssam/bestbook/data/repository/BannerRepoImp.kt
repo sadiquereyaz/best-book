@@ -20,7 +20,7 @@ class BannerRepoImp @Inject constructor(
             val currentClass = getCurrentClassUseCase()
 //            Log.d(TAG, "getAll: currentClass: $currentClass")
             val response = bannerApi.getBanners(/*currentClass = currentClass ?: ""*/)
-            Log.d(TAG, "getAll: response: ${response.body()}")
+//            Log.d(TAG, "getAll: response: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.banners?.let {
                     Result.success(
@@ -30,7 +30,7 @@ class BannerRepoImp @Inject constructor(
                     )
                 } ?: Result.failure(Exception("Empty response"))
             } else {
-                Log.e(TAG, "getAll: Error: ${response.code()} - ${response.message()}")
+//                Log.e(TAG, "getAll: Error: ${response.code()} - ${response.message()}")
                 Result.failure(Exception("Error: ${response.code()} - ${response.message()}"))
             }
         } catch (e: Exception) {

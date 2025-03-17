@@ -265,7 +265,7 @@ fun CartItem(
                         .zIndex(5f)
                         .height(140.dp)
                         .clickable { goToBookDetail(cartItem.productId) },
-                    coverImage = cartItem.coverImage,
+                    coverImageUrl = cartItem.coverImage,
                     onClick = { goToBookDetail(cartItem.productId) }
                 )
                 Column(

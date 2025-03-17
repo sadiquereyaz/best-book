@@ -9,5 +9,6 @@ interface BookRepository {
     suspend fun getByExam(exam: String): Flow<Resource<List<Book>>>
     suspend fun getAllTargetExam(): Flow<Resource<List<String>>>
     suspend fun getBookById(id: String): Flow<Resource<Book>>
+    suspend fun getAllBook(): Result<List<Book>>
 }
 

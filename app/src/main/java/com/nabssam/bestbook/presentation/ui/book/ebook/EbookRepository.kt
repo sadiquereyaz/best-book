@@ -20,7 +20,7 @@ class EbookRepositoryImp(
             val response = api.getAllPurchasedEbook()
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(Resource.Success(data = it.data.map { mapper.ebookDtoToDomain(it)}))
+                    emit(Resource.Success(data = it.books.map { mapper.ebookDtoToDomain(it)}))
                 } ?: emit(Resource.Error("No data found"))
             } else {
                 throw Exception(response.message())

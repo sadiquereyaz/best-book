@@ -5,7 +5,6 @@ import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -14,12 +13,6 @@ class GetBookByIdUC @Inject constructor(
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getBookById(productId)
-}
-
-class GetAllBookUseCase @Inject constructor(
-    private val repository: BookRepository
-) {
-    suspend operator fun invoke(): Flow<Resource<List<Book>>> = repository.getByExam("all")
 }
 
 class GetAllTargetUC @Inject constructor(

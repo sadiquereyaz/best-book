@@ -32,7 +32,6 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
             },
             onEvent = { viewModel.onEvent(it) }
         )
-
     }
     composable<Route.BookDetailRoute> { backStackEntry ->
         //val routeObj: Route.BookDetail = backStackEntry.toRoute()
@@ -52,7 +51,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
                     )
                 }
             },
-            showBooksByExam = { navController.navigate(Route.AllBookRoute(targetExam = state.fetchedBook.exam)) },
+            showBooksByExam = { navController.navigate(Route.AllBookRoute(targetExam = state.fetchedBook.exam ?: "all")) },
             navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) }
             //btnType = ButtonType.EBOOK,
         )

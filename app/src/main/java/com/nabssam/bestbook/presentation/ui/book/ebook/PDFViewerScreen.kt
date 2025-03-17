@@ -91,12 +91,15 @@ fun PDFViewerScreen(uiState: UiStateEbook, onEvent: (EventEbook) -> Unit) {
                     onItemClick = {
                         if (!pdf.isDownloaded) {
                             // Start download
-                            val workRequest = PDFDownloadWorker.createWorkRequest(pdf.name, pdf.url)
-                            workManager.enqueueUniqueWork(
-                                "pdf_download",
-                                ExistingWorkPolicy.REPLACE,
-                                workRequest
-                            )
+                            val workRequest =
+                                pdf.url?.let { PDFDownloadWorker.createWorkRequest(pdf.name, it) }
+                            if (workRequest != null) {
+                                workManager.enqueueUniqueWork(
+                                    "pdf_download",
+                                    ExistingWorkPolicy.REPLACE,
+                                    workRequest
+                                )
+                            }
                         } else {
                             // Open the downloaded PDF
                             val pdfFile = File(context.filesDir, "${pdf.name}.encrypted")

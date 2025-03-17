@@ -10,12 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.R
 
 @Composable
 fun BookTitlePrice(
@@ -75,6 +77,7 @@ fun BookTitlePrice(
             Text(
                 modifier = Modifier,
                 text = "₹${(originalPrice - (discPer * originalPrice) / 100)}",
+                color = colorResource(R.color.green_price),
                 fontSize = (16 + addToFontSize).sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,

@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.book.bookList.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.bookList.EventBookList
 import com.nabssam.bestbook.presentation.ui.book.bookList.StateBookList
 
+private const val TAG = "FILTER_BOTTOM_SHEET"
 // Filter bottom sheet component
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,6 +97,7 @@ fun FilterBottomSheet(
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                Log.d(TAG, "Categories: ${state.categories}")
                 items(state.categories) { category ->
                     EnhancedFilterChip(
                         selected = category in state.selectedCategories,

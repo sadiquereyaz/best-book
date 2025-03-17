@@ -79,20 +79,22 @@ fun BookDetailScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = bookObj.exam,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable { showBooksByExam() }
-                    )
-                    bookObj.rate?.let {
+                    bookObj.exam?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable { showBooksByExam() }
+                        )
+                    }
+                    bookObj.averageRate?.let {
                         RatingBar(modifier = Modifier.clickable {
                             coroutineScope.launch {
                                 lazyListState.animateScrollToItem(5) // Scroll to Reviews section
                             }
-                        }, rating = it.points, count = it.count)
+                        }, rating = it, count = 1)
                     }
                 }
-            // Title
+                // Title
                 Text(
                     modifier = modifier
                         .padding(8.dp, 4.dp),
@@ -106,16 +108,17 @@ fun BookDetailScreen(
             }
 
             // Auto-Scrolling Image Pager
-            item {
-                AutoScrollingImagePager(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    autoscroll = false,
-                    imageList = bookObj.imageUrls,
-                    height = 460.dp
-                )
-            }
+            if (!bookObj.imageUrls.isNullOrEmpty() || !bookObj.coverUrl.isNullOrEmpty())
+                item {
+                    AutoScrollingImagePager(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        autoscroll = false,
+                        imageList = bookObj.imageUrls ?: listOf(bookObj.coverUrl),
+                        height = 460.dp
+                    )
+                }
 
             // book purchase option tab
             item {
@@ -135,7 +138,12 @@ fun BookDetailScreen(
 
             //  Description
             item {
-                BookDescription(bookObj.description, modifier = Modifier.padding(top = 12.dp))
+                bookObj.description?.let {
+                    BookDescription(
+                        it,
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
+                }
             }
 
             // Book Details
@@ -154,13 +162,13 @@ fun BookDetailScreen(
 
             // Reviews
             item {
-                bookObj.rate?.reviews?.let {
+                /*bookObj.averageRate?.reviews?.let {
                     Review(
                         onSeeAllReviewClick = onSeeAllReviewClick,
                         reviewList = it,
                         modifier = Modifier.padding(top = 12.dp)
                     )
-                }
+                }*/
             }
 
             // Spacer to ensure scrolling above the button
@@ -186,6 +194,7 @@ fun BookDetailScreen(
                     ButtonType.ADD_TO_CART -> {
                         onEvent(EventBookDetail.ButtonClick)
                     }
+
                     ButtonType.GO_TO_CART -> goToCart()
                 }
             }
@@ -195,7 +204,10 @@ fun BookDetailScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                 Icon(ImageVector.vectorResource(state.buttonState.iconId), state.buttonState.btnText)
+                Icon(
+                    ImageVector.vectorResource(state.buttonState.iconId),
+                    state.buttonState.btnText
+                )
                 Text(
                     text = state.buttonState.btnText,
                     fontSize = 18.sp,

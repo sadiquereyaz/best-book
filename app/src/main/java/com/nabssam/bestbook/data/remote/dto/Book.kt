@@ -2,41 +2,14 @@ package com.nabssam.bestbook.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class BookResponseFinal(
-    val book: BookDtoFinal,
+data class BookResponse(
+    val book: BookDto,
     val message: String,
     val success: Boolean
-)
-
-data class BookListResponseFinal(
-    val books: List<BookDtoFinal>,
-    val message: String,
-    val success: Boolean
-)
-
-data class BookDtoFinal(
-    val __v: Int,
-    val _id: String,
-    val coverImage: String,
-    val createdAt: String,
-    val description: String,
-    val eBook: String,
-    val ebookDiscount: Int,
-    val hardcopyDiscount: Int,
-    val images: List<String>,
-    val isEbookAvailable: Boolean,
-    val price: Int,
-    val rating: Int,
-    val reviews: List<Any>,
-    val reviewsId: List<Any>,
-    val stock: Int,
-    val targetExam: String,
-    val title: String,
-    val updatedAt: String
 )
 
 data class PurchasedEbookResponse(
-    @SerializedName("ebooks") val data: List<BookDtoFinal>,
+    @SerializedName("ebooks") val books: List<BookDto>,
     val message: String,
     val success: Boolean
 )
@@ -48,31 +21,37 @@ data class BookListResponse(
 )
 
 data class BookDto(
-
-    val isbn: String= "111-222-222-444",
+    @SerializedName("ISBN") val isbn: String= "111-222-222-444",
     val __v: Int,
     val _id: String,
-    val author: String,
-    @SerializedName("category") val exam: String,
-    val coverImage: String,
-    val description: String,
-    val eBook: String,
-    val ebookDiscount: Int,
-    val hardcopyDiscount: Int,
-    val images: List<String>,
-    val isEbookAvailable: Boolean,
-    val language: String,
-    val pages: Int,
-    val price: Int,
-    val publicationDate: String,
-    val publisher: String,
-    val rate: Rate? = null,
-    val stock: Int,
-    val targetExam: String,
-    @SerializedName("title")
-    val name: String,
-    val updatedAt: String,
-    val createdAt: String,
+    val author: String? = null,
+    @SerializedName("category") val exam: String? = null,
+    val coverImage: String? = null,
+    val description: String? = null,
+    val eBook: String? = null,
+    val ebookDiscount: Int? = null,
+    val hardcopyDiscount: Int? = null,
+    val images: List<String>? = null,
+    val isEbookAvailable: Boolean? = null,
+    val language: String? = null,
+    val pages: Int? = null,
+    val price: Int? = null,
+    val publicationDate: String? = null,
+    val publisher: String? = null,
+    val reviewStats: ReviewStats? = null,
+    val rating: Int? = null,
+    val reviews: List<Any>? = null,
+//    val rate: Rate? = null,
+    val stock: Int? = null,
+    val targetExam: String = "",
+    @SerializedName("title") val name: String = "",
+    val updatedAt: String? = null,
+    val createdAt: String? = null,
+)
+
+data class ReviewStats(
+    val averageRating: Double? = 0.0,
+    val reviewCount: Int = 111
 )
 
 data class Rate(

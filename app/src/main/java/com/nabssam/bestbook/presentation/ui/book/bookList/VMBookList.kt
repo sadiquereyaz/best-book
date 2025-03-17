@@ -10,9 +10,13 @@ import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG ="BOOK_LIST_VM"
 
 @HiltViewModel
 class VMBookList @Inject constructor(
@@ -30,7 +34,7 @@ class VMBookList @Inject constructor(
         when (event) {
             is EventBookList.FetchBook -> fetchBooks()
             is EventBookList.Retry -> fetchBooks()
-            is EventBookList.SortBy -> updateSorting(event.exam)
+            is EventBookList.SortBy -> updateSorting(event.exam)        // redundant
 
             // Handle new search and filter events
             is EventBookList.UpdateSearchQuery -> updateSearchQuery(event.query)
@@ -41,67 +45,46 @@ class VMBookList @Inject constructor(
         }
     }
 
-    private fun fetchBooks() {
-        viewModelScope.launch {
-            getAllBookUseCase().collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        _state.update {
-                            it.copy(
-                                fetchingBooks = true,
-                                errorMessage = null
-                            )
-                        }
-                    }
-
-                    is Resource.Success -> {
-                        val books = resource.data ?: emptyList()
-                        _state.update {
-                            it.copy(
-                                fetchingBooks = false,
-                                fetchedBooks = books,
-                                filteredBooks = books, // Initially, filtered books = all books
-                                errorMessage = null,
-                                priceRange = (books.minOfOrNull { book -> book.price.toFloat() } ?: 0f)..
-                                        (books.maxOfOrNull { book -> book.price.toFloat() } ?: 5000f)
-                            )
-                        }
-                        // Apply any existing filters
-                        applyFilters()
-                    }
-
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                fetchingBooks = false,
-                                errorMessage = resource.message,
-                            )
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-    }
-
-    private fun updateSorting(exam: String?) {
-        _state.update { currentState ->
-            val sortedBooks = if (exam != null) {
-                // Sort by whether the book's exam matches exam
-                currentState.filteredBooks.sortedByDescending { book ->
-                    book.exam == exam
-                }
-            } else {
-                // Sort by rating when exam is null
-                currentState.filteredBooks.sortedByDescending { book ->
-                    book.rate?.points ?: 0.0
+    private fun fetchBooks() = getAllBookUseCase.invoke().onEach { resource ->
+        when (resource) {
+            is Resource.Loading -> {
+                _state.update {
+                    it.copy(
+                        fetchingBooks = true,
+                        errorMessage = null
+                    )
                 }
             }
-            currentState.copy(filteredBooks = sortedBooks)
+
+            is Resource.Success -> {
+                val books = resource.data ?: emptyList()
+                Log.d(TAG, "Fetched books: ${books.map { it.exam }}")
+                _state.update {
+                    it.copy(
+                        fetchingBooks = false,
+                        fetchedBooks = books,
+                        filteredBooks = books, // Initially, filtered books = all books
+                        errorMessage = null,
+                        priceRange = (books.minOfOrNull { book -> book.price.toFloat() }
+                            ?: 0f)..
+                                (books.maxOfOrNull { book -> book.price.toFloat() }
+                                    ?: 5000f)
+                    )
+                }
+                // Apply any existing filters
+                applyFilters()
+            }
+
+            is Resource.Error -> {
+                _state.update {
+                    it.copy(
+                        fetchingBooks = false,
+                        errorMessage = resource.message,
+                    )
+                }
+            }
         }
-    }
+    }.launchIn(viewModelScope)
 
     private fun updateSearchQuery(query: String) {
         _state.update { it.copy(searchQuery = query) }
@@ -143,26 +126,75 @@ class VMBookList @Inject constructor(
         }
     }
 
+    /**
+     * Applies filtering criteria to the list of fetched books based on the current state.
+     *
+     * This function filters the `fetchedBooks` in the current state based on the following criteria:
+     *
+     * 1. **Search Query:**
+     *    - If the `searchQuery` is empty, all books are considered a match.
+     *    - If the `searchQuery` is not empty, a book is considered a match if its `name` or `description` (if available)
+     *      contains the `searchQuery` (case-insensitive).
+     *
+     * 2. **Selected Categories:**
+     *    - If `selectedCategories` is empty, all books are considered a match.
+     *    - If `selectedCategories` is not empty, a book is considered a match if its `exam` property is present in the
+     *      `selectedCategories` set.
+     *
+     * 3. **Price Range:**
+     *    - A book is considered a match if its `price` (converted to Float) falls within the `priceRange`.
+     *
+     * 4. **Discounted Books:**
+     *    - If `showOnlyDiscounted` is `false`, all books are considered a match.
+     *    - If `showOnlyDiscounted` is `true`, a book is considered a match only if its `hardCopyDis` property is greater than 0.
+     *
+     * The function updates the `filteredBooks` property in the state with the filtered list.
+     * This operation is performed within a coroutine launched in the `viewModelScope`.
+     */
     private fun applyFilters() {
-        _state.update { currentState ->
-            val filteredBooks = currentState.fetchedBooks.filter { book ->
-                val matchesSearch = currentState.searchQuery.isEmpty() ||
-                        book.name.contains(currentState.searchQuery, ignoreCase = true) ||
-                        book.description?.contains(currentState.searchQuery, ignoreCase = true) == true
+        viewModelScope.launch {
+            _state.update { currentState ->
+                val query = currentState.searchQuery
+                val filteredBooks = currentState.fetchedBooks.filter { book ->
+                    val matchesSearch =
+                        query.isEmpty() ||
+                                book.exam?.contains(query, true) ?: false ||
+                                book.author?.contains(query, true) ?: false ||
+                                book.name.contains(query, ignoreCase = true) ||
+                                book.description?.contains(query, ignoreCase = true) ?: false
 
-                val matchesCategory = currentState.selectedCategories.isEmpty() ||
-                        book.exam in currentState.selectedCategories
+                    val matchesCategory = currentState.selectedCategories.isEmpty() ||
+                            book.exam in currentState.selectedCategories
 
-                val matchesPrice = book.price.toFloat() >= currentState.priceRange.start &&
-                        book.price.toFloat() <= currentState.priceRange.endInclusive
+                    val matchesPrice = book.price.toFloat() >= currentState.priceRange.start &&
+                            book.price.toFloat() <= currentState.priceRange.endInclusive
 
-                val matchesDiscount = !currentState.showOnlyDiscounted ||
-                        (book.hardCopyDis ?: 0) > 0
+                    val matchesDiscount = !currentState.showOnlyDiscounted ||
+                            (book.hardCopyDis ?: 0) > 0
 
-                matchesSearch && matchesCategory && matchesPrice && matchesDiscount
+                    matchesSearch && matchesCategory && matchesPrice && matchesDiscount
+                }
+                currentState.copy(filteredBooks = filteredBooks)
             }
-            currentState.copy(filteredBooks = filteredBooks)
         }
     }
+
+    private fun updateSorting(exam: String?) {
+        _state.update { currentState ->
+            val sortedBooks = if (exam != null) {
+                // Sort by whether the book's exam matches exam
+                currentState.filteredBooks.sortedByDescending { book ->
+                    book.exam == exam
+                }
+            } else {
+                // Sort by rating when exam is null
+                currentState.filteredBooks.sortedByDescending { book ->
+                    book.averageRate ?: 0.0
+                }
+            }
+            currentState.copy(filteredBooks = sortedBooks)
+        }
+    }
+
 }
 

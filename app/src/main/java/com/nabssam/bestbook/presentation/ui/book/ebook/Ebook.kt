@@ -2,11 +2,11 @@ package com.nabssam.bestbook.presentation.ui.book.ebook
 
 data class Ebook(
     val id: String,
-    val exam: String,
+    val exam: String? = null,
     val name: String, // Display name of the PDF
-    val author: String, // Display name of the PDF
-    val url: String,  // Download link
-    val coverUrl: String = "http://res.cloudinary.com/dniu1zxdq/image/upload/v1737962343/tdiudk2hhebt4faznxhq.jpg\"",
+    val author: String? = null, // Display name of the PDF
+    val url: String? = null,  // Download link
+    val coverUrl: String? = null,
     var isDownloaded: Boolean = false // Download status
 )
 /*
