@@ -8,6 +8,7 @@ import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.PyqRepository
 import com.nabssam.bestbook.domain.usecase.exam_std.GetCurrentClassUseCase
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 private const val TAG = "BANNER_REPO_IMPL"
 
@@ -21,6 +22,7 @@ class BannerRepoImp @Inject constructor(
 //            Log.d(TAG, "getAll: currentClass: $currentClass")
             val response = bannerApi.getBanners(/*currentClass = currentClass ?: ""*/)
 //            Log.d(TAG, "getAll: response: ${response.body()}")
+//            throw Exception("Error occured")
             if (response.isSuccessful) {
                 response.body()?.banners?.let {
                     Result.success(

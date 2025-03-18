@@ -57,14 +57,13 @@ fun MockTests(
     HomeScreenRowItem(
         modifier = Modifier,
         title = "Quizzes",
-        icon = R.drawable.quiz_filled,
         leadingIcon = if (isExpanded) {
             Icons.Default.KeyboardArrowUp
         } else {
             Icons.AutoMirrored.Default.KeyboardArrowRight
 
         },
-        onClick = { isExpanded = !isExpanded },
+        onBookClick = { isExpanded = !isExpanded },
         content = {
             Column(modifier = modifier) {
                 LazyVerticalGrid(
@@ -114,6 +113,9 @@ fun MockTests(
                 }
             }
         },
+        icon = R.drawable.quiz_filled,
+//        isLoading = state.fetchingBooks,
+//        error = state.errorBooks,
     )
 }
 /*

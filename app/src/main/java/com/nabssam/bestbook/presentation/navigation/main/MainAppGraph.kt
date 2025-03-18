@@ -22,9 +22,9 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
         Route.Home  //TODO
+//        Route.BookDetailRoute(title = "Book Detail", id = "67973589928e04083d0c8825")
 //            Route.AllBookRoute(targetExam = "JEE")
 //        Route.Ebook
-//        Route.BookDetailRoute(title = "Book Detail", id = "book1")
 //        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()

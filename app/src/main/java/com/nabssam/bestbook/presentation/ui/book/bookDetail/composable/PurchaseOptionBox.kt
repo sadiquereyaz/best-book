@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.data.remote.dto.ProductType
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.ButtonType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +45,7 @@ fun PurchaseOptionBox(
     onTypeSelect: (ProductType) -> Unit,
 //    onEvent: (EventBookDetail) -> Unit
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(-1) }
     val tooltipState = rememberTooltipState(isPersistent = true)
     val scope = rememberCoroutineScope()
 
@@ -71,20 +72,21 @@ fun PurchaseOptionBox(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Paperback Tab
-            Box(modifier = Modifier.weight(1f)) {
-                CustomPurchaseTab(
-                    title = "Paperback",
-                    discount = paperbackDiscount,
-                    price = paperbackPrice,
-                    isSelected = selectedTabIndex == 0,
-                    onClick = {
-                        selectedTabIndex = 0
+            if (paperbackDiscount != null && paperbackDiscount > 0)
+                Box(modifier = Modifier.weight(1f)) {
+                    CustomPurchaseTab(
+                        title = "Paperback",
+                        discount = paperbackDiscount,
+                        price = paperbackPrice,
+                        isSelected = selectedTabIndex == 0,
+                        onClick = {
+                            selectedTabIndex = 0
 //                        onTabSelect(ButtonType.ADD_TO_CART)
-                        onTypeSelect(ProductType.Book)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                            onTypeSelect(ProductType.Book)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
             // Ebook/Quiz Tab
             ebookDiscount?.let {
@@ -92,7 +94,7 @@ fun PurchaseOptionBox(
                     TooltipBox(
                         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                         tooltip = {
-                            PlainTooltip{
+                            PlainTooltip {
                                 Column(
                                     modifier = Modifier.padding(16.dp),
                                     verticalArrangement = Arrangement.spacedBy(8.dp)

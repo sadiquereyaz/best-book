@@ -12,8 +12,10 @@ data class StateBookDetail(
     val fetchedList: List<Book> = emptyList(),
     val listError: String? = null,
     val buttonState: ButtonType = ButtonType.ADD_TO_CART,
-    val productType: ProductType = ProductType.Book
-)
+    val productType: ProductType? = null
+){
+    val showRating: Boolean = fetchedBook.averageRate != null && fetchedBook.averageRate != 0.0 && fetchedBook.reviewCount != 0
+}
 
 enum class ButtonType(val btnText: String, val iconId: Int) {
 //    EBOOK("Buy Ebook Now", R.drawable.ebook),

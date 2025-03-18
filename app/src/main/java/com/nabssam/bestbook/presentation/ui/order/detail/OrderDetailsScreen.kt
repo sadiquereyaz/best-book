@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
-import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
+import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 import com.nabssam.bestbook.presentation.ui.order.detail.composable.ChatBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -316,7 +316,7 @@ fun OrderDetailsScreen(
 
         }
 
-        UiStateOrderDetail.Loading -> FullScreenProgressIndicator(
+        UiStateOrderDetail.Loading -> TranslucentLoader(
             modifier = modifier,
             "Loading Order Details"
         )

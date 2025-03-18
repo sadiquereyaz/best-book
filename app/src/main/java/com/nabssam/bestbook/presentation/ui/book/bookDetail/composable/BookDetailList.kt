@@ -46,11 +46,13 @@ fun BookDetailList(book: Book) {
         tailText = it
     )
     }
-    ProductDetail(
-        modifier = Modifier,
-        headText = "No. of pages",
-        tailText = "${book.noOfPages}"
-    )
+    book.noOfPages?.let {
+        ProductDetail(
+            modifier = Modifier,
+            headText = "No. of pages",
+            tailText = "$it"
+        )
+    }
     book.language?.let {
         ProductDetail(
         modifier = Modifier

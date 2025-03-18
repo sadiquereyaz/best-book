@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.book.bookDetail
 
 import PurchaseOptionBox
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,16 +30,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDetailList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.RelatedBookList
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.Review
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
-import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
+import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 import com.nabssam.bestbook.presentation.ui.components.RatingBar
 import kotlinx.coroutines.launch
 
+private const val TAG = "BOOK_DETAIL_SCREEN"
 
 @Composable
 fun BookDetailScreen(
@@ -56,7 +58,7 @@ fun BookDetailScreen(
     val coroutineScope = rememberCoroutineScope()
 
     if (state.loading) {
-        FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
+        TranslucentLoader(modifier = modifier, message = "Loading...")
     } else if (state.errorMessage != null) {
         ErrorScreen(
             message = state.errorMessage ?: "Error occurred while fetching book details",
@@ -86,12 +88,12 @@ fun BookDetailScreen(
                             modifier = Modifier.clickable { showBooksByExam() }
                         )
                     }
-                    bookObj.averageRate?.let {
+                    if (state.showRating) {
                         RatingBar(modifier = Modifier.clickable {
                             coroutineScope.launch {
                                 lazyListState.animateScrollToItem(5) // Scroll to Reviews section
                             }
-                        }, rating = it, count = 1)
+                        }, rating = bookObj.averageRate ?: 0.0, count = bookObj.reviewCount)
                     }
                 }
                 // Title
@@ -108,17 +110,22 @@ fun BookDetailScreen(
             }
 
             // Auto-Scrolling Image Pager
-            if (!bookObj.imageUrls.isNullOrEmpty() || !bookObj.coverUrl.isNullOrEmpty())
+            if (bookObj.imageUrls.isNotEmpty() || !bookObj.coverUrl.isNullOrBlank()) {
+//                Log.d(TAG, "image list: ${bookObj.imageUrls}")
+//                Log.d(TAG, "cover: ${bookObj.coverUrl}")
                 item {
                     AutoScrollingImagePager(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
                         autoscroll = false,
-                        imageList = bookObj.imageUrls ?: listOf(bookObj.coverUrl),
-                        height = 460.dp
+                        imageList = if (bookObj.imageUrls.isNotEmpty()) bookObj.imageUrls else listOf(
+                            bookObj.coverUrl
+                        ),
+                        height = 480.dp
                     )
                 }
+            }
 
             // book purchase option tab
             item {
@@ -188,6 +195,7 @@ fun BookDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(0.dp)),
+            enabled = state.productType != null,
             onClick = {
                 when (state.buttonState) {
 //                    ButtonType.EBOOK -> navigateToPayment(bookObj.id)

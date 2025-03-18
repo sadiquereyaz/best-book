@@ -60,7 +60,8 @@ fun AutoScrollingImagePager(
     }
 
     Box(
-        modifier = modifier,
+        modifier = modifier
+        ,
         contentAlignment = Alignment.Center
     ) {
         HorizontalPager(
@@ -76,7 +77,7 @@ fun AutoScrollingImagePager(
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable(
-                        enabled = redirectLinkList[page] != null,
+                        enabled = if (redirectLinkList.isNotEmpty()) redirectLinkList[page] != null else false,
                         onClick = {
                             try {
                                 // Used only for opening URIs (like web links or deep links) from Jetpack Compose

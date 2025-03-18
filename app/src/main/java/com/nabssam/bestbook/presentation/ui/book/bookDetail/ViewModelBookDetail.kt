@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.data.mapper.BookMapper
+import com.nabssam.bestbook.data.remote.dto.ProductType
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+private const val TAG = "VM_BOOK_DETAIL"
 
 @HiltViewModel
 class ViewModelBookDetail @Inject constructor(
@@ -25,18 +27,15 @@ class ViewModelBookDetail @Inject constructor(
     private val getBookByIdUC: GetBookByIdUC,
     private val addToCartUseCase: AddToCartUseCase,
     private val getBooksByExamUseCase: GetBooksByExamUC,
-    private val mapper: BookMapper
 ) : ViewModel() {
+
     private val id = savedStateHandle.toRoute<Route.BookDetailRoute>().id
+
     private val _state = MutableStateFlow(StateBookDetail())
     val state = _state.asStateFlow()
 
     init {
         fetchBookDetail()
-    }
-
-    private fun purchaseNow() {
-        TODO("Not yet implemented")
     }
 
     fun onEvent(event: EventBookDetail) {
@@ -96,6 +95,7 @@ class ViewModelBookDetail @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        Log.d(TAG, "fetchBookDetail: ${resource.data}")
                         _state.update {
                             it.copy(
                                 loading = false,
@@ -112,15 +112,15 @@ class ViewModelBookDetail @Inject constructor(
 
     private fun fetchRelatedBooks() {
         viewModelScope.launch {
-            state.value.fetchedBook.exam?.let {
-                getBooksByExamUseCase(targetExam = it).collect { resource ->   // todo: uncomment
+            state.value.fetchedBook.exam?.let {target->
+                getBooksByExamUseCase(targetExam = target).collect { resource ->   // todo: uncomment
                     when (resource) {
                         is Resource.Loading -> {
                             _state.update { it.copy(isListFetching = true) }
                         }
 
                         is Resource.Success -> {
-                            Log.d("BOOK_DETAIL_VM", "Related books: ${resource.data}")
+//                            Log.d("BOOK_DETAIL_VM", "Related books: ${resource.data}")
                             _state.update {
                                 it.copy(
                                     fetchedList = resource.data?.filter { it.name != state.value.fetchedBook.name }
@@ -142,16 +142,18 @@ class ViewModelBookDetail @Inject constructor(
     }
 
     private fun addToCart() {
-        Log.d("VM_BOOK_DETAIL", "add to cart $id")
+//        Log.d("VM_BOOK_DETAIL", "add to cart $id")
         viewModelScope.launch {
             addToCartUseCase(
                 id = state.value.fetchedBook.id,
-                productType = state.value.productType,
+                productType = state.value.productType ?: ProductType.Book,
             ).collect{
 
             }
         }
     }
 
+    private fun fetchReviews(){
 
+    }
 }

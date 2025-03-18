@@ -2,11 +2,15 @@ package com.nabssam.bestbook.presentation.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -43,21 +47,29 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
+            // banner
             item {
 //                VerticalSpacer(20)
-                Banner(
-                    fetchingBanners = state.fetchingBanners,
-                    fetchedBanners = state.fetchedBanners
-                )
+                    Banner(
+                        modifier = Modifier
+                            .height(dimensionResource(R.dimen.book_height_home))
+                            .clip(RoundedCornerShape(8.dp)),
+                        fetchingBanners = state.fetchingBanners,
+                        fetchedBanners = state.fetchedBanners,
+                        error = state.errorBanners
+                    )
             }
 
             // Recommended Books Section
+            if (state.fetchedBooks.isNotEmpty() || state.errorBooks != null)
             item {
                 HomeScreenRowItem(
                     modifier = Modifier,
                     title = "Recommended for you",
                     icon = R.drawable.personalised,
-                    onClick = { onAllBookSelect(state.randomTarget ?: "all") },
+                    onBookClick = { onAllBookSelect(state.randomTarget ?: "all") },
+                    isLoading = state.fetchingBooks,
+                    error = state.errorBooks,
                     content = {
                         HorizontalBookList(
                             modifier = Modifier,
@@ -73,22 +85,25 @@ fun HomeScreen(
 
             // Mock Tests Section
             item {
-                    MockTests(navigateToMock = onContestSelect)
+                MockTests(navigateToMock = onContestSelect)
             }
 
             // PYQs Row Section
+            if (state.fetchedPyq.isNotEmpty() || state.errorPyq != null)
             item {
                 HomeScreenRowItem(
                     modifier = Modifier,
                     title = "Free PYQs",
-                    icon = R.drawable.pyq,
-                    onClick = { onAllBookSelect("Free PYQs") },
+                    onBookClick = { onAllBookSelect("Free PYQs") },
                     content = {
                         PyqRow(
                             pyqList = state.fetchedPyq,
                             navigateToPyq = onNavigateToBook
                         )
                     },
+                    icon = R.drawable.pyq,
+                    isLoading = state.fetchingBooks,
+                    error = state.errorBooks,
                 )
             }
         }

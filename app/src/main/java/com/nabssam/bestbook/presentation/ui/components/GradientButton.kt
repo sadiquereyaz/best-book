@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +41,8 @@ fun GradientButton(
         enabled,
         shape,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            disabledContentColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
         ),
         elevation,
         border,

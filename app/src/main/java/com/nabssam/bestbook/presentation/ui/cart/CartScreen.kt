@@ -57,7 +57,7 @@ import com.nabssam.bestbook.domain.model.StockType
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
-import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
+import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,7 +73,7 @@ fun CartScreen(
 
     when (uiState) {
         is CartUiState.Loading -> {
-            FullScreenProgressIndicator(modifier = modifier, message = "Loading...")
+            TranslucentLoader(modifier = modifier, message = "Loading...")
         }
 
         is CartUiState.Error -> {

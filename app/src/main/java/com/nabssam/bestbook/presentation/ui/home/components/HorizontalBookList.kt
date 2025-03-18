@@ -22,7 +22,7 @@ import coil.request.ImageRequest
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
-import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicator
+import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 
 @Composable
  fun HorizontalBookList(
@@ -35,7 +35,7 @@ import com.nabssam.bestbook.presentation.ui.components.FullScreenProgressIndicat
 ) {
     Box(modifier = modifier){
         if (loading) {
-            FullScreenProgressIndicator(modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)))
+            TranslucentLoader(modifier = Modifier.height(dimensionResource(R.dimen.book_height_home)))
         } else if (error != null) {
             ErrorScreen(
                 message = error,
