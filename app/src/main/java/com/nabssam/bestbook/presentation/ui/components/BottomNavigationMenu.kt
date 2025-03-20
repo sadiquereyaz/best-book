@@ -51,7 +51,7 @@ fun BottomNavigationMenu(
                         modifier = Modifier.size(24.dp),
                     )
                 },
-                alwaysShowLabel = true,
+                alwaysShowLabel = false,
                 label = {
                     Text(topLevelRoute.label)
                 },
