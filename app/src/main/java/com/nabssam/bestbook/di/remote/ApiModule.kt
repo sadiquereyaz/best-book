@@ -8,6 +8,7 @@ import com.nabssam.bestbook.data.remote.api.CartApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.data.remote.api.PinApiService
+import com.nabssam.bestbook.data.remote.api.ReviewApiService
 import com.nabssam.bestbook.di.Auth
 import com.nabssam.bestbook.di.Mock
 import com.nabssam.bestbook.di.Pin
@@ -33,6 +34,11 @@ object ApiModule {
     @Singleton
     fun provideBookApi(@UnAuth retrofit: Retrofit): BookApi {
         return retrofit.create(BookApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideReviewApiService(@UnAuth retrofit: Retrofit): ReviewApiService {
+        return retrofit.create(ReviewApiService::class.java)
     }
 
     @Provides

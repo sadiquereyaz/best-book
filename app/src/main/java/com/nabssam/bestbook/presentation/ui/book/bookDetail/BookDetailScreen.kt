@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.book.bookDetail
 
 import PurchaseOptionBox
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.nabssam.bestbook.presentation.ui.components.GradientButton
@@ -25,15 +26,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nabssam.bestbook.domain.model.Book
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDetailList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.RelatedBookList
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.Review
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
@@ -56,6 +59,7 @@ fun BookDetailScreen(
     val lazyListState = rememberLazyListState()
     val bookObj = state.fetchedBook
     val coroutineScope = rememberCoroutineScope()
+    val reviewModifier = Modifier.height(dimensionResource(R.dimen.book_height_home))
 
     if (state.loading) {
         TranslucentLoader(modifier = modifier, message = "Loading...")
@@ -63,7 +67,7 @@ fun BookDetailScreen(
         ErrorScreen(
             message = state.errorMessage ?: "Error occurred while fetching book details",
             modifier = modifier,
-            onRetry = { onEvent(EventBookDetail.Retry) }
+            onRetry = { onEvent(EventBookDetail.Initialize) }
         )
     } else {
         LazyColumn(
@@ -169,13 +173,24 @@ fun BookDetailScreen(
 
             // Reviews
             item {
-                /*bookObj.averageRate?.reviews?.let {
-                    Review(
-                        onSeeAllReviewClick = onSeeAllReviewClick,
-                        reviewList = it,
-                        modifier = Modifier.padding(top = 12.dp)
+                if (state.reviewLoading)
+                    TranslucentLoader(modifier = modifier, message = "Loading...")
+                else if (state.reviewError != null)
+                    ErrorScreen(
+                        modifier = reviewModifier,
+                        message = state.errorMessage ?: "Error occurred while fetching reviews",
                     )
-                }*/
+                if (state.reviewsList.isNotEmpty())
+                    /*Review(
+                        reviewList = state.reviewsList,
+                        onSeeAllReviewClick = onSeeAllReviewClick,
+                        modifier = Modifier
+                    )*/
+                    state.reviewsList.forEach {
+                        Text(it.description ?: "comment")
+                    }
+                else
+                    Text("No review found")
             }
 
             // Spacer to ensure scrolling above the button

@@ -2,10 +2,14 @@ package com.nabssam.bestbook.di
 
 import com.nabssam.bestbook.data.mapper.AddressMapper
 import com.nabssam.bestbook.data.mapper.BookMapper
+import com.nabssam.bestbook.data.mapper.ReviewMapper
 import com.nabssam.bestbook.data.remote.api.AddressApiService
 import com.nabssam.bestbook.data.remote.api.OrderApiService
+import com.nabssam.bestbook.data.remote.api.ReviewApiService
 import com.nabssam.bestbook.data.repository.AddressRepositoryImpl
+import com.nabssam.bestbook.data.repository.ReviewRepoImpl
 import com.nabssam.bestbook.domain.repository.AddressRepository
+import com.nabssam.bestbook.domain.repository.ReviewRepository
 import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepository
 import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepositoryImp
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
@@ -25,6 +29,7 @@ object RepositoryInjectionModule {
     fun provideOrderRepository(): OrderRepositoryMain {
         return OrderRepositoryMain()
     }
+
     @Provides
     @Singleton
     fun provideChatRepository(): ChatRepositoryImpl {
@@ -39,6 +44,7 @@ object RepositoryInjectionModule {
     ): AddressRepository {
         return AddressRepositoryImpl(addressApi, addressDataMapper)
     }
+
     @Provides
     @Singleton
     fun provideEbookRepository(
@@ -47,4 +53,5 @@ object RepositoryInjectionModule {
     ): EbookRepository {
         return EbookRepositoryImp(orderApi, bookDataMapper)
     }
+
 }

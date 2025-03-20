@@ -27,6 +27,7 @@ import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
+import kotlin.math.absoluteValue
 
 @Composable
 fun BookListScreen(
@@ -89,14 +90,12 @@ fun BookListScreen(
                             contentAlignment = Alignment.TopCenter
                         ) {
                             Column {
-                                book.averageRate?.let { rate ->
-                                    book.coverUrl?.let { imageUrl ->
-                                        BookCoverImage(
-                                            rate = rate,
-                                            coverImageUrl = imageUrl,
-                                            onClick = { goToDetail(book.id, book.name) }
-                                        )
-                                    }
+                                book.coverUrl?.let { imageUrl ->
+                                    BookCoverImage(
+                                        rate = book.averageRate ?: 0.0,
+                                        coverImageUrl = imageUrl,
+                                        onClick = { goToDetail(book.id, book.name) }
+                                    )
                                 }
                                 BookTitlePrice(
                                     maxLine = 2,

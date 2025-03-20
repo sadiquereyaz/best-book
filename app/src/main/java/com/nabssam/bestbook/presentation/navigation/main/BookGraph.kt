@@ -36,7 +36,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
     composable<Route.BookDetailRoute> { backStackEntry ->
         //val routeObj: Route.BookDetail = backStackEntry.toRoute()
         val viewModel = hiltViewModel<ViewModelBookDetail>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.uiState.collectAsState()
         BookDetailScreen(
             goToCart = { navController.navigate(Route.CartRoute()) },
             state = state,
@@ -59,14 +59,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
     composable<Route.AllReviewRoute> { backStackEntry ->
         val routeObj: Route.BookDetailRoute = backStackEntry.toRoute()
         /*BookDetailScreen(
-            bookId = routeObj.bookId,
-            addToCart = { TODO() },
-            purchaseEbook = {},
-            //btnType = ButtonType.EBOOK,
-            goToCart = {
-                navController.navigate(Route.Cart)
-            },
-            state = state
+
         )*/
     }
     composable<Route.CartRoute> { backStackEntry ->

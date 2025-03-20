@@ -1,22 +1,17 @@
 package com.nabssam.bestbook.data.mapper
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.Instant
+import com.nabssam.bestbook.utils.parseDateFromIso
 
 
 class BookMapper(
     private val pdfDownloadStatusHelper: PDFDownloadStatusHelper
 ) {
     fun dtoToDomain(dto: BookDto): Book {
-        Log.d("DTO_TO_DOMAIN", dto.toString())
+//        Log.d("DTO_TO_DOMAIN", dto.toString())
         return Book(
             id = dto._id,
             name = dto.name,
@@ -28,12 +23,12 @@ class BookMapper(
             author = dto.author,
             hardCopyDis = dto.hardcopyDiscount ?: 0,
             publisher = dto.publisher,
-            reviewCount = dto.reviewStats?.reviewCount,
-            averageRate = dto.reviewStats?.averageRating,
+            reviewCount = dto.bookListReviewStats?.reviewCount,
+            averageRate = dto.bookListReviewStats?.averageRating ?: 3.1,
             stock = dto.stock ?: 0,
             isbn = dto.isbn,
             language = dto.language,
-            publishDate = dto.publicationDate?.parseFromIso(),
+            publishDate = dto.publicationDate?.parseDateFromIso(),
             ebookDis = dto.ebookDiscount,
             noOfPages = dto.pages,
             ebookUrl = dto.eBook
@@ -50,24 +45,5 @@ class BookMapper(
             url = dto.eBook,
             isDownloaded = pdfDownloadStatusHelper.getDownloadStatus(dto.name)
         )
-    }
-}
-
-//@RequiresApi(Build.VERSION_CODES.O)
-fun String.parseFromIso(): String {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return this
-    else {// Parse the ISO date-time string
-        try {
-            val instant = Instant.parse(this)
-
-            // Convert to LocalDate (ignoring time)
-            val localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate()
-
-            // Format as needed (e.g., "15 Jan 2025")
-            val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
-            return localDate.format(formatter)
-        } catch (e: Exception) {
-            return this
-        }
     }
 }

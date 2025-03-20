@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.data.repository
 
 import android.util.Log
-import com.nabssam.bestbook.data.local.dao.ProductDao
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.domain.model.Book
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 private const val TAG = "BOOK_REPO_IMPL"
+
 class BookRepositoryImpl @Inject constructor(
     private val api: BookApi,
     private val mapper: BookMapper
@@ -41,13 +41,18 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getBookById(id: String): Flow<Resource<Book>> = flow {
         emit(Resource.Loading())
-        //Log.d.d("BOOK_REPO", "getProductById called with book ID: $id")
+//        Log.d("BOOK_REPO", "getProductById called with book ID: $id")
         try {
             val response = api.getBookById(id)
-            //Log.d.d("BOOK_REPO", "getBookById: ${response.body()}")
+//            Log.d(TAG, "getBookById: ${response.body()}")
+//            Log.d(TAG, "rating: ${response.body()?.bookDetailRateStats}")
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(Resource.Success(data = mapper.dtoToDomain(it.book)))
+                    emit(
+                        Resource.Success(
+                            data = mapper.dtoToDomain(it.book).copy(averageRate = it.bookDetailRateStats?.averageRating, reviewCount = it.bookDetailRateStats?.reviewCount)
+                        )
+                    )
                 } ?: emit(Resource.Error("No book found"))
             } else {
                 emit(Resource.Error("Error: ${response.code()} - ${response.message()}"))
@@ -57,6 +62,7 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
+    //TODO: should be present in exam repository
     override suspend fun getAllTargetExam(): Flow<Resource<List<String>>> = flow {
         //Log.d.d("BOOK_REPO", "RESPONSE FROM API IN getAllExam: called")
         emit(Resource.Loading())
@@ -80,8 +86,8 @@ class BookRepositoryImpl @Inject constructor(
             val response = api.getAll()
 //            Log.d(TAG, "getAll: response: ${response.body()}")
             if (response.isSuccessful) {
-                response.body()?.let {it->
-                    Result.success( it.data.map { bookDto ->
+                response.body()?.let { it ->
+                    Result.success(it.data.map { bookDto ->
 //                        Log.d(TAG, "rate: : ${bookDto.reviewStats}\n\n\n")
                         mapper.dtoToDomain(
                             bookDto

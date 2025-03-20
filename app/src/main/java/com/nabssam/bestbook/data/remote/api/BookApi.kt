@@ -23,12 +23,4 @@ interface BookApi {
     @GET("api/book/admin/getbook")
     suspend fun getAll(): Response<BookListResponse>
 
-
-
-
-    @GET("/books/{id}")
-    suspend fun getById(@Path("id") id: Int): Response<Book>
-
-    @GET("api/book/admin/getbook")
-    suspend fun getBookList(): Response<BookListResponse>
 }

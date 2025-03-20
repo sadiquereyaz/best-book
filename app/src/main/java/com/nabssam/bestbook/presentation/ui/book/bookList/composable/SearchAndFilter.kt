@@ -38,7 +38,7 @@ fun SearchAndFilter(
     focusManager: FocusManager,
     showFilterSheet: (Boolean) -> Unit
 ) {
-    val filterBtnModifier = if (state.isFilterApplied) Modifier.border(3.dp, gradientBrush(), CircleShape) else Modifier
+    val filterBtnModifier = if (state.isFilterApplied) Modifier.border(TextFieldDefaults.FocusedIndicatorThickness, gradientBrush(), CircleShape) else Modifier
 
     Row(
         modifier = Modifier

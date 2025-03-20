@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.book.bookList.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -24,10 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.nabssam.bestbook.presentation.ui.components.gradientBrush
 
 @Composable
 fun EnhancedSearchBar(
@@ -40,8 +43,13 @@ fun EnhancedSearchBar(
         value = query,
         onValueChange = onQueryChange,
         modifier = modifier
-            .fillMaxWidth(),
-        placeholder = { Text(text = "Search...")},
+            .fillMaxWidth()
+            .border(
+                width = TextFieldDefaults.FocusedIndicatorThickness,
+                brush = if (query.isNotEmpty()) gradientBrush() else SolidColor(Color.Transparent),
+                shape = CircleShape
+            ),
+        placeholder = { Text(text = "Search...") },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,

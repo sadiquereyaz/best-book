@@ -33,7 +33,7 @@ import com.nabssam.bestbook.presentation.ui.components.RatingBar
 @Composable
 fun Review(
     onSeeAllReviewClick: () -> Unit,
-    reviewList: List<Review>,
+    reviewList: List<com.nabssam.bestbook.domain.model.Review>,
     modifier: Modifier
 ) {
     Column(modifier = modifier) {
@@ -59,9 +59,9 @@ fun Review(
                 fontSize = 14.sp
             )
         }
-// reviews
+        // reviews
         reviewList.forEach {review->
-            review.comment?.let {
+            review.description?.let {
                 Row(modifier = Modifier.padding(0.dp, 4.dp)) {
                     Box(
                         modifier = Modifier
@@ -69,7 +69,7 @@ fun Review(
                             .clip(shape = CircleShape)
                     ) {
                         AsyncImage(
-                            model = review.reviewDp ?: R.drawable.profile_placeholder,
+                            model = review.profilePicture ?: R.drawable.profile_placeholder,
                             contentDescription = "profile pic",
                             placeholder = painterResource(id = R.drawable.profile_placeholder),
                             modifier = Modifier
@@ -93,11 +93,11 @@ fun Review(
                                 modifier = Modifier
                                     .height(18.dp)
                                     .padding(end = 8.dp),
-                                rating = review.rating.toDouble(),
+                                rating = review.rate,
                             )
                         }
                         Text(
-                            text = review.comment,
+                            text = review.description,
                             modifier = Modifier.padding(top = 0.dp),
                             fontStyle = FontStyle.Italic
                         )
