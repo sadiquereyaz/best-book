@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.domain.usecase.exam_std
+package com.nabssam.bestbook.domain.usecase.user_detail_use_case
 
 import com.nabssam.bestbook.domain.repository.UserDataStoreRepository
 import javax.inject.Inject

@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.AllReviewScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
@@ -18,9 +19,10 @@ import com.nabssam.bestbook.presentation.ui.book.bookList.VMBookList
 import com.nabssam.bestbook.presentation.ui.cart.CartScreen
 import com.nabssam.bestbook.presentation.ui.cart.VMCart
 
-fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
+fun NavGraphBuilder.bookGraph(navController: NavHostController) {
+
     composable<Route.AllBookRoute> { backStackEntry ->
-       // val routeObj: Route.AllBook = backStackEntry.toRoute()
+        // val routeObj: Route.AllBook = backStackEntry.toRoute()
         val viewModel = hiltViewModel<VMBookList>()
         val state by viewModel.state.collectAsState()
 
@@ -33,35 +35,34 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
             onEvent = { viewModel.onEvent(it) }
         )
     }
+
     composable<Route.BookDetailRoute> { backStackEntry ->
         //val routeObj: Route.BookDetail = backStackEntry.toRoute()
-        val viewModel = hiltViewModel<ViewModelBookDetail>()
-        val state by viewModel.uiState.collectAsState()
+        val viewModel: ViewModelBookDetail = hiltViewModel()
+        val uiState by viewModel.uiState.collectAsState()
         BookDetailScreen(
             goToCart = { navController.navigate(Route.CartRoute()) },
-            state = state,
+            state = uiState,
             onEvent = { viewModel.onEvent(it) },
-            onSeeAllReviewClick = {
-                state.fetchedBook.let  {
-                    navController.navigate(
-                        Route.AllReviewRoute(
-                            title = it.name,
-                            bookId = it.id
-                        )
+            onSeeAllReviewClick = { navController.navigate(Route.AllReviewRoute()) },
+            showBooksByExam = {
+                navController.navigate(
+                    Route.AllBookRoute(
+                        targetExam = uiState.fetchedBook.exam ?: "all"
                     )
-                }
+                )
             },
-            showBooksByExam = { navController.navigate(Route.AllBookRoute(targetExam = state.fetchedBook.exam ?: "all")) },
             navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) }
             //btnType = ButtonType.EBOOK,
         )
     }
-    composable<Route.AllReviewRoute> { backStackEntry ->
-        val routeObj: Route.BookDetailRoute = backStackEntry.toRoute()
-        /*BookDetailScreen(
 
-        )*/
+    composable<Route.AllReviewRoute> {
+        // Retrieve the shared ViewModel from the previous screen (BookDetailScreen)
+//        val uiState by viewModel.uiState.collectAsState()
+//        AllReviewScreen(uiState = uiState)
     }
+
     composable<Route.CartRoute> { backStackEntry ->
         //val routeObj: Route.Cart = backStackEntry.toRoute()
         val vm = hiltViewModel<VMCart>()
@@ -76,4 +77,5 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController,) {
         )
 //        CartScreenClaude(){}
     }
+
 }

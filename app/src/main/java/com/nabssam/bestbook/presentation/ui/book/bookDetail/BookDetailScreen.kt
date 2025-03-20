@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.nabssam.bestbook.presentation.ui.components.GradientButton
@@ -36,7 +34,7 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDetailList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.RelatedBookList
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.Review
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.ReviewDetailScreen
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
@@ -181,14 +179,11 @@ fun BookDetailScreen(
                         message = state.errorMessage ?: "Error occurred while fetching reviews",
                     )
                 if (state.reviewsList.isNotEmpty())
-                    /*Review(
+                    ReviewDetailScreen(
                         reviewList = state.reviewsList,
                         onSeeAllReviewClick = onSeeAllReviewClick,
                         modifier = Modifier
-                    )*/
-                    state.reviewsList.forEach {
-                        Text(it.description ?: "comment")
-                    }
+                    )
                 else
                     Text("No review found")
             }

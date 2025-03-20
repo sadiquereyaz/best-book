@@ -1,13 +1,10 @@
 package com.nabssam.bestbook.presentation.ui.book.bookList
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
-import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
-import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

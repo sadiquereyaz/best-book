@@ -5,10 +5,8 @@ import com.nabssam.bestbook.data.mapper.bannerDtoToDomain
 import com.nabssam.bestbook.data.remote.api.HomeApiService
 import com.nabssam.bestbook.domain.model.Banner
 import com.nabssam.bestbook.domain.repository.BannerRepository
-import com.nabssam.bestbook.domain.repository.PyqRepository
-import com.nabssam.bestbook.domain.usecase.exam_std.GetCurrentClassUseCase
+import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetCurrentClassUseCase
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 private const val TAG = "BANNER_REPO_IMPL"
 

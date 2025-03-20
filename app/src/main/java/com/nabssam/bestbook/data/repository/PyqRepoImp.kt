@@ -1,12 +1,10 @@
 package com.nabssam.bestbook.data.repository
 
 import android.util.Log
-import com.nabssam.bestbook.data.mapper.bannerDtoToDomain
 import com.nabssam.bestbook.data.mapper.pyqDtoToDomain
 import com.nabssam.bestbook.data.remote.api.HomeApiService
 import com.nabssam.bestbook.domain.model.Pyq
 import com.nabssam.bestbook.domain.repository.PyqRepository
-import com.nabssam.bestbook.domain.usecase.exam_std.GetCurrentClassUseCase
 import javax.inject.Inject
 
 private const val TAG = "PYQ_REPO_IMPL"

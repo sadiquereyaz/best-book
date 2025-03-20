@@ -51,7 +51,7 @@ sealed interface Route {
     data class Contest(val id: String, val title: String = "Book Detail") : Route
 
     @Serializable
-    data class AllReviewRoute(val bookId: String, val title: String= "Review") : Route
+    data class AllReviewRoute(val title: String= "All Reviews") : Route
 
     @Serializable
     data class CartRoute(val title: String = "Your Cart") : Route
