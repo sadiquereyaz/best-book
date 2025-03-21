@@ -10,7 +10,6 @@ import com.nabssam.bestbook.data.repository.auth.AuthRepository
 import com.nabssam.bestbook.data.repository.auth.UserPreferencesTokenStorage
 import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.presentation.ui.account.auth.util.AuthSteps
-import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarDuration
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarMessage
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarType
@@ -290,10 +289,7 @@ class VMAuth @Inject constructor(
             snackbarManager.showSnackbar(
                 SnackbarMessage(
                     message = errorMessage,
-                    type = SnackbarType.ERROR,
-                    duration = SnackbarDuration.Short,
-                    actionLabel = "Dismiss",
-                    onActionPerformed = { /* No action needed */ }
+                    type = SnackbarType.ERROR
                 )
             )
         }

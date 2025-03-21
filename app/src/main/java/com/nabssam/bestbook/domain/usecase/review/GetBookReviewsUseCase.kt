@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.domain.usecase.book
+package com.nabssam.bestbook.domain.usecase.review
 
 import com.nabssam.bestbook.domain.model.Review
 import com.nabssam.bestbook.domain.repository.ReviewRepository
@@ -12,9 +12,9 @@ import javax.inject.Inject
 class GetBookReviewsUseCase @Inject constructor(
     private val repository: ReviewRepository
 ) {
-    operator fun invoke(id: String): Flow<Resource<List<Review>>> = flow {
+    operator fun invoke(id: String, isTopReview: Boolean): Flow<Resource<List<Review>>> = flow {
         emit(Resource.Loading())
-        val response = repository.getBookReviews(id)
+        val response = repository.getBookReviews(id, isTopReview)
         if (response.isSuccess) {
             emit(Resource.Success(response.getOrNull() ?: emptyList()))
         } else {

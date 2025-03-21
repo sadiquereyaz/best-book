@@ -19,6 +19,9 @@ data class StateBookDetail(
     val reviewLoading: Boolean = false,
     val reviewError: String? = null,
 
+    val rate: Int? = null,
+    val review: String = "",
+
     ) {
     val showRating: Boolean =
         fetchedBook.averageRate != null && fetchedBook.averageRate != 0.0 && fetchedBook.reviewCount != 0

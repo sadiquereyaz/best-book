@@ -6,12 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.data.remote.dto.ProductType
+import com.nabssam.bestbook.data.remote.dto.review.ReviewRequest
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
-import com.nabssam.bestbook.domain.usecase.book.GetBookReviewsUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
+import com.nabssam.bestbook.domain.usecase.review.AddReviewUseCase
+import com.nabssam.bestbook.domain.usecase.review.DeleteReviewUseCase
+import com.nabssam.bestbook.domain.usecase.review.GetBookReviewsUseCase
 import com.nabssam.bestbook.presentation.navigation.Route
+import com.nabssam.bestbook.presentation.theme.onErrorDark
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarMessage
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,10 +33,13 @@ private const val TAG = "VM_BOOK_DETAIL"
 @HiltViewModel
 class ViewModelBookDetail @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val snackbarManager: SnackbarManager,
     private val getBookByIdUC: GetBookByIdUC,
     private val addToCartUseCase: AddToCartUseCase,
     private val getBooksByExamUseCase: GetBooksByExamUC,
     private val getBookReviewsUseCase: GetBookReviewsUseCase,
+    private val addReviewUseCase: AddReviewUseCase,
+    private val deleteReviewUseCase: DeleteReviewUseCase
 ) : ViewModel() {
 
     private val id = savedStateHandle.toRoute<Route.BookDetailRoute>().id
@@ -77,9 +86,12 @@ class ViewModelBookDetail @Inject constructor(
                 }
             }
 
+            is EventBookDetail.UpdateRateReview -> updateRateReviewField(event.rate, event.review)
             is EventBookDetail.FetchReviews -> fetchReview()
-            is EventBookDetail.DeleteReview -> TODO()
-            is EventBookDetail.SubmitReview -> TODO()
+            is EventBookDetail.DeleteReview -> {
+                deleteReview(event.reviewId)
+            }
+            is EventBookDetail.SubmitReview -> submitReview()
         }
     }
 
@@ -105,7 +117,7 @@ class ViewModelBookDetail @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        // Log.d(TAG, "fetchBookDetail: ${resource.data}")
+                         Log.d(TAG, "fetchBookDetail: ${resource.data}")
                         _uiState.update {
                             it.copy(
                                 loading = false,
@@ -116,7 +128,6 @@ class ViewModelBookDetail @Inject constructor(
                     }
                 }
             }
-
         }
     }
 
@@ -151,19 +162,87 @@ class ViewModelBookDetail @Inject constructor(
         }
     }
 
+    private fun updateRateReviewField(rate: Int, review: String) {
+        _uiState.update {
+            it.copy(rate = rate, review = review)
+        }
+    }
+
     private fun fetchReview() =
-        getBookReviewsUseCase.invoke(id).onEach { resource ->
+        getBookReviewsUseCase.invoke(id, true).onEach { resource ->
             when (resource) {
-                is Resource.Error -> _uiState.update { it.copy(reviewError = it.errorMessage) }
-                is Resource.Loading -> _uiState.update { it.copy(reviewLoading = true) }
+                is Resource.Error -> {
+                    _uiState.update {
+                        it.copy(reviewError = it.errorMessage, reviewLoading = false)
+                    }
+                    showSnackbar(
+                        message = resource.message ?: "Unknown Error",
+                        action = { onEvent(EventBookDetail.FetchReviews) },
+                        label = "Retry"
+                    )
+                }
+
+                is Resource.Loading -> _uiState.update {
+                    it.copy(
+                        reviewLoading = true,
+                        reviewError = null
+                    )
+                }
+
                 is Resource.Success -> _uiState.update {
-                    Log.d(TAG, "fetchReview: ${resource.data}")
+                    //Log.d(TAG, "fetchReview: ${resource.data}")
 
                     it.copy(
                         reviewsList = resource.data ?: emptyList(),
                         reviewLoading = false,
                         reviewError = null
                     )
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    private fun submitReview() = addReviewUseCase.invoke(
+        ReviewRequest(
+            rating = _uiState.value.rate ?: 1,
+            description = _uiState.value.review,
+            username = "",
+            itemId = id,
+            itemType = "Book"
+        )
+    ).onEach { resource ->
+        when (resource) {
+            is Resource.Error -> {
+                _uiState.update { it.copy(loading = false) }
+                showSnackbar(message = resource.message ?: "Unknown Error", label = "Retry", action = {
+                    onEvent(
+                        EventBookDetail.SubmitReview
+                    )
+                })
+            }
+
+            is Resource.Loading -> _uiState.update { it.copy(loading = true) }
+            is Resource.Success -> {
+                _uiState.update { it.copy(loading = false, review = "", rate = null) }
+                showSnackbar(message = resource.data ?: "Review added successfully")
+                fetchReview()
+            }
+        }
+    }.launchIn(viewModelScope)
+
+    private fun deleteReview(reviewId: String) =
+        deleteReviewUseCase.invoke(reviewId).onEach { resource ->
+            when (resource) {
+                is Resource.Error -> {
+                    _uiState.update { it.copy(loading = false) }
+                    showSnackbar(
+                        message = resource.message ?: "Unknown Error While Deleting"
+                    )
+                }
+                is Resource.Loading -> _uiState.update { it.copy(loading = true) }
+                is Resource.Success -> {
+                    _uiState.update { it.copy(loading = false, review = "", rate = null) }
+                    showSnackbar(message = resource.data ?: "Review added successfully")
+                    fetchReview()
                 }
             }
         }.launchIn(viewModelScope)
@@ -180,4 +259,15 @@ class ViewModelBookDetail @Inject constructor(
         }
     }
 
+    private fun showSnackbar(message: String, label: String? = null, action: () -> Unit = {}) {
+        viewModelScope.launch {
+            snackbarManager.showSnackbar(
+                message = SnackbarMessage(
+                    message = message,
+                    actionLabel = label,
+                    onActionPerformed = action
+                )
+            )
+        }
+    }
 }

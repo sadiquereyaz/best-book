@@ -9,7 +9,8 @@ sealed class EventBookDetail{
     data object ButtonClick : EventBookDetail()
 //    data class BookTypeSelect(val btnState: ButtonType = ButtonType.ADD_TO_CART) : EventBookDetail()
     data class ProductTypeSelect(val type: ProductType) : EventBookDetail()
-    data class SubmitReview(val rate: Int, val review: String) : EventBookDetail()
+    data object SubmitReview : EventBookDetail()
     data class DeleteReview(val reviewId: String) : EventBookDetail()
+    data class UpdateRateReview(val rate: Int, val review: String = "") : EventBookDetail()
 }
 

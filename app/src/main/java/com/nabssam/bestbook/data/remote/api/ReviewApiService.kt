@@ -2,6 +2,7 @@ package com.nabssam.bestbook.data.remote.api
 
 import com.nabssam.bestbook.data.remote.dto.Review
 import com.nabssam.bestbook.data.remote.dto.review.BookReviewResponse
+import com.nabssam.bestbook.data.remote.dto.review.ReviewRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -16,14 +17,17 @@ interface ReviewApiService {
     @GET("api/reviews/approvedreviews/{bookId}")
     suspend fun getBookReviews(@Path("bookId") bookId: String): Response<BookReviewResponse>
 
-    @DELETE("/reviews/{reviewId}")
+    @DELETE("api/reviews/deletereviews/{reviewId}")
     suspend fun deleteReview(@Path("reviewId") reviewId: String): Response<ApiResponse<String>>
+
+
+    @POST("api/reviews/addreviews")
+    suspend fun addReview(@Body reviewRequest: ReviewRequest): Response<ApiResponse<Review>>
+
+
 
     @GET("/reviews/{bookId}")
     suspend fun getReview(@Path("bookId") bookId: String): Response<ApiResponse<ReviewSummary>>
-
-    @POST("/reviews")
-    suspend fun addReview(@Body reviewRequest: ReviewRequest): Response<ApiResponse<Review>>
 
     @GET("/reviews/approved")
     suspend fun getApprovedReviews(): Response<ApiResponse<List<Review>>>
@@ -42,14 +46,6 @@ interface ReviewApiService {
     suspend fun getPopularReviews(): Response<ApiResponse<List<Review>>>
 
 }
-
-data class ReviewRequest(
-    val username: String,
-    val description: String,
-    val rating: Int,
-    val itemType: String,
-    val itemId: String
-)
 
 data class ReviewUpdateRequest(
     val description: String?,

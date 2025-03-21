@@ -51,7 +51,7 @@ fun BBNavSuite(
     modifier: Modifier = Modifier,
     // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
     authManager: AuthManager,
-    cartItemCount: Int,
+    cartItemCount: Int?,
     snackbarManager: SnackbarManager,
     content: @Composable (PaddingValues) -> Unit,
 
@@ -82,7 +82,7 @@ fun BBNavSuite(
                 BBTopAppBar(
                     currentDestination,
                     navController,
-                    cartItemCount,
+                    cartItemCount = cartItemCount ?: 0,
                     scope,
                     drawerState
                 )

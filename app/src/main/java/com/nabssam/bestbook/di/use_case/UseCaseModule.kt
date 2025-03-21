@@ -12,9 +12,11 @@ import com.nabssam.bestbook.domain.usecase.PlaceOrderUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllBookUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
-import com.nabssam.bestbook.domain.usecase.book.GetBookReviewsUseCase
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
+import com.nabssam.bestbook.domain.usecase.review.AddReviewUseCase
+import com.nabssam.bestbook.domain.usecase.review.DeleteReviewUseCase
+import com.nabssam.bestbook.domain.usecase.review.GetBookReviewsUseCase
 import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserIdUseCase
 import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserNameUseCase
 import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserTargetsUC
@@ -96,5 +98,16 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideLocalUserIdUseCase(repository: UserDataStoreRepoImpl) = GetUserIdUseCase(repository)
+
+    @Provides
+    @Singleton
     fun provideLocalUserNameUseCase(repository: UserDataStoreRepoImpl) = GetUserNameUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteReviewUseCase(reviewRepository: ReviewRepository) = DeleteReviewUseCase(reviewRepository)
+
+    @Provides
+    @Singleton
+    fun provideAddReviewUseCase(reviewRepository: ReviewRepository) = AddReviewUseCase(reviewRepository)
 }

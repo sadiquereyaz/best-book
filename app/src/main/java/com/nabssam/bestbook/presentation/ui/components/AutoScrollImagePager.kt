@@ -44,6 +44,7 @@ fun AutoScrollingImagePager(
     height: Dp = 160.dp
 ) {
     val pageCount = imageList.size
+//    Log.d(TAG, "pageCount: $pageCount")
     val pagerState = rememberPagerState(pageCount = { pageCount })
 
     val uriHandler = LocalUriHandler.current

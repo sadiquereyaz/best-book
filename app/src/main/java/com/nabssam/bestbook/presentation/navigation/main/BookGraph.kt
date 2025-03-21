@@ -43,6 +43,7 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
         val viewModel: ViewModelBookDetail = hiltViewModel()
         val uiState by viewModel.uiState.collectAsState()
         BookDetailScreen(
+            modifier = Modifier,
             goToCart = { navController.navigate(Route.CartRoute()) },
             state = uiState,
             onEvent = { viewModel.onEvent(it) },
@@ -55,9 +56,20 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
                 )
             },
             navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) },
-            submitReview = { rate, review -> viewModel.onEvent(EventBookDetail.SubmitReview(rate, review))},
+            submitReview = {
+                viewModel.onEvent(
+                    EventBookDetail.SubmitReview
+                )
+            },
             deleteReview = { viewModel.onEvent(EventBookDetail.DeleteReview(it)) },
-            navigateToPayment = {}
+            updateRateReview = { rate, review ->
+                viewModel.onEvent(
+                    EventBookDetail.UpdateRateReview(
+                        rate = rate,
+                        review = review
+                    )
+                )
+            }
         )
     }
 
