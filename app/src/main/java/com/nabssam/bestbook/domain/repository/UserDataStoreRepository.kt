@@ -31,4 +31,5 @@ interface UserDataStoreRepository {
     suspend fun getUserTargetExams(): List<String>
     suspend fun getCurrentClass(): String?
     suspend fun getUserId(): String?
+    suspend fun getUserName(): String?
 }

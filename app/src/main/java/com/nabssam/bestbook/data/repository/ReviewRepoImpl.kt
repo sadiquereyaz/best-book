@@ -4,9 +4,10 @@ import android.util.Log
 import com.nabssam.bestbook.data.mapper.ReviewMapper
 import com.nabssam.bestbook.data.remote.api.ReviewApiService
 import com.nabssam.bestbook.data.remote.api.ReviewRequest
-import com.nabssam.bestbook.data.remote.dto.review.ReviewDto
 import com.nabssam.bestbook.domain.model.Review
 import com.nabssam.bestbook.domain.repository.ReviewRepository
+import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserNameUseCase
+import com.nabssam.bestbook.utils.setOwner
 import javax.inject.Inject
 
 private const val TAG = "REVIEW_REPO"
@@ -14,14 +15,14 @@ private const val TAG = "REVIEW_REPO"
 class ReviewRepoImpl @Inject constructor(
     private val api: ReviewApiService,
     private val mapper: ReviewMapper,
-    private val getUse
+    private val getUserNameUseCase: GetUserNameUseCase
 ) : ReviewRepository {
     override suspend fun getBookReviews(
         bookId: String,
         isTopReview: Boolean
     ): Result<List<Review>> {
         val response = api.getBookReviews(bookId)
-        Log.d(TAG, response.body().toString())
+//        Log.d(TAG, response.body().toString())
         return if (response.isSuccessful) {
             response.body()?.data?.let { reviews ->
                 if (isTopReview)
@@ -29,16 +30,11 @@ class ReviewRepoImpl @Inject constructor(
                         reviews.sortedByDescending { it.rating }.take(10)
                             .map { mapper.dtoToDomain(it) })
                 else
-                    Result.success(reviews.filter { it.userId == "" }
-                        .map { mapper.dtoToDomain(it) })
+                    getUserNameUseCase.invoke()?.let { username ->
+                        Log.d(TAG, "getBookReviews: id: $username")
+                        Result.success(reviews.map { mapper.dtoToDomain(it).setOwner(username) })
+                    } ?: Result.success(reviews.map { mapper.dtoToDomain(it) })
 
-                /*val topReviews: MutableList<ReviewDto> =
-                    reviews.sortedByDescending { it.rating }.take(10).toMutableList()
-                reviews.forEach { if (it.userId == "currentUser") topReviews.add(it) }
-
-                Result.success(
-                    topReviews.map { mapper.dtoToDomain(it) }
-                )*/
             } ?: Result.failure(Exception("Empty response"))
         } else {
             Result.failure(Exception("Error: ${response.code()} - ${response.message()}"))
@@ -53,3 +49,4 @@ class ReviewRepoImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 }
+

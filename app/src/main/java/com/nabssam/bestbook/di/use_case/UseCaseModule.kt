@@ -15,6 +15,8 @@ import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookReviewsUseCase
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
+import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserIdUseCase
+import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserNameUseCase
 import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserTargetsUC
 import dagger.Module
 import dagger.Provides
@@ -90,4 +92,9 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetAllReviewUseCase(reviewRepository: ReviewRepository) = GetBookReviewsUseCase(reviewRepository)
+
+    @Provides
+    @Singleton
+    fun provideLocalUserIdUseCase(repository: UserDataStoreRepoImpl) = GetUserIdUseCase(repository)
+    fun provideLocalUserNameUseCase(repository: UserDataStoreRepoImpl) = GetUserNameUseCase(repository)
 }

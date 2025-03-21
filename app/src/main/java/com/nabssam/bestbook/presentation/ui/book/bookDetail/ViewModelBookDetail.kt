@@ -78,6 +78,8 @@ class ViewModelBookDetail @Inject constructor(
             }
 
             is EventBookDetail.FetchReviews -> fetchReview()
+            is EventBookDetail.DeleteReview -> TODO()
+            is EventBookDetail.SubmitReview -> TODO()
         }
     }
 

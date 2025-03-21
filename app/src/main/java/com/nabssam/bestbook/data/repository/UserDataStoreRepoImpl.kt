@@ -87,6 +87,7 @@ class UserDataStoreRepoImpl @Inject constructor(
 
     override suspend fun getCurrentClass(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.CURRENT_CLASS)
     override suspend fun getUserId(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.USER_ID)
+    override suspend fun getUserName(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.USERNAME)
 
 
     /*val targetExam: Flow<String> = dataStore.data

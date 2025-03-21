@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,16 +8,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
@@ -52,7 +56,7 @@ fun NavigationDrawerContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Drawer Title",
+                "Best  Book",
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.titleLarge
             )
@@ -85,16 +89,12 @@ fun NavigationDrawerContent(
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleMedium
         )
+
         NavigationDrawerItem(
-            label = { Text("Settings") },
+            label = { Text("All Orders") },
             selected = false,
-            icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+            icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.orders), contentDescription = null, modifier = Modifier.size(24.dp)) },
             badge = { Text("20") }, // Placeholder
-            onClick = { /* Handle click */ }
-        )
-        NavigationDrawerItem(
-            label = { Text("Your Order") },
-            selected = false,
             onClick = {
                 navController.navigate(Route.AllOrderRoute())
                 scope.launch { drawerState.close() }
@@ -104,7 +104,7 @@ fun NavigationDrawerContent(
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
         Text(
-            "Section 2",
+            "Section 3",
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleMedium
         )
@@ -115,6 +115,14 @@ fun NavigationDrawerContent(
             badge = { Text("20") }, // Placeholder
             onClick = { /* Handle click */ }
         )
+
+        NavigationDrawerItem(
+            label = { Text("Support") },
+            selected = false,
+            icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.support), contentDescription = null, modifier = Modifier.size(24.dp)) },
+            onClick = { /* Handle click */ }
+        )
+
         NavigationDrawerItem(
             label = { Text("Help and feedback") },
             selected = false,

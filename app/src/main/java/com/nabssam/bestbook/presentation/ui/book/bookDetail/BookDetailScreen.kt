@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +40,7 @@ import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 import com.nabssam.bestbook.presentation.ui.components.RatingBar
+import com.nabssam.bestbook.presentation.ui.components.WriteRateReview
 import kotlinx.coroutines.launch
 
 private const val TAG = "BOOK_DETAIL_SCREEN"
@@ -52,9 +54,11 @@ fun BookDetailScreen(
     onSeeAllReviewClick: () -> Unit,
     showBooksByExam: () -> Unit,
     navigateToBookDetail: (String) -> Unit,
-    navigateToPayment: (String) -> Unit = {}
-) {
-    val lazyListState = rememberLazyListState()
+    submitReview: (Int, String) -> Unit,
+    navigateToPayment: (String) -> Unit,
+    deleteReview: (String) -> Unit,
+    ) {
+    val lazyListState = rememberLazyListState(10)
     val bookObj = state.fetchedBook
     val coroutineScope = rememberCoroutineScope()
     val reviewModifier = Modifier.height(dimensionResource(R.dimen.book_height_home))
@@ -186,6 +190,19 @@ fun BookDetailScreen(
                     )
                 else
                     Text("No review found")
+            }
+
+            //write review
+            item {
+                HorizontalDivider(
+                    modifier = Modifier
+//                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                )
+                WriteRateReview(
+                    modifier = Modifier,
+                    submitReview = submitReview,
+                )
             }
 
             // Spacer to ensure scrolling above the button

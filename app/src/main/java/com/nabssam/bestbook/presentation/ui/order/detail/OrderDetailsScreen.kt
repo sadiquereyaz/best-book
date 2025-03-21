@@ -21,14 +21,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MailOutline
-import com.nabssam.bestbook.presentation.ui.components.GradientButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -44,15 +41,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
+import com.nabssam.bestbook.presentation.ui.components.WriteRateReview
 import com.nabssam.bestbook.presentation.ui.order.detail.composable.ChatBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -215,60 +210,7 @@ fun OrderDetailsScreen(
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
                 )
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    text = "Rate this book",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    repeat(5) { it ->
-                        IconButton(onClick = { rate = it + 1 }) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(
-                                    if ((rate ?: 0) > it)
-                                        R.drawable.star_filled
-                                    else
-                                        R.drawable.star
-                                ),
-                                contentDescription = "Rating Star",
-                                modifier = Modifier.size(32.dp),
-                                tint = if (it < (rate ?: 0)
-                                ) MaterialTheme.colorScheme.primary else Color.Gray
-                            )
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                rate?.let {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        value = reviewField,
-                        onValueChange = { reviewField = it },
-                        minLines = 3,
-                        label = { Text("Write a review") }
-                    )
-
-                    GradientButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp),
-                        onClick = {},
-                        shape = RoundedCornerShape(4.dp)
-                    ) {
-                        Text(
-                            text = "Submit",
-                            modifier = Modifier.padding(horizontal = 24.dp)
-                        )
-                    }
-                }
+                WriteRateReview(modifier = Modifier)
             }
             if (showChat) {
                 ModalBottomSheet(

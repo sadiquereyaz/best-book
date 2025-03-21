@@ -8,11 +8,10 @@ class ReviewMapper {
         return Review(
             reviewId = dto._id,
             profilePicture = dto.profilePicture,
-            username = dto.username,
+            username = dto.userName ?: "",
             description = dto.description,
             date = dto.createdAt,
-            rate = dto.rating,
-            userId = dto.userId
+            rate = dto.rating
         )
     }
 }

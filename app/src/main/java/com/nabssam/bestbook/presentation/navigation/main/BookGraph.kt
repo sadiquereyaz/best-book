@@ -11,8 +11,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.nabssam.bestbook.presentation.navigation.Route
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.AllReviewScreen
+import com.nabssam.bestbook.presentation.ui.book.all_review.AllReviewScreen
+import com.nabssam.bestbook.presentation.ui.book.all_review.AllReviewViewModel
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.BookDetailScreen
+import com.nabssam.bestbook.presentation.ui.book.bookDetail.EventBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.ViewModelBookDetail
 import com.nabssam.bestbook.presentation.ui.book.bookList.BookListScreen
 import com.nabssam.bestbook.presentation.ui.book.bookList.VMBookList
@@ -37,14 +39,14 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
     }
 
     composable<Route.BookDetailRoute> { backStackEntry ->
-        //val routeObj: Route.BookDetail = backStackEntry.toRoute()
+        val routeObj: Route.BookDetailRoute = backStackEntry.toRoute()
         val viewModel: ViewModelBookDetail = hiltViewModel()
         val uiState by viewModel.uiState.collectAsState()
         BookDetailScreen(
             goToCart = { navController.navigate(Route.CartRoute()) },
             state = uiState,
             onEvent = { viewModel.onEvent(it) },
-            onSeeAllReviewClick = { navController.navigate(Route.AllReviewRoute()) },
+            onSeeAllReviewClick = { navController.navigate(Route.AllReviewRoute(bookId = routeObj.id)) },
             showBooksByExam = {
                 navController.navigate(
                     Route.AllBookRoute(
@@ -52,15 +54,17 @@ fun NavGraphBuilder.bookGraph(navController: NavHostController) {
                     )
                 )
             },
-            navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) }
-            //btnType = ButtonType.EBOOK,
+            navigateToBookDetail = { navController.navigate(Route.BookDetailRoute(id = it)) },
+            submitReview = { rate, review -> viewModel.onEvent(EventBookDetail.SubmitReview(rate, review))},
+            deleteReview = { viewModel.onEvent(EventBookDetail.DeleteReview(it)) },
+            navigateToPayment = {}
         )
     }
 
     composable<Route.AllReviewRoute> {
-        // Retrieve the shared ViewModel from the previous screen (BookDetailScreen)
-//        val uiState by viewModel.uiState.collectAsState()
-//        AllReviewScreen(uiState = uiState)
+        val viewModel: AllReviewViewModel = hiltViewModel()
+        val uiState by viewModel.uiState.collectAsState()
+        AllReviewScreen(uiState = uiState)
     }
 
     composable<Route.CartRoute> { backStackEntry ->

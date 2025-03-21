@@ -24,7 +24,7 @@ fun ReviewDetailScreen(
     modifier: Modifier
 ) {
     Column(modifier = modifier) {
-        HorizontalDivider(thickness = 2.dp)
+        HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(bottom = 8.dp, top = 16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween

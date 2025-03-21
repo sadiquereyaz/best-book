@@ -17,11 +17,9 @@ data class ReviewDto(
     val updatedAt: String,
 
     val _id: String,
-    val username: String,
-    val userId: String?,
+    val userName: String?,
     val profilePicture: String?,
     val description: String?,
     val rating: Double,
     val createdAt: String,
 )
-

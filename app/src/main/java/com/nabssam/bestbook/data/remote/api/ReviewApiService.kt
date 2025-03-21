@@ -12,19 +12,18 @@ import retrofit2.http.Path
 
 interface ReviewApiService {
 
+//    @GET("api/reviews/{bookId}")
     @GET("api/reviews/approvedreviews/{bookId}")
     suspend fun getBookReviews(@Path("bookId") bookId: String): Response<BookReviewResponse>
 
-
+    @DELETE("/reviews/{reviewId}")
+    suspend fun deleteReview(@Path("reviewId") reviewId: String): Response<ApiResponse<String>>
 
     @GET("/reviews/{bookId}")
     suspend fun getReview(@Path("bookId") bookId: String): Response<ApiResponse<ReviewSummary>>
 
     @POST("/reviews")
     suspend fun addReview(@Body reviewRequest: ReviewRequest): Response<ApiResponse<Review>>
-
-    @PATCH("/reviews/approve/{reviewId}")
-    suspend fun approveReview(@Path("reviewId") reviewId: String): Response<ApiResponse<Review>>
 
     @GET("/reviews/approved")
     suspend fun getApprovedReviews(): Response<ApiResponse<List<Review>>>
@@ -38,8 +37,6 @@ interface ReviewApiService {
     @PATCH("/reviews/{reviewId}")
     suspend fun updateReview(@Path("reviewId") reviewId: String, @Body updateData: ReviewUpdateRequest): Response<ApiResponse<Review>>
 
-    @DELETE("/reviews/{reviewId}")
-    suspend fun deleteReview(@Path("reviewId") reviewId: String): Response<ApiResponse<String>>
 
     @GET("/reviews/popular")
     suspend fun getPopularReviews(): Response<ApiResponse<List<Review>>>
