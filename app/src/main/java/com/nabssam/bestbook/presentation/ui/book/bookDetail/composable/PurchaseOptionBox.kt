@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.data.remote.dto.ProductType
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.ButtonType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,14 +37,16 @@ import kotlinx.coroutines.launch
 fun PurchaseOptionBox(
     modifier: Modifier = Modifier,
     paperbackPrice: Int,
-    paperbackDiscount: Int,
+    paperbackDiscount: Int?,
     ebookPrice: Int?,
     ebookDiscount: Int? = null,
 //    onTabSelect: (ButtonType) -> Unit ={},
     onTypeSelect: (ProductType) -> Unit,
+    productType: ProductType?,
+    originalPrice: Int,
 //    onEvent: (EventBookDetail) -> Unit
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(-1) }
+    var selectedTabIndex by remember { mutableIntStateOf(if (productType == ProductType.Book) 0 else if (productType == ProductType.ebook) 1 else -1) }
     val tooltipState = rememberTooltipState(isPersistent = true)
     val scope = rememberCoroutineScope()
 
@@ -55,14 +56,15 @@ fun PurchaseOptionBox(
             .padding(horizontal = 8.dp)
     ) {
         // MRP Text
-        Text(
-            modifier = Modifier.padding(vertical = 8.dp),
-            text = "MRP ₹${paperbackPrice}",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                textDecoration = TextDecoration.LineThrough,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+        if (originalPrice > paperbackPrice)
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = "MRP ₹${originalPrice}",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    textDecoration = TextDecoration.LineThrough,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
             )
-        )
 
         // Custom Tab Row
         Row(

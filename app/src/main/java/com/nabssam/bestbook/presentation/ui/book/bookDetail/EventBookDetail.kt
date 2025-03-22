@@ -12,5 +12,6 @@ sealed class EventBookDetail{
     data object SubmitReview : EventBookDetail()
     data class DeleteReview(val reviewId: String) : EventBookDetail()
     data class UpdateRateReview(val rate: Int, val review: String = "") : EventBookDetail()
+    data class UpdateButtonState(val buttonType: ButtonType) : EventBookDetail()
 }
 

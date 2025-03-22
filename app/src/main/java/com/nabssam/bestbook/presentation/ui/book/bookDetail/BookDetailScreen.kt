@@ -1,7 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.book.bookDetail
 
 import PurchaseOptionBox
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +20,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +39,6 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDescription
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.BookDetailList
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.RelatedBookList
-import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.ReviewDetailScreen
 import com.nabssam.bestbook.presentation.ui.book.bookDetail.composable.ReviewList
 import com.nabssam.bestbook.presentation.ui.components.AutoScrollingImagePager
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -60,10 +62,14 @@ fun BookDetailScreen(
     deleteReview: (String) -> Unit,
     updateRateReview: (Int, String) -> Unit
 ) {
-    val lazyListState = rememberLazyListState(10)
+    val lazyListState = rememberLazyListState()
     val bookObj = state.fetchedBook
     val coroutineScope = rememberCoroutineScope()
     val reviewModifier = Modifier.height(dimensionResource(R.dimen.book_height_home))
+    val isBtnEnable by remember { mutableStateOf(state.productType != null) }
+    LaunchedEffect(state.productType) {
+
+    }
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -144,10 +150,10 @@ fun BookDetailScreen(
                         paperbackDiscount = bookObj.hardCopyDis,
                         ebookPrice = bookObj.ebookPrice,
                         ebookDiscount = bookObj.ebookDis,
-                        /*onTabSelect = { btnState ->
-                            onEvent(EventBookDetail.BookTypeSelect(btnState))
-                        },*/
+                        productType = state.productType,
+                        originalPrice = state.fetchedBook.price,
                         onTypeSelect = { productType ->
+                            onEvent(EventBookDetail.UpdateButtonState(ButtonType.ADD_TO_CART))
                             onEvent(EventBookDetail.ProductTypeSelect(productType))
                         },
                     )

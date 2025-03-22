@@ -8,12 +8,15 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +41,14 @@ fun SearchAndFilter(
     focusManager: FocusManager,
     showFilterSheet: (Boolean) -> Unit
 ) {
-    val filterBtnModifier = if (state.isFilterApplied) Modifier.border(TextFieldDefaults.FocusedIndicatorThickness, gradientBrush(), CircleShape) else Modifier
+    val filterBtnModifier = if (state.isFilterApplied) Modifier.border(
+        TextFieldDefaults.FocusedIndicatorThickness,
+        gradientBrush(),
+        CircleShape
+    ) else Modifier.border(
+        TextFieldDefaults.FocusedIndicatorThickness,
+        TextFieldDefaults.colors().unfocusedIndicatorColor.copy(alpha = 0.2f),
+        CircleShape)
 
     Row(
         modifier = Modifier
@@ -56,19 +66,22 @@ fun SearchAndFilter(
         )
 
         // Filter button
-        IconButton(
+        Box(
             modifier = filterBtnModifier
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceContainer)
-                .size(TextFieldDefaults.MinHeight),
-            onClick = {
-                focusManager.clearFocus()
-                showFilterSheet(true)
-            }
+                //.background(MaterialTheme.colorScheme.surfaceContainer)
+//                .size(TextFieldDefaults.MinHeight)
+                .clickable {
+                    focusManager.clearFocus()
+                    showFilterSheet(true)
+                },
+            contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.sort_icon),
-                contentDescription = "Filter books"
+                modifier = Modifier.background(TextFieldDefaults.colors().unfocusedContainerColor.copy(alpha = 0.2f)).padding(8.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.filter),
+                contentDescription = "Filter books",
+                tint = TextFieldDefaults.colors().unfocusedTrailingIconColor
             )
         }
     }

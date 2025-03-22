@@ -78,21 +78,25 @@ class ViewModelBookDetail @Inject constructor(
             is EventBookDetail.ButtonClick -> {
                 when (uiState.value.buttonState) {
                     ButtonType.ADD_TO_CART -> {
-                        _uiState.update { it.copy(buttonState = ButtonType.GO_TO_CART) }
+                        updateBtnType(ButtonType.GO_TO_CART)
                         addToCart()
                     }
 //                    ButtonType.GO_TO_CART -> TODO()
                     else -> {}
                 }
             }
-
             is EventBookDetail.UpdateRateReview -> updateRateReviewField(event.rate, event.review)
             is EventBookDetail.FetchReviews -> fetchReview()
             is EventBookDetail.DeleteReview -> {
                 deleteReview(event.reviewId)
             }
             is EventBookDetail.SubmitReview -> submitReview()
+            is EventBookDetail.UpdateButtonState -> updateBtnType(event.buttonType)
         }
+    }
+
+    private fun updateBtnType(btnType: ButtonType) {
+        _uiState.update { it.copy(buttonState = btnType) }
     }
 
     private fun fetchBookDetail() {

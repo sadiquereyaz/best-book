@@ -9,9 +9,11 @@ data class StateBookDetail(
     var loading: Boolean = true,
     var errorMessage: String? = null,
     var fetchedBook: Book = Book(),
+
     val isListFetching: Boolean = true,
     val fetchedList: List<Book> = emptyList(),
     val listError: String? = null,
+
     val buttonState: ButtonType = ButtonType.ADD_TO_CART,
     val productType: ProductType? = null,
 
@@ -23,8 +25,8 @@ data class StateBookDetail(
     val review: String = "",
 
     ) {
-    val showRating: Boolean =
-        fetchedBook.averageRate != null && fetchedBook.averageRate != 0.0 && fetchedBook.reviewCount != 0
+        val showRating: Boolean =
+            fetchedBook.averageRate != null && fetchedBook.averageRate != 0.0 && fetchedBook.reviewCount != 0
 }
 
 enum class ButtonType(val btnText: String, val iconId: Int) {

@@ -21,9 +21,9 @@ import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-        Route.Home  //TODO
+//        Route.Home  //TODO
 //        Route.BookDetailRoute(title = "Book Detail", id = "67973589928e04083d0c8825")   // book name: metamorphism
-//            Route.AllBookRoute(targetExam = "JEE")
+            Route.AllBookRoute(targetExam = "JEE")
 //        Route.Ebook
 //        Route.OrderGraph
 //        Route.QuizGraph
