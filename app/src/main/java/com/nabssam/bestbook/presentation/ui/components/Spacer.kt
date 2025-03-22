@@ -23,5 +23,7 @@ fun VerticalSpacer(
     height: Int,
     modifier: Modifier = Modifier,
 ) {
-    Spacer(modifier = modifier.fillMaxWidth().height(height = height.dp))
+    Spacer(modifier = modifier
+        .fillMaxWidth()
+        .height(height = height.dp))
 }

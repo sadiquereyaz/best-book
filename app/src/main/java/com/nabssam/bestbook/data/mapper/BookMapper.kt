@@ -1,14 +1,15 @@
 package com.nabssam.bestbook.data.mapper
 
-import android.util.Log
 import com.nabssam.bestbook.data.remote.dto.BookDto
 import com.nabssam.bestbook.domain.model.Book
 import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
+import com.nabssam.bestbook.utils.parseDateFromIso
 
-class BookMapper (
+
+class BookMapper(
     private val pdfDownloadStatusHelper: PDFDownloadStatusHelper
-){
+) {
     fun dtoToDomain(dto: BookDto): Book {
 //        Log.d("DTO_TO_DOMAIN", dto.toString())
         return Book(
@@ -16,20 +17,20 @@ class BookMapper (
             name = dto.name,
             price = dto.price ?: 0,
             description = dto.description,
-            imageUrls = dto.images,
+            imageUrls = dto.images ?: emptyList(),
             exam = dto.targetExam,
             coverUrl = dto.coverImage,
-//            author = dto.author,
+            author = dto.author,
             hardCopyDis = dto.hardcopyDiscount ?: 0,
             publisher = dto.publisher,
-            //rate = dto.rating,
-            averageRate = dto.reviewStats?.averageRating ?: 0.0,
+            reviewCount = dto.bookListReviewStats?.reviewCount,
+            averageRate = dto.bookListReviewStats?.averageRating ?: 3.1,
             stock = dto.stock ?: 0,
-            //isbn = dto.isbn,
-            //language = dto.language,
-            // publishDate = dto.publicationDate,
+            isbn = dto.isbn,
+            language = dto.language,
+            publishDate = dto.publicationDate?.parseDateFromIso(),
             ebookDis = dto.ebookDiscount,
-            //noOfPages = dto.pages,
+            noOfPages = dto.pages,
             ebookUrl = dto.eBook
         )
     }

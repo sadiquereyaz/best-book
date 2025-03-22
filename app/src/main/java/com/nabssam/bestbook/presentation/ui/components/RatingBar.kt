@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import com.nabssam.bestbook.R
 import kotlin.math.ceil
@@ -20,7 +21,7 @@ fun RatingBar(
     modifier: Modifier = Modifier,
     rating: Double,
     totalStars: Int = 5,
-    starsColor: Color = Color(0.0f, 0.808f, 0.0f, 1.0f),
+    starsColor: Color = colorResource(R.color.star_yellow),
     count: Int? = null,
 ) {
     val filledStars = floor(rating).toInt()

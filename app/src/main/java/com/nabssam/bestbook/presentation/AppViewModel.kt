@@ -25,7 +25,7 @@ class AppViewModel @Inject constructor(
         emit(cartDao.getTotalCartCount())
     }*/
 
-    val getCartItemCount: StateFlow<Int> = cartDao.getTotalCartCount()
+    val getCartItemCount: StateFlow<Int?> = cartDao.getTotalCartCount()
         .stateIn(viewModelScope, SharingStarted.Lazily, 0)
 
     // Observing cart count as StateFlow

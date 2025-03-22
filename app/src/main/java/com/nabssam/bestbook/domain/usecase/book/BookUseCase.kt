@@ -9,12 +9,6 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
-class GetBookByIdUC @Inject constructor(
-    private val repository: BookRepository
-) {
-    suspend operator fun invoke(productId: String): Flow<Resource<Book>> = repository.getBookById(productId)
-}
-
 class GetAllTargetUC @Inject constructor(
     private val repository: BookRepository
 ) {

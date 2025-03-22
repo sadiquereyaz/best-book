@@ -1,8 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBarDefaults
@@ -11,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -21,16 +25,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.navigation.TopLevelDestination.Companion.isTopLevel
 import com.nabssam.bestbook.presentation.ui.snackbar.KeyboardAwareSnackbarHost
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarObserver
+
 private const val TAG = "BB_NAV_SUITE"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BBNavSuite(
@@ -38,7 +51,7 @@ fun BBNavSuite(
     modifier: Modifier = Modifier,
     // networkConnectivityObserver: NetworkConnectivityObserver = hiltViewModel(),
     authManager: AuthManager,
-    cartItemCount: Int,
+    cartItemCount: Int?,
     snackbarManager: SnackbarManager,
     content: @Composable (PaddingValues) -> Unit,
 
@@ -69,7 +82,7 @@ fun BBNavSuite(
                 BBTopAppBar(
                     currentDestination,
                     navController,
-                    cartItemCount,
+                    cartItemCount = cartItemCount ?: 0,
                     scope,
                     drawerState
                 )
@@ -79,14 +92,20 @@ fun BBNavSuite(
                     BottomNavigationMenu(navController = navController)
             },
             floatingActionButton = {
-                /* if (currentDestination?.hasRoute(Route.Home::class) == true)
-                     FloatingActionButton(
-                         onClick = { navController.navigate(Route.CartRoute()) },
-                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                     ) {
-                         Icon(Icons.Filled.ShoppingCart, "shopping")
-                     }*/
+                if (currentDestination?.hasRoute(Route.Home::class) == true)
+                    FloatingActionButton(
+                        onClick = { navController.navigate(Route.AllBookRoute()) },
+                        containerColor = colorResource(
+                            R.color.brand_color
+                        )
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.store),
+                            contentDescription = "",
+                            modifier = Modifier.size(32.dp),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
             },
             snackbarHost = {
                 //SnackbarHost(hostState = snackbarHostState)

@@ -21,11 +21,8 @@ fun SnackbarObserver(
                 val result = snackbarHostState.showSnackbar(
                     message = message.message,
                     actionLabel = message.actionLabel,
-                    duration = when (message.duration) {
-                        SnackbarDuration.Short -> androidx.compose.material3.SnackbarDuration.Short
-                        SnackbarDuration.Long -> androidx.compose.material3.SnackbarDuration.Long
-                    }
-//                    duration = SnackbarDuration.Short
+                    withDismissAction = true,
+//                    duration = message.duration
                 )
 
                 if (result == SnackbarResult.ActionPerformed) {

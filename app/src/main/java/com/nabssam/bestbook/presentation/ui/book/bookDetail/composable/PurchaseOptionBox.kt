@@ -37,14 +37,16 @@ import kotlinx.coroutines.launch
 fun PurchaseOptionBox(
     modifier: Modifier = Modifier,
     paperbackPrice: Int,
-    paperbackDiscount: Int,
+    paperbackDiscount: Int?,
     ebookPrice: Int?,
     ebookDiscount: Int? = null,
 //    onTabSelect: (ButtonType) -> Unit ={},
     onTypeSelect: (ProductType) -> Unit,
+    productType: ProductType?,
+    originalPrice: Int,
 //    onEvent: (EventBookDetail) -> Unit
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(if (productType == ProductType.Book) 0 else if (productType == ProductType.ebook) 1 else -1) }
     val tooltipState = rememberTooltipState(isPersistent = true)
     val scope = rememberCoroutineScope()
 
@@ -54,14 +56,15 @@ fun PurchaseOptionBox(
             .padding(horizontal = 8.dp)
     ) {
         // MRP Text
-        Text(
-            modifier = Modifier.padding(vertical = 8.dp),
-            text = "MRP ₹${paperbackPrice}",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                textDecoration = TextDecoration.LineThrough,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+        if (originalPrice > paperbackPrice)
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = "MRP ₹${originalPrice}",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    textDecoration = TextDecoration.LineThrough,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
             )
-        )
 
         // Custom Tab Row
         Row(
@@ -71,20 +74,21 @@ fun PurchaseOptionBox(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Paperback Tab
-            Box(modifier = Modifier.weight(1f)) {
-                CustomPurchaseTab(
-                    title = "Paperback",
-                    discount = paperbackDiscount,
-                    price = paperbackPrice,
-                    isSelected = selectedTabIndex == 0,
-                    onClick = {
-                        selectedTabIndex = 0
+            if (paperbackDiscount != null && paperbackDiscount > 0)
+                Box(modifier = Modifier.weight(1f)) {
+                    CustomPurchaseTab(
+                        title = "Paperback",
+                        discount = paperbackDiscount,
+                        price = paperbackPrice,
+                        isSelected = selectedTabIndex == 0,
+                        onClick = {
+                            selectedTabIndex = 0
 //                        onTabSelect(ButtonType.ADD_TO_CART)
-                        onTypeSelect(ProductType.Book)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                            onTypeSelect(ProductType.Book)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
             // Ebook/Quiz Tab
             ebookDiscount?.let {
@@ -92,7 +96,7 @@ fun PurchaseOptionBox(
                     TooltipBox(
                         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                         tooltip = {
-                            PlainTooltip{
+                            PlainTooltip {
                                 Column(
                                     modifier = Modifier.padding(16.dp),
                                     verticalArrangement = Arrangement.spacedBy(8.dp)

@@ -1,6 +1,7 @@
 package com.nabssam.bestbook.domain.model
 
 import com.nabssam.bestbook.data.remote.dto.Rate
+import com.nabssam.bestbook.data.remote.dto.ReviewStats
 import com.nabssam.bestbook.utils.percentOf
 
 data class Book(
@@ -14,11 +15,12 @@ data class Book(
     val price: Int = 0,
     val hardCopyDis: Int = 0,
     val ebookDis: Int? = null,
-    val imageUrls: List<String>? = null,
+    val imageUrls: List<String> = emptyList(),
     val coverUrl: String? = null,
     val noOfPages: Int?=null,
-//    val rate: Rate? = null,
+    //val rate: ReviewStats? = null,
     val averageRate: Double? = null,
+    val reviewCount: Int? = null,
     val description: String? = null,
     val exam: String? = null,
     val stock: Int = 0,
@@ -27,3 +29,4 @@ data class Book(
     val ebookPrice: Int? = ebookDis?.let { price.minus(it.percentOf(price)) }
     val hardcopyPrice: Int = price.minus(hardCopyDis.percentOf(price))
 }
+

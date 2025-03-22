@@ -4,6 +4,7 @@ import com.nabssam.bestbook.data.mapper.AddressMapper
 import com.nabssam.bestbook.data.mapper.BookMapper
 import com.nabssam.bestbook.data.mapper.CartMapper
 import com.nabssam.bestbook.data.mapper.ExamMapper
+import com.nabssam.bestbook.data.mapper.ReviewMapper
 import com.nabssam.bestbook.data.mapper.UserMapper
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import dagger.Module
@@ -29,19 +30,28 @@ object MapperModule {
     fun provideExamMapper(): ExamMapper {
         return ExamMapper()
     }
+
     @Provides
     @Singleton
     fun provideUserMapper(): UserMapper {
         return UserMapper()
     }
+
     @Provides
     @Singleton
     fun provideCartMapper(): CartMapper {
         return CartMapper()
     }
+
     @Provides
     @Singleton
     fun provideAddressMapper(): AddressMapper {
         return AddressMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewMapper(): ReviewMapper {
+        return ReviewMapper()
     }
 }

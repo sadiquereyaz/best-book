@@ -21,10 +21,10 @@ import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
 fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
     navigation<Route.MainGraph>(
         startDestination =
-        Route.Home  //TODO
-//            Route.AllBookRoute(targetExam = "JEE")
+//        Route.Home  //TODO
+//        Route.BookDetailRoute(title = "Book Detail", id = "67973589928e04083d0c8825")   // book name: metamorphism
+            Route.AllBookRoute(targetExam = "JEE")
 //        Route.Ebook
-//        Route.BookDetailRoute(title = "Book Detail", id = "book1")
 //        Route.OrderGraph
 //        Route.QuizGraph
 //    Route.CartRoute()
@@ -68,7 +68,7 @@ fun NavGraphBuilder.mainAppGraph(navController: NavHostController) {
                  PdfViewerScreenFromUrlDirect()
              }
          }*/
-        composable<Route.SubscribedQuiz> {
+        composable<Route.Notification> {
             SubscribedQuizScreen()
         }
         settingsGraph(navController)

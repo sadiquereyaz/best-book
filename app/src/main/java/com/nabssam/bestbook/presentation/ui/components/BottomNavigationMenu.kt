@@ -1,6 +1,8 @@
 package com.nabssam.bestbook.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -13,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,12 +43,15 @@ fun BottomNavigationMenu(
             val isSelected = topLevelRoute == topLevelDestination
             NavigationBarItem(
                 icon = {
+                    val iconId: Int = if (isSelected)
+                        topLevelRoute.selectedIcon else topLevelRoute.unSelectedIcon
                     Icon(
-                        if (isSelected)
-                            topLevelRoute.selectedIcon else topLevelRoute.unSelectedIcon,
-                        contentDescription = topLevelRoute.label
+                        ImageVector.vectorResource(iconId),
+                        contentDescription = topLevelRoute.label,
+                        modifier = Modifier.size(24.dp),
                     )
                 },
+                alwaysShowLabel = false,
                 label = {
                     Text(topLevelRoute.label)
                 },

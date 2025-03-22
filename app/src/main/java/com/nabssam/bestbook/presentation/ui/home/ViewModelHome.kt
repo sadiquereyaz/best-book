@@ -1,13 +1,11 @@
 package com.nabssam.bestbook.presentation.ui.home
 
-import android.util.Log
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.usecase.GetAllBannerUseCase
 import com.nabssam.bestbook.domain.usecase.GetPyqUseCase
 import com.nabssam.bestbook.domain.usecase.book.GetBooksByExamUC
-import com.nabssam.bestbook.domain.usecase.exam_std.GetUserTargetsUC
+import com.nabssam.bestbook.domain.usecase.user_detail_use_case.GetUserTargetsUC
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,7 +96,7 @@ class ViewModelHome @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        d(TAG, "${resource.data}")
+                        //d(TAG, "${resource.data}")
                         _state.update {
                             it.copy(
                                 fetchedPyq = resource.data ?: emptyList(),

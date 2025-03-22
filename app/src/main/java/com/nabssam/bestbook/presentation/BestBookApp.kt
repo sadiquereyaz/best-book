@@ -33,7 +33,7 @@ fun BestBookApp(
     snackbarManager: SnackbarManager,
 ) {
     val isSignedIn: Boolean by appViewModel.authState.collectAsState()
-    val cartItemCount: Int by appViewModel.getCartItemCount.collectAsState()
+    val cartItemCount: Int? by appViewModel.getCartItemCount.collectAsState()
     //val systemUiController = rememberSystemUiController()
     //val useDarkIcons = /*!isSystemInDarkTheme()*/ true
     val navigationBarColor = MaterialTheme.colorScheme.surfaceContainer // Or any color you want

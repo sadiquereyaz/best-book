@@ -1,18 +1,10 @@
 package com.nabssam.bestbook.presentation.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.nabssam.bestbook.R
 import kotlinx.serialization.Serializable
 
 sealed interface Route {
@@ -37,7 +29,7 @@ sealed interface Route {
     data object Home : Route
 
     @Serializable
-    data object SubscribedQuiz : Route
+    data object Notification : Route
 
     @Serializable
     data object Ebook : Route
@@ -51,7 +43,7 @@ sealed interface Route {
     data class MCQRoute(val title: String = "Question") : Route
 
     @Serializable
-    data class AllBookRoute(val title: String = "Book Store", val targetExam: String) : Route
+    data class AllBookRoute(val title: String = "Book Store", val targetExam: String? = null) : Route
 
     @Serializable
     data class BookDetailRoute(val id: String, val title: String = "Book Detail") : Route
@@ -59,7 +51,7 @@ sealed interface Route {
     data class Contest(val id: String, val title: String = "Book Detail") : Route
 
     @Serializable
-    data class AllReviewRoute(val bookId: String, val title: String= "Review") : Route
+    data class AllReviewRoute(val title: String= "All Reviews",  val bookId: String) : Route
 
     @Serializable
     data class CartRoute(val title: String = "Your Cart") : Route
@@ -86,31 +78,31 @@ sealed interface Route {
 enum class TopLevelDestination(
     val label: String,
     val route: Route,
-    val selectedIcon: ImageVector,
-    val unSelectedIcon: ImageVector
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unSelectedIcon: Int
 ) {
 
     HOME(
-        selectedIcon = Icons.Filled.Home,
-        unSelectedIcon = Icons.Outlined.Home,
+        selectedIcon = R.drawable.home_filled,
+        unSelectedIcon =R.drawable.home_outlined,
         label = "Home",
         route = Route.Home
     ),
     EBOOK(
-        selectedIcon = Icons.Filled.Edit,
-        unSelectedIcon = Icons.Outlined.Edit,
+        selectedIcon = R.drawable.ebook_filled,
+        unSelectedIcon =R.drawable.ebook_oulined,
         label = "E-book",
         route = Route.Ebook
     ),
-    QUIZ(
-        selectedIcon = Icons.Filled.DateRange,
-        unSelectedIcon = Icons.Outlined.DateRange,
-        label = "Quiz",
-        route = Route.SubscribedQuiz
+    NOTIFICATION(
+        selectedIcon = R.drawable.notification_filled,
+        unSelectedIcon =R.drawable.notificaiton_outlined,
+        label = "Notification",
+        route = Route.Notification
     ),
     PROFILE(
-        selectedIcon = Icons.Filled.Person,
-        unSelectedIcon = Icons.Outlined.Person,
+        selectedIcon = R.drawable.profile_f,
+        unSelectedIcon =R.drawable.profile_o,
         label = "Profile",
         route = Route.Profile
     ),

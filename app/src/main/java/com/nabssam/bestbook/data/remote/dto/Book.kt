@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class BookResponse(
     val book: BookDto,
     val message: String,
-    val success: Boolean
+    val success: Boolean,
+    @SerializedName("reviewStats")  val bookDetailRateStats: ReviewStats? = null
 )
 
 data class PurchasedEbookResponse(
@@ -21,7 +22,7 @@ data class BookListResponse(
 )
 
 data class BookDto(
-    @SerializedName("ISBN") val isbn: String= "111-222-222-444",
+    @SerializedName("ISBN") val isbn: String= "",
     val __v: Int,
     val _id: String,
     val author: String? = null,
@@ -38,8 +39,8 @@ data class BookDto(
     val price: Int? = null,
     val publicationDate: String? = null,
     val publisher: String? = null,
-    val reviewStats: ReviewStats? = null,
-    val rating: Int? = null,
+    @SerializedName("reviewStats") val bookListReviewStats: ReviewStats? = null,
+//    val rating: Int? = null,
     val reviews: List<Any>? = null,
 //    val rate: Rate? = null,
     val stock: Int? = null,
