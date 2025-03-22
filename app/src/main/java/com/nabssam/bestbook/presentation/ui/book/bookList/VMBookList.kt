@@ -160,7 +160,7 @@ class VMBookList @Inject constructor(
     private fun applyFilters() {
         viewModelScope.launch {
             _state.update { currentState ->
-                val query = currentState.searchQuery
+                val query = currentState.searchQuery.trim()
                 val filteredBooks = currentState.fetchedBooks.filter { book ->
                     val matchesSearch =
                         query.isEmpty() ||

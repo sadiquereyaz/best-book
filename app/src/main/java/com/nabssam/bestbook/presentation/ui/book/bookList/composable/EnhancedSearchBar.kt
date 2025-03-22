@@ -75,9 +75,9 @@ fun EnhancedSearchBar(
             .onFocusChanged { isFocused = it.isFocused }
             .fillMaxWidth()
             .clip(shape = CircleShape)
-            .background(TextFieldDefaults.colors().unfocusedContainerColor.copy(alpha = 0.2f))
+            .background(TextFieldDefaults.colors().unfocusedContainerColor.copy(alpha = 0.1f))
             .border(
-                width = TextFieldDefaults.FocusedIndicatorThickness,
+                width = 1.dp,
                 brush = if (isFocused || query.isNotEmpty()) gradientBrush() else SolidColor(
                     TextFieldDefaults.colors().unfocusedIndicatorColor.copy(alpha = 0.2f)
                 ),

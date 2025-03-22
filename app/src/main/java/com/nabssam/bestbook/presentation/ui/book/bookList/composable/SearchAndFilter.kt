@@ -42,13 +42,14 @@ fun SearchAndFilter(
     showFilterSheet: (Boolean) -> Unit
 ) {
     val filterBtnModifier = if (state.isFilterApplied) Modifier.border(
-        TextFieldDefaults.FocusedIndicatorThickness,
+        width = 1.dp,
         gradientBrush(),
         CircleShape
     ) else Modifier.border(
-        TextFieldDefaults.FocusedIndicatorThickness,
+        width = 1.dp,
         TextFieldDefaults.colors().unfocusedIndicatorColor.copy(alpha = 0.2f),
-        CircleShape)
+        CircleShape
+    )
 
     Row(
         modifier = Modifier
@@ -78,7 +79,9 @@ fun SearchAndFilter(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                modifier = Modifier.background(TextFieldDefaults.colors().unfocusedContainerColor.copy(alpha = 0.2f)).padding(8.dp),
+                modifier = Modifier
+                    .background(TextFieldDefaults.colors().unfocusedContainerColor.copy(alpha = 0.1f))
+                    .padding(8.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.filter),
                 contentDescription = "Filter books",
                 tint = TextFieldDefaults.colors().unfocusedTrailingIconColor
