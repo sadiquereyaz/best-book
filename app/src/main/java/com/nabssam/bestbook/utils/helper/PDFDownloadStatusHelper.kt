@@ -3,6 +3,7 @@ package com.nabssam.bestbook.utils.helper
 import android.content.Context
 import android.content.SharedPreferences
 import java.io.File
+import androidx.core.content.edit
 
 class PDFDownloadStatusHelper(private val context: Context) {
     private val sharedPreferences: SharedPreferences =
@@ -10,10 +11,10 @@ class PDFDownloadStatusHelper(private val context: Context) {
 
     // Save the download status and file path of a PDF
     fun setDownloadStatus(pdfName: String, filePath: String) {
-        sharedPreferences.edit()
-            .putBoolean(pdfName, true)
-            .putString("${pdfName}_path", filePath)
-            .apply()
+        sharedPreferences.edit {
+            putBoolean(pdfName, true)
+                .putString("${pdfName}_path", filePath)
+        }
     }
 
     // Get the file path of a downloaded PDF
@@ -42,6 +43,6 @@ class PDFDownloadStatusHelper(private val context: Context) {
 
     // Clear all statuses
     private fun clearAllStatuses() {
-        sharedPreferences.edit().clear().apply()
+        sharedPreferences.edit { clear() }
     }
 }
