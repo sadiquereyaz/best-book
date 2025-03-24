@@ -88,6 +88,9 @@ class UserDataStoreRepoImpl @Inject constructor(
     override suspend fun getCurrentClass(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.CURRENT_CLASS)
     override suspend fun getUserId(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.USER_ID)
     override suspend fun getUserName(): String? = dataStore.data.firstOrNull()?.get(PreferencesKeys.USERNAME)
+    override suspend fun getDelhiveryApiKey(): String? {
+        return "de115c9aed782d7dabf8f7c0b45a87c992537dbc"
+    }
 
 
     /*val targetExam: Flow<String> = dataStore.data

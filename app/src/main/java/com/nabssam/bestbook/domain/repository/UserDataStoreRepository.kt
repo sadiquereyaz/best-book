@@ -32,4 +32,5 @@ interface UserDataStoreRepository {
     suspend fun getCurrentClass(): String?
     suspend fun getUserId(): String?
     suspend fun getUserName(): String?
+    suspend fun getDelhiveryApiKey(): String?
 }

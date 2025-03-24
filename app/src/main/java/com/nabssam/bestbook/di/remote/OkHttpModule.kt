@@ -1,10 +1,12 @@
 package com.nabssam.bestbook.di.remote
 
 import com.nabssam.bestbook.data.remote.client.AuthenticatedOkHttpClient
+import com.nabssam.bestbook.data.remote.client.DelhiveryOkHttpClient
 import com.nabssam.bestbook.data.remote.interceptors.MockInterceptor
 import com.nabssam.bestbook.data.repository.auth.AuthManager
 import com.nabssam.bestbook.data.repository.auth.TokenStorage
 import com.nabssam.bestbook.di.Auth
+import com.nabssam.bestbook.di.Delhivery
 import com.nabssam.bestbook.di.Mock
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
@@ -43,6 +45,15 @@ object OkHttpModule {
         authManager: AuthManager
     ): OkHttpClient {
         return AuthenticatedOkHttpClient(tokenStorage, authManager).create()
+    }
+
+    @Provides
+    @Singleton
+    @Delhivery
+    fun provideDelhiveryOkHttpClient(
+        tokenStorage: TokenStorage
+    ): OkHttpClient {
+        return DelhiveryOkHttpClient(tokenStorage).create()
     }
 
 

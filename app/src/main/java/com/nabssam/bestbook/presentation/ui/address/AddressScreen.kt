@@ -1,5 +1,6 @@
 package com.nabssam.bestbook.presentation.ui.address
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +33,7 @@ import com.nabssam.bestbook.presentation.ui.address.components.AddressRadio
 import com.nabssam.bestbook.presentation.ui.address.components.FormScreen
 import com.nabssam.bestbook.presentation.ui.components.ErrorView
 import com.nabssam.bestbook.presentation.ui.components.VerticalSpacer
-
+private const val TAG = "ADDRESS_SCREEN"
 @Composable
 fun AddressScreen(
     modifier: Modifier = Modifier,
@@ -56,7 +57,7 @@ fun AddressScreen(
             )
 
             is UiStateAddress.Success -> {
-                var fieldVisible by rememberSaveable { mutableStateOf(false) }
+                var fieldVisible by rememberSaveable { mutableStateOf(true) }
                 Column(
                     modifier = modifier
                         .fillMaxSize()
@@ -69,7 +70,8 @@ fun AddressScreen(
                         onClick = {
                             fieldVisible = !fieldVisible
                             onEvent(EventAddressScreen.ToggleAddressFields(fieldVisible))
-                        }) {
+                        }
+                    ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -127,6 +129,10 @@ fun AddressScreen(
                                     },
                                     onSubmit = {
                                         onEvent(EventAddressScreen.SubmitForm)
+                                    },
+                                    checkDeliverable = {
+                                        Log.d(TAG, "AddressScreen: $it")
+                                        onEvent(EventAddressScreen.Deliverable(pincode = it))
                                     }
                                 )
                             }

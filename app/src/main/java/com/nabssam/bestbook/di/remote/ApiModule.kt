@@ -4,12 +4,14 @@ import com.nabssam.bestbook.data.remote.api.AddressApiService
 import com.nabssam.bestbook.data.remote.api.AuthApiService
 import com.nabssam.bestbook.data.remote.api.BookApi
 import com.nabssam.bestbook.data.remote.api.CartApiService
+import com.nabssam.bestbook.data.remote.api.DelhiveryApiService
 import com.nabssam.bestbook.data.remote.api.ExamApi
 import com.nabssam.bestbook.data.remote.api.HomeApiService
 import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.data.remote.api.PinApiService
 import com.nabssam.bestbook.data.remote.api.ReviewApiService
 import com.nabssam.bestbook.di.Auth
+import com.nabssam.bestbook.di.Delhivery
 import com.nabssam.bestbook.di.Pin
 import com.nabssam.bestbook.di.UnAuth
 import dagger.Module
@@ -72,4 +74,8 @@ object ApiModule {
     fun provideBannerApiService(@UnAuth retrofit: Retrofit): HomeApiService {
         return retrofit.create(HomeApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideDelhiveryApiService(@Delhivery retrofit: Retrofit): DelhiveryApiService = retrofit.create(DelhiveryApiService::class.java)
 }

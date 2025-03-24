@@ -1,26 +1,34 @@
 package com.nabssam.bestbook.presentation.ui.address
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nabssam.bestbook.domain.repository.AddressRepository
+import com.nabssam.bestbook.domain.usecase.delhivery.PincodeServiceabilityUseCase
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+private const val TAG = "VIEWMODEL_ADDRESS"
 @HiltViewModel
 class ViewModelAddress @Inject constructor(
-    private val repository: AddressRepository
+    private val repository: AddressRepository,
+    private val pinServiceabilityUseCase: PincodeServiceabilityUseCase
+
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiStateAddress>(UiStateAddress.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
-        onEvent(EventAddressScreen.LoadAddress)
-//        fetchFormData()
+        //onEvent(EventAddressScreen.LoadAddress)
+        onEvent(EventAddressScreen.Deliverable("400064"))
+        _uiState.value = UiStateAddress.Success.Form()
     }
 
     fun onEvent(event: EventAddressScreen) {
@@ -33,8 +41,42 @@ class ViewModelAddress @Inject constructor(
             is EventAddressScreen.FetchFormData -> TODO()
             is EventAddressScreen.SubmitForm -> onSubmitForm()
             is EventAddressScreen.UpdateFormField -> onFormFieldUpdated(event.field, event.value)
+            is EventAddressScreen.Deliverable -> {
+                isDeliverable(pincode = event.pincode)
+            }
         }
     }
+
+    private fun isDeliverable(pincode: String) = pinServiceabilityUseCase.invoke(pincode).onEach { resource ->
+        Log.d(TAG, "isDeliverable: $resource")
+        when(resource){
+            is Resource.Loading -> {
+                onFormFieldUpdated(field = FormField.PinCodeChecking, value = true.toString())
+
+            }
+            is Resource.Error -> {
+                onFormFieldUpdated(
+                    field = FormField.PinError,
+                    value = resource.message ?: "Error occurred while checking"
+                )
+                onFormFieldUpdated(field = FormField.PinCodeChecking, value = false.toString())
+                Log.e(TAG, "isDeliverable error: ${resource.message}")
+            }
+            is Resource.Success -> {
+                onFormFieldUpdated(
+                    field = FormField.PinSupportingText,
+                    value = "Pincode is deliverable"
+                )
+                onFormFieldUpdated(
+                    field = FormField.City,
+                    value = resource.message ?: "Error occurred while checking"
+                )
+                onFormFieldUpdated(field = FormField.PinCodeChecking, value = false.toString())
+                onFormFieldUpdated(field = FormField.Deliverable, value = true.toString())
+
+            }
+        }
+    }.launchIn(viewModelScope)
 
     private fun deleteAddress(id: String) {
         viewModelScope.launch {
@@ -100,6 +142,10 @@ class ViewModelAddress @Inject constructor(
             FormField.Street -> currentState.copy(street = value)
             FormField.City -> currentState.copy(city = value)
             FormField.State -> currentState.copy(state = value)
+            FormField.PinSupportingText -> currentState.copy(pinCodeSupportingText = value)
+            FormField.PinError -> currentState.copy(pinCodeError = value)
+            FormField.PinCodeChecking -> currentState.copy(isPinCodeChecking = value.toBoolean())
+            FormField.Deliverable -> currentState.copy(isDeliverable = value.toBoolean())
         }
         _uiState.value = updatedState.copy(isSubmitEnabled = isFormValid(updatedState))
     }
@@ -140,14 +186,11 @@ class ViewModelAddress @Inject constructor(
                 repository.fetchAddresses().collect {
                     when (it) {
                         is Resource.Loading -> _uiState.value = UiStateAddress.Loading
-                        is Resource.Error -> _uiState.value =
-                            UiStateAddress.Error(it.message ?: "Unknown error")
-
+                        is Resource.Error -> _uiState.value = UiStateAddress.Error(it.message ?: "Unknown error")
                         is Resource.Success -> {
                             _uiState.value =
                                 UiStateAddress.Success.Addresses(it.data ?: emptyList())
                         }
-
                     }
                 }
             } catch (e: Exception) {
@@ -155,60 +198,5 @@ class ViewModelAddress @Inject constructor(
             }
         }
     }
-    /*
-        private suspend fun getUserTargets() {
-            val targetExamList = getTargetExamsUseCase()
-            val randomTargetExam: String? =  if (targetExamList.isNotEmpty())
-                targetExamList[Random.nextInt(targetExamList.size)]
-            else null
-
-            _uiState.update { it.copy(randomTarget = randomTargetExam) }
-        }
-
-        private fun fetchBooks() {
-            viewModelScope.launch {
-                if (uiState.value.randomTarget == null) return@launch;    // Prevent fetching if randomTargetExam is null. @launch helps in returning from the coroutine block not just from the function
-                getBooksByExamUseCase(targetExam = uiState.value.randomTarget ?: "all").collect { resource ->
-                    when (resource) {
-                        is Resource.Loading -> {
-                            _uiState.update { it.copy(fetchingBooks = true) }
-                        }
-                        is Resource.Success -> {
-                            Log.d("BOOK_DETAIL_VM", "fetchBooks: ${resource.data}")
-                            _uiState.update {
-                                it.copy(fetchedBooks = resource.data ?: emptyList(), fetchingBooks = false)
-                            }
-                        }
-                        is Resource.Error -> {
-                            _uiState.update {
-                                it.copy(fetchingBooks = false, errorBooks = resource.message)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        private fun fetchBanners() {
-            viewModelScope.launch {
-                if (uiState.value.randomTarget == null) return@launch
-                getBannersUseCase(uiState.value.randomTarget ?: "").collect { resource ->
-                    when (resource) {
-                        is Resource.Loading -> _uiState.update { it.copy(fetchingBanners = true) }
-                        is Resource.Success -> _uiState.update {
-                            it.copy(fetchedBanners = resource.data ?: emptyList(), fetchingBanners = false)
-                        }
-                        is Resource.Error -> _uiState.update {
-                            it.copy(fetchingBanners = false, errorBanners = resource.message)
-                        }
-                    }
-                }
-            }
-        }*/
 }
 
-// Enum to represent form fields
-enum class FormField {
-    Pincode, FirstName, LastName, Phone, Street, Locality, City, State
-}

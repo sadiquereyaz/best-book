@@ -3,6 +3,7 @@ package com.nabssam.bestbook.di
 import com.nabssam.bestbook.data.repository.BannerRepoImp
 import com.nabssam.bestbook.data.repository.BookRepositoryImpl
 import com.nabssam.bestbook.data.repository.CartRepositoryImpl
+import com.nabssam.bestbook.data.repository.DelhiveryRepoImpl
 import com.nabssam.bestbook.data.repository.ExamRepositoryImpl
 import com.nabssam.bestbook.data.repository.OrderRepositoryImpl
 import com.nabssam.bestbook.data.repository.PyqRepoImp
@@ -11,6 +12,7 @@ import com.nabssam.bestbook.data.repository.UserDataStoreRepoImpl
 import com.nabssam.bestbook.domain.repository.BannerRepository
 import com.nabssam.bestbook.domain.repository.BookRepository
 import com.nabssam.bestbook.domain.repository.CartRepository
+import com.nabssam.bestbook.domain.repository.DelhiveryRepository
 import com.nabssam.bestbook.domain.repository.ExamRepository
 import com.nabssam.bestbook.domain.repository.OrderRepository
 import com.nabssam.bestbook.domain.repository.PyqRepository
@@ -56,5 +58,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindReviewRepository(reviewRepoImpl: ReviewRepoImpl): ReviewRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDelhiveryRepository(delhiveryRepoImpl: DelhiveryRepoImpl): DelhiveryRepository
+
 
 }

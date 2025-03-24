@@ -54,7 +54,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @Delhivery
-    fun provideTrackingRetrofit(@Auth okHttpClient: OkHttpClient): Retrofit {
+    fun provideTrackingRetrofit(@Delhivery okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.delhiveryBaseUrl)
             .client(okHttpClient)

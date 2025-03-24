@@ -10,6 +10,7 @@ interface TokenStorage {
     suspend fun getRefreshToken(): String?
     suspend fun saveTokens(accessToken: String, refreshToken: String)
     suspend fun clearTokens()
+    suspend fun getDelhiveryApiKey(): String?
 }
 
 class UserPreferencesTokenStorage @Inject constructor(
@@ -23,5 +24,6 @@ class UserPreferencesTokenStorage @Inject constructor(
     override suspend fun clearTokens() {
         userPreferences.clearAll()
     }
+    override suspend fun getDelhiveryApiKey() = userPreferences.getDelhiveryApiKey()
 }
 
