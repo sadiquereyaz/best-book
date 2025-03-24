@@ -6,9 +6,9 @@ import com.nabssam.bestbook.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun fetchCartItems(): Flow<Resource<List<CartItem>>>
-    suspend fun addProductToCart(productType: ProductType, productId: String): Flow<Resource<String?>>
-    suspend fun removeProductFromCart(productId: String): Flow<Resource<String?>>
-    suspend fun updateQuantity(productId: String, quantity: Int): Flow<Resource<String>>
+    suspend fun fetchCartItems(): Result<List<CartItem>>
+    suspend fun addProductToCart(productType: ProductType, productId: String): Result<String?>
+    suspend fun remove(productId: String, type: ProductType): Flow<Resource<String?>>
+    suspend fun updateQuantity(productId: String, quantity: Int, type: ProductType): Flow<Resource<String>>
     suspend fun clearCart(userId: String): Flow<Resource<Unit>>
 }

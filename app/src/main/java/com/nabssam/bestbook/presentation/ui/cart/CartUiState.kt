@@ -16,10 +16,7 @@ sealed interface CartUiState {
     data class Error(val message: String = "An error occurred") : CartUiState
 
     data class Idle(
-        val cartItemEntities: List<CartItemEntity> = emptyList(),
-        val books: List<BookDtoFreeApi> = emptyList(),
-        val allCartItem: List<CartItem> = emptyList()
-        ) : CartUiState {
+        val allCartItem: List<CartItem> = emptyList()) : CartUiState {
         val totalLabelAmount: Double = allCartItem.totalCartPrice()
         val totalItems: Int = allCartItem.totalItem()
         val totalDiscountPer: Double = allCartItem.totalDiscountPercent()

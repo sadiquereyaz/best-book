@@ -15,7 +15,7 @@ interface CartDao {
      fun getTotalCartCount(): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdateCartItem(cartItem: CartItemEntity)
+    suspend fun upsertLocalCart(cartItem: CartItemEntity)
 
     @Query("DELETE FROM cart_items WHERE productId = :productId")
     suspend fun removeCartItem(productId: String)

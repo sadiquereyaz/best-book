@@ -22,34 +22,39 @@ class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao // Inject Room DAO
 ) : CartRepository {
 
-    override suspend fun fetchCartItems(): Flow<Resource<List<CartItem>>> = flow {
-        emit(Resource.Loading())
+    override suspend fun fetchCartItems(): Result<List<CartItem>> =
         try {
             val response = cartApiService.fetchAll()
             //Log.d("CART_REPO", "cart response $response")
             if (response.isSuccessful) {
-               // Log.d("CART_REPO", "response body: ${response.body()}")
-                response.body()?.cartData?.cartItems?.let { items->
+                // Log.d("CART_REPO", "response body: ${response.body()}")
+                response.body()?.data?.cartItems?.let { items ->
                     cartDao.clearCart() // Clear previous data
-                    items.forEach { cartDao.insertOrUpdateCartItem(CartItemEntity(it.product._id, it.quantity)) }
-                    emit(Resource.Success(items.map { bookDto -> cartMapper.dtoToDomain(bookDto) }))
-                } ?: emit(Resource.Error("No data found"))
+//                    items.forEach { cartDao.upsertLocalCart(CartItemEntity(it.product._id, it.quantity)) }
+                    Result.success(items.map {
+                        cartDao.upsertLocalCart(CartItemEntity(productId = it.product._id, quantity =  it.quantity,  type = it.productType))
+                        cartMapper.dtoToDomain(it)
+                    })
+                } ?: Result.failure(Exception("No data found"))
             } else {
-                emit(Resource.Error(response.message()))
+                Result.failure(Exception(response.message()))
             }
         } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
+            Result.failure(Exception(e.localizedMessage ?: "An error occurred"))
         }
-    }
 
-    override suspend fun updateQuantity(productId: String, quantity: Int): Flow<Resource<String>> =
+
+    override suspend fun updateQuantity(productId: String, quantity: Int, type: ProductType): Flow<Resource<String>> =
         flow {
             emit(Resource.Loading()) // Emit loading state
             if (quantity < 1) {
                 Log.d("CART_REPO", "updateQuantity: $productId $quantity")
 
                 // Call removeProductFromCart and handle its Flow
-                removeProductFromCart(productId).collect { resource ->
+                remove(
+                    productId = productId,
+                    type = type
+                ).collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
                             //updateCartCountInPreferences(quantity)
@@ -78,7 +83,7 @@ class CartRepositoryImpl @Inject constructor(
                         cartApiService.updateQuantity(UpdateQuantityRequest(productId, quantity))
                     if (response.isSuccessful) {
 //                        updateCartCountInPreferences(quantity)
-                        cartDao.insertOrUpdateCartItem(CartItemEntity(productId, quantity))
+                        cartDao.upsertLocalCart(CartItemEntity(productId = productId,  quantity = quantity, type = type))
                         emit(
                             Resource.Success(
                                 data = null,
@@ -97,10 +102,9 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun addProductToCart(
         productType: ProductType,
         productId: String
-    ): Flow<Resource<String?>> = flow {
-        Log.d("CART_REPO", "adding productId: $productId")
-        emit(Resource.Loading())
-        try {
+    ): Result<String?> {
+        //Log.d("CART_REPO", "adding productId: $productId")
+        return try {
             val response = cartApiService.add(
                 request = AddToCartRequest(
                     bookId = productId,
@@ -108,26 +112,25 @@ class CartRepositoryImpl @Inject constructor(
                     quantity = 1
                 )
             )
-//            Log.d("CART_REPO", "Adding..${response}")
-//            Log.d("CART_REPO", "Adding..${response.body()}")
             if (response.isSuccessful) {
-                cartDao.insertOrUpdateCartItem(CartItemEntity(productId, 1))
-                emit(Resource.Success(data = null, message = "Item added successfully"))
+                cartDao.upsertLocalCart(CartItemEntity(productId = productId,  quantity = 1, type = productType))
+//                fetchCartItems()
+                Result.success("Item added successfully")
             } else {
-                emit(Resource.Error(response.message()))
+                Result.failure(Exception("An error occurred: ${response.message()}"))
             }
         } catch (e: Exception) {
-            Log.d("CART_REPO", "error: ${e.message}")
-            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
+            Log.e("CART_REPO", "error: ${e.message}")
+            Result.failure(Exception(e.localizedMessage ?: "An error occurred"))
         }
     }
 
-    override suspend fun removeProductFromCart(productId: String): Flow<Resource<String?>> =
+    override suspend fun remove(productId: String, type: ProductType): Flow<Resource<String?>> =
         flow {
             emit(Resource.Loading())
             try {
                 Log.d("CART_REPO", "removing productId: $productId")
-                val response = cartApiService.removeProductFromCart(RemoveRequest(productId))
+                val response = cartApiService.removeProductFromCart(RemoveRequest(productId,  productType = type))
                 if (response.isSuccessful) {
                     emit(Resource.Success(data = null, message = "deleted successfully"))
                 } else {

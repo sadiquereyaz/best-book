@@ -54,9 +54,11 @@ import com.nabssam.bestbook.R
 import com.nabssam.bestbook.data.remote.dto.ProductType
 import com.nabssam.bestbook.domain.model.CartItem
 import com.nabssam.bestbook.domain.model.StockType
+import com.nabssam.bestbook.presentation.navigation.LoadingScreen
 import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
+import com.nabssam.bestbook.presentation.ui.components.Loading
 import com.nabssam.bestbook.presentation.ui.components.TranslucentLoader
 import kotlinx.coroutines.launch
 
@@ -106,15 +108,16 @@ fun CartScreen(
                                 updateQuantity = { quantity ->
                                     vm.updateQuantity(
                                         productId = it.productId,
-                                        quantity = quantity
+                                        quantity = quantity,
+                                        type = it.productType
                                     )
                                 },
                             )
                     }
 
                     // price receipt
-                    if (idleState.totalItems > 0)
-                        item {
+                    item {
+                        if (idleState.totalItems > 0) {
                             HorizontalDivider()
                             Text(
                                 "Price Breakup",
@@ -132,11 +135,11 @@ fun CartScreen(
                                 price = "-₹${idleState.totalDiscountAmount}"
                             )
                             /* PriceRow(
-                                 priceTitle = "Delivery Charges",
-                                 price = "₹${idleState.totalAmount}",
-                                 color = MaterialTheme.colorScheme.secondary,
-                                 textDecoration = TextDecoration.LineThrough
-                             )*/
+                             priceTitle = "Delivery Charges",
+                             price = "₹${idleState.totalAmount}",
+                             color = MaterialTheme.colorScheme.secondary,
+                             textDecoration = TextDecoration.LineThrough
+                         )*/
                             PriceRow(
                                 modifier = Modifier.padding(top = 8.dp),
                                 priceTitle = "Total Amount",
@@ -145,7 +148,10 @@ fun CartScreen(
                             )
 
                             Spacer(Modifier.height(/*56.dp*/72.dp))
+                        } else {
+                            Text("Your Cart is Empty")
                         }
+                    }
                 }
 
                 // bottom price card
@@ -224,14 +230,13 @@ fun PriceRow(
 
 @Composable
 fun CartItem(
-    modifier: Modifier = Modifier
-        .fillMaxSize(),
+    modifier: Modifier = Modifier,
     goToBookDetail: (String) -> Unit,
     cartItem: CartItem,
     updateQuantity: (Int) -> Unit
 ) {
     Card(
-        onClick = {goToBookDetail(cartItem.productId)},
+        onClick = { goToBookDetail(cartItem.productId) },
         modifier = Modifier
             .fillMaxWidth()
             // .defaultMinSize(minHeight = 300.dp)
@@ -279,7 +284,7 @@ fun CartItem(
                         addToFontSize = 4,
                         padTop = 0.dp,
                         maxLine = 4,
-                        discPer = cartItem.hardCopyDis,
+                        discPer = cartItem.discount,
                         originalPrice = cartItem.price,
                         title = cartItem.name,
                         // rating = bookObj.rate.points
@@ -295,7 +300,8 @@ fun CartItem(
                     if (cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
                         CountChanger(
                             updateQuantity = updateQuantity,
-                            quantity = cartItem.quantity ?: 0
+                            quantity = cartItem.quantity ?: 0,
+                            isLoading = cartItem.isModifyingQuantity
                         )
                 }
 
@@ -333,12 +339,13 @@ fun CartItem(
 fun CountChanger(
     modifier: Modifier = Modifier,
     updateQuantity: (Int) -> Unit,
-    quantity: Int
+    quantity: Int,
+    isLoading: Boolean = false
 ) {
     var count by remember { mutableIntStateOf(quantity) }
     Row(
-        modifier = Modifier
-            .width(64.dp),
+        modifier = modifier
+            .width(96.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -373,6 +380,9 @@ fun CountChanger(
             contentDescription = "remove",
             tint = MaterialTheme.colorScheme.onPrimary
         )
-
+        if (isLoading)
+            Loading(modifier = Modifier.size(18.dp))
+        else
+            Spacer(modifier = Modifier.width(18.dp))
     }
 }

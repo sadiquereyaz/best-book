@@ -14,6 +14,7 @@ import com.nabssam.bestbook.domain.usecase.book.GetAllTargetUC
 import com.nabssam.bestbook.domain.usecase.book.GetBookByIdUC
 import com.nabssam.bestbook.domain.usecase.book.SearchProductsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.AddToCartUseCase
+import com.nabssam.bestbook.domain.usecase.cart.GetCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.review.AddReviewUseCase
 import com.nabssam.bestbook.domain.usecase.review.DeleteReviewUseCase
 import com.nabssam.bestbook.domain.usecase.review.GetBookReviewsUseCase
@@ -89,11 +90,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetAllBannerUseCase(bannerRepository: BannerRepository) = GetAllBannerUseCase(bannerRepository)
+    fun provideGetAllBannerUseCase(bannerRepository: BannerRepository) =
+        GetAllBannerUseCase(bannerRepository)
 
     @Provides
     @Singleton
-    fun provideGetAllReviewUseCase(reviewRepository: ReviewRepository) = GetBookReviewsUseCase(reviewRepository)
+    fun provideGetAllReviewUseCase(reviewRepository: ReviewRepository) =
+        GetBookReviewsUseCase(reviewRepository)
 
     @Provides
     @Singleton
@@ -101,13 +104,20 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLocalUserNameUseCase(repository: UserDataStoreRepoImpl) = GetUserNameUseCase(repository)
+    fun provideLocalUserNameUseCase(repository: UserDataStoreRepoImpl) =
+        GetUserNameUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideDeleteReviewUseCase(reviewRepository: ReviewRepository) = DeleteReviewUseCase(reviewRepository)
+    fun provideDeleteReviewUseCase(reviewRepository: ReviewRepository) =
+        DeleteReviewUseCase(reviewRepository)
 
     @Provides
     @Singleton
-    fun provideAddReviewUseCase(reviewRepository: ReviewRepository) = AddReviewUseCase(reviewRepository)
+    fun provideAddReviewUseCase(reviewRepository: ReviewRepository) =
+        AddReviewUseCase(reviewRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetAllCartItemUseCase(cartRepository: CartRepository) = GetCartItemsUseCase(cartRepository)
 }

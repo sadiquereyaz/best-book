@@ -257,8 +257,19 @@ class ViewModelBookDetail @Inject constructor(
             addToCartUseCase(
                 id = uiState.value.fetchedBook.id,
                 productType = uiState.value.productType ?: ProductType.Book,
-            ).collect {
-
+            ).collect { resource ->
+                when(resource){
+                    is Resource.Loading -> _uiState.update { it.copy(loading = true, errorMessage = null) }
+                    is Resource.Error -> {
+                        val error = resource.message ?: "Unknown error while adding to cart"
+                        _uiState.update { it.copy(loading = false, errorMessage = error) }
+                        showSnackbar(message = error)
+                    }
+                    is  Resource.Success -> {
+                        _uiState.update { it.copy(loading = false, errorMessage = null) }
+                        showSnackbar(message = resource.data ?: "Item added to cart")
+                    }
+                }
             }
         }
     }

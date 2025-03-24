@@ -42,7 +42,7 @@ fun List<CartItem>.totalDiscountPercent(): Double {
 
     forEach {
         val originalPriceForItem = (it.quantity ?: 0) * it.price
-        val discountedPriceForItem = originalPriceForItem * (1 - it.hardCopyDis / 100.0)
+        val discountedPriceForItem = originalPriceForItem * (1 - it.discount / 100.0)
 
         originalTotal += originalPriceForItem
         discountedTotal += discountedPriceForItem
@@ -62,7 +62,7 @@ fun List<CartItem>.totalDiscountAmount(): Double {
 
     forEach {
         val originalPriceForItem = (it.quantity?:0).times(it.price)
-        val discountedPriceForItem = originalPriceForItem * (1 - it.hardCopyDis / 100.0)
+        val discountedPriceForItem = originalPriceForItem * (1 - it.discount / 100.0)
         discountAmount += (originalPriceForItem - discountedPriceForItem)
     }
 

@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 
 data class CartResponseFinal(
-    val cartData: CartData,
+    val success: Boolean,
     val message: String,
-    val success: Boolean
+   @SerializedName("cartData") val data: CartData,
 )
 
 data class CartData(
@@ -22,11 +22,12 @@ data class CartItemFinal(
 
 data class Product(
     val _id: String,
-    val coverImage: String,
-    val ebookDiscount: Int,
-    val hardcopyDiscount: Int,
-    val price: Int,
-    val title: String
+    val coverImage: String?,
+    val ebookDiscount: Int?,
+    val hardcopyDiscount: Int?,
+    val stock : Int?,
+    val price: Int?,
+    val title: String?
 )
 
 data class RemoveResponse(
@@ -49,6 +50,7 @@ data class Item(
 )
 data class RemoveRequest(
     val productId: String,
+    val  productType: ProductType
 )
 
 enum class ProductType(val color: Color, val type: String) {
