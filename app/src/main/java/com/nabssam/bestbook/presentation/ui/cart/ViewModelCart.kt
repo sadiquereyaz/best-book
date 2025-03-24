@@ -8,6 +8,8 @@ import com.nabssam.bestbook.domain.repository.CartRepository
 import com.nabssam.bestbook.domain.usecase.cart.GetCartItemsUseCase
 import com.nabssam.bestbook.domain.usecase.cart.RemoveFromCartUseCase
 import com.nabssam.bestbook.domain.usecase.cart.UpdateCartItemQuantityUseCase
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
+import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarMessage
 import com.nabssam.bestbook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VMCart @Inject constructor(
+class ViewModelCart @Inject constructor(
+    private val snackbarManager: SnackbarManager,
     private val updateQuantityUseCase: UpdateCartItemQuantityUseCase,
     private val removeUseCase: RemoveFromCartUseCase,
     private val cartRepository: CartRepository,
@@ -67,6 +70,7 @@ class VMCart @Inject constructor(
                 when (resource) {
                     is Resource.Error -> {
                         updateCartItemUi(productId=productId, isQuantityUpdating = false, productType = type)
+                        showSnackBar(message = resource.message ?: "Error  while modifying cart item")
                     }
 
                     is Resource.Loading -> {
@@ -98,6 +102,12 @@ class VMCart @Inject constructor(
                 }
             }
             _uiState.value = currentState.copy(allCartItem = updatedItems)
+        }
+    }
+
+    private fun showSnackBar(message: String){
+        viewModelScope.launch {
+            snackbarManager.showSnackbar(SnackbarMessage(message = message))
         }
     }
 }

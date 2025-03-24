@@ -32,7 +32,7 @@ fun GradientButton(
 ) {
     Button(
         onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 brush = gradientBrush(),

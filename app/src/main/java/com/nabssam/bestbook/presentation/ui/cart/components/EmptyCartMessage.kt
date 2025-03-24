@@ -1,63 +1,62 @@
-package com.nabssam.bestbook.presentation.ui.cart.claude.composable
+package com.nabssam.bestbook.presentation.ui.cart.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import com.nabssam.bestbook.presentation.ui.components.GradientButton
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nabssam.bestbook.utils.getRandomColor
 
 @Composable
-fun ErrorMessage(
-    message: String,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun EmptyCartMessage(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
-            Icons.Default.Info,
+            Icons.Default.ShoppingCart,
             contentDescription = null,
             modifier = Modifier.size(64.dp),
-            tint = MaterialTheme.colorScheme.error
+            tint = MaterialTheme.colorScheme.secondary
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = message,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.error
+            text = "Your cart is empty",
+            style = MaterialTheme.typography.titleLarge
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        GradientButton(onClick = onRetry) {
-            Text("Retry")
-        }
+        Text(
+            text = "Add items to your cart to see them here",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun ErrorMessagePreview() {
-    ErrorMessage(
-        message = "Error message",
-        onRetry = { /* Handle retry */ }
+fun EmptyCarPreview() {
+    EmptyCartMessage(
+
     )
 }
-
