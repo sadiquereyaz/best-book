@@ -25,8 +25,8 @@ object PDFWatermarkHelper {
         context: Context,
         inputFile: File,
         outputFile: File,
-        watermarkText: String = "CONFIDENTIAL",
-        fontSize: Float = 50f
+        watermarkText: String = "Watermark",
+        fontSize: Float = 70f
     ) {
         try {
             // Ensure output directory exists
@@ -39,8 +39,8 @@ object PDFWatermarkHelper {
             // Create a new PDF document for output
             val pdfDocument = android.graphics.pdf.PdfDocument()
             val paint = Paint()
-            paint.color = Color.LTGRAY
-            paint.alpha = 100 // Adjust transparency
+            paint.color = Color.RED
+            paint.alpha = 50 // Adjust transparency
             paint.textSize = fontSize
             paint.textAlign = Paint.Align.CENTER
             paint.isAntiAlias = true
@@ -49,12 +49,12 @@ object PDFWatermarkHelper {
             for (i in 0 until pageCount) {
                 Log.d("PDFWatermarkHelper", "Processing page $i of $pageCount")
                 val page = pdfRenderer.openPage(i)
-                val bitmap = createBitmap(page.width, page.height)
+                val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 canvas.drawColor(Color.WHITE) // Background (optional)
 
                 // Render the existing PDF page onto the bitmap
-                page.render(bitmap, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                page.render(bitmap, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                 page.close()
 
                 // Draw the watermark in the center

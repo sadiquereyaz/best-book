@@ -6,7 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.nabssam.bestbook.domain.repository.EbookRepository
-import com.nabssam.bestbook.utils.PDFDownloadWorker
+import com.nabssam.bestbook.utils.pdf.PDFDownloadWorker
 import com.nabssam.bestbook.utils.Resource
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
