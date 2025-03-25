@@ -32,7 +32,7 @@ class CartRepositoryImpl @Inject constructor(
                     cartDao.clearCart() // Clear previous data
 //                    items.forEach { cartDao.upsertLocalCart(CartItemEntity(it.product._id, it.quantity)) }
                     Result.success(items.map {
-                        cartDao.upsertLocalCart(CartItemEntity(productId = it.product._id, quantity =  it.quantity,  type = it.productType))
+                        cartDao.upsertLocalCart(productId = it.product._id, count = it.quantity, type = it.productType)
                         cartMapper.dtoToDomain(it)
                     })
                 } ?: Result.failure(Exception("No data found"))
@@ -44,27 +44,17 @@ class CartRepositoryImpl @Inject constructor(
         }
 
 
-    override suspend fun updateQuantity(productId: String, quantity: Int, type: ProductType): Flow<Resource<String>> =
-        flow {
+    override suspend fun updateQuantity(productId: String, quantity: Int, type: ProductType): Flow<Resource<String>> = flow {
             emit(Resource.Loading()) // Emit loading state
             if (quantity < 1) {
-                Log.d("CART_REPO", "updateQuantity: $productId $quantity")
+//                Log.d("CART_REPO", "updateQuantity: $productId $quantity")
 
                 // Call removeProductFromCart and handle its Flow
-                remove(
-                    productId = productId,
-                    type = type
-                ).collect { resource ->
+                remove(productId = productId, type = type).collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
-                            //updateCartCountInPreferences(quantity)
-                            cartDao.removeCartItem(productId)
-                            emit(
-                                Resource.Success(
-                                    data = null,
-                                    message = "Item removed successfully"
-                                )
-                            ) // Emit success from removeProductFromCart
+                            cartDao.removeCartItem(productId = productId, type = type)
+                            emit(Resource.Success(data = null, message = "Item removed successfully")) // Emit success from removeProductFromCart
                         }
 
                         is Resource.Error -> {
@@ -79,16 +69,11 @@ class CartRepositoryImpl @Inject constructor(
             } else {
                 // Handle the case where quantity is >= 1 (e.g., update quantity in the cart)
                 try {
-                    val response =
-                        cartApiService.updateQuantity(UpdateQuantityRequest(productId, quantity))
+                    val response = cartApiService.updateQuantity(UpdateQuantityRequest(productId, quantity, type))
                     if (response.isSuccessful) {
 //                        updateCartCountInPreferences(quantity)
-                        cartDao.upsertLocalCart(CartItemEntity(productId = productId,  quantity = quantity, type = type))
-                        emit(
-                            Resource.Success(
-                                data = null,
-                                message = "Quantity updated successfully"
-                            )
+                        cartDao.updateQuantity(productId = productId, newQuantity = quantity, type = type)
+                        emit(Resource.Success(data = null, message = "Quantity updated successfully")
                         )
                     } else {
                         emit(Resource.Error(response.message()))
@@ -106,14 +91,10 @@ class CartRepositoryImpl @Inject constructor(
         //Log.d("CART_REPO", "adding productId: $productId")
         return try {
             val response = cartApiService.add(
-                request = AddToCartRequest(
-                    bookId = productId,
-                    productType = productType,
-                    quantity = 1
-                )
+                request = AddToCartRequest(bookId = productId, productType = productType, quantity = 1)
             )
             if (response.isSuccessful) {
-                cartDao.upsertLocalCart(CartItemEntity(productId = productId,  quantity = 1, type = productType))
+                cartDao.upsertLocalCart(productId = productId, count = 1, type = productType)
 //                fetchCartItems()
                 Result.success("Item added successfully")
             } else {
@@ -125,14 +106,13 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun remove(productId: String, type: ProductType): Flow<Resource<String?>> =
-        flow {
+    override suspend fun remove(productId: String, type: ProductType): Flow<Resource<String?>> = flow {
             emit(Resource.Loading())
             try {
                 Log.d("CART_REPO", "removing productId: $productId")
-                val response = cartApiService.removeProductFromCart(RemoveRequest(productId,  productType = type))
+                val response = cartApiService.removeProductFromCart(RemoveRequest(productId = productId, productType = type))
                 if (response.isSuccessful) {
-                    emit(Resource.Success(data = null, message = "deleted successfully"))
+                    emit(Resource.Success(data = null, message = "Deleted successfully"))
                 } else {
                     emit(Resource.Error(response.message()))
                 }

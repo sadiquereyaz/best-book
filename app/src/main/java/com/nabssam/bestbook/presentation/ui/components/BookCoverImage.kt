@@ -43,6 +43,7 @@ fun BookCoverImage(
     coverImageUrl: String,
     onClick: () -> Unit,
     rate: Double =  0.0,
+    isDisabled: Boolean = false
 ) {
     ElevatedCard(
         modifier = modifier
@@ -71,6 +72,7 @@ fun BookCoverImage(
             }
             Image(
                 painter = painter,
+                alpha = if (isDisabled) 0.5f else 1f,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier

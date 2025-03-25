@@ -35,7 +35,7 @@ import com.nabssam.bestbook.presentation.ui.components.BookCoverImage
 import com.nabssam.bestbook.presentation.ui.components.BookTitlePrice
 
 @Composable
-fun CartItem(
+fun EachCartItem(
     modifier: Modifier = Modifier,
     goToBookDetail: (String) -> Unit,
     cartItem: CartItem,
@@ -47,11 +47,12 @@ fun CartItem(
             .fillMaxWidth()
             // .defaultMinSize(minHeight = 300.dp)
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
-        enabled = cartItem.stockType != StockType.OUT_OF_STOCK
+        enabled = cartItem.stockType != StockType.OUT_OF_STOCK || cartItem.productType == ProductType.ebook
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+            // type strip
             Box(
                 modifier = Modifier
                     .background(color = cartItem.productType.color.copy(alpha = 0.6f))
@@ -77,16 +78,17 @@ fun CartItem(
                         .height(140.dp)
                         .clickable { goToBookDetail(cartItem.productId) },
                     coverImageUrl = cartItem.coverImage,
-                    onClick = { goToBookDetail(cartItem.productId) }
+                    onClick = { goToBookDetail(cartItem.productId) },
+                    isDisabled = cartItem.stockType == StockType.OUT_OF_STOCK && cartItem.productType == ProductType.Book
                 )
                 Column(
                     modifier = Modifier
                         .fillMaxHeight(1f)
                     //.background(Color.Cyan)
                 ) {
-
+                    // price
                     BookTitlePrice(
-                        //modifier = modifier,
+                        modifier = Modifier.padding(top = 3.dp),
                         addToFontSize = 4,
                         padTop = 0.dp,
                         maxLine = 4,
@@ -97,14 +99,17 @@ fun CartItem(
                     )
 //                    Spacer(modifier = Modifier.height(8.dp))
 
+                    // stock quantity
+                    if (cartItem.productType == ProductType.Book)
                     Text(
                         text = cartItem.stockType.text,
                         color = cartItem.stockType.color.copy(alpha = 0.5f),
                         fontStyle = FontStyle.Italic
                     )
 
-                    if (cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
+                    //if (cartItem.productType == ProductType.Book || cartItem.stockType != StockType.OUT_OF_STOCK)
                         CartCounter(
+                            modifier = Modifier.padding(top = 4.dp),
                             updateQuantity = updateQuantity,
                             quantity = cartItem.quantity ?: 0,
                             isLoading = cartItem.isModifyingQuantity

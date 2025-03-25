@@ -11,7 +11,7 @@ import com.nabssam.bestbook.data.local.entity.CategoryEntity
 
 @Database(
     entities = [BookEntity::class, CategoryEntity::class, CartItemEntity::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

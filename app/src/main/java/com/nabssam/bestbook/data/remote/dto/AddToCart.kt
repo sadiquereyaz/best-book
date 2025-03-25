@@ -5,7 +5,8 @@ import com.nabssam.bestbook.data.remote.dto.auth.UserDto
 
 data class UpdateQuantityRequest(
     @SerializedName("productId") val bookId: String,
-    @SerializedName("quantity") val quantity: Int
+    @SerializedName("quantity") val quantity: Int,
+    @SerializedName("productType") val type: ProductType
 )
 
 data class AddToCartRequest(

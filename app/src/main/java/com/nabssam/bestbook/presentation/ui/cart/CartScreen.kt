@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -33,7 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nabssam.bestbook.presentation.ui.cart.components.CartItem
+import com.nabssam.bestbook.presentation.ui.cart.components.EachCartItem
 import com.nabssam.bestbook.presentation.ui.cart.components.EmptyCartMessage
 import com.nabssam.bestbook.presentation.ui.cart.components.PriceRow
 import com.nabssam.bestbook.presentation.ui.components.ErrorScreen
@@ -80,15 +79,11 @@ fun CartScreen(
                 ) {
                     items(cartItems) {
                         if (it.quantity > 0)
-                            CartItem(
+                            EachCartItem(
                                 goToBookDetail = goToBookDetail,
                                 cartItem = it,
                                 updateQuantity = { quantity ->
-                                    vm.updateQuantity(
-                                        productId = it.productId,
-                                        quantity = quantity,
-                                        type = it.productType
-                                    )
+                                    vm.updateQuantity(productId = it.productId, quantity = quantity, type = it.productType)
                                 },
                             )
                     }
