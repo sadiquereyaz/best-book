@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.barteksc.pdfviewer.PDFView
-import com.nabssam.bestbook.presentation.ui.book.ebook.PDFEncryptionHelper
+import com.nabssam.bestbook.presentation.ui.book.ebookList.PDFEncryptionHelper
 import java.io.File
 
 class PDFViewActivity : AppCompatActivity() {

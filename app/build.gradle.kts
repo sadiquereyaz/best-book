@@ -140,8 +140,6 @@ dependencies {
 //    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
 //    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
-//    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-//    implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 
     // WorkManager for background tasks
 //    implementation(libs.androidx.work.runtime.ktx)
@@ -151,6 +149,10 @@ dependencies {
 //    implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
 
 //    implementation(libs.accompanist.systemuicontroller)   //deprecated
+
+    // pdf manipulation
+    //implementation("com.itextpdf:itext7-core:7.2.0")
+//    implementation("com.tom_roush:pdfbox-android:2.0.27.0")
 
 }
 // Allow references to generated code

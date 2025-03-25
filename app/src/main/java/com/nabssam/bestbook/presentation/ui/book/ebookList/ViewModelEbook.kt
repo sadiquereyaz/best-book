@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook
+package com.nabssam.bestbook.presentation.ui.book.ebookList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

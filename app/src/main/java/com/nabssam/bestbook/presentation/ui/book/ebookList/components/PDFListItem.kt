@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook.components
+package com.nabssam.bestbook.presentation.ui.book.ebookList.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.nabssam.bestbook.R
-import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
+import com.nabssam.bestbook.presentation.ui.book.ebookList.Ebook
 import com.nabssam.bestbook.presentation.ui.components.Loading
 import com.nabssam.bestbook.utils.getRandomColor
 

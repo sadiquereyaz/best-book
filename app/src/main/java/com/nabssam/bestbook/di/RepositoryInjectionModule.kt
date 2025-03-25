@@ -7,7 +7,7 @@ import com.nabssam.bestbook.data.remote.api.OrderApiService
 import com.nabssam.bestbook.data.repository.AddressRepositoryImpl
 import com.nabssam.bestbook.domain.repository.AddressRepository
 import com.nabssam.bestbook.domain.repository.EbookRepository
-import com.nabssam.bestbook.presentation.ui.book.ebook.EbookRepositoryImp
+import com.nabssam.bestbook.presentation.ui.book.ebookList.EbookRepositoryImp
 import com.nabssam.bestbook.presentation.ui.order.detail.ChatRepositoryImpl
 import com.nabssam.bestbook.presentation.ui.order.detail.OrderRepositoryMain
 import dagger.Module

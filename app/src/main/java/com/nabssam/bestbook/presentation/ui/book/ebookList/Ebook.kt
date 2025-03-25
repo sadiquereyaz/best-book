@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook
+package com.nabssam.bestbook.presentation.ui.book.ebookList
 
 data class Ebook(
     val id: String,

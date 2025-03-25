@@ -1,4 +1,4 @@
-package com.nabssam.bestbook.presentation.ui.book.ebook
+package com.nabssam.bestbook.presentation.ui.book.ebookList
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKey

@@ -11,8 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.nabssam.bestbook.presentation.navigation.Route
 import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.PurchasedEbookScreen
-import com.nabssam.bestbook.presentation.ui.book.ebook.ViewModelEbook
+import com.nabssam.bestbook.presentation.ui.book.ebookList.PurchasedEbookScreen
+import com.nabssam.bestbook.presentation.ui.book.ebookList.ViewModelEbook
 import com.nabssam.bestbook.presentation.ui.home.HomeScreen
 import com.nabssam.bestbook.presentation.ui.home.ViewModelHome
 import com.nabssam.bestbook.presentation.ui.subscribedQuiz.SubscribedQuizScreen
