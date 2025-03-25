@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.nabssam.bestbook.domain.repository.EbookRepository
 import com.nabssam.bestbook.utils.PDFDownloadWorker
 import com.nabssam.bestbook.utils.Resource
 import com.nabssam.bestbook.utils.helper.PDFDownloadStatusHelper
@@ -72,9 +73,10 @@ class ViewModelEbook @Inject constructor(
         val workRequest = pdf.url?.let { PDFDownloadWorker.createWorkRequest(pdf.name, it) }
         if (workRequest != null) {
             workManager.enqueueUniqueWork(
-                "pdf_download_${pdf.name}",
-                ExistingWorkPolicy.REPLACE,
-                workRequest
+                //uniqueWorkName = "pdf_download_${pdf.name}",
+                uniqueWorkName = "pdf_download",
+                existingWorkPolicy = ExistingWorkPolicy.REPLACE,
+                request = workRequest
             )
         }
     }

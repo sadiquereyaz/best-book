@@ -22,11 +22,9 @@ class PDFDownloadWorker(context: Context, workerParams: WorkerParameters) : Coro
         val pdfName = inputData.getString("pdf_name") ?: return@withContext Result.failure()
 
         // Temporary file to store the downloaded PDF
-//        val tempFile = File(applicationContext.cacheDir, "$pdfName.temp.pdf")
         val tempFile = File(applicationContext.cacheDir, "temp_${System.currentTimeMillis()}.pdf")
         // Final encrypted file
         val encryptedFile = File(applicationContext.filesDir, "$pdfName.encrypted")
-//        val encryptedFile = File(applicationContext.filesDir, "$pdfName.encrypted.pdf")
 
         try {
             // Download the PDF
