@@ -3,8 +3,10 @@ package com.nabssam.bestbook.presentation.ui.book.ebook
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -12,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.nabssam.bestbook.PDFViewActivity
 import com.nabssam.bestbook.presentation.navigation.LoadingScreen
 import com.nabssam.bestbook.presentation.ui.book.ebook.components.PDFListItem
@@ -29,7 +32,10 @@ fun PurchasedEbookScreen(viewModel: ViewModelEbook, onEvent: (EventEbook) -> Uni
         } else if (uiState.error != null) {
             ErrorScreen(modifier = Modifier.fillMaxSize(), message = uiState.error?: "an error occurred", {})
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 items(uiState.ebookList) { pdf ->
                     PDFListItem(
                         pdf = pdf,

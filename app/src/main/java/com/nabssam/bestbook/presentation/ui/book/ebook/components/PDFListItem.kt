@@ -1,5 +1,7 @@
 package com.nabssam.bestbook.presentation.ui.book.ebook.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,8 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,6 +37,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.nabssam.bestbook.R
 import com.nabssam.bestbook.presentation.ui.book.ebook.Ebook
+import com.nabssam.bestbook.utils.getRandomColor
 
 @Composable
 fun PDFListItem(
@@ -40,13 +45,18 @@ fun PDFListItem(
     pdf: Ebook,
     onItemClick: () -> Unit
 ) {
+    val random = getRandomColor()
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            //.padding(vertical = 8.dp, horizontal = 16.dp)
+            .border(width = 1.5.dp, color = random, shape = RoundedCornerShape(12.dp))
             .height(dimensionResource(R.dimen.book_height_home))
             .clickable { onItemClick() },
-        elevation = CardDefaults.elevatedCardElevation(4.dp)
+        //elevation = CardDefaults.elevatedCardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = random.copy(alpha = 0.1f),
+        )
     ) {
         Box(
             modifier = Modifier
@@ -80,14 +90,6 @@ fun PDFListItem(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    pdf.exam?.let {
-                        Text(
-                            text = it,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
                     pdf.author?.let {
                         Text(
                             text = it,
@@ -97,7 +99,21 @@ fun PDFListItem(
                     }
                 }
             }
-
+            pdf.exam?.let {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .offset(x = dimensionResource(R.dimen.book_width_home) + 8.dp, y = -8.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(horizontal = 8.dp)
+                    ,
+                    text = it,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
             IconButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd),
