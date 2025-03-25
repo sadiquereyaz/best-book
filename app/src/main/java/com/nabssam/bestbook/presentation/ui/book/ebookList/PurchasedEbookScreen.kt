@@ -35,6 +35,7 @@ fun PurchasedEbookScreen(viewModel: ViewModelEbook, onEvent: (EventEbook) -> Uni
         } else if (uiState.error != null) {
             ErrorScreen(modifier = Modifier.fillMaxSize(), message = uiState.error?: "an error occurred", {})
         } else {
+            //  TODO: when no ebook is available, show a message
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)

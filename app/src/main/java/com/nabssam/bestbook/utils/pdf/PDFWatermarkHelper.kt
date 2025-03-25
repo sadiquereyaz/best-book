@@ -1,32 +1,26 @@
-import android.content.Context
+package com.nabssam.bestbook.utils.pdf
+
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
-import android.os.Build
 import android.os.ParcelFileDescriptor
-import android.util.Log
-
 import java.io.File
 import java.io.FileOutputStream
-import androidx.core.graphics.createBitmap
 
 object PDFWatermarkHelper {
-    /**
-     * Adds a watermark to an existing PDF file **without using any external library**.
-     * @param context Application context
-     * @param inputFile Source PDF file
-     * @param outputFile Destination PDF file with watermark
-     * @param watermarkText The watermark text
-     * @param fontSize Font size for the watermark text
-     */
+
     fun addWatermark(
-        context: Context,
+        //context: Context,
         inputFile: File,
         outputFile: File,
-        watermarkText: String = "Watermark",
-        fontSize: Float = 70f
+        watermarkText: String = "CONFIDENTIAL",
+        fontSize: Float = 50f,
+        scale: Float = 4f
     ) {
         try {
             // Ensure output directory exists
@@ -37,47 +31,65 @@ object PDFWatermarkHelper {
             val pdfRenderer = android.graphics.pdf.PdfRenderer(fileDescriptor)
 
             // Create a new PDF document for output
-            val pdfDocument = android.graphics.pdf.PdfDocument()
-            val paint = Paint()
-            paint.color = Color.RED
-            paint.alpha = 50 // Adjust transparency
-            paint.textSize = fontSize
-            paint.textAlign = Paint.Align.CENTER
-            paint.isAntiAlias = true
+            val pdfDocument = PdfDocument()
 
-            val pageCount = pdfRenderer.pageCount
-            for (i in 0 until pageCount) {
-                Log.d("PDFWatermarkHelper", "Processing page $i of $pageCount")
+            // Configure the watermark paint (vector-based drawing on the bitmap)
+            val paint = Paint().apply {
+                color = Color.RED  // You may adjust color as needed
+                alpha = 50           // Adjust transparency (0-255)
+                textSize = fontSize * scale // Increase text size proportionally to scale
+                textAlign = Paint.Align.CENTER
+                isAntiAlias = true
+                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            }
+
+            val totalPages = pdfRenderer.pageCount
+            for (i in 0 until totalPages) {
                 val page = pdfRenderer.openPage(i)
-                val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(bitmap)
-                canvas.drawColor(Color.WHITE) // Background (optional)
 
-                // Render the existing PDF page onto the bitmap
-                page.render(bitmap, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+                // Original dimensions
+                val origWidth = page.width
+                val origHeight = page.height
+
+                // High-resolution dimensions
+                val highResWidth = (origWidth * scale).toInt()
+                val highResHeight = (origHeight * scale).toInt()
+
+                // Create a high-res bitmap
+                val bitmap = Bitmap.createBitmap(highResWidth, highResHeight, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                canvas.drawColor(Color.WHITE)
+
+                // Render the PDF page at high resolution using a scale matrix
+                val matrix = Matrix().apply { postScale(scale, scale) }
+                page.render(bitmap, null, matrix, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                 page.close()
 
-                // Draw the watermark in the center
-                val x = bitmap.width / 2f
-                val y = bitmap.height / 2f
-                canvas.rotate(-45f, x, y) // Rotate watermark
-                canvas.drawText(watermarkText, x, y, paint)
+                // Draw watermark on the high-res bitmap
+                val centerX = highResWidth / 2f
+                val centerY = highResHeight / 2f
+                canvas.save()
+                canvas.rotate(-45f, centerX, centerY)
+                canvas.drawText(watermarkText, centerX, centerY, paint)
+                canvas.restore()
 
-                // Create a new page in the output PDF document
-                val pdfPage = pdfDocument.startPage(PdfDocument.PageInfo.Builder(page.width, page.height, i + 1).create())
-                val outputCanvas = pdfPage.canvas
-                outputCanvas.drawBitmap(bitmap, 0f, 0f, null)
+                // Create a PDF page with the original dimensions
+                val pageInfo = PdfDocument.PageInfo.Builder(origWidth, origHeight, i + 1).create()
+                val pdfPage = pdfDocument.startPage(pageInfo)
+                val pdfCanvas = pdfPage.canvas
+
+                // Draw the high-res bitmap scaled down to the original page size
+                val destRect = Rect(0, 0, origWidth, origHeight)
+                pdfCanvas.drawBitmap(bitmap, null, destRect, null)
                 pdfDocument.finishPage(pdfPage)
 
                 bitmap.recycle()
             }
 
-            // Save the final output PDF
-            FileOutputStream(outputFile).use { outputStream ->
-                pdfDocument.writeTo(outputStream)
-            }
+            // Write the output PDF to file
+            FileOutputStream(outputFile).use { pdfDocument.writeTo(it) }
 
-            // Close resources
+            // Clean up resources
             pdfDocument.close()
             pdfRenderer.close()
             fileDescriptor.close()

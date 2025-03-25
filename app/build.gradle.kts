@@ -151,7 +151,7 @@ dependencies {
 //    implementation(libs.accompanist.systemuicontroller)   //deprecated
 
     // pdf manipulation
-    //implementation("com.itextpdf:itext7-core:7.2.0")
+//    implementation("com.itextpdf:itext7-core:7.2.0")
 //    implementation("com.tom_roush:pdfbox-android:2.0.27.0")
 
 }

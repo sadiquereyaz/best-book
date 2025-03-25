@@ -81,7 +81,7 @@ class PDFDownloadWorker(context: Context, workerParams: WorkerParameters) :
 
                 // Add watermark to the downloaded PDF
                 PDFWatermarkHelper.addWatermark(
-                    context = applicationContext,
+                    //context = applicationContext,
                     inputFile = tempFile,
                     outputFile = watermarkedFile,
                     watermarkText = "+919506198939",
