@@ -26,6 +26,7 @@ import com.nabssam.bestbook.presentation.theme.onSurfaceLight
 import com.nabssam.bestbook.presentation.theme.scrimLight
 import com.nabssam.bestbook.presentation.theme.surfaceContainerLight
 import com.nabssam.bestbook.presentation.theme.surfaceLight
+import com.nabssam.bestbook.presentation.ui.account.profile.ProfileScreen
 import com.nabssam.bestbook.presentation.ui.snackbar.SnackbarManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -58,12 +59,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             BestBookTheme {
                 Surface(/*tonalElevation = 5.dp*/) {
-                    BestBookApp(
-                        modifier = Modifier.fillMaxSize(),
-                        authManager = authManager,
-                        snackbarManager = snackbarManager,
-                        connectivityObserver = connectivityObserver
-                    )
+//                    BestBookApp(
+//                        modifier = Modifier.fillMaxSize(),
+//                        authManager = authManager,
+//                        snackbarManager = snackbarManager,
+//                        connectivityObserver = connectivityObserver
+//                    )
+                    ProfileScreen()
                 }
             }
         }
