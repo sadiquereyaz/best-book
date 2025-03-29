@@ -37,7 +37,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl", "\"http://10.57.250.250:3000/\"")
+            buildConfigField("String", "baseUrl", "\"http://192.168.0.109:3000/\"")
             buildConfigField(
                 "String",
                 "delhiveryBaseUrl",
@@ -53,7 +53,7 @@ android {
                 "delhiveryBaseUrl",
                 "\"https://staging-express.delhivery.com/c/api/\""
             )
-            buildConfigField("String", "baseUrl", "\"http://10.57.250.250:3000/\"")
+            buildConfigField("String", "baseUrl", "\"http://192.168.0.109:3000/\"")
             buildConfigField("String", "pinBaseUrl", "\"https://api.postalpincode.in/\"")
         }
     }
@@ -148,6 +148,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     implementation("phonepe.intentsdk.android.release:IntentSDK:4.0.0")
+    implementation ("com.airbnb.android:lottie-compose:4.0.0")
 //    implementation("phonepe.intentsdk.android.release:IntentSDK:2.4.3")
 
 //    implementation(libs.accompanist.systemuicontroller)   //deprecated
